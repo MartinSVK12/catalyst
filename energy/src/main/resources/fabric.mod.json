@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "catalyst-energy",
+  "version": "${version}",
+
+  "name": "Catalyst: Energy",
+  "description": "Energy module of Catalyst: Implements a simple energy API.",
+  "authors": [
+    "sunsetsatellite"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "sunsetsatellite.catalyst.CatalystEnergy"
+    ]
+  },
+  "mixins": [
+		"catalyst-energy.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3",
+		"catalyst-core": ">=1.0.0"
+  },
+  "suggests": {
+  },
+	"custom": {
+		"modmenu:api": true
+	}
+}

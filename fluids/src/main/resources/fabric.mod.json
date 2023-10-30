@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "catalyst-fluids",
+  "version": "${version}",
+
+  "name": "Catalyst: Fluids",
+  "description": "Fluid module of Catalyst: API for better fluid transport and storage.",
+  "authors": [
+    "sunsetsatellite"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "sunsetsatellite.catalyst.CatalystFluids"
+    ]
+  },
+  "mixins": [
+		"catalyst-fluids.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3",
+		"catalyst-core": ">=1.0.0"
+  },
+  "suggests": {
+  },
+	"custom": {
+		"modmenu:api": true
+	}
+}
