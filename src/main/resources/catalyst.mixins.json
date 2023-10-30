@@ -1,13 +1,14 @@
 {
-    "required": true,
-    "minVersion": "0.8",
-    "package": "sunsetsatellite.catalyst.mixin",
-    "compatibilityLevel": "JAVA_8",
-    "mixins": [
-    ],
-    "client": [
-    ],
-    "injectors": {
-        "defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sunsetsatellite.catalyst.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "GuiTooltipMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
   }
 }
