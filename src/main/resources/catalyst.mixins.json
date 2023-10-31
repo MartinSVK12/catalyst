@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "sunsetsatellite.catalyst.mixin",
+  "package": "sunsetsatellite.catalyst.core.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "GuiTooltipMixin"

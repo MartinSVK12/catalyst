@@ -1,4 +1,4 @@
-package sunsetsatellite.catalyst.util;
+package sunsetsatellite.catalyst.core.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

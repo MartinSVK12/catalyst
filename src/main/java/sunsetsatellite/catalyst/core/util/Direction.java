@@ -1,4 +1,4 @@
-package sunsetsatellite.catalyst.util;
+package sunsetsatellite.catalyst.core.util;
 
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.util.phys.Vec3d;

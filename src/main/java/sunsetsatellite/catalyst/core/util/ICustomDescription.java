@@ -1,4 +1,4 @@
-package sunsetsatellite.catalyst.util;
+package sunsetsatellite.catalyst.core.util;
 
 
 import net.minecraft.core.item.ItemStack;

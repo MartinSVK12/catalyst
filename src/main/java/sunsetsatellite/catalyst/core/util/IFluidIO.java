@@ -1,4 +1,4 @@
-package sunsetsatellite.catalyst.util;
+package sunsetsatellite.catalyst.core.util;
 
 public interface IFluidIO {
 

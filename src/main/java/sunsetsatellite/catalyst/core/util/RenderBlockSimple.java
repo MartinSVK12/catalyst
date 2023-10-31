@@ -1,4 +1,4 @@
-package sunsetsatellite.catalyst.util;
+package sunsetsatellite.catalyst.core.util;
 
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.TextureFX;
