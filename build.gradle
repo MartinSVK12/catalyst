@@ -77,6 +77,10 @@ allprojects {
 }
 
 dependencies {
+	if(findProject(":catalyst") != null){
+		implementation(project(":"))
+	}
+
 	minecraft "bta-download-repo:bta:${project.bta_version}"
 	mappings loom.layered() {}
 
@@ -95,10 +99,12 @@ dependencies {
 	modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
 	modImplementation "ModMenu:ModMenu:2.0.0"
 
-	/*runtimeOnly(project(path: ":energy", "configuration": "namedElements"))
-	runtimeOnly(project(path: ":fluids", "configuration": "namedElements"))
-	runtimeOnly(project(path: ":multiblocks", "configuration": "namedElements"))
-	runtimeOnly(project(path: ":models", "configuration": "namedElements"))*/
+	if(findProject(":catalyst") == null){
+		runtimeOnly(project(path: ":energy", "configuration": "namedElements"))
+		runtimeOnly(project(path: ":fluids", "configuration": "namedElements"))
+		runtimeOnly(project(path: ":multiblocks", "configuration": "namedElements"))
+		runtimeOnly(project(path: ":models", "configuration": "namedElements"))
+	}
 }
 
 processResources {
