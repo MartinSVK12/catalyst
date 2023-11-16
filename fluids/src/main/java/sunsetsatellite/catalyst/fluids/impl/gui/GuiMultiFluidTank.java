@@ -70,7 +70,7 @@ public class GuiMultiFluidTank extends GuiContainer {
                     int fluidBarSize = (int) CatalystFluids.map(fluidStack.amount,0,tile.fluidCapacity,2,sizeY-3);
                     RenderFluid.drawFluidIntoGui(fontRenderer, this.mc.renderEngine, fluid.id, 0, fluid.getBlockTextureFromSideAndMetadata(Side.BOTTOM,0), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize);
                     if (fluidStack.getLiquid() == Block.fluidWaterFlowing && Minecraft.getMinecraft(Minecraft.class).gameSettings.biomeWater.value) {
-                        int waterColor = BlockColorDispatcher.getInstance().getDispatch(Block.fluidWaterFlowing).getWorldColor(this.mc.theWorld,tile.xCoord,tile.yCoord,tile.zCoord);
+                        int waterColor = BlockColorDispatcher.getInstance().getDispatch(Block.fluidWaterFlowing).getWorldColor(this.mc.theWorld,tile.x,tile.y,tile.z);
                         Color c = new Color().setARGB(waterColor);
                         c.setRGBA(c.getRed(), c.getGreen(), c.getBlue(), 0x40);
                         RenderFluid.drawFluidIntoGui(fontRenderer, this.mc.renderEngine, fluid.id, 0, fluid.getBlockTextureFromSideAndMetadata(Side.BOTTOM,0), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, c.value);
@@ -139,8 +139,8 @@ public class GuiMultiFluidTank extends GuiContainer {
     }
 
 
-    public void initGui()
+    public void init()
     {
-        super.initGui();
+        super.init();
     }
 }

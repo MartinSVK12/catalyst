@@ -123,7 +123,7 @@ public class TileEntityEnergyConductor extends TileEntityEnergy implements IEner
     }
 
     @Override
-    public void updateEntity() {
+    public void tick() {
         for (Direction dir : Direction.values()) {
             TileEntity facingTile = dir.getTileEntity(worldObj,this);
             if(facingTile instanceof IEnergySink && !facingTile.equals(lastReceived)){

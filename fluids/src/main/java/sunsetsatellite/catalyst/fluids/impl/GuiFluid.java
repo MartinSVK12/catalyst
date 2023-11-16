@@ -112,7 +112,7 @@ public class GuiFluid extends GuiContainer {
             RenderFluid.drawFluidIntoGui(this.fontRenderer, this.mc.renderEngine, itemStack4.itemID,itemStack4.getMetadata(),itemStack4.getIconIndex(), i2, i3, 16, 16);
             ContainerFluid container = ((ContainerFluid) inventorySlots);
             if(slot1.getFluidStack().getLiquid() == Block.fluidWaterFlowing){
-                int waterColor = BlockColorDispatcher.getInstance().getDispatch(Block.fluidWaterFlowing).getWorldColor(this.mc.theWorld,container.tile.xCoord,container.tile.yCoord,container.tile.zCoord);
+                int waterColor = BlockColorDispatcher.getInstance().getDispatch(Block.fluidWaterFlowing).getWorldColor(this.mc.theWorld,container.tile.x,container.tile.y,container.tile.z);
                 Color c = new Color().setARGB(waterColor);
                 c.setRGBA(c.getRed(),c.getGreen(),c.getBlue(),0x40);
                 RenderFluid.drawFluidIntoGui(this.fontRenderer, this.mc.renderEngine, itemStack4.itemID,itemStack4.getMetadata(),itemStack4.getIconIndex(), i2, i3, 16, 16,c.value);
@@ -163,9 +163,9 @@ public class GuiFluid extends GuiContainer {
         }
     }
 
-    public void initGui()
+    public void init()
     {
-        super.initGui();
+        super.init();
     }
     private InventoryPlayer inventoryPlayer;
     public ItemEntityRenderer itemRender = new ItemEntityRenderer();

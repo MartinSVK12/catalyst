@@ -34,8 +34,8 @@ public class GuiFluidTank extends GuiFluid {
     }
 
 
-    public void initGui()
+    public void init()
     {
-        super.initGui();
+        super.init();
     }
 }

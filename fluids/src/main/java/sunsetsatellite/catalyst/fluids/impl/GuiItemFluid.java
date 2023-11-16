@@ -163,9 +163,9 @@ public class GuiItemFluid extends GuiContainer {
         }
     }
 
-    public void initGui()
+    public void init()
     {
-        super.initGui();
+        super.init();
     }
     private InventoryPlayer inventoryPlayer;
     public ItemEntityRenderer itemRender = new ItemEntityRenderer();

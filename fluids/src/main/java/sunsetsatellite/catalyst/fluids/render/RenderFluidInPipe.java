@@ -19,10 +19,10 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
     @Override
     public void doRender(TileEntity tileEntity1, double d2, double d4, double d6, float f8) {
 
-        int i = tileEntity1.xCoord;
-        int j = tileEntity1.yCoord;
-        int k = tileEntity1.zCoord;
-        World blockAccess = this.renderDispatcher.renderEngine.minecraft.theWorld;
+        int i = tileEntity1.x;
+        int j = tileEntity1.y;
+        int k = tileEntity1.z;
+        World blockAccess = this.renderDispatcher.renderEngine.mc.theWorld;
         Block block = Block.glass;
 
         GL11.glPushMatrix();
@@ -154,7 +154,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
         renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
         Block f1 = Block.blocksList[i];
         GL11.glPushMatrix();
-        this.blockRenderer.renderBlock(f1, j, renderengine.minecraft.theWorld, tile.xCoord, tile.yCoord, tile.zCoord);
+        this.blockRenderer.renderBlock(f1, j, renderengine.mc.theWorld, tile.x, tile.y, tile.z);
         GL11.glPopMatrix();
         GL11.glEnable(GL11.GL_CULL_FACE);
     }

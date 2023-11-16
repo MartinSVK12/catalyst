@@ -33,7 +33,7 @@ public class RenderMultiFluidInBlock extends TileEntityRenderer<TileEntity> {
                 GL11.glTranslatef(0.01F, 0.0f, 0.01f);
                 i+=1*amount;
                 GL11.glDisable(GL11.GL_LIGHTING);
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine.minecraft.renderEngine, fluidId, 0,0, 0, 0, tileEntity);
+                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine.mc.renderEngine, fluidId, 0,0, 0, 0, tileEntity);
                 GL11.glEnable(GL11.GL_LIGHTING);
 
                 GL11.glPopMatrix();
@@ -47,7 +47,7 @@ public class RenderMultiFluidInBlock extends TileEntityRenderer<TileEntity> {
         renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
         Block f1 = Block.blocksList[i];
         GL11.glPushMatrix();
-        this.blockRenderer.renderBlock(f1, j, renderengine.minecraft.theWorld, tile.xCoord, tile.yCoord, tile.zCoord);
+        this.blockRenderer.renderBlock(f1, j, renderengine.mc.theWorld, tile.x, tile.y, tile.z);
         GL11.glPopMatrix();
         GL11.glEnable(GL11.GL_CULL_FACE);
     }

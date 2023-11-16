@@ -24,7 +24,7 @@ public enum Direction {
     }
 
     public TileEntity getTileEntity(WorldSource world, TileEntity tile){
-        Vec3i pos = new Vec3i(tile.xCoord + vec.x, tile.yCoord + vec.y, tile.zCoord + vec.z);
+        Vec3i pos = new Vec3i(tile.x + vec.x, tile.y + vec.y, tile.z + vec.z);
         return world.getBlockTileEntity(pos.x,pos.y,pos.z);
     }
 

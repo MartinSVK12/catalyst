@@ -82,7 +82,12 @@ public class ItemInventoryFluid implements IInventory, IFluidInventory {
         return true;
     }
 
-    @Override
+	@Override
+	public void sortInventory() {
+
+	}
+
+	@Override
     public FluidStack getFluidInSlot(int slot) {
         if(this.fluidContents[slot] == null || this.fluidContents[slot].getLiquid() == null || this.fluidContents[slot].amount == 0){
             this.fluidContents[slot] = null;

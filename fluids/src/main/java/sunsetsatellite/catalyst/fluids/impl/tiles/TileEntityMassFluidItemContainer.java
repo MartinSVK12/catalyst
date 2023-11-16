@@ -128,6 +128,11 @@ public class TileEntityMassFluidItemContainer extends TileEntityMassFluidContain
     }
 
     public boolean canInteractWith(EntityPlayer entityPlayer1) {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && entityPlayer1.distanceToSqr((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getBlockTileEntity(this.x, this.y, this.z) == this && entityPlayer1.distanceToSqr((double) this.x + 0.5D, (double) this.y + 0.5D, (double) this.z + 0.5D) <= 64.0D;
     }
+
+	@Override
+	public void sortInventory() {
+
+	}
 }
