@@ -25,7 +25,7 @@ public class TileEntityEnergy extends TileEntity implements IEnergy {
     }
 
     @Override
-    public void updateEntity() {
+    public void tick() {
         lastTransferMemory.tick();
     }
 
@@ -114,6 +114,6 @@ public class TileEntityEnergy extends TileEntity implements IEnergy {
     }
 
     public BlockInstance toInstance(){
-        return new BlockInstance(Block.blocksList[worldObj.getBlockId(xCoord,yCoord,zCoord)],new Vec3i(xCoord,yCoord,zCoord),this);
+        return new BlockInstance(Block.blocksList[worldObj.getBlockId(x,y,z)],new Vec3i(x,y,z),this);
     }
 }

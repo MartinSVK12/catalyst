@@ -35,8 +35,8 @@ public class TileEntityFluidPipe extends TileEntityFluidContainer{
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void tick() {
+        super.tick();
         rememberTicks++;
         if(rememberTicks >= maxRememberTicks){
             rememberTicks = 0;

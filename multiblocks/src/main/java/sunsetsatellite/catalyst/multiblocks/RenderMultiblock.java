@@ -17,11 +17,11 @@ import java.util.ArrayList;
 public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
     @Override
     public void doRender(TileEntity tileEntity, double d, double e, double f, float g) {
-        int i = tileEntity.xCoord;
-        int j = tileEntity.yCoord;
-        int k = tileEntity.zCoord;
-        Direction dir = Direction.getDirectionFromSide(tileEntity.getBlockMetadata());
-        World world = this.renderDispatcher.renderEngine.minecraft.theWorld;
+        int i = tileEntity.x;
+        int j = tileEntity.y;
+        int k = tileEntity.z;
+        Direction dir = Direction.getDirectionFromSide(tileEntity.getMovedData());
+        World world = this.renderDispatcher.renderEngine.mc.theWorld;
         if(tileEntity instanceof IMultiblock){
             Multiblock multiblock = ((IMultiblock) tileEntity).getMultiblock();
             ArrayList<BlockInstance> blocks = multiblock.getBlocks(new Vec3i(i, j, k),Direction.Z_POS); //TODO: multiblocks need to be made in the Z+ direction currently and that's stupid
@@ -55,7 +55,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
         renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
         Block f1 = Block.blocksList[i];
         GL11.glPushMatrix();
-        this.blockRenderer.renderBlock(f1, j, renderengine.minecraft.theWorld, x, y, z);
+        this.blockRenderer.renderBlock(f1, j, renderengine.mc.theWorld, x, y, z);
         GL11.glPopMatrix();
         GL11.glEnable(GL11.GL_CULL_FACE);
     }

@@ -167,12 +167,12 @@ public class TileEntityFluidContainer extends TileEntity
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void tick() {
+        super.tick();
         if(!worldObj.isClientSide){
             for (EntityPlayer player : worldObj.players) {
                 if(player instanceof EntityPlayerMP){
-					//((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new PacketUpdateClientFluidRender(xCoord,yCoord,zCoord,fluidContents[0],fluidCapacity[0]));
+					//((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new PacketUpdateClientFluidRender(x,y,z,fluidContents[0],fluidCapacity[0]));
                 }
             }
         }
@@ -208,7 +208,7 @@ public class TileEntityFluidContainer extends TileEntity
     }
 
     public boolean canInteractWith(EntityPlayer entityPlayer1) {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && entityPlayer1.distanceToSqr((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getBlockTileEntity(this.x, this.y, this.z) == this && entityPlayer1.distanceToSqr((double) this.x + 0.5D, (double) this.y + 0.5D, (double) this.z + 0.5D) <= 64.0D;
     }
 
     @Override
@@ -323,7 +323,7 @@ public class TileEntityFluidContainer extends TileEntity
     @Override
     public void onFluidInventoryChanged() {
         if (this.worldObj != null) {
-            this.worldObj.updateTileEntityChunkAndSendToPlayer(this.xCoord, this.yCoord, this.zCoord, this);
+            this.worldObj.updateTileEntityChunkAndSendToPlayer(this.x, this.y, this.z, this);
         }
     }
 

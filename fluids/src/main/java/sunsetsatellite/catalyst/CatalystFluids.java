@@ -29,7 +29,7 @@ public class CatalystFluids implements ModInitializer {
 		FLUIDS.register("minecraft:water",entry);
 		entry = new FluidRegistryEntry("minecraft", Item.bucketLava,Item.bucket, Collections.singletonList((BlockFluid) Block.fluidLavaFlowing));
 		FLUIDS.register("minecraft:lava",entry);
-		Registries.INSTANCE.register(MOD_ID+":fluids",FLUIDS);
+		Registries.getInstance().register(MOD_ID+":fluids",FLUIDS);
 		LOGGER.info("Fluid registry registered.");
 		LOGGER.info(FLUIDS.size()+" fluids registered.");
 	}
