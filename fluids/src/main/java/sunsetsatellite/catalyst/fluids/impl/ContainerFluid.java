@@ -157,16 +157,16 @@ public class ContainerFluid extends Container {
                         //drain
                         if(item.canDrain(inventoryPlayer.getHeldItemStack())){
                             if (tile.getFluidInSlot(slot.slotIndex) == null){
-                                item.drain(inventoryPlayer.getHeldItemStack(), slot.getFluidStack());
+                                item.drain(inventoryPlayer.getHeldItemStack(), slot,tile);
                                 slot.onSlotChanged();
                             }
                             else if (tile.getFluidInSlot(slot.slotIndex).amount < tile.getFluidCapacityForSlot(slot.slotIndex)) {
-                                item.drain(inventoryPlayer.getHeldItemStack(), slot.getFluidStack());
+                                item.drain(inventoryPlayer.getHeldItemStack(), slot,tile);
                                 slot.onSlotChanged();
                             }
                             else if(tile.getFluidInSlot(slot.slotIndex).amount >= tile.getFluidCapacityForSlot(slot.slotIndex)){
                                 if(item.canFill(inventoryPlayer.getHeldItemStack())){
-                                    ItemStack stack = item.fill(slot,inventoryPlayer.getHeldItemStack());
+                                    ItemStack stack = item.fill(slot.getFluidStack(),inventoryPlayer.getHeldItemStack(),tile);
                                     if(stack != null){
                                         inventoryPlayer.setHeldItemStack(stack);
                                         inventoryPlayer.onInventoryChanged();
@@ -175,7 +175,7 @@ public class ContainerFluid extends Container {
                                 }
                             }
                         } else if(item.canFill(inventoryPlayer.getHeldItemStack())){ //fill
-                            ItemStack stack = item.fill(slot,inventoryPlayer.getHeldItemStack());
+                            ItemStack stack = item.fill(slot.getFluidStack(),inventoryPlayer.getHeldItemStack(),tile);
                             if(stack != null){
                                 inventoryPlayer.setHeldItemStack(stack);
                             }

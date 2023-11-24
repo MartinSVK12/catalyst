@@ -19,57 +19,57 @@ public class RenderCustomTileEntityModel<T extends TileEntity> extends TileEntit
 
     public static boolean render(double x, double y, double z, TileEntity tileEntity, NBTModel model){
         GL11.glPushMatrix();
-        if(model.rotatable){
-            Direction dir = Direction.getDirectionFromSide(tileEntity.worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
-            Vec3f rot = Direction.getDirectionFromSide(tileEntity.worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord)).getVecF();
-            GL11.glTranslated(x,y,z);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		if(model.rotatable){
+			Direction dir = Direction.getDirectionFromSide(tileEntity.worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
+			Vec3f rot = Direction.getDirectionFromSide(tileEntity.worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord)).getVecF();
+			GL11.glTranslated(x,y,z);
 
-            switch (dir.getName()){
-                case "WEST":
-                    break;
-                case "EAST":
-                    GL11.glRotated(180,0,1,0);
-                    break;
-                case "SOUTH":
-                    GL11.glRotated(90,0,1,0);
-                    break;
-                case "NORTH":
-                    GL11.glRotated(90,0,-1,0);
-                    break;
-            }
-            //GL11.glRotated(90,0,1,0);
-        }
-        for (ModelSurface surface : model.surfaces) {
-            Tessellator tessellator = Tessellator.instance;
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            GL11.glPushMatrix();
-            tessellator.startDrawingQuads();
-            GL11.glScaled(surface.scale.x,surface.scale.y,surface.scale.z);
-            double angle = Math.toDegrees(Math.acos(surface.rotation.w))*2;
+			switch (dir.getName()){
+				case "WEST":
+					break;
+				case "EAST":
+					GL11.glRotated(180,0,1,0);
+					break;
+				case "SOUTH":
+					GL11.glRotated(90,0,1,0);
+					break;
+				case "NORTH":
+					GL11.glRotated(90,0,-1,0);
+					break;
+			}
+		}
+		for (ModelSurface surface : model.surfaces) {
+			Tessellator tessellator = Tessellator.instance;
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glPushMatrix();
+			tessellator.startDrawingQuads();
+			GL11.glScaled(surface.scale.x,surface.scale.y,surface.scale.z);
+			double angle = Math.toDegrees(Math.acos(surface.rotation.w))*2;
 
-            GL11.glTranslated(surface.translation.x,surface.translation.y,surface.translation.z);
-            if(!(model.rotatable)){
-                GL11.glTranslated(x,y,z);
-            }
+			GL11.glTranslated(surface.translation.x,surface.translation.y,surface.translation.z);
+			if(!(model.rotatable)){
+				GL11.glTranslated(x,y,z);
+			}
+			GL11.glTranslatef(0.5f,0,0.5f);
 
-            GL11.glRotated(angle,surface.rotation.x,surface.rotation.y,surface.rotation.z);
+			GL11.glRotated(angle,surface.rotation.x,surface.rotation.y,surface.rotation.z);
 
-            for (int index : surface.indices) {
-                String texture = model.textures[surface.texture];
-                Minecraft.getMinecraft(Minecraft.class).renderEngine.bindTexture(Minecraft.getMinecraft(Minecraft.class).renderEngine.getTexture(texture));
-                float brightness = 1;//block.getBlockBrightness(Minecraft.getMinecraft(Minecraft.class).theWorld,x,y,z);
-                tessellator.setColorOpaque_F(1 * brightness,1 * brightness,1 * brightness);
-                Vec3f vertex = surface.vertices[index];
-                Vec2f uv = surface.uvs[index].copy();
-                Vec3f normals = surface.normals[index];
-                tessellator.setNormal((float) normals.x, (float) normals.y, (float) normals.z);
-                tessellator.addVertexWithUV(vertex.x, vertex.y, vertex.z, uv.x, uv.y);
-            }
-            tessellator.draw();
-            GL11.glEnable(GL11.GL_CULL_FACE);
-            GL11.glPopMatrix();
-        }
-        GL11.glPopMatrix();
-        return true;
+			for (int index : surface.indices) {
+				String texture = model.textures[surface.texture];
+				Minecraft.getMinecraft(Minecraft.class).renderEngine.bindTexture(Minecraft.getMinecraft(Minecraft.class).renderEngine.getTexture(texture));
+				Vec3f vertex = surface.vertices[index];
+				Vec2f uv = surface.uvs[index].copy();
+				Vec3f normals = surface.normals[index];
+				tessellator.setNormal((float) normals.x, (float) normals.y, (float) normals.z);
+				tessellator.addVertexWithUV(vertex.x, vertex.y, vertex.z, uv.x, uv.y);
+			}
+			tessellator.draw();
+			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glPopMatrix();
+		}
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glPopMatrix();
+		return true;
     }
 }

@@ -157,16 +157,16 @@ public class ContainerItemFluid extends Container {
 						//drain
 						if(item.canDrain(inventoryPlayer.getHeldItemStack())){
 							if (inv.getFluidInSlot(slot.slotIndex) == null){
-								item.drain(inventoryPlayer.getHeldItemStack(), slot.getFluidStack());
+								item.drain(inventoryPlayer.getHeldItemStack(), slot, inv);
 								slot.onSlotChanged();
 							}
 							else if (inv.getFluidInSlot(slot.slotIndex).amount < inv.getFluidCapacityForSlot(slot.slotIndex)) {
-								item.drain(inventoryPlayer.getHeldItemStack(), slot.getFluidStack());
+								item.drain(inventoryPlayer.getHeldItemStack(), slot, inv);
 								slot.onSlotChanged();
 							}
 							else if(inv.getFluidInSlot(slot.slotIndex).amount >= inv.getFluidCapacityForSlot(slot.slotIndex)){
 								if(item.canFill(inventoryPlayer.getHeldItemStack())){
-									ItemStack stack = item.fill(slot,inventoryPlayer.getHeldItemStack());
+									ItemStack stack = item.fill(slot.getFluidStack(),inventoryPlayer.getHeldItemStack());
 									if(stack != null){
 										inventoryPlayer.setHeldItemStack(stack);
 										inventoryPlayer.onInventoryChanged();
@@ -175,7 +175,7 @@ public class ContainerItemFluid extends Container {
 								}
 							}
 						} else if(item.canFill(inventoryPlayer.getHeldItemStack())){ //fill
-							ItemStack stack = item.fill(slot,inventoryPlayer.getHeldItemStack());
+							ItemStack stack = item.fill(slot.getFluidStack(),inventoryPlayer.getHeldItemStack());
 							if(stack != null){
 								inventoryPlayer.setHeldItemStack(stack);
 							}

@@ -103,7 +103,6 @@ dependencies {
 		runtimeOnly(project(path: ":energy", "configuration": "namedElements"))
 		runtimeOnly(project(path: ":fluids", "configuration": "namedElements"))
 		runtimeOnly(project(path: ":multiblocks", "configuration": "namedElements"))
-		runtimeOnly(project(path: ":models", "configuration": "namedElements"))
 	}
 }
 

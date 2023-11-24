@@ -21,5 +21,4 @@ rootProject.name = 'catalyst'
 include 'energy'
 include 'fluids'
 include 'multiblocks'
-include 'models'
 
