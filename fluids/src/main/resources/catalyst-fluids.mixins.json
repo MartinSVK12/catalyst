@@ -5,9 +5,11 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityPlayerMPMixin",
+    "EntityPlayerSPMixin",
     "ItemBucketEmptyMixin",
     "MinecraftMixin",
     "NetClientHandlerMixin",
+    "NetServerHandlerMixin",
     "PlayerControllerMixin",
     "PlayerControllerMPMixin"
   ],

@@ -12,8 +12,8 @@ import java.util.HashMap;
 public class TileEntityEnergy extends TileEntity implements IEnergy {
     public int energy = 0;
     public int capacity = 0;
-    public TileEntityEnergy lastProvided;
-    public TileEntityEnergy lastReceived;
+    public IEnergy lastProvided;
+    public IEnergy lastReceived;
     public TickTimer lastTransferMemory;
     public HashMap<Direction, Connection> connections = new HashMap<>();
 
@@ -98,6 +98,16 @@ public class TileEntityEnergy extends TileEntity implements IEnergy {
     @Override
     public void setCapacity(int amount) {
         capacity = amount;
+    }
+
+    @Override
+    public void notifyOfReceive(IEnergy notifier) {
+        lastReceived = notifier;
+    }
+
+    @Override
+    public void notifyOfProvide(IEnergy notifier) {
+        lastProvided = notifier;
     }
 
     @Override

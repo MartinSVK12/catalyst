@@ -14,5 +14,9 @@ public interface IEnergy extends IEnergyConnection {
     void modifyEnergy(int amount);
     void setCapacity(int amount);
 
+    void notifyOfReceive(IEnergy notifier);
+
+    void notifyOfProvide(IEnergy notifier);
+
     void setConnection(Direction dir, Connection connection);
 }
