@@ -73,6 +73,21 @@ allprojects {
 			}
 			metadataSources { artifact() }
 		}
+		ivy {
+			url = "https://github.com/UselessBullets"
+			patternLayout {
+				artifact "[organisation]/releases/download/[revision]/[module]-bta-[revision].jar"
+				m2compatible = true
+			}
+			metadataSources { artifact() }
+		}
+		ivy {
+			url = uri("https://github.com/UselessBullets")
+			patternLayout {
+				artifact("[organisation]/releases/download/v[revision]/[module]-[revision].jar")
+			}
+			metadataSources { artifact() }
+		}
 	}
 }
 
@@ -97,7 +112,7 @@ dependencies {
 	modImplementation "fabric-loader:fabric-loader:${project.loader_version}"
 
 	modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
-	modImplementation "ModMenu:ModMenu:2.0.0"
+	modImplementation "ModMenu:modmenu:2.0.2-7.1"
 
 	if(findProject(":catalyst") == null){
 		runtimeOnly(project(path: ":energy", "configuration": "namedElements"))

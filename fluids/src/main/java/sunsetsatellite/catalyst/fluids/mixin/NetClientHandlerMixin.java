@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.net.handler.NetClientHandler;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.net.handler.NetHandler;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import sunsetsatellite.catalyst.fluids.impl.ContainerFluid;
@@ -19,7 +20,8 @@ import sunsetsatellite.catalyst.fluids.mp.packets.PacketUpdateClientFluidRender;
 )
 public class NetClientHandlerMixin extends NetHandler implements INetClientHandler {
 
-    @Shadow
+    @Final
+	@Shadow
     private Minecraft mc;
 
     @Override

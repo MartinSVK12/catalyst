@@ -6,6 +6,7 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.item.ItemStack;
 import sunsetsatellite.catalyst.core.util.Connection;
 import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.energy.api.IEnergy;
 import sunsetsatellite.catalyst.energy.api.IEnergySink;
 import sunsetsatellite.catalyst.energy.api.IEnergySource;
 
@@ -135,8 +136,8 @@ public class TileEntityEnergyConductor extends TileEntityEnergy implements IEner
                 if(received > 0){
                     ((IEnergySink) facingTile).receive(dir.getOpposite(),provided,false);
                     provide(dir,received,false);
-                    lastProvided = (TileEntityEnergy) facingTile;
-                    ((TileEntityEnergy) facingTile).lastReceived = this;
+                    notifyOfProvide((IEnergy) facingTile);
+                    ((IEnergy) facingTile).notifyOfReceive(this);
                 }
             }
         }
