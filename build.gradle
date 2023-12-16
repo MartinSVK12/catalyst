@@ -113,7 +113,6 @@ dependencies {
 	modImplementation "fabric-loader:fabric-loader:${project.loader_version}"
 
 	modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
-	//modImplementation(project(path: ":halplibe", configuration: "namedElements"))
 	modImplementation "ModMenu:ModMenu:2.0.3"
 
 	if(findProject(":catalyst") == null){
