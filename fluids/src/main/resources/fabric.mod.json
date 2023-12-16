@@ -5,6 +5,7 @@
 
   "name": "Catalyst: Fluids",
   "description": "Fluid module of Catalyst: API for better fluid transport and storage.",
+	"icon": "icon.png",
   "authors": [
     "sunsetsatellite"
   ],

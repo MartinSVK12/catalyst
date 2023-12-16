@@ -5,6 +5,7 @@
 
   "name": "Catalyst: Multiblocks",
   "description": "Multiblock module of Catalyst: Adds support for multiblock structures.",
+	"icon": "icon.png",
   "authors": [
     "sunsetsatellite"
   ],
