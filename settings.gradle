@@ -22,3 +22,6 @@ include 'energy'
 include 'fluids'
 include 'multiblocks'
 
+include ":halplibe"
+project(":halplibe").projectDir = new File("C:\\Users\\sunsetsatellite\\Projects\\BTA\\7.1\\bta-halplibe")
+

@@ -5,6 +5,7 @@
 
   "name": "Catalyst: Energy",
   "description": "Energy module of Catalyst: Implements a simple energy API.",
+	"icon": "icon.png",
   "authors": [
     "sunsetsatellite"
   ],

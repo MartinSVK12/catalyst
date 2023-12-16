@@ -5,6 +5,7 @@
 
   "name": "Catalyst: Core",
   "description": "Library for advanced modding needs.",
+	"icon": "icon.png",
   "authors": [
     "sunsetsatellite"
   ],
