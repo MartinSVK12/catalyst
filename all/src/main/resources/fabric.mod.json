@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "catalyst-all",
+  "version": "${version}",
+
+  "name": "Catalyst: All",
+  "description": "The full Catalyst package, includes all available modules.",
+	"icon": "icon.png",
+  "authors": [
+    "sunsetsatellite"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+
+  "depends": {
+    "fabricloader": ">=0.13.3"
+  },
+  "suggests": {
+  },
+	"custom": {
+		"modmenu:api": true
+	}
+}

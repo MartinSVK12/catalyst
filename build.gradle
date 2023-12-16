@@ -1,7 +1,6 @@
 plugins {
 	id 'babric-loom' version '1.1.+'
 	id 'java'
-	id 'com.github.johnrengelman.shadow' version '8.1.0'
 }
 
 group = project.core_mod_group
@@ -133,3 +132,4 @@ processResources {
 remapJar {
 	destinationDirectory.set(file("/jars"))
 }
+
