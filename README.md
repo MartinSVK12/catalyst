@@ -2,7 +2,9 @@
 
 **Library for advanced modding needs of BTA 7.1**
 
-Catalyst is split into modules, the current available modules are described below.
+Catalyst is split into modules, the current available modules are described below. 
+
+It can be downloaded and used by downloading the **Core** module mod + other required modules mods, or it can be downloaded as one mod with all the modules.
 
 Available modules:
 - Core
