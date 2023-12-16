@@ -1,0 +1,37 @@
+plugins {
+	id 'babric-loom' version '1.1.+'
+	id 'java'
+}
+
+group = "sunsetsatellite"
+archivesBaseName = "catalyst-all"
+version = rootProject.version
+
+loom {
+	gluedMinecraftJar()
+	noIntermediateMappings()
+	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
+}
+
+dependencies {
+	minecraft "bta-download-repo:bta:${project.bta_version}"
+	mappings loom.layered() {}
+
+	include(project(":"))
+	include(rootProject.project("energy"))
+	include(rootProject.project("fluids"))
+	include(rootProject.project("multiblocks"))
+}
+
+processResources {
+	inputs.property "version", rootProject.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": rootProject.version
+	}
+}
+
+remapJar {
+	destinationDirectory.set(file("$rootProject.projectDir/jars"))
+}
+
