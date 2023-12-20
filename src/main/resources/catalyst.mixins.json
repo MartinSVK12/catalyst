@@ -4,7 +4,11 @@
   "package": "sunsetsatellite.catalyst.core.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "GuiTooltipMixin"
+    "EntityPlayerMixin",
+    "EntityPlayerMPMixin",
+    "EntityPlayerSPMixin",
+    "GuiTooltipMixin",
+    "NetClientHandlerMixin"
   ],
   "client": [
   ],
