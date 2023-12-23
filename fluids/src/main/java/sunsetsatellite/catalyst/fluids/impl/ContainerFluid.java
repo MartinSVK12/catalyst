@@ -146,13 +146,13 @@ public class ContainerFluid extends Container {
             //I/O from custom fluid container items
             if(inventoryPlayer.getHeldItemStack() != null && inventoryPlayer.getHeldItemStack().getItem() instanceof IItemFluidContainer) {
                 IItemFluidContainer item = (IItemFluidContainer) inventoryPlayer.getHeldItemStack().getItem();
-				BlockFluid fluid = CatalystFluids.FLUIDS.findFluidsWithFilledContainer((Item) item).get(0);
-                if(fluid != null){
+				List<BlockFluid> fluids = CatalystFluids.FLUIDS.findFluidsWithAnyContainer((Item) item);
+				if(fluids != null && !fluids.isEmpty()){
                     if(tile.acceptedFluids.get(slotID).isEmpty()
-                            || tile.acceptedFluids.get(slotID).contains(fluid)
+                            || tile.acceptedFluids.get(slotID).containsAll(fluids)
                             || (slot.getFluidStack() != null
                             && CatalystFluids.FLUIDS.findContainers(slot.getFluidStack().liquid).contains(item))
-                            && slot.isFluidValid(fluid))
+                            && slot.isAnyFluidValid(fluids))
                     {
                         //drain
                         if(item.canDrain(inventoryPlayer.getHeldItemStack())){

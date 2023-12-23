@@ -17,10 +17,18 @@ dependencies {
 	minecraft "bta-download-repo:bta:${project.bta_version}"
 	mappings loom.layered() {}
 
-	include(project(":"))
-	include(rootProject.project("energy"))
-	include(rootProject.project("fluids"))
-	include(rootProject.project("multiblocks"))
+	if(findProject(":catalyst") == null){
+		include(project(":"))
+		include(rootProject.project("energy"))
+		include(rootProject.project("fluids"))
+		include(rootProject.project("multiblocks"))
+	} else {
+		include(project(":catalyst"))
+		include(project(":catalyst").project("energy"))
+		include(project(":catalyst").project("fluids"))
+		include(project(":catalyst").project("multiblocks"))
+	}
+
 }
 
 processResources {

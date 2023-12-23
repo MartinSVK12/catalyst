@@ -3,6 +3,8 @@ package sunsetsatellite.catalyst.fluids.util;
 import net.minecraft.core.block.BlockFluid;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 
+import java.util.List;
+
 public class SlotFluid {
     public final IFluidInventory fluidInventory;
     public int slotIndex;
@@ -28,6 +30,14 @@ public class SlotFluid {
     public boolean isFluidValid(BlockFluid stack) {
         return true;
     }
+
+	public boolean isAnyFluidValid(List<BlockFluid> stack) {
+		return true;
+	}
+
+	public boolean areAllFluidValid(List<BlockFluid> stack) {
+		return true;
+	}
 
     public FluidStack getFluidStack() {
         return fluidInventory.getFluidInSlot(this.slotIndex);

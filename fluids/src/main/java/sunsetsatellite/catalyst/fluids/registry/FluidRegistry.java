@@ -75,6 +75,20 @@ public class FluidRegistry extends Registry<FluidRegistryEntry> {
 		return fluids;
 	}
 
+	public List<BlockFluid> findFluidsWithAnyContainer(Item container){
+		List<BlockFluid> fluids = new ArrayList<>();
+		for (FluidRegistryEntry fluidRegistryEntry : this) {
+			if(fluidRegistryEntry.containerEmpty == container){
+				List<BlockFluid> fluid = fluidRegistryEntry.fluid;
+				fluids.addAll(fluid);
+			} else if(fluidRegistryEntry.container == container){
+				List<BlockFluid> fluid = fluidRegistryEntry.fluid;
+				fluids.addAll(fluid);
+			}
+		}
+		return fluids;
+	}
+
 	public List<BlockFluid> getAllFluids(){
 		List<BlockFluid> fluids = new ArrayList<>();
         for (FluidRegistryEntry fluidRegistryEntry : this) {

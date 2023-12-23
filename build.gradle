@@ -92,10 +92,6 @@ allprojects {
 }
 
 dependencies {
-	if(findProject(":catalyst") != null){
-		implementation(project(":"))
-	}
-
 	minecraft "bta-download-repo:bta:${project.bta_version}"
 	mappings loom.layered() {}
 

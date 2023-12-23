@@ -15,9 +15,8 @@ loom {
 
 dependencies {
 	if(findProject(":catalyst") != null){
-		implementation project(path: ':catalyst')
+		implementation project(path: ':catalyst', configuration: "namedElements")
 	}
-	implementation project(path: ':')
 
 	minecraft "bta-download-repo:bta:${project.bta_version}"
 	mappings loom.layered() {}
