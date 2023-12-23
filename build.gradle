@@ -126,6 +126,6 @@ processResources {
 }
 
 remapJar {
-	destinationDirectory.set(file("/jars"))
+	destinationDirectory.set(file("${projectDir}/jars"))
 }
 

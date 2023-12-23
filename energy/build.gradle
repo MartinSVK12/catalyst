@@ -46,5 +46,5 @@ processResources {
 }
 
 remapJar {
-	destinationDirectory.set(file("$rootProject.projectDir/jars"))
+	destinationDirectory.set(file("$parent.projectDir/jars"))
 }
