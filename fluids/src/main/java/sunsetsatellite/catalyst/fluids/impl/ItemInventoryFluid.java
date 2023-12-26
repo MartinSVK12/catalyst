@@ -127,69 +127,6 @@ public class ItemInventoryFluid implements IInventory, IFluidInventory {
 
     }
 
-    /*public void setOrModifyFluidInSlot(int slot, FluidStack fluid, boolean add){
-        if(getFluidInSlot(0) == null){
-            setFluidInSlot(0, fluid);
-        } else if(getFluidInSlot(0).isFluidEqual(fluid)){
-            if(add){
-                incrFluidAmount(0,fluid.amount);
-            } else {
-                decrFluidAmount(0,fluid.amount);
-            }
-        }
-        this.onFluidInventoryChanged();
-    }*/
-
-    /*@Override
-    public FluidStack decrFluidAmount(int slot, int amount) {
-        if(this.fluidContents[slot] != null) {
-            if(this.fluidContents[slot].getLiquid() == null || this.fluidContents[slot].amount == 0){
-                this.fluidContents[slot] = null;
-                return null;
-            }
-            FluidStack fluidStack;
-            if(this.fluidContents[slot].amount <= amount) {
-                fluidStack = this.fluidContents[slot];
-                this.fluidContents[slot] = null;
-                this.onFluidInventoryChanged();
-                return fluidStack;
-            } else {
-                fluidStack = this.fluidContents[slot].splitStack(amount);
-                if(this.fluidContents[slot].amount == 0) {
-                    this.fluidContents[slot] = null;
-                }
-
-                this.onFluidInventoryChanged();
-                return fluidStack;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public FluidStack incrFluidAmount(int slot, int amount) {
-        if(this.fluidContents[slot] != null) {
-            if(this.fluidContents[slot].getLiquid() == null || this.fluidContents[slot].amount == 0){
-                this.fluidContents[slot] = null;
-                return null;
-            }
-            FluidStack fluidStack;
-            if(this.fluidContents[slot].amount + amount > this.fluidCapacity[slot]) {
-                fluidStack = this.fluidContents[slot];
-                this.onFluidInventoryChanged();
-                return fluidStack;
-            } else {
-                fluidStack = this.fluidContents[slot];
-                fluidStack.amount += amount;
-                this.onFluidInventoryChanged();
-                return fluidStack;
-            }
-        } else {
-            return null;
-        }
-    }*/
-
     @Override
     public int getFluidInventorySize() {
         return fluidContents.length;
