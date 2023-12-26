@@ -149,9 +149,8 @@ public class ContainerFluid extends Container {
 				List<BlockFluid> fluids = CatalystFluids.FLUIDS.findFluidsWithAnyContainer((Item) item);
 				if(fluids != null && !fluids.isEmpty()){
                     if(tile.acceptedFluids.get(slotID).isEmpty()
-                            || tile.acceptedFluids.get(slotID).containsAll(fluids)
-                            || (slot.getFluidStack() != null
-                            && CatalystFluids.FLUIDS.findContainers(slot.getFluidStack().liquid).contains(item))
+                            || tile.acceptedFluids.get(slotID).stream().anyMatch(fluids::contains)
+                            || (slot.getFluidStack() != null && CatalystFluids.FLUIDS.findContainers(slot.getFluidStack().liquid).contains(item))
                             && slot.isAnyFluidValid(fluids))
                     {
                         //drain
