@@ -22,11 +22,13 @@ dependencies {
 		include(rootProject.project("energy"))
 		include(rootProject.project("fluids"))
 		include(rootProject.project("multiblocks"))
+		include(rootProject.project("effects"))
 	} else {
 		include(project(":catalyst"))
 		include(project(":catalyst").project("energy"))
 		include(project(":catalyst").project("fluids"))
 		include(project(":catalyst").project("multiblocks"))
+		include(project(":catalyst").project("effects"))
 	}
 
 }
