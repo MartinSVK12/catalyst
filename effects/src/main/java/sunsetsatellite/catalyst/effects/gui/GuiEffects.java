@@ -2,6 +2,7 @@ package sunsetsatellite.catalyst.effects.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiInventory;
 import net.minecraft.client.gui.GuiTooltip;
 import net.minecraft.core.net.command.TextFormatting;
@@ -16,7 +17,7 @@ import sunsetsatellite.catalyst.effects.api.modifier.type.*;
 
 public class GuiEffects extends Gui {
 
-	public void drawEffects(GuiInventory guiInv, EffectContainer container, Minecraft mc, int mouseX, int mouseY, float partialTick){
+	public void drawEffects(EffectContainer container, Minecraft mc, int mouseX, int mouseY, float partialTick){
 		begin();
 		int x = 4;
 		int y = 4;
@@ -80,15 +81,13 @@ public class GuiEffects extends Gui {
 
 	private void drawEffect(Minecraft mc, EffectStack effect, int x, int y, int mouseX, int mouseY) {
 		drawRectWidthHeight(x,y,20,20,effect.getEffect().color);
-		drawRectWidthHeight(x,y,20, (int) (20-((float)effect.getTimeLeft()/(float)effect.getDuration())*20), 0x80000000);
 		end();
-		//TODO: make this actually render the icon???
-		/*int t = mc.renderEngine.getTexture("assets/catalyst-effects/effects/signalumsaber.png");
-		mc.renderEngine.bindTexture(t);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		drawTexturedModalRect(x,y,0,0,32,32);*/
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture("/assets/"+effect.getEffect().modId+"/effects/icons/"+effect.getEffect().imagePath));
+		GL11.glColor4f(1,1,1,1);
+		drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);
 		drawString(mc.fontRenderer,"x"+effect.getAmount(),x+1,y+10,0xFFFFFFFF);
 		begin();
+		drawRectWidthHeight(x,y,20, (int) (20-((float)effect.getTimeLeft()/(float)effect.getDuration())*20), 0x80000000);
 	}
 
 	private void begin(){

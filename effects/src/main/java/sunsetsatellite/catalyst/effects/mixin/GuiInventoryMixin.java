@@ -27,6 +27,6 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 
 	@Inject(method = "drawScreen",at = @At("TAIL"))
 	public void drawEffects(int mouseX, int mouseY, float partialTick, CallbackInfo ci){
-		new GuiEffects().drawEffects(((GuiInventory)(Object)this),((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
+		new GuiEffects().drawEffects(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
 	}
 }

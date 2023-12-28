@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityPlayerMixin",
+    "GuiIngameMixin",
     "GuiInventoryMixin"
   ],
   "client": [
