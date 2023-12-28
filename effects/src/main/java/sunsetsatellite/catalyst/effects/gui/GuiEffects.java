@@ -82,6 +82,11 @@ public class GuiEffects extends Gui {
 		drawRectWidthHeight(x,y,20,20,effect.getEffect().color);
 		drawRectWidthHeight(x,y,20, (int) (20-((float)effect.getTimeLeft()/(float)effect.getDuration())*20), 0x80000000);
 		end();
+		//TODO: make this actually render the icon???
+		/*int t = mc.renderEngine.getTexture("assets/catalyst-effects/effects/signalumsaber.png");
+		mc.renderEngine.bindTexture(t);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		drawTexturedModalRect(x,y,0,0,32,32);*/
 		drawString(mc.fontRenderer,"x"+effect.getAmount(),x+1,y+10,0xFFFFFFFF);
 		begin();
 	}
