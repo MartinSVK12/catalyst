@@ -1,0 +1,14 @@
+attribute.catalyst.test.name=Test Attribute
+attribute.catalyst.test.desc=For testing..
+attribute.catalyst.effectDuration.name=Effect Duration
+attribute.catalyst.effectDuration.desc=Modifies overall duration of all effects.
+attribute.catalyst.attack.name=Attack
+attribute.catalyst.attack.desc=Modifies attack damage.
+
+effect.catalyst.attackBoost.name=Attack Boost
+effect.catalyst.durationBoost.name=Duration Boost
+
+item.catalyst-effects.testItem.name=Testing Item
+item.catalyst-effects.testItem.desc=Gives "Attack Boost" effect for 30s.
+item.catalyst-effects.testItem2.name=Testing Item 2
+item.catalyst-effects.testItem2.desc=Gives "Duration Boost" effect for 10s.

@@ -13,7 +13,7 @@ public class CatalystEnergy implements ModInitializer {
 	public static final TomlConfigHandler config;
 
 	static {
-		Toml configToml = new Toml("Signal Industries configuration file.");
+		Toml configToml = new Toml("Catalyst: Energy configuration file.");
 		configToml.addEntry("energyName","Energy");
 		configToml.addEntry("energySuffix","E");
 		config = new TomlConfigHandler(MOD_ID,configToml);

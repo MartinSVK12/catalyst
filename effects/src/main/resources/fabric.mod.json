@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "catalyst-effects",
+  "version": "${version}",
+
+  "name": "Catalyst: Effects",
+  "description": "Effects module of Catalyst: Stats and stackable effects API.",
+	"icon": "icon.png",
+  "authors": [
+    "sunsetsatellite"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "sunsetsatellite.catalyst.CatalystEffects"
+    ],
+		"afterGameStart": [
+			"sunsetsatellite.catalyst.CatalystEffects"
+		]
+  },
+  "mixins": [
+		"catalyst-effects.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.13.3",
+		"catalyst-core": ">=1.0.0"
+  },
+  "suggests": {
+  },
+	"custom": {
+		"modmenu:api": true
+	}
+}
