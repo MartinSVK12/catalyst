@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Catalyst: Effects",
-  "description": "Effects module of Catalyst: Stats and stackable effects API.",
+  "description": "Effects module of Catalyst: API for attributes and stackable effects.",
 	"icon": "icon.png",
   "authors": [
     "sunsetsatellite"
