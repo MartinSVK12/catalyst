@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
+import com.mojang.nbt.CompoundTag;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
 import sunsetsatellite.catalyst.effects.api.attribute.type.IntAttribute;
@@ -40,6 +41,14 @@ public class EffectStack {
 		this.effect = effect;
 		this.duration = Attributes.EFFECT_DURATION.calculate(target,duration);
 		this.amount = amount;
+	}
+
+	public EffectStack(CompoundTag tag){
+		this.effect = Effects.getInstance().getItem(tag.getString("id"));
+		this.duration = tag.getInteger("duration");
+		this.amount = tag.getInteger("amount");
+		this.state = State.valueOf(tag.getString("state"));
+		this.timeLeft = tag.getInteger("timeLeft");
 	}
 
 	public void tick(){
@@ -123,5 +132,12 @@ public class EffectStack {
 		return false;
 	}
 
+	public void saveToNbt(CompoundTag tag){
+		tag.putString("id",effect.id);
+		tag.putInt("duration",duration);
+		tag.putInt("timeLeft",timeLeft);
+		tag.putInt("amount",amount);
+		tag.putString("state",state.name());
+	}
 
 }

@@ -1,5 +1,7 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
+import com.mojang.nbt.CompoundTag;
+import com.mojang.nbt.Tag;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 
 import java.util.ArrayList;
@@ -56,6 +58,23 @@ public class EffectContainer {
 			effectStack.tick();
 			if(effectStack.isFinished()){
 				effects.remove(effectStack);
+			}
+		}
+	}
+
+	public void saveToNbt(CompoundTag tag){
+        for (int i = 0; i < effects.size(); i++) {
+            EffectStack effect = effects.get(i);
+            CompoundTag effectTag = new CompoundTag();
+            effect.saveToNbt(effectTag);
+            tag.putCompound(String.valueOf(i),effectTag);
+        }
+	}
+
+	public void loadFromNbt(CompoundTag tag){
+		for (Tag<?> value : tag.getValues()) {
+			if(value instanceof CompoundTag){
+				effects.add(new EffectStack((CompoundTag) value));
 			}
 		}
 	}

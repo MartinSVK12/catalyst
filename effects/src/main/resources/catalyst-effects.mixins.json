@@ -4,7 +4,7 @@
   "package": "sunsetsatellite.catalyst.effects.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityPlayerMixin",
+    "EntityMixin",
     "GuiIngameMixin",
     "GuiInventoryMixin"
   ],

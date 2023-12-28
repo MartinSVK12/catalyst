@@ -2,14 +2,10 @@ package sunsetsatellite.catalyst.effects.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiInventory;
 import net.minecraft.client.gui.GuiTooltip;
 import net.minecraft.core.net.command.TextFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import sunsetsatellite.catalyst.CatalystEffects;
-import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
@@ -82,9 +78,11 @@ public class GuiEffects extends Gui {
 	private void drawEffect(Minecraft mc, EffectStack effect, int x, int y, int mouseX, int mouseY) {
 		drawRectWidthHeight(x,y,20,20,effect.getEffect().color);
 		end();
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture("/assets/"+effect.getEffect().modId+"/effects/icons/"+effect.getEffect().imagePath));
-		GL11.glColor4f(1,1,1,1);
-		drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);
+		if(effect.getEffect().imagePath != null && !effect.getEffect().imagePath.isBlank()){
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture("/assets/"+effect.getEffect().id.split(":")[0]+"/effects/icons/"+effect.getEffect().imagePath));
+			GL11.glColor4f(1,1,1,1);
+			drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);
+		}
 		drawString(mc.fontRenderer,"x"+effect.getAmount(),x+1,y+10,0xFFFFFFFF);
 		begin();
 		drawRectWidthHeight(x,y,20, (int) (20-((float)effect.getTimeLeft()/(float)effect.getDuration())*20), 0x80000000);

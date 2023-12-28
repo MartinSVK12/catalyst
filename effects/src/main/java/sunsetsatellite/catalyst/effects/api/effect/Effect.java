@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Effect {
 	private final String nameKey;
-	public final String modId;
+	public final String id;
 	public final String imagePath;
 	public final int color;
 	private final List<Modifier<?>> modifiers;
@@ -18,9 +18,9 @@ public class Effect {
 	private int maxStack;
 
 
-	public Effect(String nameKey, String modId, String imagePath, int color, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int defaultDuration, int maxStack) {
+	public Effect(String nameKey, String id, String imagePath, int color, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int defaultDuration, int maxStack) {
 		this.nameKey = nameKey;
-        this.modId = modId;
+        this.id = id;
         this.imagePath = imagePath;
         this.color = color;
         this.modifiers = modifiers;
@@ -64,7 +64,7 @@ public class Effect {
 		if (getMaxStack() != effect.getMaxStack()) return false;
 		if (getNameKey() != null ? !getNameKey().equals(effect.getNameKey()) : effect.getNameKey() != null)
 			return false;
-		if (!Objects.equals(modId, effect.modId)) return false;
+		if (!Objects.equals(id, effect.id)) return false;
 		if (!Objects.equals(imagePath, effect.imagePath)) return false;
 		if (getModifiers() != null ? !getModifiers().equals(effect.getModifiers()) : effect.getModifiers() != null)
 			return false;

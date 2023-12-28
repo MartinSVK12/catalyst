@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.core.data.registry.Registries;
 import net.minecraft.core.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,6 @@ import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
 import java.util.*;
-
-//TODO: make effects serializable
 
 public class CatalystEffects implements ModInitializer, GameStartEntrypoint {
     public static final String MOD_ID = "catalyst-effects";
@@ -41,10 +40,9 @@ public class CatalystEffects implements ModInitializer, GameStartEntrypoint {
 
 	@Override
 	public void afterGameStart() {
-		Attributes.getInstance();
-		Effects.getInstance();
-		testItem = ItemHelper.createItem(MOD_ID, new ItemGiveEffect("testItem", 17450, Effects.ATTACK_BOOST).setIconIndex(Item.ammoSnowball.getIconFromDamage(0)).setMaxStackSize(1), "testItem");
-		testItem2 = ItemHelper.createItem(MOD_ID, new ItemGiveEffect("testItem2", 17451, Effects.DURATION_BOOST).setIconIndex(Item.ammoSnowball.getIconFromDamage(0)).setMaxStackSize(1), "testItem2");
+		testItem2 = ItemHelper.createItem(MOD_ID, new ItemGiveEffect("testItem", 17451, Effects.DURATION_BOOST).setIconIndex(Item.ammoSnowball.getIconFromDamage(0)).setMaxStackSize(1), "testItem");
+		Registries.getInstance().register("catalyst:effects",Effects.getInstance());
+		Registries.getInstance().register("catalyst:attributes",Attributes.getInstance());
 		LOGGER.info(String.format("%d attributes registered.",Attributes.getInstance().size()));
 		LOGGER.info(String.format("%d effects registered.",Effects.getInstance().size()));
 		LOGGER.info("Catalyst: Effects initialized.");
