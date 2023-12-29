@@ -4,15 +4,13 @@ import com.mojang.nbt.CompoundTag;
 import com.mojang.nbt.Tag;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class EffectContainer {
 	private final List<EffectStack> effects = new ArrayList<>();
-	private final List<Attribute<?>> attributes = new ArrayList<>();
+	private final Set<Attribute<?>> attributes = new HashSet<>();
 
-	public List<Attribute<?>> getAttributes() {
+	public Set<Attribute<?>> getAttributes() {
 		return attributes;
 	}
 
@@ -56,6 +54,9 @@ public class EffectContainer {
 		List<EffectStack> copy = new ArrayList<>(effects);
 		for (EffectStack effectStack : copy) {
 			effectStack.tick();
+			if(effectStack.getAmount() < 1){
+				effects.remove(effectStack);
+			}
 			if(effectStack.isFinished()){
 				effects.remove(effectStack);
 			}

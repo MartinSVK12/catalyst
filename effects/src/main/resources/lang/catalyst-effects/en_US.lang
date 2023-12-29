@@ -3,5 +3,10 @@ attribute.catalyst.effectDuration.desc=Modifies overall duration of all effects.
 
 effect.catalyst.durationBoost.name=Duration Boost
 
-item.catalyst-effects.testItem.name=Testing Item
-item.catalyst-effects.testItem.desc=Gives "Duration Boost" effect for 10s.
+
+gui.options.page.controls.category.catalyst-effects=
+gui.options.page.catalyst-effect=Catalyst: Effects
+options.catalyst-effect.displayEffectsIn=Display Effects In
+options.catalyst-effect.displayEffectsIn.inventory=Inventory
+options.catalyst-effect.displayEffectsIn.hud=HUD
+options.catalyst-effect.displayEffectsIn.both=Both

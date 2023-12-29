@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import sunsetsatellite.catalyst.CatalystEffects;
+import sunsetsatellite.catalyst.effects.api.effect.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 import sunsetsatellite.catalyst.effects.gui.GuiEffects;
 
@@ -20,13 +22,15 @@ public abstract class GuiIngameMixin extends Gui {
 
 	private GuiIngameMixin(){}
 
-//	@Inject(
-//		method = "renderGameOverlay",
-//		at = @At(value = "INVOKE",target = "Lnet/minecraft/client/render/WorldRenderer;setupScaledResolution()V", shift = At.Shift.AFTER),
-//		locals = LocalCapture.CAPTURE_FAILHARD
-//	)
-//	public void renderAfterGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci, I18n stringtranslate, int width, int height, int sp, FontRenderer fontrenderer) {
-//		new GuiEffects().drawEffects(((IHasEffects)Minecraft.getMinecraft(this).thePlayer).getContainer(),Minecraft.getMinecraft(this),mouseX,mouseY,partialTicks);
-//	}
+	@Inject(
+		method = "renderGameOverlay",
+		at = @At(value = "INVOKE",target = "Lnet/minecraft/client/render/WorldRenderer;setupScaledResolution()V", shift = At.Shift.AFTER),
+		locals = LocalCapture.CAPTURE_FAILHARD
+	)
+	public void renderAfterGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci, I18n stringtranslate, int width, int height, int sp, FontRenderer fontrenderer) {
+		if (CatalystEffects.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.HUD || CatalystEffects.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.BOTH) {
+			new GuiEffects().drawEffects(((IHasEffects)Minecraft.getMinecraft(this).thePlayer).getContainer(),Minecraft.getMinecraft(this),mouseX,mouseY,partialTicks);
+		}
+	}
 
 }

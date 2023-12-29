@@ -8,6 +8,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sunsetsatellite.catalyst.CatalystEffects;
+import sunsetsatellite.catalyst.effects.api.effect.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 import sunsetsatellite.catalyst.effects.gui.GuiEffects;
 
@@ -27,6 +29,8 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 
 	@Inject(method = "drawScreen",at = @At("TAIL"))
 	public void drawEffects(int mouseX, int mouseY, float partialTick, CallbackInfo ci){
-		new GuiEffects().drawEffects(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
+		if (CatalystEffects.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.INVENTORY || CatalystEffects.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.BOTH) {
+			new GuiEffects().drawEffects(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
+		}
 	}
 }
