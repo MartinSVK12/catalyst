@@ -13,7 +13,7 @@ import sunsetsatellite.catalyst.effects.api.modifier.type.*;
 
 public class GuiEffects extends Gui {
 
-	public void drawEffects(EffectContainer container, Minecraft mc, int mouseX, int mouseY, float partialTick){
+	public void drawEffects(EffectContainer<?> container, Minecraft mc, int mouseX, int mouseY, float partialTick){
 		begin();
 		int x = 4;
 		int y = 4;

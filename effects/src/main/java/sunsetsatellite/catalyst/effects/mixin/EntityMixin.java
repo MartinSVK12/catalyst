@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.effects.mixin;
 
 import com.mojang.nbt.CompoundTag;
+import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,11 +13,16 @@ import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 
+import java.util.Arrays;
+
 @Mixin(value = Entity.class, remap = false)
 public class EntityMixin implements IHasEffects {
 
 	@Unique
-	public EffectContainer effectContainer = new EffectContainer();
+	private final Entity thisAs = (Entity) ((Object)this);
+
+	@Unique
+	public EffectContainer<Entity> effectContainer = new EffectContainer<>(thisAs);
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void init(World world, CallbackInfo ci){
@@ -24,7 +30,7 @@ public class EntityMixin implements IHasEffects {
 	}
 
 	@Override
-	public EffectContainer getContainer() {
+	public EffectContainer<Entity> getContainer() {
 		return effectContainer;
 	}
 

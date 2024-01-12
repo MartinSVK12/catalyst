@@ -7,7 +7,6 @@ import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
-import sunsetsatellite.catalyst.effects.api.effect.Effects;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 
 public class ItemGiveEffect extends Item {
@@ -24,7 +23,7 @@ public class ItemGiveEffect extends Item {
 		super.onItemUse(itemstack, entityplayer, world, blockX, blockY, blockZ, side, xPlaced, yPlaced);
 		EffectStack eff = new EffectStack(((IHasEffects)entityplayer), effect);
 		((IHasEffects)entityplayer).getContainer().add(eff);
-		eff.start();
+		eff.start(((IHasEffects)entityplayer).getContainer());
 		entityplayer.destroyCurrentEquippedItem();
 		return true;
 	}

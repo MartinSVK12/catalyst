@@ -70,4 +70,36 @@ public class Effect {
 			return false;
         return effectTimeType == effect.effectTimeType;
     }
+
+	public <T> void removed(EffectStack effectStack, EffectContainer<T> effectContainer) {
+
+	}
+
+	public <T> void activated(EffectStack effectStack, EffectContainer<T> container) {
+
+	}
+
+	public <T> void paused(EffectStack effectStack, EffectContainer<T> container) {
+
+	}
+
+	public <T> void unpaused(EffectStack effectStack, EffectContainer<T> container) {
+
+	}
+
+	public <T> void tick(EffectStack effectStack, EffectContainer<T> effectContainer) {
+
+	}
+
+	public <T> void expired(EffectStack effectStack, EffectContainer<T> effectContainer) {
+
+	}
+
+	public <T> void stackAdded(EffectStack effectStack, EffectContainer<T> effectContainer) {
+
+	}
+
+	public <T> void stackSubtracted(EffectStack effectStack, EffectContainer<T> effectContainer) {
+
+	}
 }

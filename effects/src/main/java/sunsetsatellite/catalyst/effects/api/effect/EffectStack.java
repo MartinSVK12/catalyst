@@ -3,12 +3,8 @@ package sunsetsatellite.catalyst.effects.api.effect;
 import com.mojang.nbt.CompoundTag;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
-import sunsetsatellite.catalyst.effects.api.attribute.type.IntAttribute;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
-import sunsetsatellite.catalyst.effects.api.modifier.type.*;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 
 public class EffectStack {
@@ -51,47 +47,54 @@ public class EffectStack {
 		this.timeLeft = tag.getInteger("timeLeft");
 	}
 
-	public void tick(){
+	public <T> void start(EffectContainer<T> container){
+		if(state == State.INACTIVE){
+			state = State.ACTIVE;
+			timeLeft = duration;
+			effect.activated(this,container);
+		}
+	}
+
+	public <T> void pause(EffectContainer<T> container){
+		if(state == State.ACTIVE){
+			state = State.PAUSED;
+			effect.paused(this,container);
+		}
+	}
+
+	public <T> void unpause(EffectContainer<T> container){
+		if(state == State.PAUSED){
+			state = State.ACTIVE;
+			effect.unpaused(this,container);
+		}
+	}
+
+	public <T> void tick(EffectContainer<T> effectContainer) {
 		if(state == State.ACTIVE){
 			if(timeLeft > 0){
 				timeLeft--;
+				effect.tick(this,effectContainer);
 			} else {
 				state = State.FINISHED;
+				effect.expired(this,effectContainer);
 			}
 		}
 	}
 
-	public void start(){
-		if(state == State.INACTIVE){
-			state = State.ACTIVE;
-			timeLeft = duration;
-		}
-	}
-
-	public void pause(){
-		if(state == State.ACTIVE){
-			state = State.PAUSED;
-		}
-	}
-
-	public void unpause(){
-		if(state == State.PAUSED){
-			state = State.ACTIVE;
-		}
-	}
-
-	public void add(int amount){
+	public <T> void add(int amount, EffectContainer<T> effectContainer) {
 		if(state == State.ACTIVE){
 			this.amount += amount;
 			if (Objects.requireNonNull(effect.getTimeType()) == EffectTimeType.RESET) {
 				timeLeft = duration;
 			}
+			effect.stackAdded(this,effectContainer);
 		}
 	}
 
-	public void subtract(int amount){
+	public <T> void subtract(int amount, EffectContainer<T> effectContainer) {
 		if(state == State.ACTIVE){
 			this.amount -= amount;
+			effect.stackSubtracted(this,effectContainer);
 		}
 	}
 

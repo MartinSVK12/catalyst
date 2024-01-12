@@ -44,6 +44,14 @@ public class AttributesCommand extends Command {
 				commandSender.sendMessage("Invalid arguments!");
 				return false;
 			}
+		} else if (strings.length == 1) {
+			if (Objects.equals(strings[0], "list")) {
+				commandSender.sendMessage("Available attributes:");
+				for (Attribute<?> attribute : Attributes.getInstance()) {
+					commandSender.sendMessage("- " + Attributes.getInstance().getKey(attribute));
+				}
+				return true;
+			}
 		}
 		commandSender.sendMessage("Invalid arguments!");
 		return false;
@@ -58,5 +66,6 @@ public class AttributesCommand extends Command {
 	public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
 		commandSender.sendMessage("/attribute add (name)");
 		commandSender.sendMessage("/attribute remove (name)");
+		commandSender.sendMessage("/attribute list");
 	}
 }

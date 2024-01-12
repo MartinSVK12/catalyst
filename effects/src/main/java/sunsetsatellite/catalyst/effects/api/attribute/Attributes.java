@@ -11,7 +11,7 @@ public class Attributes extends Registry<Attribute<?>> {
 	public static final IntAttribute EFFECT_DURATION = new IntAttribute("attribute.catalyst.effectDuration",1);
 
 	public Attributes(){
-		register("catalyst:effect_duration",EFFECT_DURATION);
+		register("catalyst-effects:effect_duration",EFFECT_DURATION);
 	}
 
 	private static final Attributes INSTANCE = new Attributes();
