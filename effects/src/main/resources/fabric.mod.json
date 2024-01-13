@@ -23,6 +23,9 @@
     ],
 		"afterGameStart": [
 			"sunsetsatellite.catalyst.CatalystEffects"
+		],
+		"afterClientStart": [
+			"sunsetsatellite.catalyst.CatalystEffectsClient"
 		]
   },
   "mixins": [
