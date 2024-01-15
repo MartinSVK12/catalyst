@@ -14,12 +14,12 @@ public class Multiblock extends Structure{
 
     public Multiblock(String modId, Class<?>[] modClasses, String translateKey, CompoundTag data, boolean includeAir) {
         super(modId, modClasses, translateKey, data, includeAir, false);
-        this.translateKey = "multiblock."+modId+"."+translateKey+".name";
+        this.translateKey = "multiblock."+modId+"."+translateKey;
     }
 
     public Multiblock(String modId, Class<?>[] modClasses, String translateKey, String filePath, boolean includeAir) {
         super(modId, modClasses, translateKey, filePath, includeAir, false);
-        this.translateKey = "multiblock."+modId+"."+translateKey+".name";
+        this.translateKey = "multiblock."+modId+"."+translateKey;
     }
 
     public boolean isValidAt(World world, BlockInstance origin, Direction dir){
