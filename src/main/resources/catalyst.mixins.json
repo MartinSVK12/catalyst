@@ -8,7 +8,8 @@
     "EntityPlayerMPMixin",
     "EntityPlayerSPMixin",
     "GuiTooltipMixin",
-    "NetClientHandlerMixin"
+    "NetClientHandlerMixin",
+    "PacketMixin"
   ],
   "client": [
   ],

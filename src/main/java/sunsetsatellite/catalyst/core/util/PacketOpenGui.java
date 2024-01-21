@@ -19,6 +19,7 @@ public class PacketOpenGui extends Packet {
     public int blockY;
     public int blockZ;
     public ItemStack stack;
+	public PacketOpenGui(){}
 
     public PacketOpenGui(int windowId, String windowTitle, int x, int y, int z) {
         this.windowId = windowId;
