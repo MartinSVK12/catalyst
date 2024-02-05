@@ -10,6 +10,7 @@ import sunsetsatellite.catalyst.effects.api.modifier.type.DoubleModifier;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class BooleanAttribute extends Attribute<Boolean> {
 	public BooleanAttribute(String key, boolean defaultValue) {
@@ -35,7 +36,7 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 						})
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
-						.toList();
+						.collect(Collectors.toList());
 					for (BooleanModifier modifier : validModifiers) {
                         if (Objects.requireNonNull(modifier.type) == ModifierType.SET) {
                             if (modifier.value != value) {
@@ -69,7 +70,7 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 						})
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
-						.toList();
+						.collect(Collectors.toList());
 					for (BooleanModifier modifier : validModifiers) {
 						if (Objects.requireNonNull(modifier.type) == ModifierType.SET) {
 							if (modifier.value != value) {

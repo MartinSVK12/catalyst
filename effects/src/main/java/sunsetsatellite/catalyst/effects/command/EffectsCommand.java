@@ -22,7 +22,7 @@ public class EffectsCommand extends Command {
 		IHasEffects effects = ((IHasEffects)commandSender.getPlayer());
 		EntityPlayer player = commandSender.getPlayer();
 		switch (strings.length){
-			case 1 -> {
+			case 1: {
 				if (Objects.equals(strings[0], "list")) {
 					commandSender.sendMessage("Available effects:");
 					for (Effect effect : Effects.getInstance()) {
@@ -31,7 +31,7 @@ public class EffectsCommand extends Command {
 					return true;
 				}
 			}
-			case 2 -> {
+			case 2: {
 				if(Objects.equals(strings[0], "remove")) {
 					if (Objects.equals(strings[1], "all")) {
 						effects.getContainer().removeAll();
@@ -48,7 +48,7 @@ public class EffectsCommand extends Command {
 					return true;
 				}
 			}
-			case 3 -> {
+			case 3: {
 				if(!Objects.equals(strings[0], "subtract")){
 					return false;
 				}
@@ -66,7 +66,7 @@ public class EffectsCommand extends Command {
 				}
 				return true;
 			}
-			case 4 -> {
+			case 4: {
 				if(!Objects.equals(strings[0], "add")){
 					return false;
 				}
@@ -87,13 +87,11 @@ public class EffectsCommand extends Command {
 				}
 				return true;
 			}
-			default -> {
+			default: {
 				commandSender.sendMessage("Invalid arguments!");
 				return false;
 			}
 		}
-		commandSender.sendMessage("Invalid arguments!");
-        return false;
     }
 
 	@Override

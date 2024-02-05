@@ -78,7 +78,7 @@ public class GuiEffects extends Gui {
 	private void drawEffect(Minecraft mc, EffectStack effect, int x, int y, int mouseX, int mouseY) {
 		drawRectWidthHeight(x,y,20,20,effect.getEffect().color);
 		end();
-		if(effect.getEffect().imagePath != null && !effect.getEffect().imagePath.isBlank()){
+		if(effect.getEffect().imagePath != null && !effect.getEffect().imagePath.isEmpty()){
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture("/assets/"+effect.getEffect().id.split(":")[0]+"/effects/icons/"+effect.getEffect().imagePath));
 			GL11.glColor4f(1,1,1,1);
 			drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);

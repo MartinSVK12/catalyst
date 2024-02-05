@@ -8,6 +8,7 @@ import sunsetsatellite.catalyst.effects.api.modifier.type.IntModifier;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class DoubleAttribute extends NumberAttribute<Double>{
 
@@ -39,20 +40,21 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 						})
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
-						.toList();
+						.collect(Collectors.toList());
 					for (DoubleModifier modifier : validModifiers) {
 						switch (modifier.type){
-							case SET -> {
+							case SET: {
 								if(modifier.value > value){
 									value = modifier.value;
 								}
+								break;
 							}
-							case ADD -> value += modifier.value;
-							case SUBTRACT -> value -= modifier.value;
-							case PERCENT_ADD -> value += (value/100) * modifier.value;
-							case PERCENT_SUBTRACT -> value -= (value/100) * modifier.value;
-							case MULTIPLY -> value *= modifier.value;
-							case DIVIDE -> value /= modifier.value;
+							case ADD: value += modifier.value; break;
+							case SUBTRACT: value -= modifier.value; break;
+							case PERCENT_ADD: value += (value/100) * modifier.value; break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
+							case MULTIPLY: value *= modifier.value; break;
+							case DIVIDE: value /= modifier.value; break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -82,20 +84,21 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 						})
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
-						.toList();
+						.collect(Collectors.toList());
 					for (DoubleModifier modifier : validModifiers) {
 						switch (modifier.type){
-							case SET -> {
+							case SET: {
 								if(modifier.value > value){
 									value = modifier.value;
 								}
+								break;
 							}
-							case ADD -> value += modifier.value;
-							case SUBTRACT -> value -= modifier.value;
-							case PERCENT_ADD -> value += (value/100) * modifier.value;
-							case PERCENT_SUBTRACT -> value -= (value/100) * modifier.value;
-							case MULTIPLY -> value *= modifier.value;
-							case DIVIDE -> value /= modifier.value;
+							case ADD: value += modifier.value; break;
+							case SUBTRACT: value -= modifier.value; break;
+							case PERCENT_ADD: value += (value/100) * modifier.value; break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
+							case MULTIPLY: value *= modifier.value; break;
+							case DIVIDE: value /= modifier.value; break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
