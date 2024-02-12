@@ -90,7 +90,7 @@ public class Structure {
             }
         }
         for (BlockInstance block : blocks) {
-            world.setBlockAndMetadataWithNotify(block.pos.x,block.pos.y,block.pos.z,block.block.id,block.meta);
+            world.setBlockAndMetadataWithNotify(block.pos.x,block.pos.y,block.pos.z,block.block.id,block.meta == -1 ? 0 : block.meta);
         }
         return true;
     }
