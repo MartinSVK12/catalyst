@@ -24,8 +24,8 @@ Available modules:
   
 **Latest versions:**
 - **All: 1.3.5**
-- **Core: 1.1.3**
-- **Fluids: 1.0.2**
-- **Energy: 1.0.3**
+- **Core: 1.1.4**
+- **Fluids: 1.0.3**
+- **Energy: 1.0.4**
 - **Multiblocks: 1.0.3**
-- **Effects: 1.1.2**
+- **Effects: 1.1.3**
