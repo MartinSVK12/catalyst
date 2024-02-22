@@ -179,8 +179,9 @@ public class TileEntityMassFluidContainer extends TileEntity implements IMassFlu
                     int maxFlow = Math.min(transferSpeed,fluidInv.getTransferSpeed());
                     if(acceptedFluids.contains(fluidStack.getLiquid())){
                         if(fluidStack.isFluidEqual(fluidFilters.get(dir)) || fluidFilters.get(dir) == null) {
-                            if (canInsertFluid(new FluidStack(fluidStack.liquid, maxFlow))) {
-                                FluidStack transferablePortion = fluidStack.splitStack(maxFlow);
+							int maxAmount = Math.min(fluidStack.amount, maxFlow);
+                            if (canInsertFluid(new FluidStack(fluidStack.liquid, maxAmount))) {
+                                FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
                                 insertFluid(transferablePortion);
                             }
                         }
@@ -205,7 +206,8 @@ public class TileEntityMassFluidContainer extends TileEntity implements IMassFlu
                         if (filter == getFilter(dir)) {
                             FluidStack fluidStack = filter == null ? fluidContents.get(0) : findStack(filter);
                             if (fluidStack != null) {
-                                FluidStack transferablePortion = fluidStack.splitStack(maxFlow);
+								int maxAmount = Math.min(fluidStack.amount, maxFlow);
+                                FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
                                 massFluidInv.insertFluid(transferablePortion);
                             }
                         }
@@ -213,7 +215,7 @@ public class TileEntityMassFluidContainer extends TileEntity implements IMassFlu
                         int otherSlot = fluidInv.getActiveFluidSlot(dir.getOpposite());
                         BlockFluid filter = getFilter(dir);
                         if(fluidInv.getAllowedFluidsForSlot(otherSlot).contains(filter) || filter == null){
-                            if(fluidContents.size() > 0 && fluidContents.get(0) != null){
+                            if(!fluidContents.isEmpty() && fluidContents.get(0) != null){
                                 FluidStack fluidStack = filter == null ? (fluidContents.get(0)) : findStack(filter);
                             /*if(filter == null){
                                 for (BlockFluid blockFluid : fluidInv.getAllowedFluidsForSlot(otherSlot)) {
@@ -225,9 +227,9 @@ public class TileEntityMassFluidContainer extends TileEntity implements IMassFlu
                                 fluidStack = findStack(filter);
                             }*/
                                 if(fluidStack != null){
-                                    //FluidAPI.LOGGER.info(fluidStack.toString());
-                                    if(fluidInv.canInsertFluid(otherSlot,new FluidStack(fluidStack.liquid,maxFlow))){
-                                        FluidStack transferablePortion = fluidStack.splitStack(maxFlow);
+									int maxAmount = Math.min(fluidStack.amount, maxFlow);
+                                    if(fluidInv.canInsertFluid(otherSlot,new FluidStack(fluidStack.liquid,maxAmount))){
+                                        FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
                                         fluidInv.insertFluid(otherSlot,transferablePortion);
                                     }
                                 }

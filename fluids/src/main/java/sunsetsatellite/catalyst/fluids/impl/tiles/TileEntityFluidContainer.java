@@ -16,9 +16,8 @@ import sunsetsatellite.catalyst.fluids.api.IFluidTransfer;
 import sunsetsatellite.catalyst.fluids.api.IMassFluidInventory;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TileEntityFluidContainer extends TileEntity
     implements IFluidInventory, IFluidTransfer {
@@ -54,8 +53,9 @@ public class TileEntityFluidContainer extends TileEntity
                 if(fluidTransfer.getConnection(dir.getOpposite()) == Connection.OUTPUT || fluidTransfer.getConnection(dir.getOpposite()) == Connection.BOTH){
                     int maxFlow = Math.min(transferSpeed,fluidInv.getTransferSpeed());
                     if(acceptedFluids.get(activeFluidSlots.get(dir)).contains(fluidStack.getLiquid())) {
-                        if (canInsertFluid(activeFluidSlots.get(dir), new FluidStack(fluidStack.liquid, maxFlow))) {
-                            FluidStack transferablePortion = fluidStack.splitStack(maxFlow);
+						int maxAmount = Math.min(fluidStack.amount, maxFlow);
+                        if (canInsertFluid(activeFluidSlots.get(dir), new FluidStack(fluidStack.liquid, maxAmount))) {
+                            FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
                             if (fluidContents[activeFluidSlots.get(dir)] == null) {
                                 fluidContents[activeFluidSlots.get(dir)] = transferablePortion;
                             } else {
@@ -81,16 +81,18 @@ public class TileEntityFluidContainer extends TileEntity
                     if(tile instanceof IMassFluidInventory){
                         IMassFluidInventory massFluidInv = (IMassFluidInventory) tile;
                         if(fluidStack.isFluidEqual(massFluidInv.getFilter(dir.getOpposite())) || massFluidInv.getFilter(dir.getOpposite()) == null){
-                            if(massFluidInv.canInsertFluid(new FluidStack(fluidStack.liquid,maxFlow))){
-                                FluidStack transferablePortion = fluidStack.splitStack(maxFlow);
+							int maxAmount = Math.min(fluidStack.amount, maxFlow);
+                            if(massFluidInv.canInsertFluid(new FluidStack(fluidStack.liquid,maxAmount))){
+                                FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
                                 massFluidInv.insertFluid(transferablePortion);
                             }
                         }
                     } else {
                         int otherSlot = fluidInv.getActiveFluidSlot(dir.getOpposite());
                         if(fluidInv.getAllowedFluidsForSlot(otherSlot).contains(fluidStack.getLiquid())){
-                            if(fluidInv.canInsertFluid(otherSlot,new FluidStack(fluidStack.liquid,maxFlow))){
-                                FluidStack transferablePortion = fluidStack.splitStack(maxFlow);
+							int maxAmount = Math.min(fluidStack.amount, maxFlow);
+                            if(fluidInv.canInsertFluid(otherSlot,new FluidStack(fluidStack.liquid,maxAmount))){
+                                FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
                                 fluidInv.insertFluid(otherSlot,transferablePortion);
                             }
                             /*if(fluidInv.getFluidInSlot(otherSlot) == null){
@@ -109,7 +111,7 @@ public class TileEntityFluidContainer extends TileEntity
     public FluidStack insertFluid(int slot, FluidStack fluidStack) {
         FluidStack stack = fluidContents[slot];
         FluidStack split = fluidStack.splitStack(Math.min(fluidStack.amount,getRemainingCapacity(slot)));
-        if(stack != null){
+        if(stack != null && split.amount > 0){
             fluidContents[slot].amount += split.amount;
         } else {
             fluidContents[slot] = split;
@@ -169,6 +171,7 @@ public class TileEntityFluidContainer extends TileEntity
     @Override
     public void tick() {
         super.tick();
+		fluidContents = Arrays.stream(fluidContents).map((F)-> (F != null && F.amount <= 0) ? null : F).toArray(FluidStack[]::new);
         if(!worldObj.isClientSide){
             for (EntityPlayer player : worldObj.players) {
                 if(player instanceof EntityPlayerMP){
