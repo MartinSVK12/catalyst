@@ -14,6 +14,7 @@ public class BlockInstance {
     public Vec3i pos;
     public int meta = 0;
     public TileEntity tile;
+	public Vec3i offset;
 
     public BlockInstance(@NotNull Block block, @NotNull Vec3i pos, TileEntity tile){
         this.block = block;

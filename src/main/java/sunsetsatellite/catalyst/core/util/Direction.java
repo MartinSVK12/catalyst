@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.core.util;
 
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.util.phys.Vec3d;
 import net.minecraft.core.world.WorldSource;
@@ -27,6 +28,16 @@ public enum Direction {
         Vec3i pos = new Vec3i(tile.x + vec.x, tile.y + vec.y, tile.z + vec.z);
         return world.getBlockTileEntity(pos.x,pos.y,pos.z);
     }
+
+	public Block getBlock(WorldSource world, TileEntity tile){
+		Vec3i pos = new Vec3i(tile.x + vec.x, tile.y + vec.y, tile.z + vec.z);
+		return world.getBlock(pos.x,pos.y,pos.z);
+	}
+
+	public Block getBlock(WorldSource world, Vec3i baseVec){
+		Vec3i pos = new Vec3i(baseVec.x + vec.x, baseVec.y + vec.y, baseVec.z + vec.z);
+		return world.getBlock(pos.x,pos.y,pos.z);
+	}
 
     public TileEntity getTileEntity(WorldSource world, Vec3i baseVec){
         Vec3i pos = new Vec3i(baseVec.x + vec.x, baseVec.y + vec.y, baseVec.z + vec.z);
