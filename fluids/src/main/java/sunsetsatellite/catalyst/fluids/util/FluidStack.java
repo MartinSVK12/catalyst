@@ -18,7 +18,15 @@ public class FluidStack {
         readFromNBT(nbt);
     }
 
-    public BlockFluid getLiquid(){
+	public FluidStack(BlockFluid block) {
+		this(block, 1000);
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public BlockFluid getLiquid(){
         return liquid;
     }
 
@@ -73,5 +81,13 @@ public class FluidStack {
             return fluidStack != null && fluidStack1 != null && fluidStack.isStackEqual(fluidStack1);
         }
     }
+
+	public static boolean areFluidsEqual(FluidStack fluidStack, FluidStack fluidStack1) {
+		if (fluidStack == null && fluidStack1 == null) {
+			return true;
+		} else {
+			return fluidStack != null && fluidStack1 != null && fluidStack.isFluidEqual(fluidStack1);
+		}
+	}
 
 }

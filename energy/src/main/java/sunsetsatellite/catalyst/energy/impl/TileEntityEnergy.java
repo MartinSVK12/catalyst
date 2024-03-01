@@ -18,7 +18,7 @@ public class TileEntityEnergy extends TileEntity implements IEnergy {
     public HashMap<Direction, Connection> connections = new HashMap<>();
 
     public TileEntityEnergy(){
-        this.lastTransferMemory = new TickTimer(this,"clearLastTransfers",10,true);
+        this.lastTransferMemory = new TickTimer(this,this::clearLastTransfers,10,true);
         for (Direction dir : Direction.values()) {
             connections.put(dir, Connection.NONE);
         }
