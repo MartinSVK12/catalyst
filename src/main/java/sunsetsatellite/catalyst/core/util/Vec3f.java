@@ -149,6 +149,13 @@ public class Vec3f {
         return pos;
     }
 
+	public Vec3f lerp(Vec3f to, double amount){
+		double lerpX = x + (to.x - x) * amount;
+		double lerpY = y + (to.y - x) * amount;
+		double lerpZ = z + (to.z - x) * amount;
+		return new Vec3f(lerpX, lerpY, lerpZ);
+	}
+
 
     @Override
     public String toString() {

@@ -2,26 +2,29 @@ package sunsetsatellite.catalyst.core.util;
 
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.phys.Vec3d;
 import net.minecraft.core.world.WorldSource;
 
 public enum Direction {
-    X_POS (new Vec3i(1,0,0),5,"EAST"),
-    X_NEG (new Vec3i(-1,0,0),4,"WEST"),
-    Y_POS (new Vec3i(0,1,0),1,"UP"),
-    Y_NEG (new Vec3i(0,-1,0),0,"DOWN"),
-    Z_POS (new Vec3i(0,0,1),3,"SOUTH"),
-    Z_NEG (new Vec3i(0,0,-1),2,"NORTH");
+    X_POS (new Vec3i(1,0,0),5,"EAST", Axis.X),
+    X_NEG (new Vec3i(-1,0,0),4,"WEST", Axis.X),
+    Y_POS (new Vec3i(0,1,0),1,"UP", Axis.Y),
+    Y_NEG (new Vec3i(0,-1,0),0,"DOWN", Axis.Y),
+    Z_POS (new Vec3i(0,0,1),3,"SOUTH", Axis.Z),
+    Z_NEG (new Vec3i(0,0,-1),2,"NORTH", Axis.Z);
 
     private final Vec3i vec;
     private Direction opposite;
     private final int side;
     private final String name;
+	private final Axis axis;
 
-    Direction(Vec3i vec3I,int side,String name) {
+    Direction(Vec3i vec3I, int side, String name, Axis axis) {
         this.vec = vec3I;
         this.side = side;
         this.name = name;
+        this.axis = axis;
     }
 
     public TileEntity getTileEntity(WorldSource world, TileEntity tile){
@@ -56,7 +59,11 @@ public enum Direction {
         return vec.copy();
     }
 
-    public static Direction getDirectionFromSide(int side){
+	public Axis getAxis() {
+		return axis;
+	}
+
+	public static Direction getDirectionFromSide(int side){
         for (Direction dir : values()) {
             if(dir.side == side){
                 return dir;
