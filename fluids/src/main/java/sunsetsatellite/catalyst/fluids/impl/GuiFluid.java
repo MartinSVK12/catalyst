@@ -70,7 +70,19 @@ public class GuiFluid extends GuiContainer {
             tooltip.render(name+"\n"+TextFormatting.LIGHT_GRAY+amount+percent,i9,i10,8,-8);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-        }
+        } else if(slot6 != null) {
+			i9 = i1 - i4;
+			i10 = i2 - i5;
+			String name = "Empty";
+			String amount = 0+"/"+fluidContainer.tile.getFluidCapacityForSlot(slot6.slotIndex)+" mB";
+			String percent = " ("+Math.round((0.0f/(float)fluidContainer.tile.getFluidCapacityForSlot(slot6.slotIndex))*100)+"%)";
+			GuiTooltip tooltip = new GuiTooltip(mc);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			tooltip.render(name+"\n"+TextFormatting.LIGHT_GRAY+amount+percent,i9,i10,8,-8);
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+		}
         Lighting.enableInventoryLight();
         GL11.glPopMatrix();
         GL11.glEnable(GL11.GL_LIGHTING);
