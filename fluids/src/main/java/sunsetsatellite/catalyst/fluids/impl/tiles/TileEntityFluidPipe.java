@@ -22,7 +22,7 @@ public class TileEntityFluidPipe extends TileEntityFluidContainer{
         fluidCapacity[0] = 2000;
         transferSpeed = 20;
         for (Direction dir : Direction.values()) {
-            connections.put(dir, Connection.BOTH);
+            fluidConnections.put(dir, Connection.BOTH);
             activeFluidSlots.put(dir,0);
         }
         acceptedFluids.get(0).addAll(CatalystFluids.FLUIDS.getAllFluids());

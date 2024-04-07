@@ -14,8 +14,8 @@ public class TileEntityFluidTank extends TileEntityFluidItemContainer {
     public TileEntityFluidTank(){
         fluidCapacity[0] = 8000;
         transferSpeed = 50;
-        connections.replace(Direction.Y_POS, Connection.INPUT);
-        connections.replace(Direction.Y_NEG, Connection.OUTPUT);
+        fluidConnections.replace(Direction.Y_POS, Connection.INPUT);
+        fluidConnections.replace(Direction.Y_NEG, Connection.OUTPUT);
         acceptedFluids.get(0).addAll(CatalystFluids.FLUIDS.getAllFluids());
     }
 
@@ -31,7 +31,7 @@ public class TileEntityFluidTank extends TileEntityFluidItemContainer {
     }
 
     public void extractFluids(){
-        for (Map.Entry<Direction, Connection> e : connections.entrySet()) {
+        for (Map.Entry<Direction, Connection> e : fluidConnections.entrySet()) {
             Direction dir = e.getKey();
             Connection connection = e.getValue();
             TileEntity tile = dir.getTileEntity(worldObj,this);

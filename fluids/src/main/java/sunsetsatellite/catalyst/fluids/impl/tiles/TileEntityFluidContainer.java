@@ -17,7 +17,6 @@ import sunsetsatellite.catalyst.fluids.api.IMassFluidInventory;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class TileEntityFluidContainer extends TileEntity
     implements IFluidInventory, IFluidTransfer {
@@ -31,12 +30,12 @@ public class TileEntityFluidContainer extends TileEntity
 
     public int transferSpeed = 20;
 
-    public HashMap<Direction, Connection> connections = new HashMap<>();
+    public HashMap<Direction, Connection> fluidConnections = new HashMap<>();
     public HashMap<Direction, Integer> activeFluidSlots = new HashMap<>();
 
     public TileEntityFluidContainer(){
         for (Direction dir : Direction.values()) {
-            connections.put(dir, Connection.NONE);
+            fluidConnections.put(dir, Connection.NONE);
             activeFluidSlots.put(dir,0);
         }
         for (FluidStack ignored : fluidContents) {
@@ -45,7 +44,7 @@ public class TileEntityFluidContainer extends TileEntity
     }
 
     public void take(@NotNull FluidStack fluidStack, Direction dir){
-        if(connections.get(dir) == Connection.INPUT || connections.get(dir) == Connection.BOTH){
+        if(fluidConnections.get(dir) == Connection.INPUT || fluidConnections.get(dir) == Connection.BOTH){
             TileEntity tile = dir.getTileEntity(worldObj,this);
             if(tile instanceof IFluidInventory && tile instanceof IFluidTransfer){
                 IFluidInventory fluidInv = ((IFluidInventory) tile);
@@ -71,7 +70,7 @@ public class TileEntityFluidContainer extends TileEntity
     public void give(Direction dir){
         int slot = activeFluidSlots.get(dir);
         FluidStack fluidStack = fluidContents[slot];
-        if(connections.get(dir) == Connection.OUTPUT || connections.get(dir) == Connection.BOTH){
+        if(fluidConnections.get(dir) == Connection.OUTPUT || fluidConnections.get(dir) == Connection.BOTH){
             TileEntity tile = dir.getTileEntity(worldObj,this);
             if(tile instanceof IFluidInventory && tile instanceof IFluidTransfer) {
                 IFluidInventory fluidInv = ((IFluidInventory) tile);
@@ -135,7 +134,7 @@ public class TileEntityFluidContainer extends TileEntity
 
     @Override
     public Connection getConnection(Direction dir) {
-        return connections.get(dir);
+        return fluidConnections.get(dir);
     }
 
     public String getInvName() {
@@ -158,7 +157,7 @@ public class TileEntityFluidContainer extends TileEntity
 
         CompoundTag connectionsTag = CompoundTag1.getCompound("fluidConnections");
         for (Object con : connectionsTag.getValues()) {
-            connections.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],Connection.values()[((IntTag)con).getValue()]);
+            fluidConnections.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],Connection.values()[((IntTag)con).getValue()]);
         }
 
         CompoundTag activeFluidSlotsTag = CompoundTag1.getCompound("fluidActiveSlots");
@@ -199,7 +198,7 @@ public class TileEntityFluidContainer extends TileEntity
             Direction dir = entry.getKey();
             activeFluidSlotsTag.putInt(String.valueOf(dir.ordinal()),entry.getValue());
         }
-        for (Map.Entry<Direction, Connection> entry : connections.entrySet()) {
+        for (Map.Entry<Direction, Connection> entry : fluidConnections.entrySet()) {
             Direction dir = entry.getKey();
             Connection con = entry.getValue();
             connectionsTag.putInt(String.valueOf(dir.ordinal()),con.ordinal());
@@ -343,14 +342,14 @@ public class TileEntityFluidContainer extends TileEntity
 
     public void moveFluids(Direction dir, TileEntityFluidPipe tile) {
         Integer activeSlot = activeFluidSlots.get(dir);
-        if(connections.get(dir) == Connection.BOTH || connections.get(dir) == Connection.OUTPUT){
+        if(fluidConnections.get(dir) == Connection.BOTH || fluidConnections.get(dir) == Connection.OUTPUT){
             if(getFluidInSlot(activeSlot) != null){
                 give(dir);
             }
             /*if(getFluidInSlot(activeSlot) != null && (tile.getFluidInSlot(tile.getActiveFluidSlot(dir.getOpposite())) == null || (tile.getFluidInSlot(tile.getActiveFluidSlot(dir.getOpposite())) != null && tile.acceptedFluids.get(activeSlot).contains(getFluidInSlot(activeSlot).getLiquid())))){
                 give(dir);
             }*/
-        } else if(connections.get(dir) == Connection.BOTH || connections.get(dir) == Connection.INPUT){
+        } else if(fluidConnections.get(dir) == Connection.BOTH || fluidConnections.get(dir) == Connection.INPUT){
             if(tile.getFluidInSlot(0) != null){
                 take(tile.getFluidInSlot(0),dir);
             }
