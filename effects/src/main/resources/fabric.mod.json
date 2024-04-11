@@ -11,7 +11,7 @@
   ],
   "contact": {
     "homepage": "",
-    "sources": ""
+    "sources": "https://github.com/MartinSVK12/catalyst"
   },
 
   "license": "MIT",
@@ -33,8 +33,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.13.3",
-		"catalyst-core": ">=1.0.0"
+		"fabricloader": ">=0.15.5",
+		"minecraft": "7.1",
+		"catalyst-core": ">=1.1.7"
   },
   "suggests": {
   },

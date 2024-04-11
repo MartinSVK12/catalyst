@@ -108,12 +108,13 @@ dependencies {
 	modImplementation "fabric-loader:fabric-loader:${project.loader_version}"
 
 	modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
-	modImplementation "ModMenu:ModMenu:2.0.4"
+	modImplementation "ModMenu:ModMenu:${project.mod_menu_version}"
 
 	if(findProject(":catalyst") == null){
 		runtimeOnly(project(path: ":energy", "configuration": "namedElements"))
 		runtimeOnly(project(path: ":fluids", "configuration": "namedElements"))
 		runtimeOnly(project(path: ":multiblocks", "configuration": "namedElements"))
+		runtimeOnly(project(path: ":effects", "configuration": "namedElements"))
 	}
 }
 
