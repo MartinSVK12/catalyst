@@ -13,6 +13,7 @@ import sunsetsatellite.catalyst.core.util.RenderBlockSimple;
 import sunsetsatellite.catalyst.core.util.Vec3i;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
     @Override
@@ -30,30 +31,43 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
                 if(!block.exists(world)){
                     boolean foundSub = substitutions.stream().anyMatch((BI)-> BI.pos.equals(block.pos) && BI.exists(world));
                     if(!foundSub){
-
-                        GL11.glPushMatrix();
-                        GL11.glDisable(GL11.GL_LIGHTING);
-//                        GL11.glColor4f(1f,0f,0f,1.0f);
-						GL11.glTranslatef((float)d+(block.pos.x-i), (float)e+(block.pos.y-j), (float)f+(block.pos.z-k));
-						if(world.getBlockId(block.pos.x,block.pos.y,block.pos.z) != 0){
-							GL11.glColor4f(1f,0f,0f,1f);
-							GL11.glScalef(1.1f,1.1f,1.1f);
-							GL11.glTranslatef(-0.05f,0,-0.05f);
+						if(Objects.equals(world.getLevelData().getWorldName(), "modelviewer")){
+							GL11.glPushMatrix();
+							GL11.glTranslatef((float)d+(block.pos.x-i), (float)e+(block.pos.y-j), (float)f+(block.pos.z-k));
+							drawBlock(this.getFontRenderer(),
+								this.renderDispatcher.renderEngine,
+								block.block.id,
+								block.meta == -1 ? 0 : block.meta,
+								i,
+								j,
+								k,
+								tileEntity);
+							GL11.glPopMatrix();
 						} else {
-							GL11.glColor4f(1f,1f,1f,0.5f);
-							GL11.glScalef(0.75f,0.75f,0.75f);
-							GL11.glTranslatef(0.15f,0.15f,0.15f);
+							GL11.glPushMatrix();
+							GL11.glDisable(GL11.GL_LIGHTING);
+//                        GL11.glColor4f(1f,0f,0f,1.0f);
+							GL11.glTranslatef((float)d+(block.pos.x-i), (float)e+(block.pos.y-j), (float)f+(block.pos.z-k));
+							if(world.getBlockId(block.pos.x,block.pos.y,block.pos.z) != 0){
+								GL11.glColor4f(1f,0f,0f,1f);
+								GL11.glScalef(1.1f,1.1f,1.1f);
+								GL11.glTranslatef(-0.05f,0,-0.05f);
+							} else {
+								GL11.glColor4f(1f,1f,1f,0.5f);
+								GL11.glScalef(0.75f,0.75f,0.75f);
+								GL11.glTranslatef(0.15f,0.15f,0.15f);
+							}
+							drawBlock(this.getFontRenderer(),
+								this.renderDispatcher.renderEngine,
+								block.block.id,
+								block.meta == -1 ? 0 : block.meta,
+								i,
+								j,
+								k,
+								tileEntity);
+							GL11.glEnable(GL11.GL_LIGHTING);
+							GL11.glPopMatrix();
 						}
-                        drawBlock(this.getFontRenderer(),
-                                this.renderDispatcher.renderEngine,
-                                block.block.id,
-                                block.meta == -1 ? 0 : block.meta,
-                                i,
-                                j,
-                                k,
-                                tileEntity);
-                        GL11.glEnable(GL11.GL_LIGHTING);
-                        GL11.glPopMatrix();
                     }
                 }
             }

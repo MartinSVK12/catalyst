@@ -25,15 +25,14 @@ public class GuiTooltipMixin extends Gui {
             locals = LocalCapture.CAPTURE_FAILHARD
     )
     public void injectCustomTooltip(ItemStack itemStack, boolean showDescription, Slot slot, CallbackInfoReturnable<String> cir, I18n trans, StringBuilder text, boolean discovered, boolean ctrlPressed, boolean shiftPressed, boolean debug) {
-        ItemStack stack = slot.getStack();
-        if(stack != null && stack.getItem() instanceof ItemBlock){
-            Block block = Block.blocksList[stack.getItem().id];
+		if(itemStack != null && itemStack.getItem() instanceof ItemBlock){
+            Block block = Block.blocksList[itemStack.getItem().id];
             if(block instanceof ICustomDescription){
-                text.append(((ICustomDescription) block).getDescription(stack)).append("\n");
+                text.append(((ICustomDescription) block).getDescription(itemStack)).append("\n");
             }
         }
-        if(stack != null && stack.getItem() instanceof ICustomDescription){
-            text.append(((ICustomDescription) stack.getItem()).getDescription(stack)).append("\n");
+        if(itemStack != null && itemStack.getItem() instanceof ICustomDescription){
+            text.append(((ICustomDescription) itemStack.getItem()).getDescription(itemStack)).append("\n");
         }
     }
 }
