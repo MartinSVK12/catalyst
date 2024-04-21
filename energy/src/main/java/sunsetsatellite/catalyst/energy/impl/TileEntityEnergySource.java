@@ -5,6 +5,7 @@ import com.mojang.nbt.CompoundTag;
 import net.minecraft.core.item.ItemStack;
 import sunsetsatellite.catalyst.core.util.Connection;
 import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.energy.api.IEnergyItem;
 import sunsetsatellite.catalyst.energy.api.IEnergySource;
 
 public class TileEntityEnergySource extends TileEntityEnergy implements IEnergySource {
@@ -24,13 +25,13 @@ public class TileEntityEnergySource extends TileEntityEnergy implements IEnergyS
 
     @Override
     public int provide(ItemStack stack, int amount, boolean test){
-        if(stack.getItem() instanceof ItemEnergyContainer){
+        if(stack.getItem() instanceof IEnergyItem){
             int provided = Math.min(this.energy, Math.min(this.maxProvide, amount));
-            int received = ((ItemEnergyContainer) stack.getItem()).receive(stack,amount,true);
+            int received = ((IEnergyItem) stack.getItem()).receive(stack,amount,true);
             int actual = Math.min(provided,received);
             if(!test){
                 energy -= actual;
-                ((ItemEnergyContainer) stack.getItem()).receive(stack,actual,false);
+                ((IEnergyItem) stack.getItem()).receive(stack,actual,false);
             }
             return actual;
         }

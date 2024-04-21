@@ -8,6 +8,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
 import sunsetsatellite.catalyst.core.util.Connection;
 import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.energy.api.IEnergyItem;
 
 public class TileEntityEnergyContainer extends TileEntityEnergyConductor
     implements IInventory {
@@ -25,15 +26,13 @@ public class TileEntityEnergyContainer extends TileEntityEnergyConductor
     @Override
     public void tick() {
         super.tick();
-        if(getStackInSlot(1) != null && getStackInSlot(1).getItem() instanceof ItemEnergyContainer){
+        if(getStackInSlot(1) != null && getStackInSlot(1).getItem() instanceof IEnergyItem){
             ItemStack stack = getStackInSlot(1);
-            ItemEnergyContainer item = (ItemEnergyContainer) getStackInSlot(1).getItem();
-            provide(stack,getMaxProvide(),false);
+			provide(stack,getMaxProvide(),false);
         }
-        if(getStackInSlot(0) != null && getStackInSlot(0).getItem() instanceof ItemEnergyContainer) {
+        if(getStackInSlot(0) != null && getStackInSlot(0).getItem() instanceof IEnergyItem) {
             ItemStack stack = getStackInSlot(0);
-            ItemEnergyContainer item = (ItemEnergyContainer) getStackInSlot(0).getItem();
-            receive(stack,getMaxReceive(),false);
+			receive(stack,getMaxReceive(),false);
         }
     }
 
