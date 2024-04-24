@@ -7,8 +7,12 @@ import net.minecraft.core.data.registry.Registries;
 import net.minecraft.core.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sunsetsatellite.catalyst.fluids.mp.packets.PacketFluidWindowClick;
+import sunsetsatellite.catalyst.fluids.mp.packets.PacketSetFluidSlot;
+import sunsetsatellite.catalyst.fluids.mp.packets.PacketUpdateClientFluidRender;
 import sunsetsatellite.catalyst.fluids.registry.FluidRegistry;
 import sunsetsatellite.catalyst.fluids.registry.FluidRegistryEntry;
+import turniplabs.halplibe.helper.NetworkHelper;
 
 import java.util.Collections;
 
@@ -18,6 +22,13 @@ public class CatalystFluids implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static final FluidRegistry FLUIDS = new FluidRegistry();
+
+	static {
+		NetworkHelper.register(PacketSetFluidSlot.class, true, true);
+		NetworkHelper.register(PacketFluidWindowClick.class, true, true);
+		NetworkHelper.register(PacketUpdateClientFluidRender.class, false, true);
+
+	}
 
     @Override
     public void onInitialize() {
@@ -33,6 +44,8 @@ public class CatalystFluids implements ModInitializer {
 		LOGGER.info("Fluid registry registered.");
 		LOGGER.info(FLUIDS.size()+" fluids registered.");
 	}
+
+
 
 	public static double map(double valueCoord1,
 							 double startCoord1, double endCoord1,
