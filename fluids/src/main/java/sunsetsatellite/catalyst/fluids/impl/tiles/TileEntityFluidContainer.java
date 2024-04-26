@@ -7,6 +7,8 @@ import com.mojang.nbt.ListTag;
 import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.net.packet.Packet;
+import net.minecraft.core.net.packet.Packet140TileEntityData;
 import net.minecraft.server.entity.player.EntityPlayerMP;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.core.util.Connection;
@@ -328,6 +330,11 @@ public class TileEntityFluidContainer extends TileEntity
             this.worldObj.updateTileEntityChunkAndSendToPlayer(this.x, this.y, this.z, this);
         }
     }
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return new Packet140TileEntityData(this);
+	}
 
     @Override
     public int getTransferSpeed() {

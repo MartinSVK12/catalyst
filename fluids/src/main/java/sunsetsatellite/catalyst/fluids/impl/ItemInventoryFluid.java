@@ -8,6 +8,7 @@ import net.minecraft.core.player.inventory.IInventory;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
+import sunsetsatellite.catalyst.fluids.util.NBTHelper;
 
 import java.util.ArrayList;
 
@@ -75,7 +76,7 @@ public class ItemInventoryFluid implements IInventory, IFluidInventory {
     }
 
     public void onInventoryChanged() {
-
+		NBTHelper.saveInvToNBT(item,this);
     }
 
     public boolean canInteractWith(EntityPlayer entityplayer) {
@@ -134,7 +135,7 @@ public class ItemInventoryFluid implements IInventory, IFluidInventory {
 
     @Override
     public void onFluidInventoryChanged() {
-
+		NBTHelper.saveInvToNBT(item,this);
     }
 
     @Override

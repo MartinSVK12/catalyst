@@ -68,7 +68,7 @@ public class TileEntityFluidItemContainer extends TileEntityFluidContainer
         this.onInventoryChanged();
     }
 
-    public String getInvName() {
+	public String getInvName() {
         return "Generic Fluid & Item Container";
     }
 
