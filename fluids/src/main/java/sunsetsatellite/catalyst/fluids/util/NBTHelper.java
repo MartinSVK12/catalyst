@@ -8,7 +8,10 @@ import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 
 public class NBTHelper {
 
+	private static boolean preventSaving = false;
+
     public static void saveInvToNBT(ItemStack source_item, IInventory inv){
+		if(preventSaving) return;
         CompoundTag itemData = source_item.getData().getCompound("inventory");
         for(int i = 0; i < inv.getSizeInventory();i++){
             ItemStack item = inv.getStackInSlot(i);
@@ -39,6 +42,7 @@ public class NBTHelper {
     }
 
     public static void loadInvFromNBT(ItemStack source_item, IInventory inv, int amount, int fluidAmount){
+		preventSaving = true;
         CompoundTag itemNBT = source_item.getData().getCompound("inventory");
         CompoundTag fluidNBT = source_item.getData().getCompound("fluidInventory");
         for(int i = 0; i < amount;i++){
@@ -54,5 +58,6 @@ public class NBTHelper {
                 fluidInv.setFluidInSlot(i,fluid);
             }
         }
+		preventSaving = false;
     }
 }
