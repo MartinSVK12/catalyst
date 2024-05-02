@@ -23,7 +23,7 @@ Available modules:
   - API for custom attributes and stackable effects.
   
 **Latest versions:**
-- **All: 1.3.11**
+- **All: 1.3.12**
 - **Core: 1.1.9**
 - **Fluids: 1.0.7**
 - **Energy: 1.0.9**
