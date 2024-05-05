@@ -15,6 +15,7 @@ import net.minecraft.core.util.helper.Color;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import sunsetsatellite.catalyst.core.util.NumberUtil;
 import sunsetsatellite.catalyst.fluids.interfaces.mixins.IPlayerController;
 import sunsetsatellite.catalyst.fluids.render.RenderFluid;
 import sunsetsatellite.catalyst.fluids.util.SlotFluid;
@@ -129,7 +130,7 @@ public class GuiFluid extends GuiContainer {
                 c.setRGBA(c.getRed(),c.getGreen(),c.getBlue(),0x40);
                 RenderFluid.drawFluidIntoGui(this.fontRenderer, this.mc.renderEngine, itemStack4.itemID,itemStack4.getMetadata(),itemStack4.getIconIndex(), i2, i3, 16, 16,c.value);
             }
-            itemRender.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.renderEngine, itemStack4, i2, i3,1.0F);
+            itemRender.renderItemOverlayIntoGUI(this.fontRenderer, this.mc.renderEngine, itemStack4, i2, i3, NumberUtil.format(slot1.getFluidStack().amount), 1.0F);
         }
     }
 

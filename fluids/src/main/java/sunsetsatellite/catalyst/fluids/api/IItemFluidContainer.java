@@ -16,10 +16,13 @@ public interface IItemFluidContainer {
     ItemStack fill(FluidStack fluidStack, ItemStack stack);
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, TileEntityFluidContainer tile);
 
+	ItemStack fill(FluidStack fluidStack, ItemStack stack, IFluidInventory tile);
+
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, TileEntityFluidContainer tile, int maxAmount);
 
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, ItemInventoryFluid inv);
 
 	void drain(ItemStack stack, SlotFluid slot, TileEntityFluidContainer tile);
+	void drain(ItemStack stack, SlotFluid slot, IFluidInventory tile);
 	void drain(ItemStack stack, SlotFluid slot, ItemInventoryFluid inv);
 }
