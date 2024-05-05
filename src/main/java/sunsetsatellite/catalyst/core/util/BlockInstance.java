@@ -52,20 +52,16 @@ public class BlockInstance {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	@Override
+	public final boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof BlockInstance)) return false;
 
-        BlockInstance that = (BlockInstance) o;
+		BlockInstance that = (BlockInstance) o;
+		return meta == that.meta && Objects.equals(block, that.block) && Objects.equals(pos, that.pos) && Objects.equals(tile, that.tile);
+	}
 
-        if (meta != that.meta) return false;
-        if (!block.equals(that.block)) return false;
-        if (!pos.equals(that.pos)) return false;
-        return Objects.equals(tile, that.tile);
-    }
-
-    @Override
+	@Override
     public int hashCode() {
         int result = block.hashCode();
         result = 31 * result + pos.hashCode();
