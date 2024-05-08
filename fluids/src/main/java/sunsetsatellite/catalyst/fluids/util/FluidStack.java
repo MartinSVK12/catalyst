@@ -9,9 +9,9 @@ public class FluidStack {
     public int amount;
     public BlockFluid liquid;
 
-    public FluidStack(BlockFluid item, int size){
+    public FluidStack(BlockFluid block, int size){
         amount = size;
-        liquid = item;
+        liquid = block;
     }
 
     public FluidStack(CompoundTag nbt){

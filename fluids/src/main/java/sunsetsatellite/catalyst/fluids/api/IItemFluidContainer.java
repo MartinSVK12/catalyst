@@ -13,6 +13,7 @@ public interface IItemFluidContainer {
     int getRemainingCapacity(ItemStack stack);
     boolean canFill(ItemStack stack);
     boolean canDrain(ItemStack stack);
+	FluidStack getCurrentFluid(ItemStack stack);
     ItemStack fill(FluidStack fluidStack, ItemStack stack);
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, TileEntityFluidContainer tile);
 

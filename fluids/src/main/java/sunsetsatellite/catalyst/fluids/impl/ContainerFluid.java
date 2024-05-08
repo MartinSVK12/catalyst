@@ -185,7 +185,8 @@ public class ContainerFluid extends Container {
             }
             slot.onSlotChanged();
             updateInventory();
+			return fluidSlots.get(slotID).getFluidStack();
         }
-        return fluidSlots.get(slotID).getFluidStack();
+        return null;
     }
 }
