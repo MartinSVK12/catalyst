@@ -63,6 +63,7 @@ public class FluidStack {
     }
 
     public boolean isFluidEqual(FluidStack stack){
+		if(stack == null) return false;
         return stack.liquid == liquid;
     }
 
