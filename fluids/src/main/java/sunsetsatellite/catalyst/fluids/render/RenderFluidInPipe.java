@@ -3,7 +3,10 @@ package sunsetsatellite.catalyst.fluids.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.FontRenderer;
+import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.RenderEngine;
+import net.minecraft.client.render.block.model.BlockModelDispatcher;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
@@ -17,7 +20,7 @@ import sunsetsatellite.catalyst.fluids.impl.tiles.TileEntityFluidPipe;
 
 public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
     @Override
-    public void doRender(TileEntity tileEntity1, double d2, double d4, double d6, float f8) {
+    public void doRender(Tessellator tessellator, TileEntity tileEntity1, double d2, double d4, double d6, float f8) {
 
         int i = tileEntity1.x;
         int j = tileEntity1.y;
@@ -70,7 +73,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
         GL11.glDisable(GL11.GL_LIGHTING);
 
         if(fluidId != -1)
-        drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine, fluidId, 0,0, 0, 0,tileEntity1);
+        drawBlock(tessellator, this.renderDispatcher.renderEngine, fluidId, tileEntity1);
         GL11.glEnable(GL11.GL_LIGHTING);
 
         GL11.glPopMatrix();
@@ -83,7 +86,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
             GL11.glScalef(0.5f, mapped,0.5f);
             GL11.glDisable(GL11.GL_LIGHTING);
             if(fluidId != -1)
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine, fluidId, 0,0, 0, 0,tileEntity1);
+                drawBlock(tessellator, this.renderDispatcher.renderEngine, fluidId, tileEntity1);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
@@ -95,7 +98,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
             GL11.glScalef(0.5f, mapped,0.5f);
             GL11.glDisable(GL11.GL_LIGHTING);
             if(fluidId != -1)
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine, fluidId, 0,0, 0, 0,tileEntity1);
+                drawBlock(tessellator, this.renderDispatcher.renderEngine, fluidId, tileEntity1);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
@@ -107,7 +110,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
             GL11.glScalef(mapped, 0.5f,mapped);
             GL11.glDisable(GL11.GL_LIGHTING);
             if(fluidId != -1)
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine, fluidId, 0,0, 0, 0,tileEntity1);
+                drawBlock(tessellator, this.renderDispatcher.renderEngine, fluidId, tileEntity1);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
@@ -119,7 +122,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
             GL11.glScalef(mapped, 0.5f,mapped);
             GL11.glDisable(GL11.GL_LIGHTING);
             if(fluidId != -1)
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine, fluidId, 0,0, 0, 0, tileEntity1);
+                drawBlock(tessellator, this.renderDispatcher.renderEngine, fluidId,  tileEntity1);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
@@ -131,7 +134,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
             GL11.glScalef(0.5f, mapped,0.5f);
             GL11.glDisable(GL11.GL_LIGHTING);
             if(fluidId != -1)
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine, fluidId, 0,0, 0, 0, tileEntity1);
+                drawBlock(tessellator, this.renderDispatcher.renderEngine, fluidId, tileEntity1);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
@@ -143,21 +146,21 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
             GL11.glScalef(0.5f, mapped,0.5f);
             GL11.glDisable(GL11.GL_LIGHTING);
             if(fluidId != -1)
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine, fluidId, 0,0, 0, 0, tileEntity1);
+                drawBlock(tessellator, this.renderDispatcher.renderEngine, fluidId, tileEntity1);
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
     }
 
 
-    public void drawBlock(FontRenderer fontrenderer, RenderEngine renderengine, int i, int j, int k, int l, int i1, TileEntity tile) {
+    public void drawBlock(Tessellator tessellator, RenderEngine renderengine, int i, TileEntity tile) {
         renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
-        Block f1 = Block.blocksList[i];
+        Block block = Block.blocksList[i];
         GL11.glPushMatrix();
-        this.blockRenderer.renderBlock(f1, j, renderengine.mc.theWorld, tile.x, tile.y, tile.z);
+		this.blockRenderer.renderStandardBlock(tessellator, BlockModelDispatcher.getInstance().getDispatch(block),block,tile.x,tile.y,tile.z);
         GL11.glPopMatrix();
         GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
-    private final RenderFluid blockRenderer = new RenderFluid();
+    private final RenderBlocks blockRenderer = new RenderBlocks();
 }

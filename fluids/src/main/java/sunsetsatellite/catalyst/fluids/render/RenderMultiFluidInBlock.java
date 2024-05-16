@@ -2,7 +2,10 @@ package sunsetsatellite.catalyst.fluids.render;
 
 
 import net.minecraft.client.render.FontRenderer;
+import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.RenderEngine;
+import net.minecraft.client.render.block.model.BlockModelDispatcher;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
@@ -13,7 +16,7 @@ import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
 public class RenderMultiFluidInBlock extends TileEntityRenderer<TileEntity> {
     @Override
-    public void doRender(TileEntity tileEntity, double d2, double d4, double d6, float f8) {
+    public void doRender(Tessellator tessellator, TileEntity tileEntity, double d2, double d4, double d6, float f8) {
         TileEntityMultiFluidTank tile = (TileEntityMultiFluidTank) tileEntity;
         float fluidAmount = 0;
         float fluidMaxAmount = 1;
@@ -33,7 +36,7 @@ public class RenderMultiFluidInBlock extends TileEntityRenderer<TileEntity> {
                 GL11.glTranslatef(0.01F, 0.0f, 0.01f);
                 i+=1*amount;
                 GL11.glDisable(GL11.GL_LIGHTING);
-                drawBlock(this.getFontRenderer(), this.renderDispatcher.renderEngine.mc.renderEngine, fluidId, 0,0, 0, 0, tileEntity);
+                drawBlock(tessellator, this.renderDispatcher.renderEngine.mc.renderEngine, fluidId, tileEntity);
                 GL11.glEnable(GL11.GL_LIGHTING);
 
                 GL11.glPopMatrix();
@@ -43,14 +46,14 @@ public class RenderMultiFluidInBlock extends TileEntityRenderer<TileEntity> {
     }
 
 
-    public void drawBlock(FontRenderer fontrenderer, RenderEngine renderengine, int i, int j, int k, int l, int i1, TileEntity tile) {
-        renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
-        Block f1 = Block.blocksList[i];
-        GL11.glPushMatrix();
-        this.blockRenderer.renderBlock(f1, j, renderengine.mc.theWorld, tile.x, tile.y, tile.z);
-        GL11.glPopMatrix();
-        GL11.glEnable(GL11.GL_CULL_FACE);
-    }
+	public void drawBlock(Tessellator tessellator, RenderEngine renderengine, int i, TileEntity tile) {
+		renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
+		Block block = Block.blocksList[i];
+		GL11.glPushMatrix();
+		this.blockRenderer.renderStandardBlock(tessellator, BlockModelDispatcher.getInstance().getDispatch(block),block,tile.x,tile.y,tile.z);
+		GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_CULL_FACE);
+	}
 
-    private final RenderFluid blockRenderer = new RenderFluid();
+    private final RenderBlocks blockRenderer = new RenderBlocks();
 }

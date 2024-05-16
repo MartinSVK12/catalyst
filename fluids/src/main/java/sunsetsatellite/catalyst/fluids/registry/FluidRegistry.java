@@ -1,8 +1,11 @@
 package sunsetsatellite.catalyst.fluids.registry;
 
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
 import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.data.registry.Registry;
 import net.minecraft.core.item.Item;
+import net.minecraft.core.item.block.ItemBlock;
+import sunsetsatellite.catalyst.fluids.render.ItemModelFluid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,18 @@ public class FluidRegistry extends Registry<FluidRegistryEntry> {
 			}
 		}
 		return items;
+	}
+
+	@Override
+	public void register(String key, FluidRegistryEntry item) {
+		super.register(key, item);
+		if(key.split(":").length < 1){
+			throw new IllegalArgumentException("Invalid or malformed key: " + key);
+		}
+		for (BlockFluid blockFluid : item.fluid) {
+			ItemBlock itemBlock = (ItemBlock) Item.itemsList[blockFluid.id];
+			ItemModelDispatcher.getInstance().addDispatch(new ItemModelFluid(itemBlock,key.split(":")[0]));
+		}
 	}
 
 	public List<Item> findFilledContainersWithContainer(BlockFluid fluid, Item container){

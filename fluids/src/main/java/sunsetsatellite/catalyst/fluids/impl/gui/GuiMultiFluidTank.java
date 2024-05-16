@@ -6,6 +6,10 @@ import net.minecraft.client.gui.GuiContainer;
 import net.minecraft.client.gui.GuiTooltip;
 import net.minecraft.client.render.block.color.BlockColorDispatcher;
 import net.minecraft.client.render.entity.ItemEntityRenderer;
+import net.minecraft.client.render.item.model.ItemModel;
+import net.minecraft.client.render.item.model.ItemModelDispatcher;
+import net.minecraft.client.render.item.model.ItemModelStandard;
+import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.block.entity.TileEntity;
@@ -18,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.CatalystFluids;
 import sunsetsatellite.catalyst.fluids.impl.containers.ContainerMultiFluidTank;
 import sunsetsatellite.catalyst.fluids.impl.tiles.TileEntityMassFluidItemContainer;
-import sunsetsatellite.catalyst.fluids.render.RenderFluid;
+import sunsetsatellite.catalyst.fluids.render.ItemModelFluid;
 import sunsetsatellite.catalyst.fluids.util.FluidLayer;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
@@ -29,7 +33,6 @@ public class GuiMultiFluidTank extends GuiContainer {
 
     public String name = "Multi Fluid Tank";
     public TileEntityMassFluidItemContainer tile;
-    public ItemEntityRenderer itemRender = new ItemEntityRenderer();
     public ArrayList<FluidLayer> fluidLayers = new ArrayList<>();
     /*{
         try {
@@ -68,13 +71,21 @@ public class GuiMultiFluidTank extends GuiContainer {
                     int j = (width - xSize) / 2;
                     int k = (height - ySize) / 2;
                     int fluidBarSize = (int) CatalystFluids.map(fluidStack.amount,0,tile.fluidCapacity,2,sizeY-3);
-                    RenderFluid.drawFluidIntoGui(fontRenderer, this.mc.renderEngine, fluid.id, 0, fluid.getBlockTextureFromSideAndMetadata(Side.BOTTOM,0), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize);
-                    if (fluidStack.getLiquid() == Block.fluidWaterFlowing && Minecraft.getMinecraft(Minecraft.class).gameSettings.biomeWater.value) {
+					ItemModel itemModel = ItemModelDispatcher.getInstance().getDispatch(fluid.getDefaultStack().getItem());
+
+					if(itemModel instanceof ItemModelFluid){
+						((ItemModelFluid) itemModel).renderItemIntoGui(Tessellator.instance,this.fontRenderer, this.mc.renderEngine, fluid.getDefaultStack(), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, 1.0F, 1.0F);
+					} else if(itemModel instanceof ItemModelStandard) {
+						renderColoredQuad(Tessellator.instance, x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, ((ItemModelStandard) itemModel).getColor(fluid.getDefaultStack()), 1);
+					}
+                    //RenderFluid.drawFluidIntoGui(fontRenderer, this.mc.renderEngine, fluid.id, 0, fluid.getBlockTextureFromSideAndMetadata(Side.BOTTOM,0), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize);
+					/*if (fluidStack.getLiquid() == Block.fluidWaterFlowing && Minecraft.getMinecraft(Minecraft.class).gameSettings.biomeWater.value) {
                         int waterColor = BlockColorDispatcher.getInstance().getDispatch(Block.fluidWaterFlowing).getWorldColor(this.mc.theWorld,tile.x,tile.y,tile.z);
                         Color c = new Color().setARGB(waterColor);
                         c.setRGBA(c.getRed(), c.getGreen(), c.getBlue(), 0x40);
-                        RenderFluid.drawFluidIntoGui(fontRenderer, this.mc.renderEngine, fluid.id, 0, fluid.getBlockTextureFromSideAndMetadata(Side.BOTTOM,0), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, c.value);
-                    }
+						itemModel.renderItemIntoGui(Tessellator.instance,this.fontRenderer, this.mc.renderEngine, fluid.getDefaultStack(), x, y-fluidBarSize-2,1.0F);
+                        //RenderFluid.drawFluidIntoGui(fontRenderer, this.mc.renderEngine, fluid.id, 0, fluid.getBlockTextureFromSideAndMetadata(Side.BOTTOM,0), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, c.value);
+                    }*/
                     fluidLayers.add(new FluidLayer(id,x,y+i-fluidBarSize-2,sizeX-2,fluidBarSize,fluidStack));
                     id++;
 
@@ -83,6 +94,17 @@ public class GuiMultiFluidTank extends GuiContainer {
             }
         }
     }
+
+	private void renderColoredQuad(Tessellator tessellator, int x, int y, int width, int height, int colorRGB, int alpha) {
+		float z = 0.0F;
+		tessellator.startDrawingQuads();
+		tessellator.setColorRGBA_I(colorRGB, alpha);
+		tessellator.addVertex(x, y, 0.0);
+		tessellator.addVertex(x, y + height, 0.0);
+		tessellator.addVertex(x + width, y + height, 0.0);
+		tessellator.addVertex(x + width, y, 0.0);
+		tessellator.draw();
+	}
 
     public FluidLayer getFluidLayerAtPosition(int x, int y){
         if(!fluidLayers.isEmpty()){
