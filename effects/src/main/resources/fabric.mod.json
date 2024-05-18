@@ -34,7 +34,6 @@
 
   "depends": {
 		"fabricloader": ">=0.15.5",
-		"minecraft": "^7.1",
 		"catalyst-core": ">=1.2.1"
   },
   "suggests": {
