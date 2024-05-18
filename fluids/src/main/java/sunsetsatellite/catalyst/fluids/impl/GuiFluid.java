@@ -127,7 +127,7 @@ public class GuiFluid extends GuiContainer {
 			ItemModel itemModel = ItemModelDispatcher.getInstance().getDispatch(slot1.getFluidStack().getLiquid().getDefaultStack().getItem());
 
 			itemModel.renderItemIntoGui(Tessellator.instance,this.fontRenderer, this.mc.renderEngine, itemStack4, i2, i3,1.0F);
-			ContainerItemFluid container = ((ContainerItemFluid) inventorySlots);
+			ContainerFluid container = ((ContainerFluid) inventorySlots);
 			/*if(slot1.getFluidStack().getLiquid() == Block.fluidWaterFlowing){
 				int waterColor = BlockColorDispatcher.getInstance().getDispatch(Block.fluidWaterFlowing).getWorldColor(this.mc.theWorld, (int) this.mc.thePlayer.x, (int) this.mc.thePlayer.y, (int) this.mc.thePlayer.z);
 				Color c = new Color().setARGB(waterColor);

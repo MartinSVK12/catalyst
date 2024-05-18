@@ -17,7 +17,6 @@ import sunsetsatellite.catalyst.fluids.impl.tiles.TileEntityFluidContainer;
 public class RenderFluidInBlock extends TileEntityRenderer<TileEntity> {
 
     public void drawBlock(Tessellator tessellator, RenderEngine renderengine, int i, TileEntity tile) {
-        renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
         Block block = Block.blocksList[i];
         GL11.glPushMatrix();
 		this.blockRenderer.renderStandardBlock(tessellator, BlockModelDispatcher.getInstance().getDispatch(block),block,tile.x,tile.y,tile.z);
@@ -25,10 +24,11 @@ public class RenderFluidInBlock extends TileEntityRenderer<TileEntity> {
         GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
-    private final RenderBlocks blockRenderer = new RenderBlocks();
+    private RenderBlocks blockRenderer;
 
 	@Override
 	public void doRender(Tessellator tessellator, TileEntity tileEntity, double d, double e, double f, float g) {
+		blockRenderer = new RenderBlocks(tileEntity.worldObj);
 		float fluidAmount = 0;
 		float fluidMaxAmount = 1;
 		int fluidId = 0;//FluidAPI.fluidTank.id;

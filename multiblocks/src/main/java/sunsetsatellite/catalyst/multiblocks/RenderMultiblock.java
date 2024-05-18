@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.multiblocks;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.RenderEngine;
 import net.minecraft.client.render.block.model.BlockModelDispatcher;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
     @Override
     public void doRender(Tessellator tessellator, TileEntity tileEntity, double d, double e, double f, float g) {
+		blockRenderer = new RenderBlocks(tileEntity.worldObj);
         int i = tileEntity.x;
         int j = tileEntity.y;
         int k = tileEntity.z;
@@ -85,5 +87,5 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 	}
 
-    private final RenderBlocks blockRenderer = new RenderBlocks();
+    private RenderBlocks blockRenderer;
 }

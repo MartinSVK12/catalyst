@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.fluids.render;
 
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.FontRenderer;
 import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.RenderEngine;
@@ -17,6 +18,7 @@ import sunsetsatellite.catalyst.fluids.util.FluidStack;
 public class RenderMultiFluidInBlock extends TileEntityRenderer<TileEntity> {
     @Override
     public void doRender(Tessellator tessellator, TileEntity tileEntity, double d2, double d4, double d6, float f8) {
+		blockRenderer = new RenderBlocks(tileEntity.worldObj);
         TileEntityMultiFluidTank tile = (TileEntityMultiFluidTank) tileEntity;
         float fluidAmount = 0;
         float fluidMaxAmount = 1;
@@ -55,5 +57,5 @@ public class RenderMultiFluidInBlock extends TileEntityRenderer<TileEntity> {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 	}
 
-    private final RenderBlocks blockRenderer = new RenderBlocks();
+    private RenderBlocks blockRenderer;
 }
