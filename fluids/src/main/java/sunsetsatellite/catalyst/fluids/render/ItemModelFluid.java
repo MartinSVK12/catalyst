@@ -11,6 +11,9 @@ import net.minecraft.core.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 public class ItemModelFluid extends ItemModelStandard {
+	//FIXME: fluid textures just don't display in the inventory anymore
+
+
 	public ItemModelFluid(Item item, String namespace) {
 		super(item, namespace);
 	}
