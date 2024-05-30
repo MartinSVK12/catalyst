@@ -106,17 +106,17 @@ public class TileEntityEnergyConductor extends TileEntityEnergy implements IEner
     }
 
     @Override
-    public void writeToNBT(CompoundTag CompoundTag) {
-        CompoundTag.putInt("maxReceive",maxReceive);
-        CompoundTag.putInt("maxProvide",maxProvide);
-        super.writeToNBT(CompoundTag);
+    public void writeToNBT(CompoundTag tag) {
+        tag.putInt("maxReceive",maxReceive);
+        tag.putInt("maxProvide",maxProvide);
+        super.writeToNBT(tag);
     }
 
     @Override
-    public void readFromNBT(CompoundTag CompoundTag) {
-        maxReceive = CompoundTag.getInteger("maxReceive");
-        maxProvide = CompoundTag.getInteger("maxProvide");
-        super.readFromNBT(CompoundTag);
+    public void readFromNBT(CompoundTag tag) {
+        maxReceive = tag.getInteger("maxReceive");
+        maxProvide = tag.getInteger("maxProvide");
+        super.readFromNBT(tag);
     }
 
     public void setTransfer(int amount){

@@ -2,12 +2,14 @@ package sunsetsatellite.catalyst.energy.impl;
 
 
 import com.mojang.nbt.CompoundTag;
+import com.mojang.nbt.IntTag;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import sunsetsatellite.catalyst.core.util.*;
 import sunsetsatellite.catalyst.energy.api.IEnergy;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TileEntityEnergy extends TileEntity implements IEnergy {
     public int energy = 0;
@@ -48,17 +50,28 @@ public class TileEntityEnergy extends TileEntity implements IEnergy {
     }
 
     @Override
-    public void writeToNBT(CompoundTag CompoundTag) {
-        CompoundTag.putInt("energy",energy);
-        CompoundTag.putInt("capacity",capacity);
-        super.writeToNBT(CompoundTag);
+    public void writeToNBT(CompoundTag tag) {
+        tag.putInt("energy",energy);
+        tag.putInt("capacity",capacity);
+		CompoundTag connectionsTag = new CompoundTag();
+		for (Map.Entry<Direction, Connection> entry : connections.entrySet()) {
+			Direction dir = entry.getKey();
+			Connection con = entry.getValue();
+			connectionsTag.putInt(String.valueOf(dir.ordinal()),con.ordinal());
+		}
+		tag.putCompound("connections",connectionsTag);
+        super.writeToNBT(tag);
     }
 
     @Override
-    public void readFromNBT(CompoundTag CompoundTag) {
-        energy = CompoundTag.getInteger("energy");
-        capacity = CompoundTag.getInteger("capacity");
-        super.readFromNBT(CompoundTag);
+    public void readFromNBT(CompoundTag tag) {
+        energy = tag.getInteger("energy");
+        capacity = tag.getInteger("capacity");
+		CompoundTag connectionsTag = tag.getCompound("connections");
+		for (Object con : connectionsTag.getValues()) {
+			connections.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],Connection.values()[((IntTag)con).getValue()]);
+		}
+        super.readFromNBT(tag);
     }
 
     @Override

@@ -57,14 +57,14 @@ public class TileEntityEnergySource extends TileEntityEnergy implements IEnergyS
     }
 
     @Override
-    public void writeToNBT(CompoundTag CompoundTag) {
-        CompoundTag.putInt("maxProvide",maxProvide);
-        super.writeToNBT(CompoundTag);
+    public void writeToNBT(CompoundTag tag) {
+        tag.putInt("maxProvide",maxProvide);
+        super.writeToNBT(tag);
     }
 
     @Override
-    public void readFromNBT(CompoundTag CompoundTag) {
-        maxProvide = CompoundTag.getInteger("maxProvide");
-        super.readFromNBT(CompoundTag);
+    public void readFromNBT(CompoundTag tag) {
+        maxProvide = tag.getInteger("maxProvide");
+        super.readFromNBT(tag);
     }
 }

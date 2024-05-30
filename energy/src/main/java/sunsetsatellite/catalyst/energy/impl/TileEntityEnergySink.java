@@ -45,15 +45,15 @@ public class TileEntityEnergySink extends TileEntityEnergy implements IEnergySin
     }
 
     @Override
-    public void writeToNBT(CompoundTag CompoundTag) {
-        CompoundTag.putInt("maxReceive",maxReceive);
-        super.writeToNBT(CompoundTag);
+    public void writeToNBT(CompoundTag tag) {
+        tag.putInt("maxReceive",maxReceive);
+        super.writeToNBT(tag);
     }
 
     @Override
-    public void readFromNBT(CompoundTag CompoundTag) {
-        maxReceive = CompoundTag.getInteger("maxReceive");
-        super.readFromNBT(CompoundTag);
+    public void readFromNBT(CompoundTag tag) {
+        maxReceive = tag.getInteger("maxReceive");
+        super.readFromNBT(tag);
     }
 
     @Override
