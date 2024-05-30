@@ -91,10 +91,10 @@ public class TileEntityEnergyContainer extends TileEntityEnergyConductor
         return "Energy Container";
     }
 
-    public void readFromNBT(CompoundTag CompoundTag)
+    public void readFromNBT(CompoundTag tag)
     {
-        super.readFromNBT(CompoundTag);
-        ListTag ListTag = CompoundTag.getList("Items");
+        super.readFromNBT(tag);
+        ListTag ListTag = tag.getList("Items");
         contents = new ItemStack[getSizeInventory()];
         for(int i = 0; i < ListTag.tagCount(); i++)
         {
@@ -107,9 +107,9 @@ public class TileEntityEnergyContainer extends TileEntityEnergyConductor
         }
     }
 
-    public void writeToNBT(CompoundTag CompoundTag)
+    public void writeToNBT(CompoundTag tag)
     {
-        super.writeToNBT(CompoundTag);
+        super.writeToNBT(tag);
         ListTag ListTag = new ListTag();
         for(int i = 0; i < contents.length; i++)
         {
@@ -122,7 +122,7 @@ public class TileEntityEnergyContainer extends TileEntityEnergyConductor
                 ListTag.addTag(CompoundTag1);
             }
         }
-        CompoundTag.put("Items", ListTag);
+        tag.put("Items", ListTag);
     }
 
     public int getInventoryStackLimit()
