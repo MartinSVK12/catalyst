@@ -7,7 +7,6 @@
     "EntityPlayerMPMixin",
     "EntityPlayerSPMixin",
     "ItemBucketEmptyMixin",
-    "MinecraftMixin",
     "NetClientHandlerMixin",
     "NetServerHandlerMixin",
     "PlayerControllerMixin",
