@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiInventory;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.player.inventory.Container;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,7 +17,10 @@ import sunsetsatellite.catalyst.effects.gui.GuiEffects;
 @Mixin(value = GuiInventory.class,remap = false)
 public abstract class GuiInventoryMixin extends GuiContainer {
 
+	@Unique
 	private EntityPlayer player;
+	@Unique
+	private final GuiEffects effects = new GuiEffects();
 
 	private GuiInventoryMixin(Container container) {
 		super(container);
@@ -30,7 +34,7 @@ public abstract class GuiInventoryMixin extends GuiContainer {
 	@Inject(method = "drawScreen",at = @At("TAIL"))
 	public void drawEffects(int mouseX, int mouseY, float partialTick, CallbackInfo ci){
 		if (CatalystEffects.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.INVENTORY || CatalystEffects.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.BOTH) {
-			new GuiEffects().drawEffects(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
+			effects.drawEffects(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
 		}
 	}
 }
