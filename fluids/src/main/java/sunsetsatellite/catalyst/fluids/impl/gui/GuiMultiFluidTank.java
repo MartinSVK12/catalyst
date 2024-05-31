@@ -22,7 +22,6 @@ import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.CatalystFluids;
 import sunsetsatellite.catalyst.fluids.impl.containers.ContainerMultiFluidTank;
 import sunsetsatellite.catalyst.fluids.impl.tiles.TileEntityMassFluidItemContainer;
-import sunsetsatellite.catalyst.fluids.render.ItemModelFluid;
 import sunsetsatellite.catalyst.fluids.util.FluidLayer;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
@@ -72,12 +71,7 @@ public class GuiMultiFluidTank extends GuiContainer {
                     int k = (height - ySize) / 2;
                     int fluidBarSize = (int) CatalystFluids.map(fluidStack.amount,0,tile.fluidCapacity,2,sizeY-3);
 					ItemModel itemModel = ItemModelDispatcher.getInstance().getDispatch(fluid.getDefaultStack().getItem());
-
-					if(itemModel instanceof ItemModelFluid){
-						((ItemModelFluid) itemModel).renderItemIntoGui(Tessellator.instance,this.fontRenderer, this.mc.renderEngine, fluid.getDefaultStack(), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, 1.0F, 1.0F);
-					} else if(itemModel instanceof ItemModelStandard) {
-						renderColoredQuad(Tessellator.instance, x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, ((ItemModelStandard) itemModel).getColor(fluid.getDefaultStack()), 1);
-					}
+					renderColoredQuad(Tessellator.instance, x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize, ((ItemModelStandard) itemModel).getColor(fluid.getDefaultStack()), 1);
                     //RenderFluid.drawFluidIntoGui(fontRenderer, this.mc.renderEngine, fluid.id, 0, fluid.getBlockTextureFromSideAndMetadata(Side.BOTTOM,0), x, y+i-fluidBarSize-2, sizeX-2, fluidBarSize);
 					/*if (fluidStack.getLiquid() == Block.fluidWaterFlowing && Minecraft.getMinecraft(Minecraft.class).gameSettings.biomeWater.value) {
                         int waterColor = BlockColorDispatcher.getInstance().getDispatch(Block.fluidWaterFlowing).getWorldColor(this.mc.theWorld,tile.x,tile.y,tile.z);
