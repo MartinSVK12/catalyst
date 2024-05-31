@@ -1,10 +1,12 @@
 package sunsetsatellite.catalyst.multiblocks;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.RenderEngine;
 import net.minecraft.client.render.block.model.BlockModel;
 import net.minecraft.client.render.block.model.BlockModelDispatcher;
+import net.minecraft.client.render.stitcher.TextureRegistry;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.block.Block;
@@ -36,7 +38,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
                     boolean foundSub = substitutions.stream().anyMatch((BI)-> BI.pos.equals(block.pos) && BI.exists(world));
                     if(!foundSub){
 						if(Objects.equals(world.getLevelData().getWorldName(), "modelviewer")){
-							GL11.glPushMatrix();
+							/*GL11.glPushMatrix();
 							//GL11.glTranslatef((float)d+(block.pos.x-i), (float)e+(block.pos.y-j), (float)f+(block.pos.z-k));
 							drawBlock(tessellator,
 								this.renderDispatcher.renderEngine,
@@ -46,31 +48,27 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 								j,
 								k,
 								tileEntity);
-							GL11.glPopMatrix();
+							GL11.glPopMatrix();*/
 						} else {
 							GL11.glPushMatrix();
 							GL11.glDisable(GL11.GL_LIGHTING);
 //                        GL11.glColor4f(1f,0f,0f,1.0f);
-							//GL11.glTranslatef((float)d+(block.pos.x-i), (float)e+(block.pos.y-j), (float)f+(block.pos.z-k));
+							GL11.glTranslatef((float)d+(block.pos.x-i)+0.5f, (float)e+(block.pos.y-j)+0.5f, (float)f+(block.pos.z-k)+0.5f);
+							BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(block.block);
+
 							if(world.getBlockId(block.pos.x,block.pos.y,block.pos.z) != 0){
-								GL11.glColor4f(1f,0f,0f,1f);
+								((IColorOverride)model).overrideColor(1,0,0,0.90f);
 								GL11.glScalef(1.1f,1.1f,1.1f);
-								GL11.glTranslatef(-0.05f,0,-0.05f);
 							} else {
-								GL11.glColor4f(1f,1f,1f,0.5f);
+								((IColorOverride)model).overrideColor(1,1,1,0.75f);
 								GL11.glScalef(0.75f,0.75f,0.75f);
-								GL11.glTranslatef(0.15f,0.15f,0.15f);
 							}
 							drawBlock(tessellator,
-								this.renderDispatcher.renderEngine,
-								block.block.id,
-								block.meta == -1 ? 0 : block.meta,
-								block.pos.x,
-								block.pos.y,
-								block.pos.z,
-								tileEntity);
+								model,
+								block.meta == -1 ? 0 : block.meta);
 							GL11.glEnable(GL11.GL_LIGHTING);
 							GL11.glPopMatrix();
+							((IColorOverride)model).overrideColor(1,1,1,1f);
 						}
                     }
                 }
@@ -79,14 +77,16 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 
     }
 
-	public void drawBlock(Tessellator tessellator, RenderEngine renderengine, int i, int j, int x, int y, int z, TileEntity tile) {
-		renderengine.bindTexture(renderengine.getTexture("/terrain.png"));
-		Block block = Block.blocksList[i];
+	public void drawBlock(Tessellator tessellator, BlockModel<?> model, int meta) {
+		TextureRegistry.blockAtlas.bindTexture();
 		GL11.glPushMatrix();
 		RenderBlocks renderBlocks = BlockModel.renderBlocks;
 		BlockModel.setRenderBlocks(blockRenderer);
-		BlockModelDispatcher.getInstance().getDispatch(block).render(tessellator,x,y,z);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		model.renderBlockOnInventory(tessellator,meta,1,0.75f);
 		BlockModel.setRenderBlocks(renderBlocks);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
 	}

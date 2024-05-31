@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.multiblocks;
 
+import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
@@ -48,17 +49,17 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public float getBrightness(int i, int j, int k, int l) {
-		return 1.0f;
+		return 15.0f;
 	}
 
 	@Override
 	public int getLightmapCoord(int i, int j, int k, int l) {
-		return 0;
+		return LightmapHelper.getLightmapCoord(15, 15);
 	}
 
 	@Override
 	public float getLightBrightness(int i, int j, int k) {
-		return 1.0f;
+		return 15.0f;
 	}
 
 	@Override
