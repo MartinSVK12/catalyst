@@ -52,10 +52,9 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 						} else {
 							GL11.glPushMatrix();
 							GL11.glDisable(GL11.GL_LIGHTING);
-//                        GL11.glColor4f(1f,0f,0f,1.0f);
 							GL11.glTranslatef((float)d+(block.pos.x-i)+0.5f, (float)e+(block.pos.y-j)+0.5f, (float)f+(block.pos.z-k)+0.5f);
 							BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(block.block);
-
+							((IColorOverride)model).enableFullbright();
 							if(world.getBlockId(block.pos.x,block.pos.y,block.pos.z) != 0){
 								((IColorOverride)model).overrideColor(1,0,0,0.90f);
 								GL11.glScalef(1.1f,1.1f,1.1f);
@@ -69,6 +68,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 							GL11.glEnable(GL11.GL_LIGHTING);
 							GL11.glPopMatrix();
 							((IColorOverride)model).overrideColor(1,1,1,1f);
+							((IColorOverride)model).disableFullbright();
 						}
                     }
                 }
