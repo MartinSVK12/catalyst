@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.core.util.IMpGui;
 import sunsetsatellite.catalyst.core.util.MpGuiEntry;
+import sunsetsatellite.catalyst.core.util.PacketOpenGui;
+import turniplabs.halplibe.helper.NetworkHelper;
 
 
 public class Catalyst implements ModInitializer {
@@ -20,6 +22,10 @@ public class Catalyst implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static final Registry<MpGuiEntry> GUIS = new Registry<>();
+
+	static {
+		NetworkHelper.register(PacketOpenGui.class,false,true);
+	}
 
     @Override
     public void onInitialize() {
