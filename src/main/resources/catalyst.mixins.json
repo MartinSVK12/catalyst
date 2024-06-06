@@ -4,10 +4,12 @@
   "package": "sunsetsatellite.catalyst.core.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BlockModelStandardMixin",
     "EntityPlayerMixin",
     "EntityPlayerMPMixin",
     "EntityPlayerSPMixin",
     "GuiTooltipMixin",
+    "ItemModelStandardMixin",
     "NetClientHandlerMixin"
   ],
   "client": [

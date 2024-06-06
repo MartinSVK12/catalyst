@@ -1,20 +1,17 @@
 package sunsetsatellite.catalyst.multiblocks;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.client.render.RenderBlocks;
-import net.minecraft.client.render.RenderEngine;
 import net.minecraft.client.render.block.model.BlockModel;
 import net.minecraft.client.render.block.model.BlockModelDispatcher;
 import net.minecraft.client.render.stitcher.TextureRegistry;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
-import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.world.World;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
 import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.core.util.IColorOverride;
 import sunsetsatellite.catalyst.core.util.Vec3i;
 
 import java.util.ArrayList;
