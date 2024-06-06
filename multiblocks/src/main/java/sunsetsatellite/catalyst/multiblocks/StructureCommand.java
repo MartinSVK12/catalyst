@@ -76,8 +76,10 @@ public class StructureCommand extends Command {
                                 boolean r = struct.placeStructure(player.world, Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
                                 if (r) {
                                     commandSender.sendMessage(String.format("Structure '%s' placed at %s facing %s!", args[1], new Vec3i(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4])), args[5]));
-                                }
-                                return r;
+                                } else {
+									commandSender.sendMessage(String.format("Couldn't place structure '%s' at %s facing %s! Maybe there are blocks in the way?", args[1], new Vec3i(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4])), args[5]));
+								}
+                                return true;
                             } catch (NumberFormatException e) {
                                 commandSender.sendMessage("Invalid coordinates provided!");
                                 return true;
