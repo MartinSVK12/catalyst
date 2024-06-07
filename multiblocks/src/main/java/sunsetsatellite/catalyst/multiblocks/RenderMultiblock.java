@@ -88,5 +88,5 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 	}
 
-    private RenderBlocks blockRenderer;
+    protected RenderBlocks blockRenderer;
 }
