@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class TileEntityFluidPipe extends TileEntityFluidContainer{
     public boolean isPressurized = false;
-    private TileEntityFluidPipe last = null;
+    public TileEntityFluidContainer last = null;
 
     public float size = 0.5f;
 

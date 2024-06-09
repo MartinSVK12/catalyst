@@ -213,6 +213,7 @@ public class TileEntityMassFluidContainer extends TileEntity implements IMassFlu
                         }
                     } else {
                         int otherSlot = fluidInv.getActiveFluidSlot(dir.getOpposite());
+						if(otherSlot == -1) return;
                         BlockFluid filter = getFilter(dir);
                         if(fluidInv.getAllowedFluidsForSlot(otherSlot).contains(filter) || filter == null){
                             if(!fluidContents.isEmpty() && fluidContents.get(0) != null){

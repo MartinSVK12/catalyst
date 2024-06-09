@@ -72,9 +72,9 @@ public class TileEntityFluidItemContainer extends TileEntityFluidContainer
         return "Generic Fluid & Item Container";
     }
 
-    public void readFromNBT(CompoundTag CompoundTag1) {
-        super.readFromNBT(CompoundTag1);
-        ListTag nBTTagList2 = CompoundTag1.getList("Items");
+    public void readFromNBT(CompoundTag tag) {
+        super.readFromNBT(tag);
+        ListTag nBTTagList2 = tag.getList("Items");
         this.itemContents = new ItemStack[this.getSizeInventory()];
 
         for(int i3 = 0; i3 < nBTTagList2.tagCount(); ++i3) {
@@ -85,7 +85,7 @@ public class TileEntityFluidItemContainer extends TileEntityFluidContainer
             }
         }
 
-        ListTag nbtTagList = CompoundTag1.getList("Fluids");
+        ListTag nbtTagList = tag.getList("Fluids");
         this.fluidContents = new FluidStack[this.getFluidInventorySize()];
 
         for(int i3 = 0; i3 < nbtTagList.tagCount(); ++i3) {
@@ -96,12 +96,12 @@ public class TileEntityFluidItemContainer extends TileEntityFluidContainer
             }
         }
 
-        CompoundTag connectionsTag = CompoundTag1.getCompound("itemConnections");
+        CompoundTag connectionsTag = tag.getCompound("itemConnections");
         for (Object con : connectionsTag.getValues()) {
             itemConnections.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],Connection.values()[((IntTag)con).getValue()]);
         }
 
-        CompoundTag activeItemSlotsTag = CompoundTag1.getCompound("itemActiveSlots");
+        CompoundTag activeItemSlotsTag = tag.getCompound("itemActiveSlots");
         for (Object con : activeItemSlotsTag.getValues()) {
             activeItemSlots.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],((IntTag) con).getValue());
         }
