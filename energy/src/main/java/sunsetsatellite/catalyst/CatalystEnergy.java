@@ -1,6 +1,8 @@
 package sunsetsatellite.catalyst;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.core.block.Block;
+import net.minecraft.core.data.tag.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.util.TomlConfigHandler;
@@ -11,6 +13,8 @@ public class CatalystEnergy implements ModInitializer {
     public static final String MOD_ID = "catalyst-energy";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final TomlConfigHandler config;
+
+	public static final Tag<Block> ENERGY_CONDUITS_CONNECT = Tag.of("energy_conduits_connect");
 
 	static {
 		Toml configToml = new Toml("Catalyst: Energy configuration file.");
