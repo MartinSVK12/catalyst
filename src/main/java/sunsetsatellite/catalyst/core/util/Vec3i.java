@@ -1,7 +1,9 @@
 package sunsetsatellite.catalyst.core.util;
 
 import com.mojang.nbt.CompoundTag;
+import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.util.helper.MathHelper;
+import net.minecraft.core.world.WorldSource;
 
 public class Vec3i {
     public int x;
@@ -42,6 +44,19 @@ public class Vec3i {
         double d2 = vec3f.z - this.z;
         return MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
     }
+
+	public double distanceTo(Vec3i vec3i) {
+		double d = vec3i.x - this.x;
+		double d1 = vec3i.y - this.y;
+		double d2 = vec3i.z - this.z;
+		return MathHelper.sqrt_double(d * d + d1 * d1 + d2 * d2);
+	}
+
+	public void set(int x, int y, int z){
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
 
     public Vec3i add(int value){
         this.x += value;
@@ -178,4 +193,8 @@ public class Vec3i {
         result = 31 * result + z;
         return result;
     }
+
+	public TileEntity getTileEntity(WorldSource worldSource){
+		return worldSource.getBlockTileEntity(this.x, this.y, this.z);
+	}
 }

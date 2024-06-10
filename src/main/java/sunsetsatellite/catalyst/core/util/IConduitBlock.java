@@ -1,5 +1,5 @@
 package sunsetsatellite.catalyst.core.util;
 
-public interface IConduit {
+public interface IConduitBlock {
     ConduitCapability getConduitCapability();
 }
