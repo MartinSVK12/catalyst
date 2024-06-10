@@ -10,8 +10,7 @@ import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import java.util.HashMap;
 
 public class TileEntityFluidPipe extends TileEntityFluidContainer{
-    public boolean isPressurized = false;
-    public TileEntityFluidContainer last = null;
+	public TileEntityFluidContainer last = null;
 
     public float size = 0.5f;
 

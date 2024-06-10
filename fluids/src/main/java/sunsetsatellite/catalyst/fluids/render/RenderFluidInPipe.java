@@ -102,7 +102,7 @@ public class RenderFluidInPipe extends TileEntityRenderer<TileEntity> {
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glPopMatrix();
         }
-        if(flag2 && ((TileEntityFluidPipe) tileEntity1).isPressurized || (blockAccess.getBlockTileEntity(i,j+1,k) instanceof TileEntityFluidPipe && ((TileEntityFluidPipe) blockAccess.getBlockTileEntity(i,j+1,k)).getFluidInSlot(0) != null)){
+        if(flag2 && (blockAccess.getBlockTileEntity(i,j+1,k) instanceof TileEntityFluidPipe && ((TileEntityFluidPipe) blockAccess.getBlockTileEntity(i,j+1,k)).getFluidInSlot(0) != null)){
             GL11.glPushMatrix();
             GL11.glTranslatef((float)d2, (float)d4, (float)d6);
             GL11.glRotatef(0.0f, 0.0F, 1.0F, 0.0F);

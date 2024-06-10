@@ -44,7 +44,6 @@ public class TileEntityFluidTank extends TileEntityFluidItemContainer {
     }
 
     public void pressurizePipes(TileEntityFluidPipe pipe, ArrayList<HashMap<String,Integer>> already){
-        pipe.isPressurized = true;
         for (Direction dir : Direction.values()) {
             TileEntity tile = dir.getTileEntity(worldObj,this);
             if (tile instanceof TileEntityFluidPipe) {
@@ -58,14 +57,12 @@ public class TileEntityFluidTank extends TileEntityFluidItemContainer {
                 list.put("y",tile.y);
                 list.put("z",tile.z);
                 already.add(list);
-                ((TileEntityFluidPipe) tile).isPressurized = true;
                 pressurizePipes((TileEntityFluidPipe) tile,already);
             }
         }
     }
 
     public void unpressurizePipes(TileEntityFluidPipe pipe,ArrayList<HashMap<String,Integer>> already){
-        pipe.isPressurized = false;
         for (Direction dir : Direction.values()) {
             TileEntity tile = dir.getTileEntity(worldObj,this);
             if (tile instanceof TileEntityFluidPipe) {
@@ -79,7 +76,6 @@ public class TileEntityFluidTank extends TileEntityFluidItemContainer {
                 list.put("y",tile.y);
                 list.put("z",tile.z);
                 already.add(list);
-                ((TileEntityFluidPipe) tile).isPressurized = false;
                 unpressurizePipes((TileEntityFluidPipe) tile,already);
             }
         }
