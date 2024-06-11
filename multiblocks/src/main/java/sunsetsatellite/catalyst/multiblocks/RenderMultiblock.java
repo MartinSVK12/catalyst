@@ -9,10 +9,7 @@ import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.world.World;
 import org.lwjgl.opengl.GL11;
-import sunsetsatellite.catalyst.core.util.BlockInstance;
-import sunsetsatellite.catalyst.core.util.Direction;
-import sunsetsatellite.catalyst.core.util.IColorOverride;
-import sunsetsatellite.catalyst.core.util.Vec3i;
+import sunsetsatellite.catalyst.core.util.*;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -51,8 +48,9 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 							GL11.glDisable(GL11.GL_LIGHTING);
 							GL11.glTranslatef((float)d+(block.pos.x-i)+0.5f, (float)e+(block.pos.y-j)+0.5f, (float)f+(block.pos.z-k)+0.5f);
 							BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(block.block);
-							((IColorOverride)model).enableFullbright();
+							((IFullbright)model).enableFullbright();
 							if(world.getBlockId(block.pos.x,block.pos.y,block.pos.z) != 0){
+								((IColorOverride)model).enableColorOverride();
 								((IColorOverride)model).overrideColor(1,0,0,0.90f);
 								GL11.glScalef(1.1f,1.1f,1.1f);
 							} else {
@@ -65,7 +63,8 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 							GL11.glEnable(GL11.GL_LIGHTING);
 							GL11.glPopMatrix();
 							((IColorOverride)model).overrideColor(1,1,1,1f);
-							((IColorOverride)model).disableFullbright();
+							((IColorOverride)model).disableColorOverride();
+							((IFullbright)model).disableFullbright();
 						}
                     }
                 }
