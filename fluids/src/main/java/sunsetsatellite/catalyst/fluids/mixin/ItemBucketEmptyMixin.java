@@ -22,7 +22,7 @@ import sunsetsatellite.catalyst.CatalystFluids;
 
 import java.util.List;
 
-@Debug(export = true)
+
 @Mixin(value = ItemBucketEmpty.class, remap = false)
 
 public abstract class ItemBucketEmptyMixin {

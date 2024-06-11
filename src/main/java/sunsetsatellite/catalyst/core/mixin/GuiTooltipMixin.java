@@ -21,9 +21,6 @@ import sunsetsatellite.catalyst.core.util.ICustomDescription;
 
 import java.util.Objects;
 
-@Debug(
-	export = true
-)
 @Mixin(
         value = GuiTooltip.class,
         remap = false

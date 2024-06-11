@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.core.util.Vec4f;
 import sunsetsatellite.catalyst.core.util.IColorOverride;
 
-@Debug(export = true)
+
 @Mixin(value = BlockModelStandard.class,remap = false)
 public abstract class BlockModelStandardMixin extends BlockModel<Block> implements IColorOverride {
 
