@@ -44,13 +44,15 @@ public abstract class EntityPlayerMPMixin extends EntityPlayer implements IMpGui
 		this.getNextWindowId();
 		MpGuiEntry entry = Catalyst.GUIS.getItem(inventory.getInvName());
 		this.playerNetServerHandler.sendPacket(new PacketOpenGui(this.currentWindowId, inventory.getInvName(),stack));
-		try {
-			this.craftingInventory = (Container)entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, inventory);
-		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-			throw new RuntimeException(e);
+		if(entry.containerClass != null) {
+			try {
+				this.craftingInventory = (Container) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, inventory);
+			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+				throw new RuntimeException(e);
+			}
+			this.craftingInventory.windowId = this.currentWindowId;
+			this.craftingInventory.onContainerInit(thisAs);
 		}
-		this.craftingInventory.windowId = this.currentWindowId;
-		this.craftingInventory.onContainerInit(thisAs);
 
 	}
 
@@ -59,12 +61,14 @@ public abstract class EntityPlayerMPMixin extends EntityPlayer implements IMpGui
 		this.getNextWindowId();
 		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
 		this.playerNetServerHandler.sendPacket(new PacketOpenGui(this.currentWindowId, id, tileEntity.x, tileEntity.y, tileEntity.z));
-		try {
-			this.craftingInventory = (Container)entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, tileEntity);
-		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-			throw new RuntimeException(e);
+		if(entry.containerClass != null){
+			try {
+				this.craftingInventory = (Container)entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, tileEntity);
+			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+				throw new RuntimeException(e);
+			}
+			this.craftingInventory.windowId = this.currentWindowId;
+			this.craftingInventory.onContainerInit(thisAs);
 		}
-		this.craftingInventory.windowId = this.currentWindowId;
-		this.craftingInventory.onContainerInit(thisAs);
 	}
 }
