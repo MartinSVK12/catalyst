@@ -411,9 +411,6 @@ public class TileEntityFluidContainer extends TileEntity
             if(getFluidInSlot(activeSlot) != null){
                 give(dir);
             }
-            /*if(getFluidInSlot(activeSlot) != null && (tile.getFluidInSlot(tile.getActiveFluidSlot(dir.getOpposite())) == null || (tile.getFluidInSlot(tile.getActiveFluidSlot(dir.getOpposite())) != null && tile.acceptedFluids.get(activeSlot).contains(getFluidInSlot(activeSlot).getLiquid())))){
-                give(dir);
-            }*/
         } else if(fluidConnections.get(dir) == Connection.BOTH || fluidConnections.get(dir) == Connection.INPUT){
             if(tile.getFluidInSlot(0) != null){
                 take(tile.getFluidInSlot(0),dir);

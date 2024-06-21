@@ -1,7 +1,6 @@
 package sunsetsatellite.catalyst.multiblocks;
 
 import com.mojang.nbt.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.world.World;
@@ -10,8 +9,6 @@ import sunsetsatellite.catalyst.core.util.BlockInstance;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.Vec3i;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -170,11 +167,11 @@ public class Structure {
             int meta = blockTag.getInteger("meta");
             if(meta != -1){
                 if(dir == Direction.Z_NEG){
-                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSide();
+                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
                 } else if (dir == Direction.X_NEG || dir == Direction.X_POS) {
                     Direction blockDir = Direction.getDirectionFromSide(meta);
                     blockDir = blockDir == Direction.X_NEG || blockDir == Direction.X_POS ? blockDir.rotate(1).getOpposite() : blockDir.rotate(1);
-                    meta = dir == Direction.X_NEG ? blockDir.getSide() : blockDir.getOpposite().getSide();
+                    meta = dir == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
                 }
             }
             int id = getBlockId(blockTag);
@@ -221,11 +218,11 @@ public class Structure {
             int meta = blockTag.getInteger("meta");
             if(meta != -1){
                 if(dir == Direction.Z_NEG){
-                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSide();
+                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
                 } else if (dir == Direction.X_NEG || dir == Direction.X_POS) {
                     Direction blockDir = Direction.getDirectionFromSide(meta);
                     blockDir = blockDir == Direction.X_NEG || blockDir == Direction.X_POS ? blockDir.rotate(1).getOpposite() : blockDir.rotate(1);
-                    meta = dir == Direction.X_NEG ? blockDir.getSide() : blockDir.getOpposite().getSide();
+                    meta = dir == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
                 }
             }
             int id = getBlockId(blockTag);
@@ -272,11 +269,11 @@ public class Structure {
             int meta = tileEntity.getInteger("meta");
             if(meta != -1){
                 if(dir == Direction.Z_NEG){
-                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSide();
+                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
                 } else if (dir == Direction.X_NEG || dir == Direction.X_POS) {
                     Direction blockDir = Direction.getDirectionFromSide(meta);
                     blockDir = blockDir == Direction.X_NEG || blockDir == Direction.X_POS ? blockDir.rotate(1).getOpposite() : blockDir.rotate(1);
-                    meta = dir == Direction.X_NEG ? blockDir.getSide() : blockDir.getOpposite().getSide();
+                    meta = dir == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
                 }
             }
             int id = getBlockId(tileEntity);

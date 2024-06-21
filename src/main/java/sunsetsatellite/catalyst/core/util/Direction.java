@@ -3,16 +3,23 @@ package sunsetsatellite.catalyst.core.util;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.util.helper.Axis;
+import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.util.phys.Vec3d;
 import net.minecraft.core.world.WorldSource;
 
 public enum Direction {
+	/**EAST, 5, X*/
     X_POS (new Vec3i(1,0,0),5,"EAST", Axis.X),
-    X_NEG (new Vec3i(-1,0,0),4,"WEST", Axis.X),
-    Y_POS (new Vec3i(0,1,0),1,"UP", Axis.Y),
-    Y_NEG (new Vec3i(0,-1,0),0,"DOWN", Axis.Y),
-    Z_POS (new Vec3i(0,0,1),3,"SOUTH", Axis.Z),
-    Z_NEG (new Vec3i(0,0,-1),2,"NORTH", Axis.Z);
+	/**WEST, 4, X*/
+	X_NEG (new Vec3i(-1,0,0),4,"WEST", Axis.X),
+	/**UP, 1, Y*/
+	Y_POS (new Vec3i(0,1,0),1,"UP", Axis.Y),
+	/**DOWN, 0, Y*/
+	Y_NEG (new Vec3i(0,-1,0),0,"DOWN", Axis.Y),
+	/**SOUTH, 3, Z*/
+	Z_POS (new Vec3i(0,0,1),3,"SOUTH", Axis.Z),
+	/**NORTH, 2, Z*/
+	Z_NEG (new Vec3i(0,0,-1),2,"NORTH", Axis.Z);
 
     private final Vec3i vec;
     private Direction opposite;
@@ -90,9 +97,13 @@ public enum Direction {
      * Gets minecraft's side number, NOTE: this and .ordinal() aren't the same!
      * @return Minecraft's side number.
      */
-    public int getSide() {
+    public int getSideNumber() {
         return side;
     }
+
+	public Side getSide(){
+		return Side.getSideById(side);
+	}
 
     public Vec3f getVecF(){
         return new Vec3f(vec.x, vec.y, vec.z);

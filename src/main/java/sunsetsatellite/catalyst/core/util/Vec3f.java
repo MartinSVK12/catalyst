@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.core.util;
 
 import com.mojang.nbt.CompoundTag;
+import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.MathHelper;
 
 public class Vec3f {
@@ -105,49 +106,33 @@ public class Vec3f {
         return new Vec3f(this.x,this.y,this.z);
     }
 
-    public Vec3f rotate(Vec3f origin, Direction direction){
-        Vec3f pos;
-        switch (direction){
-            case X_POS:
-                pos = new Vec3f(this.z + origin.x, this.y + origin.y, this.x + origin.z);
-                break;
-            case X_NEG:
-                pos = new Vec3f(-this.z + origin.x, this.y + origin.y, -this.x + origin.z);
-                break;
-            case Z_NEG:
-                pos = new Vec3f(-this.x + origin.x, this.y + origin.y, -this.z + origin.z);
-                break;
-            case Y_NEG:
-                pos = new Vec3f(this.x + origin.x, -this.y + origin.y, this.z + origin.z);
-                break;
-            default:
-                pos = new Vec3f(this.x + origin.x, this.y + origin.y, this.z + origin.z);
-                break;
-        }
-        return pos;
-    }
+	public Vec3f floor(){
+		this.x = Math.floor(this.x);
+        this.y = Math.floor(this.y);
+        this.z = Math.floor(this.z);
+		return this;
+	}
 
-    public Vec3f rotate(Direction direction){
-        Vec3f pos;
-        switch (direction){
-            case X_POS:
-                pos = new Vec3f(this.z, this.y, this.x);
-                break;
-            case X_NEG:
-                pos = new Vec3f(-this.z, this.y, -this.x);
-                break;
-            case Z_NEG:
-                pos = new Vec3f(-this.x, this.y, -this.z);
-                break;
-            case Y_NEG:
-                pos = new Vec3f(this.x, -this.y, this.z);
-                break;
-            default:
-                pos = new Vec3f(this.x, this.y, this.z);
-                break;
-        }
-        return pos;
-    }
+	public Vec3f ceil(){
+		this.x = Math.ceil(this.x);
+		this.y = Math.ceil(this.y);
+		this.z = Math.ceil(this.z);
+		return this;
+	}
+
+	public Vec3f round(){
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
+		this.z = Math.round(this.z);
+		return this;
+	}
+
+	public Vec3f abs(){
+		this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        this.z = Math.abs(this.z);
+		return this;
+	}
 
 	public Vec3f lerp(Vec3f to, double amount){
 		double lerpX = x + (to.x - x) * amount;
@@ -176,6 +161,36 @@ public class Vec3f {
         if (x != vec3I.x) return false;
         if (y != vec3I.y) return false;
         return z == vec3I.z;
+    }
+
+	public Vec3f set(Axis axis, double value){
+		switch (axis) {
+			case X:
+				this.x = value;
+				return this;
+			case Y:
+				this.y = value;
+				return this;
+			case Z:
+				this.z = value;
+				return this;
+			default:
+				return this;
+		}
+	}
+
+
+	//creates a vec2f from any 2 non-null values of this vec3f
+    public Vec2f toVec2f() {
+        double[] nonZeroValues = new double[3];
+        int nonZeroCount = 0;
+
+        if (this.x != 0) nonZeroValues[nonZeroCount++] = this.x;
+        if (this.y != 0) nonZeroValues[nonZeroCount++] = this.y;
+        if (this.z != 0) nonZeroValues[nonZeroCount++] = this.z;
+
+        if (nonZeroCount != 2) return null;
+        return new Vec2f(nonZeroValues[0], nonZeroValues[1]);
     }
 
     @Override

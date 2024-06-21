@@ -136,6 +136,11 @@ public class Vec2f {
         return pos;
     }*/
 
+	public Vec2f abs(){
+		this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+		return this;
+	}
 
     @Override
     public String toString() {

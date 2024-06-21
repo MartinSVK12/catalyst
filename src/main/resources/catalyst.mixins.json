@@ -11,7 +11,8 @@
     "FontRendererMixin",
     "GuiTooltipMixin",
     "ItemModelStandardMixin",
-    "NetClientHandlerMixin"
+    "NetClientHandlerMixin",
+    "RenderGlobalMixin"
   ],
   "client": [
   ],
