@@ -3,16 +3,13 @@ package sunsetsatellite.catalyst.core.mixin;
 import net.minecraft.client.render.FontRenderer;
 import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.client.render.tessellator.Tessellator;
-import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import sunsetsatellite.catalyst.core.util.IColorOverride;
 import sunsetsatellite.catalyst.core.util.IFullbright;
-import sunsetsatellite.catalyst.core.util.Vec4f;
 
 @Mixin(value = FontRenderer.class,remap = false)
 public class FontRendererMixin implements IFullbright {

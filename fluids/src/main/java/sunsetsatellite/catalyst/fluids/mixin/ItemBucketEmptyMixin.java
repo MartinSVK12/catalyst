@@ -32,7 +32,7 @@ public abstract class ItemBucketEmptyMixin {
 	}
 
 	@Inject(
-		method = "onItemRightClick", at = @At(value = "JUMP",ordinal = 3,shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD
+		method = "onUseItem", at = @At(value = "JUMP",ordinal = 3,shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD
 	)
 	public void emptyBucket(ItemStack itemstack, World world, EntityPlayer entityplayer, CallbackInfoReturnable<ItemStack> cir){
 		HitResult movingobjectposition = getHitResult(world,entityplayer);

@@ -193,5 +193,5 @@ public class GuiFluid extends GuiContainer {
     {
         super.init();
     }
-    private InventoryPlayer inventoryPlayer;
+    private final InventoryPlayer inventoryPlayer;
 }

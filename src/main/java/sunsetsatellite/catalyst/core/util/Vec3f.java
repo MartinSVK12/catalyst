@@ -13,9 +13,9 @@ public class Vec3f {
         this.x = x;
         this.y = y;
         this.z = z;
-    };
+    }
 
-    public Vec3f(){
+	public Vec3f(){
         this.x = this.y = this.z = 0;
     }
 

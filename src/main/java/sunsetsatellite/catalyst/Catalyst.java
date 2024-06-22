@@ -2,14 +2,11 @@ package sunsetsatellite.catalyst;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChest;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.block.entity.TileEntityChest;
 import net.minecraft.core.data.registry.Registry;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.player.inventory.ContainerChest;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.util.collection.Pair;
 import net.minecraft.core.util.helper.MathHelper;

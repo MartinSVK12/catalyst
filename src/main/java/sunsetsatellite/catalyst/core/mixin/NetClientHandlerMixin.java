@@ -6,16 +6,10 @@ import net.minecraft.client.net.handler.NetClientHandler;
 import net.minecraft.client.world.WorldClient;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.net.handler.NetHandler;
-import net.minecraft.core.net.packet.Packet100OpenWindow;
-import net.minecraft.core.player.inventory.IInventory;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.Catalyst;
-import sunsetsatellite.catalyst.core.util.IMpGui;
 import sunsetsatellite.catalyst.core.util.INetGuiHandler;
 import sunsetsatellite.catalyst.core.util.PacketOpenGui;
 

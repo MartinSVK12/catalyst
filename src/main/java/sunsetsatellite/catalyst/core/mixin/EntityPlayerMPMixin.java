@@ -1,10 +1,8 @@
 package sunsetsatellite.catalyst.core.mixin;
 
-import net.minecraft.client.entity.player.EntityPlayerSP;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.net.packet.Packet100OpenWindow;
 import net.minecraft.core.player.inventory.Container;
 import net.minecraft.core.player.inventory.IInventory;
 import net.minecraft.core.world.World;
@@ -35,7 +33,7 @@ public abstract class EntityPlayerMPMixin extends EntityPlayer implements IMpGui
 	@Shadow
 	public NetServerHandler playerNetServerHandler;
 	@Unique
-	private EntityPlayerMP thisAs = (EntityPlayerMP)(Object)this;
+	private final EntityPlayerMP thisAs = (EntityPlayerMP)(Object)this;
 
 	//TODO: change display methods to have xyz argument and stack argument
 

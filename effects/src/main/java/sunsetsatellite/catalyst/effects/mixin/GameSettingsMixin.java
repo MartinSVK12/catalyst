@@ -15,7 +15,7 @@ import sunsetsatellite.catalyst.effects.interfaces.mixins.IKeybinds;
 public class GameSettingsMixin
     implements IKeybinds
 {
-	private GameSettings thisAs = ((GameSettings)(Object)this);
+	private final GameSettings thisAs = ((GameSettings)(Object)this);
 
 	@Unique
 	public EnumOption<EffectDisplayPlace> effectDisplayPlaceEnumOption = new EnumOption<>(thisAs,"catalyst-effect.displayEffectsIn", EffectDisplayPlace.class,EffectDisplayPlace.INVENTORY);

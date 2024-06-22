@@ -19,8 +19,8 @@ public class ItemGiveEffect extends Item {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int blockX, int blockY, int blockZ, Side side, double xPlaced, double yPlaced) {
-		super.onItemUse(itemstack, entityplayer, world, blockX, blockY, blockZ, side, xPlaced, yPlaced);
+	public boolean onUseItemOnBlock(ItemStack itemstack, EntityPlayer entityplayer, World world, int blockX, int blockY, int blockZ, Side side, double xPlaced, double yPlaced) {
+		super.onUseItemOnBlock(itemstack, entityplayer, world, blockX, blockY, blockZ, side, xPlaced, yPlaced);
 		EffectStack eff = new EffectStack(((IHasEffects)entityplayer), effect);
 		((IHasEffects)entityplayer).getContainer().add(eff);
 		eff.start(((IHasEffects)entityplayer).getContainer());

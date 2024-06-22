@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import sunsetsatellite.catalyst.core.util.ISideInteractable;
-import sunsetsatellite.catalyst.core.util.IWrench;
 
 @Mixin(value = RenderGlobal.class,remap = false)
 public class RenderGlobalMixin {

@@ -192,5 +192,5 @@ public class GuiItemFluid extends GuiContainer {
     {
         super.init();
     }
-    private InventoryPlayer inventoryPlayer;
+    private final InventoryPlayer inventoryPlayer;
 }

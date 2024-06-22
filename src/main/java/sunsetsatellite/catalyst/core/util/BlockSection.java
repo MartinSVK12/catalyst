@@ -1,8 +1,6 @@
 package sunsetsatellite.catalyst.core.util;
 
-import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.util.helper.Side;
-import sunsetsatellite.catalyst.Catalyst;
 
 public enum BlockSection {
 	TOP_LEFT(new Vec2f(0.0,0.8),new Vec2f(0.2,0.1)),

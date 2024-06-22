@@ -14,7 +14,7 @@ public class ContainerFluidTank extends ContainerFluid {
         super(iInventory, tileEntityFluidTank);
         tile = tileEntityFluidTank;
 
-        SlotFluid slot = new SlotFluid(tileEntityFluidTank, 0, 62 + 1 * 18,17 + 1 * 18);
+        SlotFluid slot = new SlotFluid(tileEntityFluidTank, 0, 62 + 18,17 + 18);
         addFluidSlot(slot);
 
         for(int j = 0; j < 3; j++)

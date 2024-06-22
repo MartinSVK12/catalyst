@@ -4,6 +4,7 @@ package sunsetsatellite.catalyst.fluids.util;
 import com.mojang.nbt.CompoundTag;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockFluid;
+import net.minecraft.core.item.ItemStack;
 
 public class FluidStack {
     public int amount;
@@ -53,6 +54,10 @@ public class FluidStack {
     public FluidStack copy(){
         return new FluidStack(liquid, amount);
     }
+
+	public ItemStack toItemStack(){
+		return new ItemStack(liquid, amount);
+	}
 
     public String getFluidName(){
         return liquid.getLanguageKey(0);

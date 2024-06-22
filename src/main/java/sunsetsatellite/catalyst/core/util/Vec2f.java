@@ -10,9 +10,9 @@ public class Vec2f {
     public Vec2f(double x, double y){
         this.x = x;
         this.y = y;
-    };
+    }
 
-    public Vec2f(){
+	public Vec2f(){
         this.x = this.y = 0;
     }
 

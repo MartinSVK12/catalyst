@@ -14,8 +14,8 @@ public class Effect {
 	public final int color;
 	private final List<Modifier<?>> modifiers;
 	private final EffectTimeType effectTimeType;
-	private int defaultDuration;
-	private int maxStack;
+	private final int defaultDuration;
+	private final int maxStack;
 
 
 	public Effect(String nameKey, String id, String imagePath, int color, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int defaultDuration, int maxStack) {

@@ -4,6 +4,7 @@ import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
+import net.minecraft.core.enums.LightLayer;
 import net.minecraft.core.world.WorldSource;
 import net.minecraft.core.world.biome.Biome;
 import net.minecraft.core.world.season.SeasonManager;
@@ -121,5 +122,10 @@ public class HologramWorld implements WorldSource {
 	@Override
 	public Biome getBlockBiome(int i, int j, int k) {
 		return null;
+	}
+
+	@Override
+	public int getSavedLightValue(LightLayer lightLayer, int i, int j, int k) {
+		return 15;
 	}
 }

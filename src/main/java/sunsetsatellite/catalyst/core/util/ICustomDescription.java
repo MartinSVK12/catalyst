@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.core.util;
 
 
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.net.command.TextFormatting;
 
 public interface ICustomDescription {
 
@@ -10,5 +9,5 @@ public interface ICustomDescription {
 
 	default String getPersistentDescription(ItemStack stack) {
 		return "";
-	};
+	}
 }

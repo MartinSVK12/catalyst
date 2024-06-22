@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.core.util;
 
 import net.minecraft.client.gui.Gui;
 import net.minecraft.core.player.inventory.Container;
-import net.minecraft.core.player.inventory.IInventory;
 
 public class MpGuiEntry {
 
