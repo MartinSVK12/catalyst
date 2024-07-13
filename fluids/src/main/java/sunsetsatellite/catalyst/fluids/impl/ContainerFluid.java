@@ -159,11 +159,11 @@ public class ContainerFluid extends Container {
                         //drain
                         if(item.canDrain(inventoryPlayer.getHeldItemStack())){
                             if (tile.getFluidInSlot(slot.slotIndex) == null){
-                                item.drain(inventoryPlayer.getHeldItemStack(), slot,tile);
+                                item.drain(inventoryPlayer.getHeldItemStack(), slot.slotIndex,tile);
                                 slot.onSlotChanged();
                             }
                             else if (tile.getFluidInSlot(slot.slotIndex).amount < tile.getFluidCapacityForSlot(slot.slotIndex)) {
-                                item.drain(inventoryPlayer.getHeldItemStack(), slot,tile);
+                                item.drain(inventoryPlayer.getHeldItemStack(), slot.slotIndex,tile);
                                 slot.onSlotChanged();
                             }
                             else if(tile.getFluidInSlot(slot.slotIndex).amount >= tile.getFluidCapacityForSlot(slot.slotIndex)){

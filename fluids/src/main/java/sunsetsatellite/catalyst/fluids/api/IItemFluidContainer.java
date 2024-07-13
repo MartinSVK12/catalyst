@@ -5,7 +5,6 @@ import net.minecraft.core.item.ItemStack;
 import sunsetsatellite.catalyst.fluids.impl.ItemInventoryFluid;
 import sunsetsatellite.catalyst.fluids.impl.tiles.TileEntityFluidContainer;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
-import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 
 
 public interface IItemFluidContainer {
@@ -14,6 +13,7 @@ public interface IItemFluidContainer {
     boolean canFill(ItemStack stack);
     boolean canDrain(ItemStack stack);
 	FluidStack getCurrentFluid(ItemStack stack);
+	void setCurrentFluid(FluidStack fluidStack, ItemStack stack);
     ItemStack fill(FluidStack fluidStack, ItemStack stack);
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, TileEntityFluidContainer tile);
 
@@ -23,7 +23,8 @@ public interface IItemFluidContainer {
 
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, ItemInventoryFluid inv);
 
-	void drain(ItemStack stack, SlotFluid slot, TileEntityFluidContainer tile);
-	void drain(ItemStack stack, SlotFluid slot, IFluidInventory tile);
-	void drain(ItemStack stack, SlotFluid slot, ItemInventoryFluid inv);
+	void drain(ItemStack stack, int slot, TileEntityFluidContainer tile);
+	void drain(ItemStack stack, int slot, IFluidInventory tile);
+	void drain(ItemStack stack, int slot, ItemInventoryFluid inv);
+	FluidStack drain(ItemStack stack, int amount);
 }
