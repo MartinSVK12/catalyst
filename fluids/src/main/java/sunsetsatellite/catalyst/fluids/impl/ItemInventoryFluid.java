@@ -5,7 +5,6 @@ import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
-import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import sunsetsatellite.catalyst.fluids.util.NBTHelper;
@@ -141,11 +140,6 @@ public class ItemInventoryFluid implements IInventory, IFluidInventory {
     @Override
     public int getTransferSpeed() {
         return Integer.MAX_VALUE;
-    }
-
-    @Override
-    public int getActiveFluidSlot(Direction dir) {
-        return 0;
     }
 
     @Override

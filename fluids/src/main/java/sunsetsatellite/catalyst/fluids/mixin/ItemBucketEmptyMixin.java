@@ -10,7 +10,6 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.util.phys.Vec3d;
 import net.minecraft.core.world.World;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -44,7 +43,7 @@ public abstract class ItemBucketEmptyMixin {
 			if (world.getBlockId(i, j, k) != 0){
 				Block block = Block.blocksList[world.getBlockId(i, j, k)-1];
 				if (block instanceof BlockFluid && world.getBlockMetadata(i, j, k) == 0) {
-					List<Item> containers = CatalystFluids.FLUIDS.findFilledContainersWithContainer((BlockFluid) block,entityplayer.inventory.getCurrentItem().getItem());
+					List<Item> containers = CatalystFluids.CONTAINERS.findFilledContainersWithContainer((BlockFluid) block,entityplayer.inventory.getCurrentItem().getItem());
 					if(!containers.isEmpty()){
 						ItemStack stack = new ItemStack(containers.get(0));
 						if (useBucket(entityplayer, stack)) {

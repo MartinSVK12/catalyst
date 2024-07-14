@@ -5,6 +5,7 @@ import com.mojang.nbt.CompoundTag;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.item.ItemStack;
+import sunsetsatellite.catalyst.CatalystFluids;
 
 public class FluidStack {
     public int amount;
@@ -14,6 +15,11 @@ public class FluidStack {
         amount = size;
         liquid = block;
     }
+
+	public FluidStack(FluidType type, int size){
+		liquid = type.fluids.get(0);
+		amount = size;
+	};
 
     public FluidStack(CompoundTag nbt){
         readFromNBT(nbt);
@@ -30,6 +36,15 @@ public class FluidStack {
 	public BlockFluid getLiquid(){
         return liquid;
     }
+
+	public FluidType getType(){
+		for (FluidType type : CatalystFluids.TYPES) {
+			if(type.fluids.contains(liquid)){
+				return type;
+			}
+		}
+		return null;
+	}
 
     public FluidStack splitStack(int amount){
         this.amount -= amount;
@@ -69,15 +84,23 @@ public class FluidStack {
 
     public boolean isFluidEqual(FluidStack stack){
 		if(stack == null) return false;
-        return stack.liquid == liquid;
+        return stack.liquid == liquid || getType() == stack.getType();
     }
 
     public boolean isFluidEqual(BlockFluid fluid){
         return liquid == fluid;
     }
 
-    public boolean isStackEqual(FluidStack stack){
-        return stack.liquid == liquid && stack.amount == amount;
+	public boolean isTypeEqual(FluidType type){ return type.fluids.contains(liquid); }
+
+	public boolean isTypeEqual(String typeId){
+		if(CatalystFluids.TYPES.getItem(typeId) == null) return false;
+		return CatalystFluids.TYPES.getItem(typeId).fluids.contains(liquid);
+	}
+
+
+	public boolean isStackEqual(FluidStack stack){
+        return (stack.liquid == liquid || getType() == stack.getType()) && stack.amount == amount;
     }
 
     public static boolean areFluidStacksEqual(FluidStack fluidStack, FluidStack fluidStack1) {

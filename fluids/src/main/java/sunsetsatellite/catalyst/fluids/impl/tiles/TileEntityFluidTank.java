@@ -16,7 +16,7 @@ public class TileEntityFluidTank extends TileEntityFluidItemContainer {
         transferSpeed = 50;
         fluidConnections.replace(Direction.Y_POS, Connection.INPUT);
         fluidConnections.replace(Direction.Y_NEG, Connection.OUTPUT);
-        acceptedFluids.get(0).addAll(CatalystFluids.FLUIDS.getAllFluids());
+        acceptedFluids.get(0).addAll(CatalystFluids.CONTAINERS.getAllFluids());
     }
 
     @Override

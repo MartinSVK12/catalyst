@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.core.util.*;
 import turniplabs.halplibe.helper.NetworkHelper;
 
+import java.util.*;
+
 
 public class Catalyst implements ModInitializer {
     public static final String MOD_ID = "catalyst";
@@ -79,5 +81,35 @@ public class Catalyst implements ModInitializer {
 
 	public static Side calculatePlayerFacing(float rotation) {
 		return Side.values()[(2 + ((MathHelper.floor_double((double) ((rotation * 4F) / 360F) + 0.5D) + 2) & 3))];
+	}
+
+	public static <K,V> Map<K,V> mapOf(K[] keys, V[] values){
+		if(keys.length != values.length){
+			throw new IllegalArgumentException("Arrays differ in size!");
+		}
+		HashMap<K,V> map = new HashMap<>();
+		for (int i = 0; i < keys.length; i++) {
+			map.put(keys[i],values[i]);
+		}
+		return map;
+	}
+
+	public static <T,V> T[] arrayFill(T[] array,V value){
+		Arrays.fill(array,value);
+		return array;
+	}
+
+	@SafeVarargs
+	public static <T> List<T> listOf(T... values){
+		return new ArrayList<>(Arrays.asList(values));
+	}
+
+	public static <T,U> List<Pair<T,U>> zip(List<T> first, List<U> second){
+		List<Pair<T,U>> list = new ArrayList<>();
+		List<?> shortest = first.size() < second.size() ? first : second;
+		for (int i = 0; i < shortest.size(); i++) {
+			list.add(Pair.of(first.get(i),second.get(i)));
+		}
+		return list;
 	}
 }

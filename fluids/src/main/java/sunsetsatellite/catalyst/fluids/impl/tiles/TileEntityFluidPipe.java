@@ -24,7 +24,7 @@ public class TileEntityFluidPipe extends TileEntityFluidContainer{
             fluidConnections.put(dir, Connection.BOTH);
             activeFluidSlots.put(dir,0);
         }
-        acceptedFluids.get(0).addAll(CatalystFluids.FLUIDS.getAllFluids());
+        acceptedFluids.get(0).addAll(CatalystFluids.CONTAINERS.getAllFluids());
 
     }
 

@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.fluids.mp.packets.PacketFluidWindowClick;
 import sunsetsatellite.catalyst.fluids.mp.packets.PacketSetFluidSlot;
 import sunsetsatellite.catalyst.fluids.mp.packets.PacketUpdateClientFluidRender;
-import sunsetsatellite.catalyst.fluids.registry.FluidRegistry;
-import sunsetsatellite.catalyst.fluids.registry.FluidRegistryEntry;
+import sunsetsatellite.catalyst.fluids.registry.FluidContainerRegistry;
+import sunsetsatellite.catalyst.fluids.registry.FluidContainerRegistryEntry;
+import sunsetsatellite.catalyst.fluids.registry.FluidTypeRegistry;
+import sunsetsatellite.catalyst.fluids.util.FluidType;
 import turniplabs.halplibe.helper.NetworkHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
@@ -22,7 +24,8 @@ public class CatalystFluids implements ModInitializer, GameStartEntrypoint {
     public static final String MOD_ID = "catalyst-fluids";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	public static final FluidRegistry FLUIDS = new FluidRegistry();
+	public static final FluidContainerRegistry CONTAINERS = new FluidContainerRegistry();
+	public static final FluidTypeRegistry TYPES = new FluidTypeRegistry();
 
 	static {
 		NetworkHelper.register(PacketSetFluidSlot.class, true, true);
@@ -55,12 +58,19 @@ public class CatalystFluids implements ModInitializer, GameStartEntrypoint {
 
 	@Override
 	public void afterGameStart() {
-		FluidRegistryEntry entry = new FluidRegistryEntry("minecraft", Item.bucketWater,Item.bucket, Collections.singletonList((BlockFluid) Block.fluidWaterFlowing));
-		FLUIDS.register("minecraft:water",entry);
-		entry = new FluidRegistryEntry("minecraft", Item.bucketLava,Item.bucket, Collections.singletonList((BlockFluid) Block.fluidLavaFlowing));
-		FLUIDS.register("minecraft:lava",entry);
-		Registries.getInstance().register(MOD_ID+":fluids",FLUIDS);
-		LOGGER.info("Fluid registry registered.");
-		LOGGER.info(FLUIDS.size()+" fluid containers registered.");
+		TYPES.register(new FluidType("minecraft:water",Catalyst.listOf((BlockFluid)Block.fluidWaterFlowing, (BlockFluid)Block.fluidWaterStill)));
+		TYPES.register(new FluidType("minecraft:lava",Catalyst.listOf((BlockFluid)Block.fluidLavaFlowing, (BlockFluid)Block.fluidLavaStill)));
+
+		FluidContainerRegistryEntry entry = new FluidContainerRegistryEntry("minecraft", Item.bucketWater,Item.bucket, Collections.singletonList((BlockFluid) Block.fluidWaterFlowing));
+		CONTAINERS.register("minecraft:water_bucket",entry);
+		entry = new FluidContainerRegistryEntry("minecraft", Item.bucketLava,Item.bucket, Collections.singletonList((BlockFluid) Block.fluidLavaFlowing));
+		CONTAINERS.register("minecraft:lava_bucket",entry);
+
+		Registries.getInstance().register(MOD_ID+":fluid_containers", CONTAINERS);
+		Registries.getInstance().register(MOD_ID+":fluid_types", TYPES);
+
+		LOGGER.info("Fluid registries registered.");
+		LOGGER.info(CONTAINERS.size()+" fluid containers registered.");
+		LOGGER.info(TYPES.size()+" fluid types registered.");
 	}
 }

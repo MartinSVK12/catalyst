@@ -7,8 +7,10 @@ import com.mojang.nbt.ListTag;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.IInventory;
+import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.core.util.Connection;
 import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.fluids.api;
 
 
 import net.minecraft.core.block.BlockFluid;
-import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
 import java.util.ArrayList;
@@ -17,8 +16,5 @@ public interface IFluidInventory {
     int getRemainingCapacity(int slot);
     int getFluidInventorySize();
     void onFluidInventoryChanged();
-
     int getTransferSpeed();
-
-    int getActiveFluidSlot(Direction dir);
 }
