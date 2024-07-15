@@ -23,9 +23,9 @@ Available modules:
   - API for custom attributes and stackable effects.
   
 **Latest versions:**
-- **All: 1.6.4**
-- **Core: 1.4.3**
-- **Fluids: 1.1.6**
-- **Energy: 1.0.12**
-- **Multiblocks: 1.1.1**
-- **Effects: 1.1.8**
+- **All: 1.8.0**
+- **Core: 1.5.0**
+- **Fluids: 1.3.0**
+- **Energy: 1.0.13**
+- **Multiblocks: 1.1.2**
+- **Effects: 1.1.9**
