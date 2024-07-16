@@ -4,17 +4,17 @@
   "package": "sunsetsatellite.catalyst.core.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockModelStandardMixin",
     "EntityPlayerMixin",
-    "EntityPlayerMPMixin",
+    "EntityPlayerMPMixin"
+  ],
+  "client": [
+    "BlockModelStandardMixin",
     "EntityPlayerSPMixin",
     "FontRendererMixin",
     "GuiTooltipMixin",
     "ItemModelStandardMixin",
     "NetClientHandlerMixin",
     "RenderGlobalMixin"
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1
