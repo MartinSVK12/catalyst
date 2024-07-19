@@ -16,7 +16,7 @@ public class Effect {
 	private final EffectTimeType effectTimeType;
 	private final int defaultDuration;
 	private final int maxStack;
-
+	private boolean persistent = false;
 
 	public Effect(String nameKey, String id, String imagePath, int color, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int defaultDuration, int maxStack) {
 		this.nameKey = nameKey;
@@ -27,6 +27,15 @@ public class Effect {
 		this.effectTimeType = effectTimeType;
 		this.defaultDuration = defaultDuration;
 		this.maxStack = maxStack;
+	}
+
+	public Effect setPersistent() {
+		this.persistent = true;
+		return this;
+	}
+
+	public boolean isPersistent() {
+		return persistent;
 	}
 
 	public String getNameKey() {

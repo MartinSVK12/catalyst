@@ -1,15 +1,10 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
-import net.minecraft.core.data.registry.Registries;
 import net.minecraft.core.data.registry.Registry;
-import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.CatalystEffects;
 import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
 import sunsetsatellite.catalyst.effects.api.modifier.ModifierType;
 import sunsetsatellite.catalyst.effects.api.modifier.type.IntModifier;
-import sunsetsatellite.catalyst.effects.api.modifier.type.LongModifier;
-
-import java.util.ArrayList;
 
 import static sunsetsatellite.catalyst.CatalystEffects.listOf;
 
@@ -24,7 +19,7 @@ public class Effects extends Registry<Effect> {
 		EffectTimeType.RESET,
 		20*10,
 		1
-	);
+	).setPersistent();
 
 	public Effects(){
 		register(DURATION_BOOST.id, DURATION_BOOST);
