@@ -138,5 +138,6 @@ tasks.withType(JavaCompile).configureEach {
 
 remapJar {
 	destinationDirectory.set(file("${projectDir}/jars"))
+	archiveVersion.set(archiveVersion.get()+"-${bta_version}")
 }
 
