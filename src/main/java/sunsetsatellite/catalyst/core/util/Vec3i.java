@@ -115,21 +115,18 @@ public class Vec3i {
     }
 
     public Vec3i rotate(Vec3i origin, Direction direction){
-        Vec3i pos;
+        Vec3i pos = this;
         switch (direction){
-            case X_POS:
+            case Z_POS:
                 pos = new Vec3i(this.z + origin.x, this.y + origin.y, this.x + origin.z);
                 break;
-            case X_NEG:
+            case Z_NEG:
                 pos = new Vec3i(-this.z + origin.x, this.y + origin.y, -this.x + origin.z);
                 break;
-            case Z_NEG:
+            case X_NEG:
                 pos = new Vec3i(-this.x + origin.x, this.y + origin.y, -this.z + origin.z);
                 break;
-            case Y_NEG:
-                pos = new Vec3i(this.x + origin.x, -this.y + origin.y, this.z + origin.z);
-                break;
-            default:
+			case X_POS:
                 pos = new Vec3i(this.x + origin.x, this.y + origin.y, this.z + origin.z);
                 break;
         }
@@ -137,28 +134,60 @@ public class Vec3i {
     }
 
     public Vec3i rotate(Direction direction){
-        Vec3i pos;
+        Vec3i pos = this;
         switch (direction){
-            case X_POS:
+			case Z_POS:
                 pos = new Vec3i(this.z, this.y, this.x);
                 break;
-            case X_NEG:
+            case Z_NEG:
                 pos = new Vec3i(-this.z, this.y, -this.x);
                 break;
-            case Z_NEG:
+			case X_NEG:
                 pos = new Vec3i(-this.x, this.y, -this.z);
                 break;
-            case Y_NEG:
-                pos = new Vec3i(this.x, -this.y, this.z);
-                break;
-            default:
+			case X_POS:
                 pos = new Vec3i(this.x, this.y, this.z);
                 break;
         }
         return pos;
     }
 
-    public void writeToNBT(CompoundTag tag){
+	public Vec3i rotateX(double angle){
+		float cosine = MathHelper.cos((float) angle);
+		float sine = MathHelper.sin((float) angle);
+		y = (int) Math.round(y * (double)cosine + z * (double)sine);
+		z = (int) Math.round(z * (double)cosine - y * (double)sine);
+		return this;
+	}
+
+	public Vec3i rotateY(double angle){
+		float cosine = MathHelper.cos((float) angle);
+		float sine = MathHelper.sin((float) angle);
+		x = (int) Math.round(x * (double)cosine + z * (double)sine);
+		z = (int) Math.round(z * (double)cosine - x * (double)sine);
+		return this;
+	}
+
+	public Vec3i rotateX(Vec3i origin, double angle){
+		this.add(origin);
+		float cosine = MathHelper.cos((float) angle);
+		float sine = MathHelper.sin((float) angle);
+		y = (int) Math.round(y * (double)cosine + z * (double)sine);
+		z = (int) Math.round(z * (double)cosine - y * (double)sine);
+		return this;
+	}
+
+	public Vec3i rotateY(Vec3i origin, double angle){
+		float cosine = MathHelper.cos((float) angle);
+		float sine = MathHelper.sin((float) angle);
+		x = (int) Math.round(x * (double)cosine + z * (double)sine);
+		z = (int) Math.round(z * (double)cosine - x * (double)sine);
+		this.add(origin);
+		return this;
+	}
+
+
+	public void writeToNBT(CompoundTag tag){
         tag.putInt("x",this.x);
         tag.putInt("y",this.y);
         tag.putInt("z",this.z);

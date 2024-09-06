@@ -20,30 +20,18 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
         int i = tileEntity.x;
         int j = tileEntity.y;
         int k = tileEntity.z;
-        Direction dir = Direction.getDirectionFromSide(tileEntity.getMovedData());
+        Direction dir = Direction.getDirectionFromSide(tileEntity.getMovedData()).getOpposite();
         World world = this.renderDispatcher.renderEngine.mc.theWorld;
         if(tileEntity instanceof IMultiblock){
             Multiblock multiblock = ((IMultiblock) tileEntity).getMultiblock();
-            ArrayList<BlockInstance> blocks = multiblock.getBlocks(new Vec3i(i, j, k),Direction.Z_POS); //TODO: multiblocks need to be made in the Z+ direction currently and that's stupid
-            ArrayList<BlockInstance> substitutions = multiblock.getSubstitutions(new Vec3i(i, j, k),Direction.Z_POS);
+            ArrayList<BlockInstance> blocks = multiblock.getBlocks(new Vec3i(i, j, k),dir);
+            ArrayList<BlockInstance> substitutions = multiblock.getSubstitutions(new Vec3i(i, j, k),dir);
 			blockRenderer = new RenderBlocks(new HologramWorld(blocks));
             for (BlockInstance block : blocks) {
                 if(!block.exists(world)){
                     boolean foundSub = substitutions.stream().anyMatch((BI)-> BI.pos.equals(block.pos) && BI.exists(world));
                     if(!foundSub){
-						if(Objects.equals(world.getLevelData().getWorldName(), "modelviewer")){
-							/*GL11.glPushMatrix();
-							//GL11.glTranslatef((float)d+(block.pos.x-i), (float)e+(block.pos.y-j), (float)f+(block.pos.z-k));
-							drawBlock(tessellator,
-								this.renderDispatcher.renderEngine,
-								block.block.id,
-								block.meta == -1 ? 0 : block.meta,
-								i,
-								j,
-								k,
-								tileEntity);
-							GL11.glPopMatrix();*/
-						} else {
+						if (!Objects.equals(world.getLevelData().getWorldName(), "modelviewer")) {
 							GL11.glPushMatrix();
 							GL11.glDisable(GL11.GL_LIGHTING);
 							GL11.glTranslatef((float)d+(block.pos.x-i)+0.5f, (float)e+(block.pos.y-j)+0.5f, (float)f+(block.pos.z-k)+0.5f);
@@ -66,7 +54,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 							((IColorOverride)model).disableColorOverride();
 							((IFullbright)model).disableFullbright();
 						}
-                    }
+					}
                 }
             }
         }

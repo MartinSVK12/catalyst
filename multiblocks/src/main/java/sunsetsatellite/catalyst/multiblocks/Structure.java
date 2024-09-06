@@ -164,16 +164,16 @@ public class Structure {
         for (Tag<?> tag : data.getCompound("Blocks").getValues()) {
             CompoundTag blockTag = (CompoundTag) tag;
             Vec3i pos = new Vec3i(blockTag.getCompound("pos")).rotate(origin,dir);
-            int meta = blockTag.getInteger("meta");
-            if(meta != -1){
-                if(dir == Direction.Z_NEG){
-                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
-                } else if (dir == Direction.X_NEG || dir == Direction.X_POS) {
-                    Direction blockDir = Direction.getDirectionFromSide(meta);
-                    blockDir = blockDir == Direction.X_NEG || blockDir == Direction.X_POS ? blockDir.rotate(1).getOpposite() : blockDir.rotate(1);
-                    meta = dir == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
-                }
-            }
+			int meta = blockTag.getInteger("meta");
+			if (meta != -1) {
+				if (dir.shiftAxis() == Direction.Z_NEG) {
+					meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
+				} else if (dir.shiftAxis() == Direction.X_NEG || dir.shiftAxis() == Direction.X_POS) {
+					Direction blockDir = Direction.getDirectionFromSide(meta);
+					blockDir = blockDir != Direction.X_NEG && blockDir != Direction.X_POS ? blockDir.rotate(1) : blockDir.rotate(1).getOpposite();
+					meta = dir.shiftAxis() == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
+				}
+			}
             int id = getBlockId(blockTag);
             Block block = Block.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,world.getBlockTileEntity(pos.x, pos.y, pos.z));
@@ -216,15 +216,15 @@ public class Structure {
             CompoundTag blockTag = (CompoundTag) tag;
             Vec3i pos = new Vec3i(blockTag.getCompound("pos")).rotate(origin,dir);
             int meta = blockTag.getInteger("meta");
-            if(meta != -1){
-                if(dir == Direction.Z_NEG){
-                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
-                } else if (dir == Direction.X_NEG || dir == Direction.X_POS) {
-                    Direction blockDir = Direction.getDirectionFromSide(meta);
-                    blockDir = blockDir == Direction.X_NEG || blockDir == Direction.X_POS ? blockDir.rotate(1).getOpposite() : blockDir.rotate(1);
-                    meta = dir == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
-                }
-            }
+			if (meta != -1) {
+				if (dir.shiftAxis() == Direction.Z_NEG) {
+					meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
+				} else if (dir.shiftAxis() == Direction.X_NEG || dir.shiftAxis() == Direction.X_POS) {
+					Direction blockDir = Direction.getDirectionFromSide(meta);
+					blockDir = blockDir != Direction.X_NEG && blockDir != Direction.X_POS ? blockDir.rotate(1) : blockDir.rotate(1).getOpposite();
+					meta = dir.shiftAxis() == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
+				}
+			}
             int id = getBlockId(blockTag);
             Block block = Block.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
@@ -266,16 +266,16 @@ public class Structure {
         for (Tag<?> tag : data.getCompound("Substitutions").getValues()) {
             CompoundTag tileEntity = (CompoundTag) tag;
             Vec3i pos = new Vec3i(tileEntity.getCompound("pos")).rotate(origin, dir);
-            int meta = tileEntity.getInteger("meta");
-            if(meta != -1){
-                if(dir == Direction.Z_NEG){
-                    meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
-                } else if (dir == Direction.X_NEG || dir == Direction.X_POS) {
-                    Direction blockDir = Direction.getDirectionFromSide(meta);
-                    blockDir = blockDir == Direction.X_NEG || blockDir == Direction.X_POS ? blockDir.rotate(1).getOpposite() : blockDir.rotate(1);
-                    meta = dir == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
-                }
-            }
+			int meta = tileEntity.getInteger("meta");
+			if (meta != -1) {
+				if (dir.shiftAxis() == Direction.Z_NEG) {
+					meta = Direction.getDirectionFromSide(meta).getOpposite().getSideNumber();
+				} else if (dir.shiftAxis() == Direction.X_NEG || dir.shiftAxis() == Direction.X_POS) {
+					Direction blockDir = Direction.getDirectionFromSide(meta);
+					blockDir = blockDir != Direction.X_NEG && blockDir != Direction.X_POS ? blockDir.rotate(1) : blockDir.rotate(1).getOpposite();
+					meta = dir.shiftAxis() == Direction.X_NEG ? blockDir.getSideNumber() : blockDir.getOpposite().getSideNumber();
+				}
+			}
             int id = getBlockId(tileEntity);
             Block block = Block.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);

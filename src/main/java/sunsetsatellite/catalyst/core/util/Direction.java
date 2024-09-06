@@ -9,30 +9,33 @@ import net.minecraft.core.world.WorldSource;
 
 public enum Direction {
 	/**EAST, 5, X*/
-    X_POS (new Vec3i(1,0,0),5,"EAST", Axis.X),
+    X_POS (new Vec3i(1,0,0),5,"EAST", Axis.X, (3*Math.PI)/2),
 	/**WEST, 4, X*/
-	X_NEG (new Vec3i(-1,0,0),4,"WEST", Axis.X),
+	X_NEG (new Vec3i(-1,0,0),4,"WEST", Axis.X, Math.PI/2),
 	/**UP, 1, Y*/
-	Y_POS (new Vec3i(0,1,0),1,"UP", Axis.Y),
+	Y_POS (new Vec3i(0,1,0),1,"UP", Axis.Y, 0.0f),
 	/**DOWN, 0, Y*/
-	Y_NEG (new Vec3i(0,-1,0),0,"DOWN", Axis.Y),
+	Y_NEG (new Vec3i(0,-1,0),0,"DOWN", Axis.Y, 0.0f),
 	/**SOUTH, 3, Z*/
-	Z_POS (new Vec3i(0,0,1),3,"SOUTH", Axis.Z),
+	Z_POS (new Vec3i(0,0,1),3,"SOUTH", Axis.Z, Math.PI),
 	/**NORTH, 2, Z*/
-	Z_NEG (new Vec3i(0,0,-1),2,"NORTH", Axis.Z);
+	Z_NEG (new Vec3i(0,0,-1),2,"NORTH", Axis.Z, 0.0f);
 
-    private final Vec3i vec;
+
+	private final Vec3i vec;
     private Direction opposite;
     private final int side;
     private final String name;
 	private final Axis axis;
+	private final double angle;
 
-    Direction(Vec3i vec3I, int side, String name, Axis axis) {
+    Direction(Vec3i vec3I, int side, String name, Axis axis, double angle) {
         this.vec = vec3I;
         this.side = side;
         this.name = name;
         this.axis = axis;
-    }
+		this.angle = angle;
+	}
 
     public TileEntity getTileEntity(WorldSource world, TileEntity tile){
         Vec3i pos = new Vec3i(tile.x + vec.x, tile.y + vec.y, tile.z + vec.z);
@@ -109,7 +112,31 @@ public enum Direction {
         return new Vec3f(vec.x, vec.y, vec.z);
     }
 
-    public Vec3d getMinecraftVec(){
+	/**
+	 * @return Angle in radians from North for horizontal directions, vertical directions return 0
+	 */
+	public double getAngle() {
+		return angle;
+	}
+
+	/**
+	 * @return Z direction if provided a X direction or X direction if provided Z direction
+	 */
+	public Direction shiftAxis() {
+		switch (this){
+			case X_POS:
+				return Direction.Z_POS;
+			case X_NEG:
+				return Direction.Z_NEG;
+			case Z_POS:
+				return Direction.X_POS;
+			case Z_NEG:
+				return Direction.X_NEG;
+		}
+		return this;
+	}
+
+	public Vec3d getMinecraftVec(){
         return Vec3d.createVectorHelper(vec.x, vec.y, vec.z);
     }
 
