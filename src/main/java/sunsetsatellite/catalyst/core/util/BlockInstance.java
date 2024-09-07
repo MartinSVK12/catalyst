@@ -42,6 +42,15 @@ public class BlockInstance {
         return block == this.block && (meta == this.meta || this.meta == -1) && tile == this.tile;
     }
 
+	public boolean place(World world){
+		if(world.getBlockId(pos.x, pos.y, pos.z) == 0){
+			world.setBlockWithNotify(pos.x, pos.y, pos.z, block.id);
+			world.setBlockMetadata(pos.x, pos.y, pos.z, meta);
+			return true;
+		}
+		return false;
+	}
+
     @Override
     public String toString() {
         return "BlockInstance{" +

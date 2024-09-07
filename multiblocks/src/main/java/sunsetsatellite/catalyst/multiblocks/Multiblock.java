@@ -24,7 +24,6 @@ public class Multiblock extends Structure{
     }
 
     public boolean isValidAt(World world, BlockInstance origin, Direction dir){
-		dir = Direction.Z_POS;
         ArrayList<BlockInstance> blocks = getBlocks(origin.pos,dir);
         ArrayList<BlockInstance> substitutions = getSubstitutions(origin.pos,dir);
         for (BlockInstance block : blocks) {
@@ -40,7 +39,6 @@ public class Multiblock extends Structure{
     }
 
 	public boolean isValidAtSilent(World world, BlockInstance origin, Direction dir){
-		dir = Direction.Z_POS;
 		ArrayList<BlockInstance> blocks = getBlocks(origin.pos,dir);
 		ArrayList<BlockInstance> substitutions = getSubstitutions(origin.pos,dir);
 		for (BlockInstance block : blocks) {
