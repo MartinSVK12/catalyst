@@ -1,0 +1,22 @@
+tile.catalyst-multipart.multipart.name=Multipart
+tile.catalyst-multipart.multipart.desc=A block made out of pieces of other blocks.
+
+tile.catalyst-multipart.workbench.carpenter.name=Carpenter Workbench
+tile.catalyst-multipart.workbench.carpenter.desc=A special workbench that can cut blocks into multiparts.
+
+item.catalyst-multipart.multipart.name=Unknown Multipart
+item.catalyst-multipart.multipart.desc=A certain section of a certain block.
+
+multipart.foil.name=Foil
+multipart.cover.name=Cover
+multipart.panel.name=Panel
+multipart.slab.name=Slab
+multipart.antifoil.name=Antifoil
+multipart.anticover.name=Anticover
+multipart.antipanel.name=Antipanel
+multipart.hollow_foil.name=Hollow Foil
+multipart.hollow_cover.name=Hollow Cover
+multipart.hollow_panel.name=Hollow Panel
+multipart.hollow_slab.name=Hollow Slab
+multipart.pillar.name=Pillar
+

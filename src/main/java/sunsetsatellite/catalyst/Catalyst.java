@@ -99,6 +99,19 @@ public class Catalyst implements ModInitializer {
 		return array;
 	}
 
+	public static double map(double valueCoord,
+							 double startCoord1, double endCoord1,
+							 double startCoord2, double endCoord2) {
+
+		final double EPSILON = 1e-12;
+		if (Math.abs(endCoord1 - startCoord1) < EPSILON) {
+			throw new ArithmeticException("Division by 0");
+		}
+
+		double ratio = (endCoord2 - startCoord2) / (endCoord1 - startCoord1);
+		return ratio * (valueCoord - startCoord1) + startCoord2;
+	}
+
 	@SafeVarargs
 	public static <T> List<T> listOf(T... values){
 		return new ArrayList<>(Arrays.asList(values));

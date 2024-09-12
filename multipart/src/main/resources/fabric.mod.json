@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "catalyst-multipart",
+  "version": "${version}",
+
+  "name": "Catalyst: Multipart",
+  "description": "Multipart module of Catalyst: Adds various bits and pieces of blocks that can be put together.",
+	"icon": "icon.png",
+  "authors": [
+    "sunsetsatellite"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "https://github.com/MartinSVK12/catalyst"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "sunsetsatellite.catalyst.CatalystMultipart"
+    ],
+		"recipesReady": [
+			"sunsetsatellite.catalyst.CatalystMultipart"
+		]
+  },
+  "mixins": [
+		"catalyst-multipart.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.15.5",
+		"catalyst-core": ">=1.6.0",
+		"minecraft": "~7.2-beta"
+	},
+  "suggests": {
+  },
+	"custom": {
+		"modmenu:api": true
+	}
+}
