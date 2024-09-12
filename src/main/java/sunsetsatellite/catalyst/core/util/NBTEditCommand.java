@@ -110,7 +110,7 @@ public class NBTEditCommand extends Command {
     public void sendCommandSyntax(CommandHandler commandHandler, CommandSender commandSender) {
         if (commandSender instanceof PlayerCommandSender) {
             commandSender.sendMessage("/nbt hand copy/paste");
-            commandSender.sendMessage("/nbt hand (compound name) set integer/string/byte/bool/double/float/long/short <name> <value>");
+            commandSender.sendMessage("/nbt hand set integer/string/byte/bool/double/float/long/short <name> <value>");
         }
     }
 }
