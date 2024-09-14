@@ -10,6 +10,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.util.phys.AABB;
 import net.minecraft.core.world.World;
+import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.CatalystMultipart;
 import sunsetsatellite.catalyst.core.util.ISideInteractable;
 import sunsetsatellite.catalyst.multipart.api.ISupportsMultiparts;
@@ -82,36 +83,38 @@ public class BlockMultipart extends BlockTileEntity implements ISideInteractable
 			if (((ISupportsMultiparts) tile).getParts().values().stream().allMatch(Objects::isNull)) {
 				super.getCollidingBoundingBoxes(world, x, y, z, aabb, aabbList);
 			} else {
+
 				((ISupportsMultiparts) tile).getParts().forEach((dir,multipart)->{
 					if(multipart == null) return;
+					double d = Catalyst.map(multipart.type.thickness,1,16,0,1);
 					switch (dir){
 						case X_POS:{
-							AABB bb = new AABB(x+1,y,z,(x+1)-((1.0f/16.0f)*multipart.type.thickness),y+1,z+1);
+							AABB bb = new AABB(x+(1-d),y,z,x+1,y+1,z+1);
 							aabbList.add(bb);
 							break;
 						}
 						case X_NEG:{
-							AABB bb = new AABB(x,y,z,x+((1.0f/16.0f)*multipart.type.thickness),y+1,z+1);
+							AABB bb = new AABB(x,y,z,x+d,y+1,z+1);
 							aabbList.add(bb);
 							break;
 						}
 						case Y_POS:{
-							AABB bb = new AABB(x,y+1,z,x+1,(y+1)-((1.0f/16.0f)*multipart.type.thickness),z+1);
+							AABB bb = new AABB(x,y+(1-d),z,x+1,y+1,z+1);
 							aabbList.add(bb);
 							break;
 						}
 						case Y_NEG:{
-							AABB bb = new AABB(x,y,z,x+1,y+((1.0f/16.0f)*multipart.type.thickness),z+1);
+							AABB bb = new AABB(x,y,z,x+1,y+d,z+1);
 							aabbList.add(bb);
 							break;
 						}
 						case Z_POS: {
-							AABB bb = new AABB(x,y,z+1,x+1,y+1,(z+1)-((1.0f/16.0f)*multipart.type.thickness));
+							AABB bb = new AABB(x,y,z+(1-d),x+1,y+1,z+1);
 							aabbList.add(bb);
 							break;
 						}
 						case Z_NEG: {
-							AABB bb = new AABB(x,y,z,x+1,y+1,z+((1.0f/16.0f)*multipart.type.thickness));
+							AABB bb = new AABB(x,y,z,x+1,y+1,z+d);
 							aabbList.add(bb);
 							break;
 						}
