@@ -18,6 +18,7 @@ import org.useless.dragonfly.model.blockstates.processed.MetaStateInterpreter;
 import sunsetsatellite.catalyst.CatalystMultipart;
 import sunsetsatellite.catalyst.multipart.api.ISupportsMultiparts;
 import sunsetsatellite.catalyst.multipart.api.MultipartType;
+import sunsetsatellite.catalyst.multipart.util.MultipartModelRenderer;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,15 @@ public class BlockModelMultipart extends BlockModelDragonFly {
 		InternalModel[] models = getModelsFromState(block, x, y, z, false);
 		boolean didRender = false;
 		for (InternalModel model : models) {
-			didRender |= BlockModelRenderer.renderModelNormal(tessellator, model.model, block, x, y, z, model.rotationX, -model.rotationY);
+			//X = 90 -> DOWN | Y NEG
+			//X = -90 -> UP | Y POS
+			//Y = 0 || 360 -> NORTH | Z NEG
+			//Y = 90 -> EAST | X POS
+			//Y = 180 -> SOUTH | Z POS
+			//Y = 270 -> WEST | X NEG
+			if(model instanceof MultipartInternalModel){
+				didRender |= MultipartModelRenderer.renderModelNormal(tessellator, model.model, block, x, y, z, ((MultipartInternalModel) model).side, ((MultipartInternalModel) model).part);
+			}
 		}
 		return didRender;
 	}
@@ -58,34 +67,13 @@ public class BlockModelMultipart extends BlockModelDragonFly {
 		if(tile instanceof ISupportsMultiparts){
 			((ISupportsMultiparts) tile).getParts().forEach((dir,multipart)->{
 				if(multipart == null) return;
-				//X = 90 -> DOWN
-				//X = -90 -> UP
-				//Y = 0 || 360 -> NORTH
-				//Y = 90 -> EAST
-				//Y = 180 -> SOUTH
-				//Y = 270 -> WEST
-				int rotX = 0;
-				int rotY = 0;
-				switch (dir) {
-					case X_POS:
-						rotY = 90;
-						break;
-					case X_NEG:
-						rotY = 270;
-						break;
-					case Y_POS:
-						rotX = -90;
-						break;
-					case Y_NEG:
-						rotX = 90;
-						break;
-					case Z_POS:
-						rotY = 180;
-						break;
-					case Z_NEG:
-						break;
-				}
-				InternalModel internalModel = new InternalModel(MultipartType.getOrCreateBlockModel(CatalystMultipart.MOD_ID, multipart), rotX, rotY);
+				//X = 90 -> DOWN | Y NEG
+				//X = -90 -> UP | Y POS
+				//Y = 0 || 360 -> NORTH | Z NEG
+				//Y = 90 -> EAST | X POS
+				//Y = 180 -> SOUTH | Z POS
+				//Y = 270 -> WEST | X NEG
+				MultipartInternalModel internalModel = new MultipartInternalModel(MultipartType.getOrCreateBlockModel(CatalystMultipart.MOD_ID, multipart), dir.getSide(), multipart);
 				internalModel.model.refreshModel();
 				models.add(internalModel);
 			});

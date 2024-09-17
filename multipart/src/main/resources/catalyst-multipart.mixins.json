@@ -4,7 +4,6 @@
   "package": "sunsetsatellite.catalyst.multipart.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockModelRendererMixin"
   ],
   "client": [
   ],

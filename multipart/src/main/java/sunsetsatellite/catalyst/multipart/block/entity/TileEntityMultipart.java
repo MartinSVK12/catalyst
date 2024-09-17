@@ -20,6 +20,12 @@ public class TileEntityMultipart extends TileEntity implements ISupportsMultipar
 	}
 
 	@Override
+	public void tick() {
+		super.tick();
+		worldObj.markBlockDirty(x,y,z);
+	}
+
+	@Override
 	public void writeToNBT(CompoundTag tag) {
 		super.writeToNBT(tag);
 		CompoundTag coversNbt = new CompoundTag();

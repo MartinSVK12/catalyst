@@ -155,20 +155,23 @@ public class BlockModelMultipartItem extends BlockModelDragonFly {
 			if (model.model.blockCubes != null){
 				tessellator.startDrawingQuads();
 				GL11.glColor4f(brightness, brightness, brightness, 1);
-				for (BlockCube cube: model.model.blockCubes) {
-					for (BlockFace face: cube.getFaces().values()) {
+				BlockCube[] blockCubes = model.model.blockCubes;
+				for (int i = 0; i < blockCubes.length; i++) {
+					BlockCube cube = blockCubes[i];
+					if(i < 2 * multipart.type.cubesPerSide || i >= (2 * multipart.type.cubesPerSide) + multipart.type.cubesPerSide) continue;
+					for (BlockFace face : cube.getFaces().values()) {
 						tessellator.setNormal(face.getSide().getOffsetX(), face.getSide().getOffsetY(), face.getSide().getOffsetZ());
-						if (LightmapHelper.isLightmapEnabled() && lightmapCoordinate != null){
+						if (LightmapHelper.isLightmapEnabled() && lightmapCoordinate != null) {
 							tessellator.setLightmapCoord(lightmapCoordinate);
 						}
 						float r = 1;
 						float g = 1;
 						float b = 1;
-						if (face.useTint()){
+						if (face.useTint()) {
 							int color = BlockColorDispatcher.getInstance().getDispatch(block).getFallbackColor(metadata);
-							r = (float)(color >> 16 & 0xFF) / 255.0f;
-							g = (float)(color >> 8 & 0xFF) / 255.0f;
-							b = (float)(color & 0xFF) / 255.0f;
+							r = (float) (color >> 16 & 0xFF) / 255.0f;
+							g = (float) (color >> 8 & 0xFF) / 255.0f;
+							b = (float) (color & 0xFF) / 255.0f;
 						}
 						BlockModelRenderer.renderModelFaceWithColor(tessellator, face, 0, 0, 0, r * brightness, g * brightness, b * brightness);
 					}

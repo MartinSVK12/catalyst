@@ -83,7 +83,6 @@ public class BlockMultipart extends BlockTileEntity implements ISideInteractable
 			if (((ISupportsMultiparts) tile).getParts().values().stream().allMatch(Objects::isNull)) {
 				super.getCollidingBoundingBoxes(world, x, y, z, aabb, aabbList);
 			} else {
-
 				((ISupportsMultiparts) tile).getParts().forEach((dir,multipart)->{
 					if(multipart == null) return;
 					double d = Catalyst.map(multipart.type.thickness,1,16,0,1);

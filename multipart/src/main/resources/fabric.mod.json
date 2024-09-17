@@ -32,6 +32,7 @@
   "depends": {
     "fabricloader": ">=0.15.5",
 		"catalyst-core": ">=1.7.0",
+		"dragonfly": ">=1.5.0-7.2-pre2",
 		"minecraft": "~7.2-beta"
 	},
   "suggests": {
