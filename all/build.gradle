@@ -3,8 +3,8 @@ plugins {
 	id 'java'
 }
 
-group = "sunsetsatellite"
-archivesBaseName = "catalyst-all"
+group = project.mod_group
+archivesBaseName = project.mod_name
 version = project.mod_version
 
 loom {
@@ -23,12 +23,14 @@ dependencies {
 		include(rootProject.project("fluids"))
 		include(rootProject.project("multiblocks"))
 		include(rootProject.project("effects"))
+		include(rootProject.project("multipart"))
 	} else {
 		include(project(":catalyst"))
 		include(project(":catalyst").project("energy"))
 		include(project(":catalyst").project("fluids"))
 		include(project(":catalyst").project("multiblocks"))
 		include(project(":catalyst").project("effects"))
+		include(project(":catalyst").project("multipart"))
 	}
 
 }

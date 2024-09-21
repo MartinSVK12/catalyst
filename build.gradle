@@ -1,6 +1,7 @@
 plugins {
 	id 'babric-loom' version '1.4.+'
 	id 'java'
+	id 'maven-publish'
 }
 
 group = project.core_mod_group
@@ -141,4 +142,3 @@ remapJar {
 	destinationDirectory.set(file("${projectDir}/jars"))
 	archiveVersion.set(archiveVersion.get()+"-${bta_version}")
 }
-

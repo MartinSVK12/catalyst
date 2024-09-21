@@ -36,7 +36,7 @@ public class GuiCarpenterWorkbench extends GuiContainer {
 		}
 		controlList.add(new GuiButton(0, Math.round((float) width / 2 + 60), Math.round((float) height / 2 - 68), 20, 20, "/\\"));
 		controlList.add(new GuiButton(1, Math.round((float) width / 2 + 60), Math.round((float) height / 2 - 34), 20, 20, "\\/"));
-		controlList.add(new GuiButton(2, Math.round((float) width / 2 - 82), Math.round((float) height / 2 - 51), 20, 20, "*"));
+		controlList.add(new GuiButton(2, Math.round((float) width / 2 - 82), Math.round((float) height / 2 - 51), 20, 20, String.valueOf(this.tile.selectedSide.name().charAt(0))));
 	}
 
 	protected void buttonPressed(GuiButton guibutton) {

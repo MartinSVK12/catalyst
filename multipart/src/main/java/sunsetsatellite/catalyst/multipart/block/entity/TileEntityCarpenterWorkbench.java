@@ -44,7 +44,7 @@ public class TileEntityCarpenterWorkbench extends TileEntity implements IInvento
 					multipartTag.putInt("Block", contents[0].itemID);
 					multipartTag.putInt("Meta", contents[0].getMetadata());
 					if(selectedSide != Side.NONE){
-						multipartTag.putInt("Side", selectedSide.ordinal());
+						multipartTag.putInt("Side", selectedSide.getId());
 					}
 					tag.putCompound("Multipart",multipartTag);
 					stack.setData(tag);
