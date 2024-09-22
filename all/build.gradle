@@ -1,6 +1,13 @@
+buildscript {
+	dependencies {
+		classpath 'org.kohsuke:github-api:1.135'
+	}
+}
+
 plugins {
 	id 'babric-loom' version '1.4.+'
 	id 'java'
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 group = project.mod_group
@@ -58,3 +65,57 @@ remapJar {
 	archiveVersion.set(archiveVersion.get()+"-${bta_version}")
 }
 
+modrinth {
+	token = modrinthToken
+	projectId = "catalyst" // This can be the project ID or the slug. Either will work!
+	versionNumber = project.mod_version // You don't need to set this manually. Will fail if Modrinth has this version already
+	versionType = "release" // This is the default -- can also be `beta` or `alpha`
+	uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
+	gameVersions = ["b1.7.3"] // Must be an array, even with only one version
+	loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
+	changelog = Files.readString(java.nio.file.Path.of("${project.projectDir}/CHANGELOG.md"))
+}
+
+
+import net.fabricmc.loom.task.RemapJarTask
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
+
+import java.nio.file.Files
+
+tasks.register('github') {
+	doLast {
+
+		List<RemapJarTask> ts = List.of(
+			rootProject.project(":catalyst").project("energy").remapJar as RemapJarTask,
+			rootProject.project(":catalyst").project("fluids").remapJar as RemapJarTask,
+			rootProject.project(":catalyst").project("multiblocks").remapJar as RemapJarTask,
+			rootProject.project(":catalyst").project("effects").remapJar as RemapJarTask,
+			rootProject.project(":catalyst").project("multipart").remapJar as RemapJarTask
+		)
+
+		def github = GitHub.connectUsingOAuth(githubToken as String)
+		def repository = github.getRepository("MartinSVK12/catalyst")
+
+		def releaseBuilder = new GHReleaseBuilder(repository, version as String)
+		releaseBuilder.name("$version")
+		releaseBuilder.body(Files.readString(java.nio.file.Path.of("${rootProject.projectDir}/CHANGELOG.md")))
+		releaseBuilder.commitish("bta")
+		releaseBuilder.prerelease(true)
+
+		def release = releaseBuilder.create()
+		release.uploadAsset(project.file(remapJar.getArchiveFile().get().getAsFile()),"application/java-archive")
+		if(findProject(":catalyst") != null){
+			ts.forEach {
+				release.uploadAsset(project.file(it.getArchiveFile().get().getAsFile()),"application/java-archive")
+			}
+		}
+	}
+}
+
+tasks.register('deploy'){
+	description "Publish mod to modrinth and github."
+	group "publishing"
+	dependsOn modrinth
+	dependsOn github
+}
