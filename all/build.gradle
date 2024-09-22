@@ -100,7 +100,7 @@ tasks.register('github') {
 		def releaseBuilder = new GHReleaseBuilder(repository, version as String)
 		releaseBuilder.name("$version")
 		releaseBuilder.body(Files.readString(java.nio.file.Path.of("${rootProject.projectDir}/CHANGELOG.md")))
-		releaseBuilder.commitish("bta")
+		releaseBuilder.commitish("7.2")
 		releaseBuilder.prerelease(true)
 
 		def release = releaseBuilder.create()
