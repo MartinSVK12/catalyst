@@ -101,7 +101,6 @@ tasks.register('github') {
 		releaseBuilder.name("$version")
 		releaseBuilder.body(Files.readString(java.nio.file.Path.of("${project.projectDir}/CHANGELOG.md")))
 		releaseBuilder.commitish("7.2")
-		releaseBuilder.prerelease(true)
 
 		def release = releaseBuilder.create()
 		release.uploadAsset(project.file(remapJar.getArchiveFile().get().getAsFile()),"application/java-archive")
