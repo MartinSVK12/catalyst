@@ -1,18 +1,22 @@
 package sunsetsatellite.catalyst.multipart.block.model;
 
+
 import net.minecraft.core.util.helper.Side;
-import org.useless.dragonfly.model.block.InternalModel;
-import org.useless.dragonfly.model.block.processed.ModernBlockModel;
 import sunsetsatellite.catalyst.multipart.api.Multipart;
 
-public class MultipartInternalModel extends InternalModel {
+public class MultipartInternalModel {
 
 	public final Side side;
 	public final Multipart part;
+	public ModernMultipartBlockModel model;
+	public int rotationX;
+	public int rotationY;
 
-	public MultipartInternalModel(ModernBlockModel model, Side side, Multipart part) {
-		super(model, 0, 0);
+	public MultipartInternalModel(ModernMultipartBlockModel model, Side side, Multipart part) {
 		this.side = side;
 		this.part = part;
+		this.model = model;
+		this.rotationX = 0;
+		this.rotationY = 0;
 	}
 }

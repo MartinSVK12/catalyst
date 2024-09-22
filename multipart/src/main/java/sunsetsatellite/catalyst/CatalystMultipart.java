@@ -1,5 +1,7 @@
 package sunsetsatellite.catalyst;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.tag.BlockTags;
@@ -14,10 +16,15 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.tag.ItemTags;
 import net.minecraft.core.item.tool.ItemToolPickaxe;
 import net.minecraft.core.sound.BlockSounds;
+import net.minecraft.core.util.helper.Side;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.core.util.MpGuiEntry;
 import sunsetsatellite.catalyst.multipart.api.MultipartType;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.model.block.adapters.*;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.model.block.data.*;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.vector.Vector3f;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.vector.Vector3fJsonAdapter;
 import sunsetsatellite.catalyst.multipart.block.BlockCarpenterWorkbench;
 import sunsetsatellite.catalyst.multipart.block.BlockMultipart;
 import sunsetsatellite.catalyst.multipart.block.entity.TileEntityCarpenterWorkbench;
@@ -59,6 +66,17 @@ public class CatalystMultipart implements ModInitializer, GameStartEntrypoint, R
 
 	public static final Tag<Block> CAN_BE_MULTIPART = Tag.of("can_be_multipart");
 	public static final HashMap<String,Tag<Block>> TYPE_TAGS = new HashMap<>();
+
+	public static final Gson GSON = new GsonBuilder()
+		.registerTypeAdapter(Vector3f.class, new Vector3fJsonAdapter())
+		.registerTypeAdapter(ModelData.class, new ModelDataJsonAdapter())
+		.registerTypeAdapter(PositionData.class, new PositionDataJsonAdapter())
+		.registerTypeAdapter(CubeData.class, new CubeDataJsonAdapter())
+		.registerTypeAdapter(FaceData.class, new FaceDataJsonAdapter())
+		.registerTypeAdapter(RotationData.class, new RotationDataJsonAdapter())
+		.create();
+	public static final Side[] sides = new Side[]{Side.BOTTOM, Side.TOP, Side.NORTH, Side.SOUTH, Side.WEST, Side.EAST};
+	public static String renderState = "gui";
 
 	static {
 		List<Field> blockFields = Arrays.stream(CatalystMultipart.class.getDeclaredFields()).filter((F) -> Block.class.isAssignableFrom(F.getType())).collect(Collectors.toList());
@@ -129,7 +147,6 @@ public class CatalystMultipart implements ModInitializer, GameStartEntrypoint, R
 		.setResistance(20)
 		.setBlockModel(block ->
 			new MultipartBlockModelBuilder(MOD_ID)
-				.setBlockModel("cover.json")
 				.build(block))
 		.setTextures("minecraft:block/stone")
 		.setTags(BlockTags.NOT_IN_CREATIVE_MENU)

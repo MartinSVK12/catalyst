@@ -8,24 +8,23 @@ import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.WorldSource;
-import org.useless.dragonfly.DragonFly;
-import org.useless.dragonfly.mixins.mixin.accessor.RenderBlocksAccessor;
-import org.useless.dragonfly.model.block.processed.BlockCube;
-import org.useless.dragonfly.model.block.processed.BlockFace;
-import org.useless.dragonfly.model.block.processed.ModernBlockModel;
-import org.useless.dragonfly.utilities.vector.Vector3f;
+import sunsetsatellite.catalyst.CatalystMultipart;
 import sunsetsatellite.catalyst.multipart.api.Multipart;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.model.block.processed.BlockCube;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.model.block.processed.BlockFace;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.vector.Vector3f;
 import sunsetsatellite.catalyst.multipart.block.model.ModernMultipartBlockModel;
+import sunsetsatellite.catalyst.multipart.mixin.accessor.RenderBlocksAccessor;
 
 import java.awt.*;
 
-import static org.useless.dragonfly.utilities.vector.Vector3f.origin;
+import static sunsetsatellite.catalyst.multipart.api.impl.dragonfly.vector.Vector3f.origin;
 
 public class MultipartModelRenderer {
 	public static Minecraft mc = Minecraft.getMinecraft(Minecraft.class);
 	private static final int rotationX = 0;
 	private static final int rotationY = 0;
-	public static boolean renderModelNormal(Tessellator tessellator, ModernBlockModel model, Block block, double x, double y, double z, Side side, Multipart part) {
+	public static boolean renderModelNormal(Tessellator tessellator, ModernMultipartBlockModel model, Block block, double x, double y, double z, Side side, Multipart part) {
 		boolean didRender;
 		didRender = renderStandardModelWithColorMultiplier(tessellator, model, block, x, y, z, 1, 1, 1, side, part);
 		return didRender;
@@ -83,7 +82,7 @@ public class MultipartModelRenderer {
 		}
 	}
 
-	public static boolean renderStandardModelWithColorMultiplier(Tessellator tessellator, ModernBlockModel model, Block block, double x, double y, double z, float r, float g, float b, Side partSide, Multipart part) {
+	public static boolean renderStandardModelWithColorMultiplier(Tessellator tessellator, ModernMultipartBlockModel model, Block block, double x, double y, double z, float r, float g, float b, Side partSide, Multipart part) {
 		getRenderBlocks().enableAO = false;
 		boolean renderedSomething = false;
 		float cBottom = 0.5f;
@@ -120,7 +119,7 @@ public class MultipartModelRenderer {
 		for (int i = 0; i < blockCubes.length; i++) {
 			BlockCube cube = blockCubes[i];
 			if(i < partSide.ordinal() * part.type.cubesPerSide || i >= (partSide.ordinal() * part.type.cubesPerSide) + part.type.cubesPerSide) continue;
-			for (Side side : DragonFly.sides) {
+			for (Side side : CatalystMultipart.sides) {
 				BlockFace face = cube.getFaceFromSide(side, rotationX, rotationY);
 				if (face == null) continue;
 				int _x = (xi + side.getOffsetX());
@@ -229,10 +228,61 @@ public class MultipartModelRenderer {
 		}
 		return renderedSomething;
 	}
-	public static boolean renderSide(Tessellator tessellator, ModernBlockModel model, BlockCube cube, Side side, int x, int y, int z){
+	public static boolean renderSide(Tessellator tessellator, ModernMultipartBlockModel model, BlockCube cube, Side side, int x, int y, int z){
 		WorldSource blockAccess = rba().getBlockAccess();
 		boolean renderOuterSide = blockAccess.getBlock(x, y, z).shouldSideBeRendered(blockAccess, x + side.getOffsetX(), y + side.getOffsetY(), z + side.getOffsetZ(), side.getId(), blockAccess.getBlockMetadata(x + side.getOffsetX(), y + side.getOffsetY(), z + side.getOffsetZ()));
 		return !cube.getFaceFromSide(side, rotationX, rotationY).cullFace(x, y, z, renderOuterSide);
+	}
+	public static void renderModelFaceWithColor(Tessellator tessellator, BlockFace face, double x, double y, double z, float r, float g, float b) {
+		double[] uvTL;
+		double[] uvBL;
+		double[] uvBR;
+		double[] uvTR;
+		if (getRenderBlocks().overrideBlockTexture != null) {
+			uvTL = face.generateVertexUV(getRenderBlocks().overrideBlockTexture, 0);
+			uvBL = face.generateVertexUV(getRenderBlocks().overrideBlockTexture, 1);
+			uvBR = face.generateVertexUV(getRenderBlocks().overrideBlockTexture, 2);
+			uvTR = face.generateVertexUV(getRenderBlocks().overrideBlockTexture, 3);
+		}  else {
+			uvTL = face.getVertexUV(0);
+			uvBL = face.getVertexUV(1);
+			uvBR = face.getVertexUV(2);
+			uvTR = face.getVertexUV(3);
+		}
+
+
+		Vector3f[] faceVertices = new Vector3f[4];
+		for (int i = 0; i < faceVertices.length; i++) {
+			faceVertices[i] = face.vertices[i].rotateAroundX(origin, rotationX).rotateAroundY(origin, rotationY);
+		}
+		Vector3f vtl = faceVertices[0];
+		Vector3f vbl = faceVertices[1];
+		Vector3f vbr = faceVertices[2];
+		Vector3f vtr = faceVertices[3];
+
+		if (getRenderBlocks().enableAO) {
+			// Top Left
+			tessellator.setColorOpaque_F(getRenderBlocks().colorRedTopLeft * r, getRenderBlocks().colorGreenTopLeft * g, getRenderBlocks().colorBlueTopLeft * b);
+			tessellator.addVertexWithUV(x + vtl.x, y + vtl.y, z + vtl.z, uvTL[0], uvTL[1]);
+
+			// Bottom Left
+			tessellator.setColorOpaque_F(getRenderBlocks().colorRedBottomLeft * r, getRenderBlocks().colorGreenBottomLeft * g, getRenderBlocks().colorBlueBottomLeft * b);
+			tessellator.addVertexWithUV(x + vbl.x, y + vbl.y, z + vbl.z, uvBL[0], uvBL[1]);
+
+			// Bottom Right
+			tessellator.setColorOpaque_F(getRenderBlocks().colorRedBottomRight * r, getRenderBlocks().colorGreenBottomRight * g, getRenderBlocks().colorBlueBottomRight * b);
+			tessellator.addVertexWithUV(x + vbr.x, y + vbr.y, z + vbr.z, uvBR[0], uvBR[1]);
+
+			// Top Right
+			tessellator.setColorOpaque_F(getRenderBlocks().colorRedTopRight * r, getRenderBlocks().colorGreenTopRight * g, getRenderBlocks().colorBlueTopRight * b);
+			tessellator.addVertexWithUV(x + vtr.x, y + vtr.y, z + vtr.z, uvTR[0], uvTR[1]);
+		} else {
+			tessellator.setColorOpaque_F(r, g, b);
+			tessellator.addVertexWithUV(x + vtl.x, y + vtl.y, z + vtl.z, uvTL[0], uvTL[1]); // Top Left
+			tessellator.addVertexWithUV(x + vbl.x, y + vbl.y, z + vbl.z, uvBL[0], uvBL[1]); // Bottom Left
+			tessellator.addVertexWithUV(x + vbr.x, y + vbr.y, z + vbr.z, uvBR[0], uvBR[1]); // Bottom Right
+			tessellator.addVertexWithUV(x + vtr.x, y + vtr.y, z + vtr.z, uvTR[0], uvTR[1]); // Top Right
+		}
 	}
 	public static RenderBlocks getRenderBlocks(){
 		return BlockModelStandard.renderBlocks;

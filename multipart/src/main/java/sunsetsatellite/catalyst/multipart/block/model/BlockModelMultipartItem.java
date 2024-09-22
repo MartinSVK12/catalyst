@@ -2,39 +2,39 @@ package sunsetsatellite.catalyst.multipart.block.model;
 
 import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.client.render.block.color.BlockColorDispatcher;
+import net.minecraft.client.render.block.model.BlockModelStandard;
 import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.util.helper.Side;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
-import org.useless.dragonfly.DragonFly;
-import org.useless.dragonfly.model.block.BlockModelDragonFly;
-import org.useless.dragonfly.model.block.BlockModelRenderer;
-import org.useless.dragonfly.model.block.InternalModel;
-import org.useless.dragonfly.model.block.data.PositionData;
-import org.useless.dragonfly.model.block.processed.BlockCube;
-import org.useless.dragonfly.model.block.processed.BlockFace;
-import org.useless.dragonfly.model.block.processed.ModernBlockModel;
-import org.useless.dragonfly.model.blockstates.data.BlockstateData;
-import org.useless.dragonfly.model.blockstates.processed.MetaStateInterpreter;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.CatalystMultipart;
 import sunsetsatellite.catalyst.multipart.api.Multipart;
-import sunsetsatellite.catalyst.multipart.api.MultipartType;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.helper.ModelHelper;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.model.block.data.PositionData;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.model.block.processed.BlockCube;
+import sunsetsatellite.catalyst.multipart.api.impl.dragonfly.model.block.processed.BlockFace;
+import sunsetsatellite.catalyst.multipart.util.MultipartModelRenderer;
 
-public class BlockModelMultipartItem extends BlockModelDragonFly {
+public class BlockModelMultipartItem extends BlockModelStandard<Block> {
 
 	public Multipart multipart;
+	public boolean render3d;
+	public float renderScale;
 
-	public BlockModelMultipartItem(Block block, ModernBlockModel model, BlockstateData blockstateData, MetaStateInterpreter metaStateInterpreter, boolean render3d, float renderScale) {
-		super(block, model, blockstateData, metaStateInterpreter, render3d, renderScale);
+	public BlockModelMultipartItem(Block block, boolean render3d, float renderScale) {
+		super(block);
+		this.render3d = render3d;
+		this.renderScale = renderScale;
 	}
 
 	@Override
 	public boolean render(Tessellator tessellator, int x, int y, int z) {
-		InternalModel[] models = getModelsFromState(block, x, y, z, false);
+		MultipartInternalModel[] models = getModelsFromState(block, x, y, z, false);
 		boolean didRender = false;
-		for (InternalModel model : models) {
-			didRender |= BlockModelRenderer.renderModelNormal(tessellator, model.model, block, x, y, z, model.rotationX, -model.rotationY);
+		for (MultipartInternalModel model : models) {
+			didRender |= MultipartModelRenderer.renderModelNormal(tessellator, model.model, block, x, y, z, Side.NORTH, multipart);
 		}
 		return didRender;
 	}
@@ -50,9 +50,10 @@ public class BlockModelMultipartItem extends BlockModelDragonFly {
 		float xRot;
 		float yRot;
 		float zRot;
-		PositionData displayData = baseModel.getDisplayPosition(DragonFly.renderState);
-		InternalModel[] models = getModelsFromState(null, 0, 0, 0, false);
-		switch (DragonFly.renderState) {
+
+		MultipartInternalModel[] models = getModelsFromState(null, 0, 0, 0, false);
+		PositionData displayData = ModelHelper.getOrCreateBlockModel(CatalystMultipart.MOD_ID,multipart).getDisplayPosition(CatalystMultipart.renderState);
+		switch (CatalystMultipart.renderState) {
 			case "ground":
 				xScale = (float) displayData.scale[2] * 4;
 				yScale = (float) displayData.scale[1] * 4;
@@ -151,7 +152,7 @@ public class BlockModelMultipartItem extends BlockModelDragonFly {
 		GL11.glRotatef(zRot, 0, 0, 1);
 		GL11.glTranslatef(-xOffset, -yOffset, -zOffset);
 		GL11.glScalef(xScale, yScale, zScale);
-		for (InternalModel model : models) {
+		for (MultipartInternalModel model : models) {
 			if (model.model.blockCubes != null){
 				tessellator.startDrawingQuads();
 				GL11.glColor4f(brightness, brightness, brightness, 1);
@@ -173,7 +174,7 @@ public class BlockModelMultipartItem extends BlockModelDragonFly {
 							g = (float) (color >> 8 & 0xFF) / 255.0f;
 							b = (float) (color & 0xFF) / 255.0f;
 						}
-						BlockModelRenderer.renderModelFaceWithColor(tessellator, face, 0, 0, 0, r * brightness, g * brightness, b * brightness);
+						MultipartModelRenderer.renderModelFaceWithColor(tessellator, face, 0, 0, 0, r * brightness, g * brightness, b * brightness);
 					}
 				}
 				tessellator.draw();
@@ -183,10 +184,10 @@ public class BlockModelMultipartItem extends BlockModelDragonFly {
 		GL11.glTranslatef(xOffset, yOffset, zOffset);
 	}
 
-	public InternalModel[] getModelsFromState(Block block, int x, int y, int z, boolean sourceFromWorld){
-		InternalModel internalModel = new InternalModel(MultipartType.getOrCreateBlockModel(CatalystMultipart.MOD_ID, multipart), 0, 0);
+	public MultipartInternalModel[] getModelsFromState(Block block, int x, int y, int z, boolean sourceFromWorld){
+		MultipartInternalModel internalModel = new MultipartInternalModel(ModelHelper.getOrCreateBlockModel(CatalystMultipart.MOD_ID, multipart), Side.NORTH, multipart);
 		internalModel.model.refreshModel();
-		return new InternalModel[]{internalModel};
+		return new MultipartInternalModel[]{internalModel};
 	}
 }
 

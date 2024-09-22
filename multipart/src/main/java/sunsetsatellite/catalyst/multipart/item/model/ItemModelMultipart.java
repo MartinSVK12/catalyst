@@ -90,7 +90,6 @@ public class ItemModelMultipart extends ItemModelStandard {
 		boolean specifiedSideOnly = itemstack.getData().getCompound("Multipart").containsKey("Side");
 		if(!Objects.equals(type, "") && block != null && MultipartType.types.containsKey(type)) {
 			BlockModelMultipartItem blockModel = new MultipartBlockModelBuilder(CatalystMultipart.MOD_ID)
-				.setBlockModel("cover.json")
 				.buildItem();
 			if(specifiedSideOnly){
 				Side side = Side.getSideById(itemstack.getData().getCompound("Multipart").getInteger("Side"));
