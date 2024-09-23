@@ -21,6 +21,8 @@ Available modules:
   - Adds support for multiblock structures/machines.
 - Effects
   - API for custom attributes and stackable effects.
+- Multipart
+  - API and implementation for multiple block parts in one block.
   
 **Latest versions:**
 - **All: 1.11.0**
