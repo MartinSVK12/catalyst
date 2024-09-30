@@ -1,6 +1,6 @@
 # Catalyst
 
-**Library for advanced modding needs of BTA 7.1**
+**Library for advanced modding needs of BTA**
 
 Catalyst is split into modules, the current available modules are described below. 
 
