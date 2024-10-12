@@ -1,6 +1,6 @@
 # Catalyst
 
-**Library for advanced modding needs of BTA 7.1**
+**Library for advanced modding needs of BTA**
 
 Catalyst is split into modules, the current available modules are described below. 
 
@@ -21,6 +21,8 @@ Available modules:
   - Adds support for multiblock structures/machines.
 - Effects
   - API for custom attributes and stackable effects.
+- Multipart
+  - API and implementation for multiple block parts in one block.
   
 **Latest versions:**
 - **All: 1.11.0**
