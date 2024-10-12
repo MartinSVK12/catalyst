@@ -20,7 +20,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
         int i = tileEntity.x;
         int j = tileEntity.y;
         int k = tileEntity.z;
-        Direction dir = Direction.getDirectionFromSide(tileEntity.getMovedData()).getOpposite();
+        Direction dir = Direction.getDirectionFromSide(tileEntity.getMovedData());
         World world = this.renderDispatcher.renderEngine.mc.theWorld;
         if(tileEntity instanceof IMultiblock){
             Multiblock multiblock = ((IMultiblock) tileEntity).getMultiblock();

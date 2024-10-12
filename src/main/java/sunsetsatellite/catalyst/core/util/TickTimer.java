@@ -1,5 +1,8 @@
 package sunsetsatellite.catalyst.core.util;
 
+/**
+ * A timer that calls {@link TickTimer#timeoutMethod} when {@link TickTimer#max} ticks have been counted, can be single-shot or looped.
+ */
 public class TickTimer {
     public Object owner;
     public Procedure timeoutMethod;

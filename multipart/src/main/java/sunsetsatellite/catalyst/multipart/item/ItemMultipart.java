@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.multipart.item;
 
 import com.mojang.nbt.CompoundTag;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockFluid;
 import net.minecraft.core.block.entity.TileEntity;
@@ -72,7 +73,7 @@ public class ItemMultipart extends Item implements ISideInteractable, ICustomDes
 	public boolean onUseItemOnBlock(ItemStack stack, EntityPlayer player, World world, int blockX, int blockY, int blockZ, Side side, double xPlaced, double yPlaced) {
 		Multipart multipart = getMultipart(stack);
 		if(multipart == null) return false;
-		Pair<Direction, BlockSection> pair = Catalyst.getBlockSurfaceClickPosition(world, player);
+		Pair<Direction, BlockSection> pair = Catalyst.getBlockSurfaceClickPosition(world, player, Minecraft.getMinecraft(this).objectMouseOver);
 		Side playerFacing = Catalyst.calculatePlayerFacing(player.yRot);
 		if (pairIsInvalid(pair)) return false;
 		Direction dir = pair.getRight().toDirection(pair.getLeft(), playerFacing);

@@ -1,7 +1,7 @@
 package sunsetsatellite.catalyst;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.Global;
 import net.minecraft.core.HitResult;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.data.registry.Registry;
@@ -44,9 +44,8 @@ public class Catalyst implements ModInitializer {
 		((IMpGui)player).displayCustomGUI(tileEntity, id);
 	}
 
-	public static Pair<Direction,BlockSection> getBlockSurfaceClickPosition(World world, EntityPlayer player){
-		if (!world.isClientSide) {
-			HitResult hit = Minecraft.getMinecraft(Catalyst.class).objectMouseOver;
+	public static Pair<Direction,BlockSection> getBlockSurfaceClickPosition(World world, EntityPlayer player, HitResult hit){
+		if (!Global.isServer) {
 			if(hit.hitType == HitResult.HitType.TILE){
 				Direction dir = Direction.getDirectionFromSide(hit.side.getId());
 				Vec3f vec3f = new Vec3f(hit.location.xCoord,hit.location.yCoord,hit.location.zCoord);

@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.core.util;
 
 import com.mojang.nbt.CompoundTag;
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.world.WorldSource;
@@ -225,5 +226,13 @@ public class Vec3i {
 
 	public TileEntity getTileEntity(WorldSource worldSource){
 		return worldSource.getBlockTileEntity(this.x, this.y, this.z);
+	}
+
+	public Block getBlock(WorldSource worldSource){
+		return worldSource.getBlock(this.x, this.y, this.z);
+	}
+
+	public int getBlockMetadata(WorldSource worldSource){
+		return worldSource.getBlockMetadata(this.x, this.y, this.z);
 	}
 }

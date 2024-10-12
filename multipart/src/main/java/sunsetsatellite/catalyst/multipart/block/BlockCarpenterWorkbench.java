@@ -24,6 +24,7 @@ public class BlockCarpenterWorkbench extends BlockTileEntity {
 		return new TileEntityCarpenterWorkbench();
 	}
 
+	@Override
 	public boolean onBlockRightClicked(World world, int i, int j, int k, EntityPlayer entityplayer, Side side, double xHit, double yHit) {
 		if (world.isClientSide) {
 			return true;
