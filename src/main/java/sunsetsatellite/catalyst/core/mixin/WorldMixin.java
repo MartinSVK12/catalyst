@@ -24,11 +24,6 @@ import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 
 @Mixin(value = World.class,remap = false)
 public abstract class WorldMixin implements IAbsoluteWorldTime {
-
-	@Shadow
-	@Final
-	public LevelStorage saveHandler;
-
 	@Shadow public abstract int getBlockMetadata(int x, int y, int z);
 
 	@Shadow public abstract int getBlockId(int x, int y, int z);
