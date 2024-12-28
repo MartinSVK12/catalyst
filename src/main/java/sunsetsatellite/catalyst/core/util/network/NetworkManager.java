@@ -57,7 +57,8 @@ public class NetworkManager {
 		@Override
 		public void signalEmitted(Signal<World> signal, World world) {
 			if(signal == Catalyst.DIMENSION_LOAD_SIGNAL){
-				File file = world.saveHandler.getDataFile("networks_"+world.dimension.id);
+				File file = world.getSaveHandler().getDataFile("networks_"+world.dimension.id);
+				if (file == null) return;
 				if (file.exists()) {
 					try {
 						CompoundTag tag = NbtIo.readCompressed(Files.newInputStream(file.toPath()));
@@ -69,7 +70,8 @@ public class NetworkManager {
 				}
 			} else if (signal == Catalyst.DIMENSION_SAVE_SIGNAL) {
 				try {
-					File file = world.saveHandler.getDataFile("networks_"+world.dimension.id);
+					File file = world.getSaveHandler().getDataFile("networks_"+world.dimension.id);
+					if (file == null) return;
 					CompoundTag tag = new CompoundTag();
 					try {
 						tag = NbtIo.readCompressed(Files.newInputStream(file.toPath()));
