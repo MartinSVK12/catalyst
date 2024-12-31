@@ -1,8 +1,5 @@
 package sunsetsatellite.catalyst.fluids.render;
 
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.render.FontRenderer;
 import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.RenderEngine;
 import net.minecraft.client.render.block.model.BlockModelDispatcher;

@@ -23,6 +23,10 @@ public class MultiblockInstance implements Signal.Listener<BlockChangeInfo>{
 	@Override
 	public void signalEmitted(Signal<BlockChangeInfo> signal, BlockChangeInfo blockChanged) {
 		if(signal != Catalyst.ANY_BLOCK_CHANGED_SIGNAL) return;
+		if(origin.worldObj == null){
+			valid = false;
+			return;
+		};
 		if(origin.worldObj.getBlockTileEntity(origin.x, origin.y, origin.z) != origin || origin.worldObj.getBlockId(origin.x, origin.y, origin.z) == 0 || (!Global.isServer && origin.worldObj != Minecraft.getMinecraft(this).theWorld)) {
 			valid = false;
 			Catalyst.ANY_BLOCK_CHANGED_SIGNAL.disconnect(this);
