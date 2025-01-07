@@ -169,7 +169,15 @@ public class RecipeExtendedSymbol {
 
     public RecipeSymbol asNormalSymbol(){
         if(itemGroup == null){
-            RecipeSymbol r = new RecipeSymbol(stack);
+			RecipeSymbol r = null;
+			if(stack == null && fluidStack != null){
+				r = new RecipeSymbol(fluidStack.toItemStack());
+			} else if(stack != null) {
+				r = new RecipeSymbol(stack);
+			}
+			if(stack == null && fluidStack == null){
+				throw new NullPointerException("Null symbol!");
+			}
             ((RecipeSymbolAccessor)r).setSymbol(symbol);
             return r;
         } else {

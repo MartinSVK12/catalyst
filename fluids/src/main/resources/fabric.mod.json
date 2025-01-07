@@ -23,6 +23,9 @@
     ],
 		"afterGameStart": [
 			"sunsetsatellite.catalyst.CatalystFluids"
+		],
+		"gatherTMBPlugins": [
+			"sunsetsatellite.catalyst.fluids.api.impl.tmb.TMBFluidPlugin"
 		]
   },
   "mixins": [

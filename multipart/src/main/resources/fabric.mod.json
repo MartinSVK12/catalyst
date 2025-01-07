@@ -23,6 +23,9 @@
     ],
 		"recipesReady": [
 			"sunsetsatellite.catalyst.CatalystMultipart"
+		],
+		"gatherTMBPlugins": [
+			"sunsetsatellite.catalyst.multipart.api.impl.tmb.TMBMultipartPlugin"
 		]
   },
   "mixins": [
