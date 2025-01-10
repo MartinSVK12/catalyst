@@ -7,10 +7,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.core.util.tile.TEFeature;
 import sunsetsatellite.catalyst.core.util.tile.feature.ItemContainerFeature;
-import sunsetsatellite.catalyst.energy.improved.simple.test.tile.TileEntityBatteryBox;
-import sunsetsatellite.catalyst.energy.improved.simple.test.tile.TileEntitySimpleGenerator;
-import sunsetsatellite.catalyst.energy.improved.simple.test.tile.TileEntitySimpleMachine;
-import sunsetsatellite.catalyst.energy.improved.simple.test.tile.TileEntityWire;
+import sunsetsatellite.catalyst.energy.simple.test.block.BlockBatteryBox;
+import sunsetsatellite.catalyst.energy.simple.test.block.BlockSimpleGenerator;
+import sunsetsatellite.catalyst.energy.simple.test.block.BlockSimpleMachine;
+import sunsetsatellite.catalyst.energy.simple.test.block.BlockWire;
+import sunsetsatellite.catalyst.energy.simple.test.tile.TileEntityBatteryBox;
+import sunsetsatellite.catalyst.energy.simple.test.tile.TileEntitySimpleGenerator;
+import sunsetsatellite.catalyst.energy.simple.test.tile.TileEntitySimpleMachine;
+import sunsetsatellite.catalyst.energy.simple.test.tile.TileEntityWire;
+import turniplabs.halplibe.helper.BlockBuilder;
 import turniplabs.halplibe.helper.EntityHelper;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
@@ -27,20 +32,24 @@ public class CatalystEnergy implements ModInitializer, GameStartEntrypoint {
 
 	public static final String ITEM_CONTAINER_FEATURE = "catalyst-energy:feature/item_container";
 
-	/*public static final BlockWire wire = new BlockBuilder(MOD_ID)
+	public static final BlockWire wire = new BlockBuilder(MOD_ID)
 		.setTextures("catalyst-energy:block/wire")
+		.addTags(ENERGY_CONDUITS_CONNECT)
 		.build(new BlockWire("wire",1550));
 	public static final BlockBatteryBox box = new BlockBuilder(MOD_ID)
 		.setTextures("catalyst-energy:block/battery_box")
+		.addTags(ENERGY_CONDUITS_CONNECT)
 		.build(new BlockBatteryBox("box",1551));
 	public static final BlockSimpleGenerator generator = new BlockBuilder(MOD_ID)
 		.setTextures("catalyst-energy:block/machine_side")
 		.setSouthTexture("catalyst-energy:block/generator")
+		.addTags(ENERGY_CONDUITS_CONNECT)
 		.build(new BlockSimpleGenerator("generator",1552));
 	public static final BlockSimpleMachine machine = new BlockBuilder(MOD_ID)
 		.setTextures("catalyst-energy:block/machine_side")
 		.setSouthTexture("catalyst-energy:block/machine")
-		.build(new BlockSimpleMachine("machine",1553));*/
+		.addTags(ENERGY_CONDUITS_CONNECT)
+		.build(new BlockSimpleMachine("machine",1553));
 
 	static {
 		Toml configToml = new Toml("Catalyst: Energy configuration file.");
