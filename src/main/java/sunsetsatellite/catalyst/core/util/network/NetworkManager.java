@@ -139,19 +139,18 @@ public class NetworkManager {
 				potentialNet.addBlock(x, y, z);
 				net = potentialNet;
 			}
-		}
-		else { //multiple nets around
+		} else { //multiple nets around
 			Network[] netsArray = sideNets.toArray(new Network[size]);
 			Network main = null;
 			for (Network network : netsArray) {
-				if(network.isOfSameType(component)){
+				if (network.isOfSameType(component)){
 					main = network;
 					main.addBlock(x, y, z);
 					for (Network otherNet : netsArray) {
-						if(otherNet == main){
+						if (otherNet == main){
 							continue;
 						}
-						if(otherNet.isOfSameType(main)){
+						if (otherNet.isOfSameType(main)){
 							main.mergeNetwork(otherNet);
 							nets.remove(otherNet);
 						}
@@ -282,6 +281,15 @@ public class NetworkManager {
 		}
 		return null;
 	}
+
+	public static Map<Integer, Set<Network>> getAllNets() {
+		return Collections.unmodifiableMap(NETS);
+	}
+
+	public static Set<Network> getNetsForDimension(int dim) {
+		return Collections.unmodifiableSet(NETS.getOrDefault(dim, Collections.emptySet()));
+	}
+
 
 	public static void updateAllNets(){
 		NETS.forEach((dimId, nets)->{

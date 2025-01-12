@@ -9,7 +9,9 @@ import net.minecraft.core.util.helper.Color;
 import net.minecraft.core.world.World;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.Catalyst;
+import sunsetsatellite.catalyst.core.util.ConduitCapability;
 import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.core.util.IConduitTile;
 import sunsetsatellite.catalyst.core.util.Vec3i;
 
 import java.util.*;
@@ -62,6 +64,14 @@ public class Network {
 		return blocks.size();
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
 	public boolean existsOnPos(int x, int y, int z) {
 		Vec3i pos = new Vec3i(x, y, z);
 		return blocks.containsKey(pos);
@@ -74,11 +84,13 @@ public class Network {
 		Vec3i pos = new Vec3i(x, y, z);
 		blocks.put(pos, new BlockEntry(block, meta));
 		if (block instanceof NetworkComponent) {
-			networkBlocks.put(pos, (NetworkComponent) block);
-			if(world.getBlockTileEntity(x,y,z) instanceof NetworkComponentTile){
-				((NetworkComponentTile) world.getBlockTileEntity(x,y,z)).networkChanged(this);
+			if (((NetworkComponent) block).getType().equals(type)) {
+				networkBlocks.put(pos, (NetworkComponent) block);
+				if(world.getBlockTileEntity(x,y,z) instanceof NetworkComponentTile){
+					((NetworkComponentTile) world.getBlockTileEntity(x,y,z)).networkChanged(this);
+				}
+				update();
 			}
-			update();
 		}
 		NET_PATH_DATA.clear();
 	}
@@ -208,6 +220,8 @@ public class Network {
 			}
 		}
 
+		net.update();
+
 		return net;
 	}
 
@@ -290,6 +304,43 @@ public class Network {
 			this.block = block;
 			this.meta = meta;
 		}
+	}
+
+	public <T> List<T> search(Vec3i start, Class<T> clazz){
+		ArrayList<T> result = new ArrayList<>();
+		List<NetworkPath> paths = getPathData(start);
+		for (NetworkPath path : paths) {
+			if (clazz.isAssignableFrom(path.target.getClass())) {
+				if (path.target.getPosition().getTileEntity(world) != path.target) {
+					NET_PATH_DATA.clear();
+				} else {
+					result.add(clazz.cast(path.target));
+				}
+			}
+		}
+		return result;
+	}
+
+	public <T> T findFirst(Vec3i start, Class<T> clazz){
+		for (Direction dir : Direction.values()) {
+			TileEntity tileEntity = dir.getTileEntity(world, start);
+			if(tileEntity instanceof IConduitTile) {
+				if (((IConduitTile) tileEntity).getConduitCapability() == ConduitCapability.RES_NETWORK) {
+					List<NetworkPath> paths = getPathData(((IConduitTile) tileEntity).getPosition());
+					for (NetworkPath path : paths) {
+						if (clazz.isAssignableFrom(path.target.getClass())) {
+							if (path.target.getPosition().getTileEntity(world) != path.target) continue;
+							return clazz.cast(path.target);
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Set<Vec3i> getPositions() {
+		return Collections.unmodifiableSet(blocks.keySet());
 	}
 
 }

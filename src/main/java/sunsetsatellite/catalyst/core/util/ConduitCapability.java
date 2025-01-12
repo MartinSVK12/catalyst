@@ -4,7 +4,7 @@ public enum ConduitCapability {
     FLUID,
     SIGNALUM,
     ITEM,
-    NETWORK,
+	RES_NETWORK,
     CATALYST_ENERGY,
 	ELECTRIC
 }

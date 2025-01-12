@@ -1,0 +1,9 @@
+gui.options.page.catalyst=Catalyst
+gui.options.page.catalyst.category.core=Core
+gui.options.page.catalyst.category.fluids=Fluids
+gui.options.page.catalyst.category.energy=Energy
+gui.options.page.catalyst.category.multiblocks=Multiblocks
+gui.options.page.catalyst.category.effects=Effects
+gui.options.page.catalyst.category.multipart=Multipart
+
+options.catalyst-core.showNetworkRender=Show Network Render

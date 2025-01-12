@@ -20,7 +20,10 @@
   "entrypoints": {
     "main": [
       "sunsetsatellite.catalyst.Catalyst"
-    ]
+    ],
+		"afterGameStart": [
+			"sunsetsatellite.catalyst.CatalystClient"
+		]
   },
   "mixins": [
 		"catalyst.mixins.json"

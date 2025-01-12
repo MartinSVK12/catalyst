@@ -1,4 +1,4 @@
-package sunsetsatellite.catalyst.multiblocks;
+package sunsetsatellite.catalyst.core.util;
 
 import net.minecraft.client.render.LightmapHelper;
 import net.minecraft.core.block.Block;
@@ -8,8 +8,6 @@ import net.minecraft.core.enums.LightLayer;
 import net.minecraft.core.world.WorldSource;
 import net.minecraft.core.world.biome.Biome;
 import net.minecraft.core.world.season.SeasonManager;
-import sunsetsatellite.catalyst.core.util.BlockInstance;
-import sunsetsatellite.catalyst.core.util.Vec3i;
 
 import java.util.ArrayList;
 import java.util.HashMap;

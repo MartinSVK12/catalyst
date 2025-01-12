@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.energy.simple.impl;
 
+import com.mojang.nbt.CompoundTag;
 import net.minecraft.core.block.entity.TileEntity;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.Vec3i;
@@ -62,6 +63,24 @@ public abstract class TileEntityEnergyBase extends TileEntity implements IEnergy
 	@Override
 	public boolean isConnected(Direction direction) {
 		return direction.getTileEntity(worldObj,this) instanceof TileEntityEnergyConductor;
+	}
+
+	@Override
+	public void writeToNBT(CompoundTag tag) {
+		super.writeToNBT(tag);
+		tag.putLong("Energy", energy);
+		tag.putLong("Capacity", capacity);
+		tag.putLong("MaxReceive", maxReceive);
+		tag.putLong("MaxProvide", maxProvide);
+	}
+
+	@Override
+	public void readFromNBT(CompoundTag tag) {
+		super.readFromNBT(tag);
+		energy = tag.getLong("Energy");
+		capacity = tag.getLong("Capacity");
+		maxReceive = tag.getLong("MaxReceive");
+		maxProvide = tag.getLong("MaxProvide");
 	}
 
 	@Override
