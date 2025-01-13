@@ -306,8 +306,8 @@ public class Network {
 		}
 	}
 
-	public <T> List<T> search(Vec3i start, Class<T> clazz){
-		ArrayList<T> result = new ArrayList<>();
+	public <T> Set<T> search(Vec3i start, Class<T> clazz){
+		HashSet<T> result = new HashSet<>();
 		List<NetworkPath> paths = getPathData(start);
 		for (NetworkPath path : paths) {
 			if (clazz.isAssignableFrom(path.target.getClass())) {
