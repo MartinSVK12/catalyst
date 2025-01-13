@@ -255,6 +255,7 @@ public class NetworkManager {
 		final int size = netsList.tagCount();
 		for (int i = 0; i < size; i++) {
 			Network net = Network.fromTag(world, (CompoundTag) netsList.tagAt(i));
+			net.update();
 			if (net.getSize() > 1) {
 				nets.add(net);
 			}
@@ -270,7 +271,7 @@ public class NetworkManager {
 		return block instanceof NetworkComponent;
 	}
 
-	private static Network getNet(World world, int x, int y, int z) {
+	public static Network getNet(World world, int x, int y, int z) {
 		Set<Network> nets = NETS.get(world.dimension.id);
 		if (nets != null) {
 			for (Network net: nets) {

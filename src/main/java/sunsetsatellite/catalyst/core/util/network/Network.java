@@ -89,9 +89,9 @@ public class Network {
 				if(world.getBlockTileEntity(x,y,z) instanceof NetworkComponentTile){
 					((NetworkComponentTile) world.getBlockTileEntity(x,y,z)).networkChanged(this);
 				}
-				update();
 			}
 		}
+		update();
 		NET_PATH_DATA.clear();
 	}
 
@@ -160,6 +160,7 @@ public class Network {
 				sideNet.update();
 			}
 		}
+		update();
 		NET_PATH_DATA.clear();
 		return result;
 	}
