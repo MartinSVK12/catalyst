@@ -26,6 +26,12 @@
 		],
 		"gatherTMBPlugins": [
 			"sunsetsatellite.catalyst.multipart.api.impl.tmb.TMBMultipartPlugin"
+		],
+		"beforeClientStart": [
+			"sunsetsatellite.catalyst.CatalystMultipartClient"
+		],
+		"afterClientStart": [
+			"sunsetsatellite.catalyst.CatalystMultipartClient"
 		]
   },
   "mixins": [

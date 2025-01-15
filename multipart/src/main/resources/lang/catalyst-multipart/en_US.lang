@@ -20,3 +20,4 @@ multipart.hollow_panel.name=Hollow Panel
 multipart.hollow_slab.name=Hollow Slab
 multipart.pillar.name=Pillar
 
+options.catalyst-multipart.showMultipartsInTMB=Show Multiparts In TMB (Requires Restart)
