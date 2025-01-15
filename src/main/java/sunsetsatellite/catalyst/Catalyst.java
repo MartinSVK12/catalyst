@@ -14,6 +14,7 @@ import net.minecraft.core.util.collection.Pair;
 import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
+import org.jetbrains.annotations.UnmodifiableView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.core.util.*;
@@ -38,7 +39,39 @@ public class Catalyst implements ModInitializer {
 		NetworkHelper.register(PacketOpenGui.class,false,true);
 	}
 
-    @Override
+	public static ArrayList<ItemStack> condenseItemList(List<ItemStack> list) {
+		ArrayList<ItemStack> stacks = new ArrayList<>();
+		for (ItemStack stack : list) {
+			if (stack != null) {
+				boolean found = false;
+				for (ItemStack S : stacks) {
+					if (S.isItemEqual(stack) && (S.getData().equals(stack.getData()))) {
+						S.stackSize += stack.stackSize;
+						found = true;
+					}
+				}
+				if(!found) stacks.add(stack.copy());
+			}
+		}
+		return stacks;
+	}
+
+	public static @UnmodifiableView List<ItemStack> collectStacks(IInventory inv){
+		if(inv == null) return Collections.emptyList();
+		ArrayList<ItemStack> stacks = new ArrayList<>();
+
+		for (int i = 0; i < inv.getSizeInventory(); i++) {
+			stacks.add(i,inv.getStackInSlot(i));
+		}
+
+		return Collections.unmodifiableList(stacks);
+	}
+
+	public static @UnmodifiableView List<ItemStack> collectAndCondenseStacks(IInventory inv){
+		return condenseItemList(collectStacks(inv));
+	}
+
+	@Override
     public void onInitialize() {
 		TILE_ENTITY_BLOCK_CHANGED_SIGNAL.connect(NetworkManager.BlockChangeListener.INSTANCE);
 		DIMENSION_LOAD_SIGNAL.connect(NetworkManager.LoadSaveListener.INSTANCE);
