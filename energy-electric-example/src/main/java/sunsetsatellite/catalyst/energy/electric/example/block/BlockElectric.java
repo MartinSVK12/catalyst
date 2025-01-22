@@ -13,9 +13,9 @@ import sunsetsatellite.catalyst.CatalystEnergy;
 import sunsetsatellite.catalyst.core.util.ICustomDescription;
 import sunsetsatellite.catalyst.core.util.network.NetworkComponent;
 import sunsetsatellite.catalyst.core.util.network.NetworkType;
-import sunsetsatellite.catalyst.energy.improved.electric.api.IVoltageTiered;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
-import sunsetsatellite.catalyst.energy.improved.electric.base.TileEntityElectricBase;
+import sunsetsatellite.catalyst.energy.electric.api.IVoltageTiered;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricBase;
 
 import java.util.Random;
 

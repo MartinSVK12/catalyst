@@ -1,7 +1,7 @@
 package sunsetsatellite.catalyst.energy.electric.example.tile;
 
 import net.minecraft.core.block.Block;
-import sunsetsatellite.catalyst.energy.improved.electric.base.TileEntityElectricGenerator;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricGenerator;
 import sunsetsatellite.catalyst.energy.electric.example.block.BlockElectric;
 
 public class TileEntitySimpleElectricGenerator extends TileEntityElectricGenerator {

@@ -18,7 +18,6 @@ dependencies {
 		implementation project(path: ':catalyst', configuration: "namedElements")
 		implementation project(path: ':catalyst:energy', configuration: "namedElements")
 		implementation project(path: ":btwaila",configuration: "namedElements")
-		implementation project(path: ":guilib",configuration: "namedElements")
 	} else {
 		implementation project(path: ':', configuration: "namedElements")
 		implementation project(path: ':energy', configuration: "namedElements")

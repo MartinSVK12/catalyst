@@ -11,7 +11,7 @@ import sunsetsatellite.catalyst.CatalystEnergy;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.tile.feature.ItemContainerFeature;
 import sunsetsatellite.catalyst.energy.electric.example.item.ItemBattery;
-import sunsetsatellite.catalyst.energy.improved.electric.base.TileEntityElectricStorage;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricStorage;
 import sunsetsatellite.catalyst.energy.electric.example.block.BlockElectric;
 
 import java.util.Random;

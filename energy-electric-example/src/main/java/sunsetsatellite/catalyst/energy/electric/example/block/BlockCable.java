@@ -14,9 +14,9 @@ import sunsetsatellite.catalyst.core.util.ICustomDescription;
 import sunsetsatellite.catalyst.core.util.ISideInteractable;
 import sunsetsatellite.catalyst.core.util.network.NetworkComponent;
 import sunsetsatellite.catalyst.core.util.network.NetworkType;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
-import sunsetsatellite.catalyst.energy.improved.electric.api.WireMaterial;
-import sunsetsatellite.catalyst.energy.improved.electric.api.WireProperties;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.api.WireMaterial;
+import sunsetsatellite.catalyst.energy.electric.api.WireProperties;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntityCable;
 
 

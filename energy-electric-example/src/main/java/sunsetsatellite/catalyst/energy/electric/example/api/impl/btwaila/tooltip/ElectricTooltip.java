@@ -3,9 +3,9 @@ package sunsetsatellite.catalyst.energy.electric.example.api.impl.btwaila.toolti
 import net.minecraft.client.render.stitcher.TextureRegistry;
 import net.minecraft.core.net.command.TextFormatting;
 import sunsetsatellite.catalyst.core.util.NumberUtil;
-import sunsetsatellite.catalyst.energy.improved.electric.base.TileEntityElectricBase;
-import sunsetsatellite.catalyst.energy.improved.electric.base.TileEntityElectricGenerator;
-import sunsetsatellite.catalyst.energy.improved.electric.base.TileEntityElectricStorage;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricBase;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricGenerator;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricStorage;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntitySimpleElectricBatteryBox;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntitySimpleElectricGenerator;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntitySimpleElectricMachine;

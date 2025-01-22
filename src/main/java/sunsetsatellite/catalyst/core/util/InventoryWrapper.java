@@ -295,7 +295,7 @@ public class InventoryWrapper implements IItemStackList {
         List<ItemStack> stacks = Catalyst.collectStacks(connected);
         for (int i = 0; i < stacks.size(); i++) {
             if(stacks.get(i) == null) continue;
-            if(stacks.get(i).itemID == id && stacks.get(i).getMetadata() == meta) {
+            if(stacks.get(i).itemID == id && (stacks.get(i).getMetadata() == meta || meta == -1)) {
                 if(stacks.get(i).getData().equals(data) || data == null) {
                     return i;
                 }

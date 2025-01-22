@@ -5,9 +5,9 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.net.command.TextFormatting;
 import sunsetsatellite.catalyst.core.util.ICustomDescription;
 import sunsetsatellite.catalyst.core.util.NumberUtil;
-import sunsetsatellite.catalyst.energy.improved.electric.api.IElectricItem;
-import sunsetsatellite.catalyst.energy.improved.electric.api.IVoltageTiered;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.api.IElectricItem;
+import sunsetsatellite.catalyst.energy.electric.api.IVoltageTiered;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 
 public class ItemBattery extends Item implements IElectricItem, ICustomDescription, IVoltageTiered {
 

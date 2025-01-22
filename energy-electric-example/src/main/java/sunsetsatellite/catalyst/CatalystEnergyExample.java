@@ -4,16 +4,13 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.render.block.color.BlockColorDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sunsetsatellite.catalyst.core.util.MpGuiEntry;
 import sunsetsatellite.catalyst.core.util.tile.TEFeature;
 import sunsetsatellite.catalyst.core.util.tile.feature.ItemContainerFeature;
 import sunsetsatellite.catalyst.energy.electric.example.block.color.BlockColorWire;
-import sunsetsatellite.catalyst.energy.electric.example.container.ContainerSimpleElectricBatteryBox;
 import sunsetsatellite.catalyst.energy.electric.example.data.ElectricBlocks;
 import sunsetsatellite.catalyst.energy.electric.example.data.ElectricConfig;
 import sunsetsatellite.catalyst.energy.electric.example.data.ElectricItems;
 import sunsetsatellite.catalyst.energy.electric.example.data.WireMaterials;
-import sunsetsatellite.catalyst.energy.electric.example.gui.GuiSimpleElectricBatteryBox;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntityCable;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntitySimpleElectricBatteryBox;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntitySimpleElectricGenerator;
@@ -56,7 +53,7 @@ public class CatalystEnergyExample implements ModInitializer, GameStartEntrypoin
 		EntityHelper.createTileEntity(TileEntitySimpleElectricMachine.class,"ElSimpleMachine");
 		EntityHelper.createTileEntity(TileEntityCable.class,"ElCable");
 
-		Catalyst.GUIS.register("ElBatteryBox",new MpGuiEntry(TileEntitySimpleElectricBatteryBox.class, GuiSimpleElectricBatteryBox.class, ContainerSimpleElectricBatteryBox.class));
+		//Catalyst.GUIS.register("ElBatteryBox",new MpGuiEntry(TileEntitySimpleElectricBatteryBox.class, GuiSimpleElectricBatteryBox.class, ContainerSimpleElectricBatteryBox.class));
 
         LOGGER.info("Example mod for Catalyst's electric energy system initialized.");
     }

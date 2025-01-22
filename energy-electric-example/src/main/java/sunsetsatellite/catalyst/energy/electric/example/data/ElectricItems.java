@@ -3,7 +3,7 @@ package sunsetsatellite.catalyst.energy.electric.example.data;
 import sunsetsatellite.catalyst.core.util.DataInitializer;
 import sunsetsatellite.catalyst.energy.electric.example.item.ItemBattery;
 import sunsetsatellite.catalyst.energy.electric.example.item.model.ItemModelBattery;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import turniplabs.halplibe.helper.ItemBuilder;
 
 import static sunsetsatellite.catalyst.CatalystEnergy.LOGGER;

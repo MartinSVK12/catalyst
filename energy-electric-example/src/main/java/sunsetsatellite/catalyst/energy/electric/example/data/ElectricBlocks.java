@@ -2,8 +2,8 @@ package sunsetsatellite.catalyst.energy.electric.example.data;
 
 import sunsetsatellite.catalyst.core.util.DataInitializer;
 import sunsetsatellite.catalyst.core.util.Direction;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
-import sunsetsatellite.catalyst.energy.improved.electric.api.WireProperties;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.api.WireProperties;
 import sunsetsatellite.catalyst.energy.electric.example.block.BlockCable;
 import sunsetsatellite.catalyst.energy.electric.example.block.BlockElectricBatteryBox;
 import sunsetsatellite.catalyst.energy.electric.example.block.BlockElectricGenerator;

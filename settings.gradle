@@ -24,3 +24,8 @@ include 'multiblocks'
 include 'effects'
 include 'multipart'
 include 'all'
+
+include(":btwaila")
+project(":btwaila").projectDir = file("${rootProject.projectDir}/../BTWaila")
+include(":tmb")
+project(":tmb").projectDir = file("${rootProject.projectDir}/../../Foreign/TMB")

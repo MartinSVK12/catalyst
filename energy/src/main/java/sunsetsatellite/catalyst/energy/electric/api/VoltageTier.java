@@ -32,6 +32,9 @@ public enum VoltageTier {
 				return tier;
 			}
 		}
+		if(voltage >= MAX.maxVoltage){
+			return MAX;
+		}
 		return null;
 	}
 }

@@ -3,7 +3,7 @@ package sunsetsatellite.catalyst.energy.electric.example.block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.net.command.TextFormatting;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntitySimpleElectricGenerator;
 
 public class BlockElectricGenerator extends BlockElectric {

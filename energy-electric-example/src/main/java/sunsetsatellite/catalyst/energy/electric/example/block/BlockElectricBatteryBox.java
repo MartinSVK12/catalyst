@@ -8,7 +8,7 @@ import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.NumberUtil;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntitySimpleElectricBatteryBox;
 
 public class BlockElectricBatteryBox extends BlockElectric {

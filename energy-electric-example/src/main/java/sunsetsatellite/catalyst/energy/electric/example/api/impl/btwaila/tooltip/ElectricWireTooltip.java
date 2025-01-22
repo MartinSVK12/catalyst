@@ -1,7 +1,7 @@
 package sunsetsatellite.catalyst.energy.electric.example.api.impl.btwaila.tooltip;
 
 import net.minecraft.client.render.stitcher.TextureRegistry;
-import sunsetsatellite.catalyst.energy.improved.electric.base.TileEntityElectricConductor;
+import sunsetsatellite.catalyst.energy.electric.base.TileEntityElectricConductor;
 import sunsetsatellite.catalyst.energy.electric.example.tile.TileEntityCable;
 import toufoumaster.btwaila.gui.components.AdvancedInfoComponent;
 import toufoumaster.btwaila.tooltips.TileTooltip;

@@ -364,7 +364,7 @@ public class ItemStackList implements IItemStackList, Iterable<ItemStack> {
     @Override
     public long count(int id, int meta, CompoundTag data) {
         return contents.stream().mapToInt((S) -> {
-            if (S.itemID == id && S.getMetadata() == meta) {
+            if (S.itemID == id && (S.getMetadata() == meta || meta == -1)) {
                 return S.stackSize;
             }
             return 0;
@@ -381,16 +381,16 @@ public class ItemStackList implements IItemStackList, Iterable<ItemStack> {
         }).sum();
     }
 
-    @Override
-    public int find(int id, int meta, CompoundTag data) {
-        for (int i = 0; i < contents.size(); i++) {
-            ItemStack content = contents.get(i);
-            if (content.getMetadata() == meta && content.itemID == id) {
-                return i;
-            }
-        }
-        return -1;
-    }
+	@Override
+	public int find(int id, int meta, CompoundTag data) {
+		for (int i = 0; i < contents.size(); i++) {
+			ItemStack content = contents.get(i);
+			if ((content.getMetadata() == meta || meta == -1) && content.itemID == id) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
     @Override
     public ItemStack get(int index) {

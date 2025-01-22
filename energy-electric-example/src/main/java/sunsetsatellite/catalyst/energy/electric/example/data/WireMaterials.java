@@ -2,8 +2,8 @@ package sunsetsatellite.catalyst.energy.electric.example.data;
 
 import sunsetsatellite.catalyst.CatalystEnergy;
 import sunsetsatellite.catalyst.core.util.DataInitializer;
-import sunsetsatellite.catalyst.energy.improved.electric.api.VoltageTier;
-import sunsetsatellite.catalyst.energy.improved.electric.api.WireMaterial;
+import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
+import sunsetsatellite.catalyst.energy.electric.api.WireMaterial;
 
 public class WireMaterials extends DataInitializer {
 
