@@ -19,6 +19,7 @@ dependencies {
 		implementation project(path: ":btwaila",configuration: "namedElements")
 	} else {
 		implementation project(path: ':', configuration: "namedElements")
+		implementation project(path: ":btwaila",configuration: "namedElements")
 	}
 
 	minecraft "bta-download-repo:bta:${project.bta_version}"

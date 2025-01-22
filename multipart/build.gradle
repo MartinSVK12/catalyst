@@ -19,6 +19,7 @@ dependencies {
 		implementation project(path: ':tmb', configuration: "namedElements")
 	} else {
 		implementation project(path: ':', configuration: "namedElements")
+		implementation project(path: ':tmb', configuration: "namedElements")
 	}
 
 	minecraft "bta-download-repo:bta:${project.bta_version}"
