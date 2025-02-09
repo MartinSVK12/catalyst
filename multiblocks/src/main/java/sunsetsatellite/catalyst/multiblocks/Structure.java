@@ -1,13 +1,18 @@
 package sunsetsatellite.catalyst.multiblocks;
 
 import com.mojang.nbt.*;
+import com.mojang.nbt.tags.CompoundTag;
+import com.mojang.nbt.tags.IntTag;
+import com.mojang.nbt.tags.StringTag;
+import com.mojang.nbt.tags.Tag;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.CatalystMultiblocks;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
 import sunsetsatellite.catalyst.core.util.Direction;
-import sunsetsatellite.catalyst.core.util.Vec3i;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +75,7 @@ public class Structure {
             }
         }
         for (BlockInstance block : blocks) {
-            world.setBlockAndMetadataWithNotify(block.pos.x,block.pos.y,block.pos.z,block.block.id,block.meta);
+            world.setBlockAndMetadataWithNotify(block.pos.x,block.pos.y,block.pos.z,block.block.id(),block.meta);
         }
         return true;
     }
@@ -87,7 +92,7 @@ public class Structure {
             }
         }
         for (BlockInstance block : blocks) {
-            world.setBlockAndMetadataWithNotify(block.pos.x,block.pos.y,block.pos.z,block.block.id,block.meta == -1 ? 0 : block.meta);
+            world.setBlockAndMetadataWithNotify(block.pos.x,block.pos.y,block.pos.z,block.block.id(),block.meta == -1 ? 0 : block.meta);
         }
         return true;
     }
@@ -96,7 +101,7 @@ public class Structure {
         CompoundTag blockTag = data.getCompound("Origin");
         int meta = blockTag.getInteger("meta");
         int id = getBlockId(blockTag);
-        Block block = Block.getBlock(id);
+        Block<?> block = Blocks.getBlock(id);
         return new BlockInstance(block, new Vec3i(),meta,null);
     }
 
@@ -104,7 +109,7 @@ public class Structure {
         CompoundTag blockTag = data.getCompound("Origin");
         int meta = blockTag.getInteger("meta");
         int id = getBlockId(blockTag);
-        Block block = Block.getBlock(id);
+        Block<?> block = Blocks.getBlock(id);
         return new BlockInstance(block, origin,meta,null);
     }
 
@@ -121,7 +126,7 @@ public class Structure {
 			}
 		}
 		int id = getBlockId(blockTag);
-		Block block = Block.getBlock(id);
+		Block<?> block = Blocks.getBlock(id);
 		return new BlockInstance(block, origin,meta,null);
 	}
 
@@ -130,8 +135,8 @@ public class Structure {
         Vec3i pos = new Vec3i(blockTag.getCompound("pos"));
         int meta = blockTag.getInteger("meta");
         int id = getBlockId(blockTag);
-        Block block = Block.getBlock(id);
-        return new BlockInstance(block,pos,meta,world.getBlockTileEntity(pos.x, pos.y, pos.z));
+        Block<?> block = Blocks.getBlock(id);
+        return new BlockInstance(block,pos,meta,world.getTileEntity(pos.x, pos.y, pos.z));
     }
 
     public ArrayList<BlockInstance> getTileEntities(){
@@ -141,7 +146,7 @@ public class Structure {
             Vec3i pos = new Vec3i(tileEntity.getCompound("pos"));
             int meta = tileEntity.getInteger("meta");
             int id = getBlockId(tileEntity);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -155,7 +160,7 @@ public class Structure {
             Vec3i pos = new Vec3i(tileEntity.getCompound("pos")).add(origin);
             int meta = tileEntity.getInteger("meta");
             int id = getBlockId(tileEntity);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -169,8 +174,8 @@ public class Structure {
             Vec3i pos = new Vec3i(tileEntity.getCompound("pos")).add(origin);
             int meta = tileEntity.getInteger("meta");
             int id = getBlockId(tileEntity);
-            Block block = Block.getBlock(id);
-            BlockInstance blockInstance = new BlockInstance(block,pos,meta,world.getBlockTileEntity(pos.x, pos.y, pos.z));
+            Block<?> block = Blocks.getBlock(id);
+            BlockInstance blockInstance = new BlockInstance(block,pos,meta,world.getTileEntity(pos.x, pos.y, pos.z));
             tiles.add(blockInstance);
         }
         return tiles;
@@ -192,8 +197,8 @@ public class Structure {
 				}
 			}
 			int id = getBlockId(blockTag);
-			Block block = Block.getBlock(id);
-			BlockInstance blockInstance = new BlockInstance(block,pos,meta,world.getBlockTileEntity(pos.x, pos.y, pos.z));
+			Block block = Blocks.getBlock(id);
+			BlockInstance blockInstance = new BlockInstance(block,pos,meta,world.getTileEntity(pos.x, pos.y, pos.z));
 			tiles.add(blockInstance);
 		}
 		return tiles;
@@ -206,7 +211,7 @@ public class Structure {
             Vec3i pos = new Vec3i(blockTag.getCompound("pos"));
             int meta = blockTag.getInteger("meta");
             int id = getBlockId(blockTag);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -220,7 +225,7 @@ public class Structure {
             Vec3i pos = new Vec3i(blockTag.getCompound("pos")).add(origin);
             int meta = blockTag.getInteger("meta");
             int id = getBlockId(blockTag);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -243,7 +248,7 @@ public class Structure {
 				}
 			}
             int id = getBlockId(blockTag);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -257,7 +262,7 @@ public class Structure {
             Vec3i pos = new Vec3i(sub.getCompound("pos"));
             int meta = sub.getInteger("meta");
             int id = getBlockId(sub);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -271,7 +276,7 @@ public class Structure {
             Vec3i pos = new Vec3i(sub.getCompound("pos")).add(origin);
             int meta = sub.getInteger("meta");
             int id = getBlockId(sub);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -294,7 +299,7 @@ public class Structure {
 				}
 			}
             int id = getBlockId(tileEntity);
-            Block block = Block.getBlock(id);
+            Block block = Blocks.getBlock(id);
             BlockInstance blockInstance = new BlockInstance(block,pos,meta,null);
             tiles.add(blockInstance);
         }
@@ -310,8 +315,8 @@ public class Structure {
             try {
                 Class<?> clazz = Class.forName(args[0]);
                 Field field = clazz.getDeclaredField(args[1]);
-                Block b = (Block) field.get(null);
-                return b.id;
+                Block<?> b = (Block<?>) field.get(null);
+                return b.id();
             } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException | ClassCastException e) {
                e.printStackTrace();
                return 0;
@@ -332,13 +337,13 @@ public class Structure {
         }
     }
 
-    public String getBlockFieldName(Block item){
+    public String getBlockFieldName(Block<?> item){
         try{
-            ArrayList<Field> fields = new ArrayList<>(Arrays.asList(Block.class.getDeclaredFields()));
+            ArrayList<Field> fields = new ArrayList<>(Arrays.asList(Blocks.class.getDeclaredFields()));
             for (Field field : fields) {
                 if(field.getType().isAssignableFrom(Block.class) && Modifier.isStatic(field.getModifiers())){
                     field.setAccessible(true);
-                    Block fieldItem = (Block) field.get(null);
+                    Block<?> fieldItem = (Block<?>) field.get(null);
                     if(fieldItem.equals(item)){
                         return "Block."+field.getName();
                     }
@@ -349,7 +354,7 @@ public class Structure {
                 for (Field field : fields) {
                     if (field.getType().isAssignableFrom(Block.class) && Modifier.isStatic(field.getModifiers())) {
                         field.setAccessible(true);
-                        Block fieldItem = (Block) field.get(null);
+                        Block<?> fieldItem = (Block<?>) field.get(null);
                         if (fieldItem.equals(item)) {
                             return aClass.getName()+"." + field.getName();
                         }

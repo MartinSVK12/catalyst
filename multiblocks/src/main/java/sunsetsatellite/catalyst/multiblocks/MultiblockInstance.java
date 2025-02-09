@@ -6,6 +6,7 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.*;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
 public class MultiblockInstance implements Signal.Listener<BlockChangeInfo>{
 
@@ -27,7 +28,7 @@ public class MultiblockInstance implements Signal.Listener<BlockChangeInfo>{
 			valid = false;
 			return;
 		};
-		if(origin.worldObj.getBlockTileEntity(origin.x, origin.y, origin.z) != origin || origin.worldObj.getBlockId(origin.x, origin.y, origin.z) == 0 || (!Global.isServer && origin.worldObj != Minecraft.getMinecraft(this).theWorld)) {
+		if(origin.worldObj.getTileEntity(origin.x, origin.y, origin.z) != origin || origin.worldObj.getBlockId(origin.x, origin.y, origin.z) == 0 || (!Global.isServer && origin.worldObj != Minecraft.getMinecraft().currentWorld)) {
 			valid = false;
 			Catalyst.ANY_BLOCK_CHANGED_SIGNAL.disconnect(this);
 			return;
@@ -37,7 +38,7 @@ public class MultiblockInstance implements Signal.Listener<BlockChangeInfo>{
 
 	public boolean verifyIntegrity(){
 		if(origin.worldObj != null){
-			Block block = origin.getBlockType();
+			Block<?> block = origin.getBlock();
 			if(block != null){
 				return data.isValidAtSilent(origin.worldObj,new BlockInstance(block,new Vec3i(origin.x,origin.y,origin.z),origin), Direction.getDirectionFromSide(origin.worldObj.getBlockMetadata(origin.x,origin.y,origin.z)));
 			} else {

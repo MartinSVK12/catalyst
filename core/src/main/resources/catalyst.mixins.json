@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sunsetsatellite.catalyst.core.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ItemStackMixin",
+    "LevelDataMixin",
+    "TileEntityMixin",
+    "WorldMixin"
+  ],
+  "client": [
+    "BlockModelStandardMixin",
+    "FontRendererMixin",
+    "GameSettingsMixin",
+    "GuiTooltipMixin",
+    "ItemModelStandardMixin",
+    "RenderGlobalMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

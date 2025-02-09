@@ -1,12 +1,12 @@
 package sunsetsatellite.catalyst.energy.simple.impl;
 
 import net.minecraft.core.block.entity.TileEntity;
-import sunsetsatellite.catalyst.core.util.ConduitCapability;
 import sunsetsatellite.catalyst.core.util.Direction;
-import sunsetsatellite.catalyst.core.util.IConduitTile;
-import sunsetsatellite.catalyst.core.util.Vec3i;
+import sunsetsatellite.catalyst.core.util.conduit.ConduitCapability;
+import sunsetsatellite.catalyst.core.util.conduit.IConduitTile;
 import sunsetsatellite.catalyst.core.util.network.Network;
 import sunsetsatellite.catalyst.core.util.network.NetworkType;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 import sunsetsatellite.catalyst.energy.simple.api.IEnergyContainer;
 
 public abstract class TileEntityEnergyConductor extends TileEntity implements IConduitTile {

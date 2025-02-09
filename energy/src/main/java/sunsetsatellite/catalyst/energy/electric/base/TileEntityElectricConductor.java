@@ -1,10 +1,14 @@
 package sunsetsatellite.catalyst.energy.electric.base;
 
 import net.minecraft.core.block.entity.TileEntity;
-import sunsetsatellite.catalyst.core.util.*;
+import sunsetsatellite.catalyst.core.util.AveragingCounter;
+import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.core.util.conduit.ConduitCapability;
+import sunsetsatellite.catalyst.core.util.conduit.IConduitTile;
 import sunsetsatellite.catalyst.core.util.mixin.interfaces.ITileEntityInit;
 import sunsetsatellite.catalyst.core.util.network.Network;
 import sunsetsatellite.catalyst.core.util.network.NetworkType;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 import sunsetsatellite.catalyst.energy.electric.api.IElectric;
 import sunsetsatellite.catalyst.energy.electric.api.IElectricWire;
 import sunsetsatellite.catalyst.energy.electric.api.WireProperties;

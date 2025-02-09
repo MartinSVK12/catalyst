@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "catalyst-core",
+  "version": "${version}",
+
+  "name": "Catalyst: Core",
+  "description": "Library for advanced modding needs.",
+	"icon": "icon.png",
+  "authors": [
+    "sunsetsatellite"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "https://github.com/MartinSVK12/catalyst"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "sunsetsatellite.catalyst.Catalyst"
+    ],
+		"afterGameStart": [
+			"sunsetsatellite.catalyst.CatalystClient"
+		]
+  },
+  "mixins": [
+		"catalyst.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.15.5",
+		"minecraft": "~7.3"
+  },
+  "suggests": {
+  },
+	"custom": {
+		"modmenu:api": true
+	}
+}

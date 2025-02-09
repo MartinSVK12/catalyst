@@ -1,6 +1,6 @@
 package sunsetsatellite.catalyst.multiblocks;
 
-import net.minecraft.client.Minecraft;
+/*import net.minecraft.client.Minecraft;
 import net.minecraft.core.entity.player.EntityPlayer;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.CommandHandler;
@@ -107,4 +107,4 @@ public class StructureCommand extends Command {
             commandSender.sendMessage("/structure list");
         }
     }
-}
+}*/

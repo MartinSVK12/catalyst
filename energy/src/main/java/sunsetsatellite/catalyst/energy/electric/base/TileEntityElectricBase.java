@@ -1,14 +1,15 @@
 package sunsetsatellite.catalyst.energy.electric.base;
 
-import com.mojang.nbt.CompoundTag;
+import com.mojang.nbt.tags.CompoundTag;
+import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.AveragingCounter;
 import sunsetsatellite.catalyst.core.util.Direction;
-import sunsetsatellite.catalyst.core.util.Vec3i;
 import sunsetsatellite.catalyst.core.util.mixin.interfaces.ITileEntityInit;
 import sunsetsatellite.catalyst.core.util.network.Network;
 import sunsetsatellite.catalyst.core.util.network.NetworkComponentTile;
 import sunsetsatellite.catalyst.core.util.network.NetworkType;
 import sunsetsatellite.catalyst.core.util.tile.ExtendableTileEntity;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 import sunsetsatellite.catalyst.energy.electric.api.IElectric;
 import sunsetsatellite.catalyst.energy.electric.api.IVoltageTiered;
 import sunsetsatellite.catalyst.energy.electric.api.VoltageTier;
@@ -40,7 +41,7 @@ public abstract class TileEntityElectricBase extends ExtendableTileEntity implem
 
 	@Override
 	public VoltageTier getTier() {
-		IVoltageTiered block = (IVoltageTiered) getBlockType();
+		IVoltageTiered block = Catalyst.blockLogic(getBlock(),IVoltageTiered.class);
 		return block.getTier();
 	}
 

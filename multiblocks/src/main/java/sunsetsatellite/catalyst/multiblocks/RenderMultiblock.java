@@ -3,13 +3,16 @@ package sunsetsatellite.catalyst.multiblocks;
 import net.minecraft.client.render.RenderBlocks;
 import net.minecraft.client.render.block.model.BlockModel;
 import net.minecraft.client.render.block.model.BlockModelDispatcher;
-import net.minecraft.client.render.stitcher.TextureRegistry;
 import net.minecraft.client.render.tessellator.Tessellator;
+import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.world.World;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.core.util.*;
+import sunsetsatellite.catalyst.core.util.model.IColorOverride;
+import sunsetsatellite.catalyst.core.util.model.IFullbright;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -20,8 +23,8 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
         int i = tileEntity.x;
         int j = tileEntity.y;
         int k = tileEntity.z;
-        Direction dir = Direction.getDirectionFromSide(tileEntity.getMovedData());
-        World world = this.renderDispatcher.renderEngine.mc.theWorld;
+        Direction dir = Direction.getDirectionFromSide(tileEntity.getBlockMeta());
+        World world = this.renderDispatcher.textureManager.mc.currentWorld;
         if(tileEntity instanceof IMultiblock){
 			if(((IMultiblock) tileEntity).getMultiblock() == null){
 				return;
@@ -65,7 +68,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
     }
 
 	public void drawBlock(Tessellator tessellator, BlockModel<?> model, int meta) {
-		TextureRegistry.blockAtlas.bindTexture();
+		TextureRegistry.blockAtlas.bind();
 		GL11.glPushMatrix();
 		RenderBlocks renderBlocks = BlockModel.renderBlocks;
 		BlockModel.setRenderBlocks(blockRenderer);

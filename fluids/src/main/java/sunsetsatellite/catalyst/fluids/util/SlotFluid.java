@@ -1,6 +1,5 @@
 package sunsetsatellite.catalyst.fluids.util;
 
-import net.minecraft.core.block.BlockFluid;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 
 import java.util.List;
@@ -9,14 +8,14 @@ public class SlotFluid {
     public final IFluidInventory fluidInventory;
     public int slotIndex;
     public int slotNumber;
-    public int xPos;
-    public int yPos;
+    public int x;
+    public int y;
 
     public SlotFluid(IFluidInventory iFluidInventory, int idx, int x, int y) {
         fluidInventory = iFluidInventory;
         slotIndex = idx;
-        xPos = x;
-        yPos = y;
+        this.x = x;
+        this.y = y;
     }
 
     public void onSlotChanged(){
@@ -27,15 +26,15 @@ public class SlotFluid {
         this.onSlotChanged();
     }
 
-    public boolean isFluidValid(BlockFluid stack) {
+    public boolean isFluidValid(Fluid stack) {
         return true;
     }
 
-	public boolean isAnyFluidValid(List<BlockFluid> stack) {
+	public boolean isAnyFluidValid(List<Fluid> stack) {
 		return true;
 	}
 
-	public boolean areAllFluidValid(List<BlockFluid> stack) {
+	public boolean areAllFluidValid(List<Fluid> stack) {
 		return true;
 	}
 
@@ -43,7 +42,7 @@ public class SlotFluid {
         return fluidInventory.getFluidInSlot(this.slotIndex);
     }
 
-    public boolean getHasStack() {
+    public boolean hasStack() {
         return this.getFluidStack() != null;
     }
 
@@ -52,7 +51,7 @@ public class SlotFluid {
             this.fluidInventory.setFluidInSlot(this.slotIndex,null);
             this.onSlotChanged();
         }
-        else if(fluidInventory.getAllowedFluidsForSlot(slotIndex).isEmpty() || fluidInventory.getAllowedFluidsForSlot(slotIndex).contains(stack.liquid)){
+        else if(fluidInventory.getAllowedFluidsForSlot(slotIndex).isEmpty() || fluidInventory.getAllowedFluidsForSlot(slotIndex).contains(stack.fluid)){
             this.fluidInventory.setFluidInSlot(this.slotIndex, stack);
             this.onSlotChanged();
         }

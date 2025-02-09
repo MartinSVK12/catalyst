@@ -22,7 +22,7 @@ public class FluidStackIngredientRenderer implements IIngredientRenderer<FluidSt
         RenderUtil.renderItemInGui(helper.getMinecraft(), ingredient, 0, 0, 1, 1, 1, 1);
         if (ingredient.stackSize > 1) {
             String text = NumberUtil.format(ingredient.stackSize);
-            helper.getMinecraft().fontRenderer.drawStringWithShadow(text, 16 - helper.getMinecraft().fontRenderer.getStringWidth(text), 8, 0xFFFFFF);
+            helper.getMinecraft().font.drawStringWithShadow(text, 16 - helper.getMinecraft().font.getStringWidth(text), 8, 0xFFFFFF);
         }
     }
 

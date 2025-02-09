@@ -2,40 +2,40 @@ package sunsetsatellite.catalyst.fluids.mixin;
 
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.net.handler.NetClientHandler;
+import net.minecraft.client.net.handler.PacketHandlerClient;
 import net.minecraft.client.player.controller.PlayerController;
 import net.minecraft.client.player.controller.PlayerControllerMP;
-import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import sunsetsatellite.catalyst.fluids.impl.ContainerFluid;
-import sunsetsatellite.catalyst.fluids.impl.ContainerItemFluid;
-import sunsetsatellite.catalyst.fluids.interfaces.mixins.IPlayerControllerMP;
-import sunsetsatellite.catalyst.fluids.mp.packets.PacketFluidWindowClick;
+import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
+import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPickupController;
+import sunsetsatellite.catalyst.fluids.mp.PacketFluidWindowClick;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
 @Mixin(
-        value = PlayerControllerMP.class,
-        remap = false
+      value = PlayerControllerMP.class,
+      remap = false
 )
-public class PlayerControllerMPMixin extends PlayerController implements IPlayerControllerMP {
-    @Shadow
-    protected NetClientHandler netHandler;
+public class PlayerControllerMPMixin extends PlayerController implements FluidPickupController {
 
-    public PlayerControllerMPMixin(Minecraft minecraft) {
-        super(minecraft);
-    }
+	@Shadow
+	protected PacketHandlerClient netHandler;
 
-    @Override
-    public FluidStack fluidPickUpFromInventory(int i, int slotID, int button, boolean shift, boolean control, EntityPlayer entityplayer) {
-        short word0 = entityplayer.craftingInventory.getActionId(entityplayer.inventory);
-        FluidStack fluidStack = null;
-        if(entityplayer.craftingInventory instanceof ContainerFluid){
-            fluidStack = ((ContainerFluid)entityplayer.craftingInventory).clickFluidSlot(slotID, button, shift, control, entityplayer);
-        } else if (entityplayer.craftingInventory instanceof ContainerItemFluid) {
-            fluidStack = ((ContainerItemFluid)entityplayer.craftingInventory).clickFluidSlot(slotID, button, shift, control, entityplayer);
-        }
-        this.netHandler.addToSendQueue(new PacketFluidWindowClick(i, slotID, button, shift, control, fluidStack, word0));
-        return fluidStack;
+	private PlayerControllerMPMixin(Minecraft minecraft) {
+		super(minecraft);
+	}
+
+	@Override
+    public FluidStack catalyst$fluidPickUpFromInventory(int i, int slotID, int button, boolean shift, boolean control, Player player) {
+		short word0 = player.craftingInventory.backup(player.inventory);
+		FluidStack fluidStack = null;
+		if(player.craftingInventory instanceof MenuFluid){
+			fluidStack = ((MenuFluid)player.craftingInventory).clickFluidSlot(slotID, button, shift, control, player);
+		} /*else if (player.craftingInventory instanceof ContainerItemFluid) {
+			fluidStack = ((ContainerItemFluid)player.craftingInventory).clickFluidSlot(slotID, button, shift, control, player);
+		}*/
+		this.netHandler.addToSendQueue(new PacketFluidWindowClick(i, slotID, button, shift, control, fluidStack, word0));
+		return fluidStack;
     }
 }

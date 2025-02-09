@@ -7,7 +7,7 @@ import sunsetsatellite.catalyst.core.util.Direction;
 public abstract class TileEntityElectricStorage extends TileEntityElectricDevice {
 
 	@Override
-	public void init(Block block) {
+	public void init(Block<?> block) {
 		super.init(block);
 	}
 

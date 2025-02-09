@@ -12,11 +12,16 @@ The all modules package cannot be used in development, you have to implement the
 
 Available modules:
 - Core
-  - The core module, **every other module depends on this**. Adds misc utility classes for modules and other mods to use. Makes creating GUIs that work in MP easier.
+  - The core module, **every other module depends on this**.
+  - Adds misc utility classes for modules and other mods to use.
+  - Makes creating GUIs that work in MP easier.
+  - Adds a block network system.
 - Fluids
   - Improved api for fluid storage and transportation.
 - Energy
-  - Adds a simple, configurable energy api.
+  - Adds 2 types of configurable energy APIs.
+    - Simple: RF-style system, energy is just a number that can be generated or consumed.
+    - Electric: GT-style system, incorporates voltage and amperage. 
 - Multiblocks
   - Adds support for multiblock structures/machines.
 - Effects

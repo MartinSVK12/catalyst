@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "catalyst-core",
+  "id": "catalyst-all",
   "version": "${version}",
 
-  "name": "Catalyst: Core",
-  "description": "Library for advanced modding needs.",
+  "name": "Catalyst: All",
+  "description": "The full Catalyst package, includes all available modules.",
 	"icon": "icon.png",
   "authors": [
     "sunsetsatellite"
@@ -17,22 +17,11 @@
   "license": "MIT",
 
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "sunsetsatellite.catalyst.Catalyst"
-    ],
-		"afterGameStart": [
-			"sunsetsatellite.catalyst.CatalystClient"
-		]
-  },
-  "mixins": [
-		"catalyst.mixins.json"
-  ],
 
   "depends": {
-    "fabricloader": ">=0.15.5",
-		"minecraft": "~7.2-beta"
-  },
+		"fabricloader": ">=0.15.5",
+		"minecraft": "~7.3"
+	},
   "suggests": {
   },
 	"custom": {

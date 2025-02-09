@@ -1,2 +1,0 @@
-- Moved some useful classes into Catalyst.
-- Add option to show/hide multiparts from TMB.

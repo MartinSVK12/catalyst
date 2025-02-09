@@ -1,31 +1,35 @@
 pluginManagement {
-    repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-        maven {
-            name = 'Jitpack'
-            url = 'https://jitpack.io'
-        }
-        maven {
-            name = 'Babric'
-            url = 'https://maven.glass-launcher.net/babric'
-        }
-    }
+	repositories {
+		gradlePluginPortal()
+		maven {
+			name = 'Fabric'
+			url = 'https://maven.fabricmc.net/'
+		}
+		maven {
+			name = 'Jitpack'
+			url = 'https://jitpack.io'
+		}
+		maven {
+			name = 'Babric'
+			url = 'https://maven.glass-launcher.net/babric'
+		}
+		maven {
+			name = 'SignalumMavenInfrastructure'
+			url = 'https://maven.thesignalumproject.net/infrastructure'
+		}
+	}
+	plugins {
+		id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+	}
+}
+plugins {
+	id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
-rootProject.name = 'catalyst'
-
+include 'core'
 include 'energy'
 include 'fluids'
 include 'multiblocks'
-include 'effects'
-include 'multipart'
-include 'all'
 
-include(":btwaila")
-project(":btwaila").projectDir = file("${rootProject.projectDir}/../BTWaila")
 include(":tmb")
-project(":tmb").projectDir = file("${rootProject.projectDir}/../TMB")
+project(":tmb").projectDir = file("${rootProject.projectDir}/../tmb")

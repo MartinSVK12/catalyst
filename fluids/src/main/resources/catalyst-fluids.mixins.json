@@ -4,17 +4,19 @@
   "package": "sunsetsatellite.catalyst.fluids.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityPlayerMPMixin",
-    "EntityPlayerSPMixin",
-    "ItemBucketEmptyMixin",
-    "NetClientHandlerMixin",
-    "NetServerHandlerMixin",
-    "PlayerControllerMixin",
-    "PlayerControllerMPMixin"
+    "ItemBucketMixin"
   ],
   "client": [
+    "PacketHandlerClientMixin",
+    "PlayerControllerMixin",
+    "PlayerControllerMPMixin",
+    "PlayerLocalMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "server": [
+    "PacketHandlerServerMixinServer",
+    "PlayerServerMixin"
+  ]
 }

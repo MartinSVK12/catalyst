@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.multiblocks;
 
-import com.mojang.nbt.CompoundTag;
+
+import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
@@ -30,7 +31,7 @@ public class Multiblock extends Structure{
             if (!block.exists(world)) {
                 boolean foundSub = substitutions.stream().anyMatch((BI) -> BI.pos.equals(block.pos) && BI.exists(world));
                 if (!foundSub) {
-					Minecraft.getMinecraft(this).ingameGUI.addChatMessage("Invalid at "+block.pos);
+					Minecraft.getMinecraft().hudIngame.addChatMessage("Invalid at "+block.pos);
                     return false;
                 }
             }

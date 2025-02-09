@@ -1,123 +1,153 @@
 plugins {
-	id 'babric-loom' version '1.4.+'
+	id 'fabric-loom' version '1.7.bta'
 	id 'java'
-	id 'maven-publish'
+	id 'org.jetbrains.kotlin.jvm'
 }
 
-group = project.core_mod_group
-archivesBaseName = project.core_mod_name
-version = project.core_mod_version
+import org.gradle.internal.os.OperatingSystem
+
+project.ext.lwjglVersion = "3.3.3"
+
+switch (OperatingSystem.current()) {
+	case OperatingSystem.LINUX:
+		project.ext.lwjglNatives = "natives-linux"
+		break
+	case OperatingSystem.WINDOWS:
+		project.ext.lwjglNatives = "natives-windows"
+		break
+	case OperatingSystem.MAC_OS:
+		project.ext.lwjglNatives = "natives-macos"
+}
+
+group = project.mod_group
+archivesBaseName = project.mod_name
+version = project.mod_version
 
 loom {
-	gluedMinecraftJar()
 	noIntermediateMappings()
-	customMinecraftManifest.set("https://github.com/Turnip-Labs/bta-manifest-repo/releases/download/v${project.bta_version}/${project.bta_version}.json")
+	customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${project.bta_channel}/v${project.bta_version}/manifest.json")
 }
 
-allprojects {
-	repositories {
-		mavenCentral()
-		maven { url = "https://jitpack.io" }
-		maven {
-			name = 'Babric'
-			url = 'https://maven.glass-launcher.net/babric'
-		}
-		maven {
-			name = 'Fabric'
-			url = 'https://maven.fabricmc.net/'
-		}
-		ivy {
-			url = "https://github.com/Better-than-Adventure"
-			patternLayout {
-				artifact "[organisation]/releases/download/v[revision]/[module].jar"
-				m2compatible = true
-			}
-			metadataSources { artifact() }
-		}
-		ivy {
-			url = "https://github.com/Turnip-Labs"
-			patternLayout {
-				artifact "[organisation]/releases/download/v[revision]/[module]-[revision].jar"
-				m2compatible = true
-			}
-			metadataSources { artifact() }
-		}
-		ivy {
-			url = "https://github.com/Turnip-Labs"
-			patternLayout {
-				artifact "[organisation]/releases/download/[revision]/[module]-[revision].jar"
-				m2compatible = true
-			}
-			metadataSources { artifact() }
-		}
-		ivy {
-			url = "https://github.com/Turnip-Labs"
-			patternLayout {
-				artifact "[organisation]/releases/download/[revision]/[module]-bta-[revision].jar"
-				m2compatible = true
-			}
-			metadataSources { artifact() }
-		}
-		ivy {
-			url = "https://piston-data.mojang.com"
-			patternLayout {
-				artifact "v1/[organisation]/[revision]/[module].jar"
-				m2compatible = true
-			}
-			metadataSources { artifact() }
-		}
-		ivy {
-			url = "https://github.com/MartinSVK12"
-			patternLayout {
-				artifact "[organisation]/releases/download/[revision]/[module]-[revision].jar"
-				m2compatible = true
-			}
-			metadataSources { artifact() }
-		}
-		ivy {
-			url = "https://github.com/UselessBullets"
-			patternLayout {
-				artifact "[organisation]/releases/download/[revision]/[module]-bta-[revision].jar"
-				m2compatible = true
-			}
-			metadataSources { artifact() }
-		}
-		ivy {
-			url = uri("https://github.com/UselessBullets")
-			patternLayout {
-				artifact("[organisation]/releases/download/v[revision]/[module]-[revision].jar")
-			}
-			metadataSources { artifact() }
-		}
+repositories {
+	mavenCentral()
+	maven { url = "https://jitpack.io" }
+	maven {
+		name = 'Babric'
+		url = 'https://maven.glass-launcher.net/babric'
 	}
+	maven {
+		name = 'Fabric'
+		url = 'https://maven.fabricmc.net/'
+	}
+	maven {
+		name = 'SignalumMavenInfrastructure'
+		url = 'https://maven.thesignalumproject.net/infrastructure'
+	}
+	maven {
+		name = 'SignalumMavenReleases'
+		url = 'https://maven.thesignalumproject.net/releases'
+	}
+	ivy {
+		url = "https://github.com/Better-than-Adventure"
+		patternLayout {
+			artifact "[organisation]/releases/download/v[revision]/[module].jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
+		url = "https://downloads.betterthanadventure.net/bta-client/${project.bta_channel}/"
+		patternLayout {
+			artifact "/v[revision]/client.jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
+		url = "https://downloads.betterthanadventure.net/bta-server/${project.bta_channel}/"
+		patternLayout {
+			artifact "/v[revision]/server.jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+	ivy {
+		url = "https://piston-data.mojang.com"
+		patternLayout {
+			artifact "v1/[organisation]/[revision]/[module].jar"
+			m2compatible = true
+		}
+		metadataSources { artifact() }
+	}
+
 }
 
 dependencies {
-	minecraft "bta-download-repo:bta:${project.bta_version}"
+	// Minecraft
+	minecraft "::${project.bta_version}"
 	mappings loom.layered() {}
 
+	// Catalyst Modules
+	include(implementation(project(path: "core", configuration: "namedElements")))
+	include(implementation(project(path: "energy", configuration: "namedElements")))
+	include(implementation(project(path: "fluids", configuration: "namedElements")))
+	include(implementation(project(path: "multiblocks", configuration: "namedElements")))
+
+	// Fabric loader + b1.7.3
+	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Helper library
+	implementation("turniplabs:halplibe:${project.halplibe_version}")
+	modImplementation("turniplabs:modmenu-bta:${project.mod_menu_version}")
+
+	// Misc required libraries
 	implementation "org.slf4j:slf4j-api:1.8.0-beta4"
 	implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
+
 	implementation 'com.google.guava:guava:33.0.0-jre'
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
 	var log4jVersion = "2.20.0"
 	implementation("org.apache.logging.log4j:log4j-core:${log4jVersion}")
 	implementation("org.apache.logging.log4j:log4j-api:${log4jVersion}")
-	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1")))
+	implementation("org.apache.logging.log4j:log4j-1.2-api:${log4jVersion}")
 
-	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
-	modImplementation "fabric-loader:fabric-loader:${project.loader_version}"
-	modImplementation "io.github.llamalad7:mixinextras-fabric:0.4.1"
+	include(implementation("org.apache.commons:commons-lang3:3.12.0"))
 
-	modImplementation "bta-halplibe:halplibe:${project.halplibe_version}"
-	modImplementation "ModMenu:ModMenu:${project.mod_menu_version}"
+	modImplementation("com.github.Better-than-Adventure:legacy-lwjgl3:1.0.5")
+	implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
-	if(findProject(":catalyst") == null){
-		runtimeOnly(project(path: ":energy", "configuration": "namedElements"))
-		runtimeOnly(project(path: ":fluids", "configuration": "namedElements"))
-		runtimeOnly(project(path: ":multiblocks", "configuration": "namedElements"))
-		runtimeOnly(project(path: ":effects", "configuration": "namedElements"))
+	runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
+	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
+	implementation "org.lwjgl:lwjgl:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-assimp:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-openal:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-stb:$lwjglVersion"
+}
+
+java {
+	withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.release.set 8
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${archivesBaseName}" }
 	}
+}
+
+configurations.configureEach {
+	// Removes LWJGL2 dependencies
+	exclude group: "org.lwjgl.lwjgl"
 }
 
 processResources {
@@ -128,17 +158,11 @@ processResources {
 	}
 }
 
-java {
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
-	withSourcesJar()
-}
-
-tasks.withType(JavaCompile).configureEach {
-	options.release.set 8
-}
-
 remapJar {
-	destinationDirectory.set(file("${projectDir}/jars"))
+	destinationDirectory.set(file("$projectDir/jars"))
 	archiveVersion.set(archiveVersion.get()+"-${bta_version}")
+}
+
+kotlin {
+	jvmToolchain(8)
 }
