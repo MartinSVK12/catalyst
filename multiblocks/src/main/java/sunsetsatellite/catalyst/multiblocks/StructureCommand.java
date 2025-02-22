@@ -1,7 +1,7 @@
 package sunsetsatellite.catalyst.multiblocks;
 
 /*import net.minecraft.client.Minecraft;
-import net.minecraft.core.entity.player.EntityPlayer;
+import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.net.command.Command;
 import net.minecraft.core.net.command.CommandHandler;
 import net.minecraft.core.net.command.CommandSender;
@@ -18,7 +18,7 @@ public class StructureCommand extends Command {
     public boolean execute(CommandHandler commandHandler, CommandSender commandSender, String[] args) {
         World world = Minecraft.getMinecraft(Minecraft.class).theWorld;
         if(commandSender instanceof PlayerCommandSender){
-            EntityPlayer player = commandSender.getPlayer();
+            Player player = commandSender.getPlayer();
             if(args.length > 0){
                 if (args[0].equals("list")) {
                     commandSender.sendMessage("List of internal structures:");

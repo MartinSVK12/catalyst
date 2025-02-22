@@ -22,15 +22,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TileEntityFluidContainer extends TileEntity
+public abstract class TileEntityFluidContainer extends TileEntity
     implements IFluidInventory, IFluidTransfer, IFluidIO {
 
     public FluidStack[] fluidContents = new FluidStack[1];
     public int[] fluidCapacity = new int[1];
     public ArrayList<ArrayList<Fluid>> acceptedFluids = new ArrayList<>(fluidContents.length);
-
-    public FluidStack shownFluid = fluidContents[0];
-    public int shownMaxAmount = 0;
 
     public int transferSpeed = 20;
 
@@ -195,10 +192,6 @@ public class TileEntityFluidContainer extends TileEntity
     public boolean canInsertFluid(int slot,FluidStack fluidStack){
         if(getFluidInSlot(slot) != null) if(!getFluidInSlot(slot).isFluidEqual(fluidStack)) return false;
         return Math.min(fluidStack.amount,getRemainingCapacity(slot)) > 0;
-    }
-
-    public String getInvName() {
-        return "Generic Fluid Container";
     }
 
     public void readFromNBT(CompoundTag tag) {

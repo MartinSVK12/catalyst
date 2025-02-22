@@ -27,7 +27,7 @@ public class ScreenFluid extends ScreenContainerAbstract {
 			SlotFluid currentSlot = fluidSlots.fluidSlots.get(i);
 			boolean mouseOver = this.getIsMouseOverFluidSlot(currentSlot, mx, my);
 
-			this.itemElement.render(currentSlot.getFluidStack().toItemStack(), currentSlot.x, currentSlot.y, mouseOver);
+			this.itemElement.render(currentSlot.getFluidStack() == null ? null : currentSlot.getFluidStack().toItemStack(), currentSlot.x, currentSlot.y, mouseOver);
 
 			if (mouseOver) {
 				slot = currentSlot;
@@ -39,7 +39,8 @@ public class ScreenFluid extends ScreenContainerAbstract {
 			String str = tooltipElement.getTooltipText(slot.getFluidStack().toItemStack(), showDescription);
 			if(!str.isEmpty())
 			{
-				tooltipElement.render(str, mx, my, 8, -8);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+				tooltipElement.render(str, mx-centerX, my-centerY, 8, -8);
 			}
 		}
 		GL11.glPopMatrix();

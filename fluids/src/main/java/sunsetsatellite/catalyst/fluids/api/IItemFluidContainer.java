@@ -21,7 +21,7 @@ public interface IItemFluidContainer {
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, IFluidInventory tile, int maxAmount);
 	ItemStack fill(FluidStack fluidStack, ItemStack stack, IItemFluidContainer inv);
 	void drain(ItemStack stack, int slot, IFluidInventory tile);
-	void drain(ItemStack stack, int slot, IItemFluidContainer inv);
+	void drain(ItemStack stack, ItemStack other, int slot, IItemFluidContainer inv);
 	FluidStack drain(ItemStack stack, int amount);
 
 	List<Fluid> getAllowedFluids(ItemStack stack);

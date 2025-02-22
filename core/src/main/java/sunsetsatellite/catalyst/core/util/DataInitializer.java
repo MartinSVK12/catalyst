@@ -1,6 +1,6 @@
 package sunsetsatellite.catalyst.core.util;
 
-public class DataInitializer {
+public abstract class DataInitializer {
     protected boolean initialized;
     {
         setInitialized(false);
@@ -14,4 +14,6 @@ public class DataInitializer {
         if(initialized) return;
         initialized = init;
     }
+
+	public abstract void init();
 }

@@ -74,8 +74,13 @@ public class MenuFluid extends MenuAbstract {
 							slot.onSlotChanged();
 						}
 					}
+				} else if(item.canFill(inventory.getHeldItemStack())){ //fill
+					ItemStack filledStack = item.fill(slot.getFluidStack(),inventory.getHeldItemStack(),fluidInventory);
+					if(filledStack != null){
+						inventory.setHeldItemStack(filledStack);
+					}
+					slot.onSlotChanged();
 				}
-
 			}
 
 			slot.onSlotChanged();

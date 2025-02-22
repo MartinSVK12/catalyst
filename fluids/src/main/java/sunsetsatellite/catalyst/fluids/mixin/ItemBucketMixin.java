@@ -1,14 +1,9 @@
 package sunsetsatellite.catalyst.fluids.mixin;
 
-import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.*;
 import net.minecraft.core.util.collection.NamespaceID;
-import net.minecraft.core.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 import sunsetsatellite.catalyst.fluids.api.IItemFluidContainer;
@@ -132,16 +127,22 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 			if(getCurrentFluid(stack).isFluidEqual(tile.getFluidInSlot(slot))) {
 				tile.getFluidInSlot(slot).amount += 1000;
 				stack.itemID = Items.BUCKET.id;
+			} else if (tile.getFluidInSlot(slot) == null) {
+				tile.setFluidInSlot(slot, getCurrentFluid(stack));
+				stack.itemID = Items.BUCKET.id;
 			}
 		}
 	}
 
 	@Override
-	public void drain(ItemStack stack, int slot, IItemFluidContainer inv) {
+	public void drain(ItemStack stack, ItemStack other, int slot, IItemFluidContainer inv) {
 		if(thisAs instanceof ItemBucketEmpty) return;
 		if(inv.getRemainingCapacity(stack) >= 1000) {
 			if(getCurrentFluid(stack).isFluidEqual(inv.getCurrentFluid(stack))) {
 				inv.getCurrentFluid(stack).amount += 1000;
+				stack.itemID = Items.BUCKET.id;
+			} else if (inv.getCurrentFluid(other) == null) {
+				inv.setCurrentFluid(getCurrentFluid(stack), other);
 				stack.itemID = Items.BUCKET.id;
 			}
 		}

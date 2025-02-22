@@ -6,6 +6,7 @@
   "mixins": [
     "ItemStackMixin",
     "LevelDataMixin",
+    "PlayerMixin",
     "TileEntityMixin",
     "WorldMixin"
   ],
@@ -15,9 +16,14 @@
     "GameSettingsMixin",
     "GuiTooltipMixin",
     "ItemModelStandardMixin",
+    "PacketHandlerClientMixin",
+    "PlayerLocalMixin",
     "RenderGlobalMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "server": [
+    "PlayerServerMixin"
+  ]
 }

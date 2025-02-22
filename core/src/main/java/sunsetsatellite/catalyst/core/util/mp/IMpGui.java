@@ -6,7 +6,7 @@ import net.minecraft.core.player.inventory.container.Container;
 
 public interface IMpGui {
 
-	void displayCustomGUI(Container inventory, ItemStack stack);
+	void catalyst$displayCustomGUI(Container inventory, ItemStack stack);
 
-	void displayCustomGUI(TileEntity tileEntity, String id);
+	void catalyst$displayCustomGUI(TileEntity tileEntity, String id);
 }

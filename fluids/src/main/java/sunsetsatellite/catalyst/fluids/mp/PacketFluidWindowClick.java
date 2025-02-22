@@ -5,6 +5,8 @@ import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
+import net.minecraft.server.net.handler.PacketHandlerServer;
+import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPacketHandlerServer;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
@@ -63,6 +65,7 @@ public class PacketFluidWindowClick extends Packet {
 		dataOutputStream.writeBoolean(this.control);
 		if (this.fluidStack == null) {
 			dataOutputStream.writeUTF("null");
+			dataOutputStream.writeInt(-1);
 		} else {
 			dataOutputStream.writeUTF(this.fluidStack.fluid.id.toString());
 			dataOutputStream.writeInt(this.fluidStack.amount);
@@ -71,11 +74,11 @@ public class PacketFluidWindowClick extends Packet {
 
 	@Override
 	public void handlePacket(PacketHandler packetHandler) {
-
+		((FluidPacketHandlerServer) packetHandler).catalyst$handleFluidWindowClick(this);
 	}
 
 	@Override
 	public int getEstimatedSize() {
-		return 1+2+1+1+1+1+fluidStack.fluid.id.length()+4;
+		return 1+2+1+1+1+1+(fluidStack == null ? 0 : fluidStack.fluid.id.length())+4;
 	}
 }

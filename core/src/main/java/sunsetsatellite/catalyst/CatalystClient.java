@@ -10,10 +10,10 @@ import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.core.Global;
 import net.minecraft.core.item.Items;
 import sunsetsatellite.catalyst.core.util.mixin.interfaces.IKeybinds;
-import turniplabs.halplibe.util.GameStartEntrypoint;
+import turniplabs.halplibe.util.ClientStartEntrypoint;
 
 @Environment(EnvType.CLIENT)
-public class CatalystClient implements GameStartEntrypoint {
+public class CatalystClient implements ClientStartEntrypoint {
 
 	public static OptionsPage optionsPage;
 	public static OptionsCategory coreCategory;
@@ -24,12 +24,12 @@ public class CatalystClient implements GameStartEntrypoint {
 	public static OptionsCategory multipartCategory;
 
 	@Override
-	public void beforeGameStart() {
+	public void beforeClientStart() {
 
 	}
 
 	@Override
-	public void afterGameStart() {
+	public void afterClientStart() {
 		if(!Global.isServer){
 			optionsPage = new OptionsPage("gui.options.page.catalyst", Items.DUST_REDSTONE.getDefaultStack());
 			IKeybinds gameSettings = (IKeybinds) Minecraft.getMinecraft().gameSettings;

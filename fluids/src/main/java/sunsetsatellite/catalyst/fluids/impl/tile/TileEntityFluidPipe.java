@@ -10,7 +10,7 @@ import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
 import java.util.HashMap;
 
-public class TileEntityFluidPipe extends TileEntityFluidContainer{
+public abstract class TileEntityFluidPipe extends TileEntityFluidContainer{
 	public TileEntityFluidContainer last = null;
 
     public float size = 0.5f;
@@ -27,11 +27,6 @@ public class TileEntityFluidPipe extends TileEntityFluidContainer{
         }
         acceptedFluids.get(0).addAll(Fluid.fluidMap.values());
 
-    }
-
-    @Override
-    public String getInvName() {
-        return "Fluid Pipe";
     }
 
     @Override

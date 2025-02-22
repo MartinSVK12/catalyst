@@ -8,6 +8,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.block.ItemBlock;
 import net.minecraft.core.player.inventory.slot.Slot;
 import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,7 @@ public class GuiTooltipMixin extends Gui {
 
 	@Inject(
 		method = "getTooltipText(Lnet/minecraft/core/item/ItemStack;ZLnet/minecraft/core/player/inventory/slot/Slot;)Ljava/lang/String;",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/TooltipElement;formatDescription(Ljava/lang/String;I)Ljava/lang/String;",shift = At.Shift.AFTER)
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/TooltipElement;formatDescription(Ljava/lang/String;I)Ljava/lang/String;",shift = At.Shift.AFTER, ordinal = 0)
 	)
 	public void injectCustomTooltip(ItemStack itemStack, boolean showDescription, Slot slot, CallbackInfoReturnable<String> cir, @Local StringBuilder text) {
 		addDescription(itemStack, text);
@@ -34,9 +35,10 @@ public class GuiTooltipMixin extends Gui {
 
 	@Inject(
 		method = "getTooltipText(Lnet/minecraft/core/item/ItemStack;ZLnet/minecraft/core/player/inventory/slot/Slot;)Ljava/lang/String;",
-		at = @At(value = "JUMP", opcode = Opcodes.IFEQ, ordinal = 12))
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/TooltipElement;formatDescription(Ljava/lang/String;I)Ljava/lang/String;",shift = At.Shift.AFTER, ordinal = 1)
+	)
 	public void injectPersistentTooltip(ItemStack itemStack, boolean showDescription, Slot slot, CallbackInfoReturnable<String> cir, @Local StringBuilder text){
-		addDescription(itemStack, text);
+		//addDescription(itemStack, text);
 	}
 
 	@Unique
@@ -44,6 +46,7 @@ public class GuiTooltipMixin extends Gui {
 		if(itemStack != null && itemStack.getItem() instanceof ICustomDescription){
 			if(!Objects.equals(((ICustomDescription) itemStack.getItem()).getDescription(itemStack), "")){
 				text.append(((ICustomDescription) itemStack.getItem()).getDescription(itemStack)).append("\n");
+				return;
 			}
 		}
 

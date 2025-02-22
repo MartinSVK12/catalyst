@@ -76,7 +76,7 @@ public class PacketOpenGui extends Packet {
 
 	@Override
 	public void handlePacket(PacketHandler packetHandler) {
-		((INetGuiHandler)packetHandler).handleOpenGui(this);
+		((INetGuiHandler)packetHandler).catalyst$handleOpenGui(this);
 	}
 
 	@Override

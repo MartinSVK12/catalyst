@@ -5,6 +5,7 @@ import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
+import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPacketHandler;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
@@ -55,11 +56,11 @@ public class PacketSetFluidSlot extends Packet {
 
 	@Override
 	public void handlePacket(PacketHandler packetHandler) {
-
+		((FluidPacketHandler) packetHandler).catalyst$handleSetFluidSlot(this);
 	}
 
 	@Override
 	public int getEstimatedSize() {
-		return 1+4+4+fluidStack.fluid.id.length();
+		return 1+4+4+(fluidStack == null ? 0 : fluidStack.fluid.id.length());
 	}
 }

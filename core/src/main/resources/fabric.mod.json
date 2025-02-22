@@ -21,7 +21,7 @@
     "main": [
       "sunsetsatellite.catalyst.Catalyst"
     ],
-		"afterGameStart": [
+		"afterClientStart": [
 			"sunsetsatellite.catalyst.CatalystClient"
 		]
   },

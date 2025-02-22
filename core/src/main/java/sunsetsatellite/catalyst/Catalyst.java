@@ -1,7 +1,6 @@
 package sunsetsatellite.catalyst;
 
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.client.net.handler.PacketHandlerClient;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockLogic;
@@ -10,12 +9,11 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.data.registry.Registry;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.net.packet.PacketDisconnect;
+import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.util.collection.Pair;
 import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.util.helper.Side;
-import net.minecraft.core.util.phys.HitResult;
 import net.minecraft.core.world.World;
 import org.jetbrains.annotations.UnmodifiableView;
 import org.slf4j.Logger;
@@ -25,13 +23,13 @@ import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.core.util.mp.IMpGui;
 import sunsetsatellite.catalyst.core.util.mp.MpGuiEntry;
+import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
 import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.section.BlockSection;
 import sunsetsatellite.catalyst.core.util.vector.Vec2f;
-import sunsetsatellite.catalyst.core.util.vector.Vec3f;
-import turniplabs.halplibe.helper.SoundHelper;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 public class Catalyst implements ModInitializer {
 	public static final String MOD_ID = "catalyst-core";
@@ -46,9 +44,11 @@ public class Catalyst implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		//todo: hardcoding bad
+		Packet.addMapping(144,true,true, PacketOpenGui.class);
+
 		connectSignals();
 		LOGGER.info("Catalyst: Core initialized.");
-
 	}
 
 	public void connectSignals() {
@@ -151,36 +151,32 @@ public class Catalyst implements ModInitializer {
 		return condenseItemList(collectStacks(inv));
 	}
 
-	public static Pair<Direction, BlockSection> getBlockSurfaceClickPosition(World world, Player player, HitResult hit){
+	public static Pair<Direction, BlockSection> getBlockSurfaceClickPosition(World world, Player player, Side side, Vec2f clickPosition){
 		if (!Global.isServer) {
-			if(hit.hitType == HitResult.HitType.TILE){
-				Direction dir = Direction.getDirectionFromSide(hit.side.getId());
-				Vec3f vec3f = new Vec3f(hit.location.x,hit.location.y,hit.location.z);
-				Vec2f clickPosition = vec3f.subtract(vec3f.copy().floor()).abs().set(hit.side.getAxis(),0).toVec2f();
-				switch (hit.side) {
-					case NORTH:
-						clickPosition.x = 1-clickPosition.x;
-						break;
-					case EAST: {
-						double temp1 = clickPosition.y;
-						double temp2 = clickPosition.x;
-						clickPosition.x = 1-temp1;
-						clickPosition.y = temp2;
-						break;
-					}
-					case SOUTH:
-						//no change needed
-						break;
-					case WEST: {
-						double temp1 = clickPosition.y;
-						double temp2 = clickPosition.x;
-						clickPosition.x = temp1;
-						clickPosition.y = temp2;
-						break;
-					}
+			Direction dir = Direction.getDirectionFromSide(side.getId());
+			switch (side) {
+				case NORTH:
+					clickPosition.x = 1-clickPosition.x;
+					break;
+				case EAST: {
+					double temp1 = clickPosition.y;
+					double temp2 = clickPosition.x;
+					clickPosition.x = 1-temp1;
+					clickPosition.y = temp2;
+					break;
 				}
-				return Pair.of(dir,BlockSection.getClosestBlockSection(clickPosition));
+				case SOUTH:
+					//no change needed
+					break;
+				case WEST: {
+					double temp1 = clickPosition.y;
+					double temp2 = clickPosition.x;
+					clickPosition.x = temp1;
+					clickPosition.y = temp2;
+					break;
+				}
 			}
+			return Pair.of(dir,BlockSection.getClosestBlockSection(clickPosition));
 		}
 		return null;
 	}
@@ -190,12 +186,12 @@ public class Catalyst implements ModInitializer {
 	}
 
 	public static void displayGui(Player player, Container inventory, ItemStack stack){
-		((IMpGui)player).displayCustomGUI(inventory,stack);
+		((IMpGui)player).catalyst$displayCustomGUI(inventory,stack);
 	}
 
 
 	public static void displayGui(Player player, TileEntity tileEntity, String id){
-		((IMpGui)player).displayCustomGUI(tileEntity, id);
+		((IMpGui)player).catalyst$displayCustomGUI(tileEntity, id);
 	}
 
 	public static <T> T blockLogic(Block<? extends BlockLogic> block, Class<T> clazz){
@@ -206,5 +202,14 @@ public class Catalyst implements ModInitializer {
 	public static <T> T blockLogic(int id, Class<T> clazz){
 		if(Block.hasLogicClass(Blocks.blocksList[id], clazz)) return (T) Blocks.blocksList[id].getLogic();
 		else return null;
+	}
+
+	public static <T> boolean listContains(List<T> list, T o, BiFunction<T,T,Boolean> equals){
+		for (T obj : list) {
+			if(equals.apply(o,obj)){
+				return true;
+			}
+		}
+		return false;
 	}
 }

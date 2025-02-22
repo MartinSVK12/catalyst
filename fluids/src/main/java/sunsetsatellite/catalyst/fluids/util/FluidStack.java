@@ -46,6 +46,14 @@ public class FluidStack {
 		return stack.fluid == this.fluid;
 	}
 
+	public static boolean areFluidsEqual(FluidStack fluidStack, FluidStack fluidStack1) {
+		if (fluidStack == null && fluidStack1 == null) {
+			return true;
+		} else {
+			return fluidStack != null && fluidStack1 != null && fluidStack.isFluidEqual(fluidStack1);
+		}
+	}
+
 	public ItemStack toItemStack(){
 		return new ItemStack(fluid.blocks.get(0), amount);
 	}
@@ -57,6 +65,15 @@ public class FluidStack {
 	public FluidStack splitStack(int amount){
 		this.amount -= amount;
 		return new FluidStack(this.fluid, amount);
+	}
+
+	public String toString(){
+		return amount+"mB "+fluid.getName();
+	}
+
+
+	public FluidStack copy(){
+		return new FluidStack(fluid, amount);
 	}
 
 }
