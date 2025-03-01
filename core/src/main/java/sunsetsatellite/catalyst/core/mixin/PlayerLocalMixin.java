@@ -21,10 +21,10 @@ public class PlayerLocalMixin implements IMpGui {
 	protected Minecraft mc;
 
 	@Override
-	public void catalyst$displayCustomGUI(Container inventory, ItemStack stack) {
-		MpGuiEntryClient entry = (MpGuiEntryClient) Catalyst.GUIS.getItem(inventory.getNameTranslationKey());
+	public void catalyst$displayCustomGUI(Container inventory, int slotIndex, String id) {
+		MpGuiEntryClient entry = (MpGuiEntryClient) Catalyst.GUIS.getItem(id);
 		try {
-			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,inventory));
+			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,slotIndex));
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

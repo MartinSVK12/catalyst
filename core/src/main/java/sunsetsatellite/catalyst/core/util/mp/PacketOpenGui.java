@@ -17,7 +17,7 @@ public class PacketOpenGui extends Packet {
 	public int blockX;
 	public int blockY;
 	public int blockZ;
-	public ItemStack stack;
+	public int stackIndex;
 
 	public PacketOpenGui(){}
 
@@ -30,11 +30,11 @@ public class PacketOpenGui extends Packet {
 		this.blockZ = z;
 	}
 
-	public PacketOpenGui(int windowId, String windowTitle, ItemStack stack) {
+	public PacketOpenGui(int windowId, String windowTitle, int stackIndex) {
 		this.windowId = windowId;
 		this.windowTitle = windowTitle;
 		this.type = "item";
-		this.stack = stack;
+		this.stackIndex = stackIndex;
 	}
 
 	@Override
@@ -45,15 +45,7 @@ public class PacketOpenGui extends Packet {
 		this.blockX = datainputstream.readInt();
 		this.blockY = datainputstream.readInt();
 		this.blockZ = datainputstream.readInt();
-		short id = datainputstream.readShort();
-		if (id >= 0) {
-			byte amount = datainputstream.readByte();
-			short metadata = datainputstream.readShort();
-			CompoundTag tag = readCompressedCompoundTag(datainputstream);
-			this.stack = new ItemStack(id, amount, metadata, tag);
-		} else {
-			this.stack = null;
-		}
+		this.stackIndex = datainputstream.readInt();
 	}
 
 	@Override
@@ -64,14 +56,7 @@ public class PacketOpenGui extends Packet {
 		dataoutputstream.writeInt(this.blockX);
 		dataoutputstream.writeInt(this.blockY);
 		dataoutputstream.writeInt(this.blockZ);
-		if (this.stack == null) {
-			dataoutputstream.writeShort(-1);
-		} else {
-			dataoutputstream.writeShort(this.stack.itemID);
-			dataoutputstream.writeByte(this.stack.stackSize);
-			dataoutputstream.writeShort(this.stack.getMetadata());
-			writeCompressedCompoundTag(this.stack.getData(), dataoutputstream);
-		}
+		dataoutputstream.writeInt(this.stackIndex);
 	}
 
 	@Override

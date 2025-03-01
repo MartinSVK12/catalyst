@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.fluids.util;
 
 import com.mojang.nbt.tags.CompoundTag;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
@@ -10,6 +11,9 @@ public class FluidStack {
     public Fluid fluid;
 
     public FluidStack(Fluid fluid, int size){
+		if(fluid == null){
+			throw new NullPointerException("Cannot create a fluid stack if no fluid is provided!");
+		}
         this.amount = size;
 		this.fluid = fluid;
     }
@@ -38,8 +42,11 @@ public class FluidStack {
 				throw new RuntimeException(e);
 			}
 			this.amount = nbt.getInteger("amount");
+		} else {
+			throw new NullPointerException("Cannot create a fluid stack if no fluid is provided!");
 		}
 	}
+
 
 	public boolean isFluidEqual(FluidStack stack){
 		if(stack == null) return false;
@@ -55,6 +62,9 @@ public class FluidStack {
 	}
 
 	public ItemStack toItemStack(){
+		if(fluid.blocks.isEmpty()){
+			return null;
+		}
 		return new ItemStack(fluid.blocks.get(0), amount);
 	}
 

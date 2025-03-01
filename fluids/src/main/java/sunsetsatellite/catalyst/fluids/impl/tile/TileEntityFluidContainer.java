@@ -1,12 +1,9 @@
 package sunsetsatellite.catalyst.fluids.impl.tile;
 
-
-
 import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.IntTag;
 import com.mojang.nbt.tags.ListTag;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.net.packet.PacketTileEntityData;
 import org.jetbrains.annotations.NotNull;
@@ -255,10 +252,6 @@ public abstract class TileEntityFluidContainer extends TileEntity
         CompoundTag1.put("Items", nBTTagList2);
     }
 
-    public boolean canInteractWith(Player entityPlayer1) {
-        return (this.worldObj != null ? this.worldObj.getTileEntity(this.x, this.y, this.z) : null) == this && entityPlayer1.distanceToSqr((double) this.x + 0.5D, (double) this.y + 0.5D, (double) this.z + 0.5D) <= 64.0D;
-    }
-
     @Override
     public FluidStack getFluidInSlot(int slot) {
         if(this.fluidContents.length == 0) return null;
@@ -276,14 +269,6 @@ public abstract class TileEntityFluidContainer extends TileEntity
     @Override
     public ArrayList<Fluid> getAllowedFluidsForSlot(int slot) {
         return acceptedFluids.get(slot);
-    }
-
-    public int getFluidAmountForSlot(int slot){
-        if(fluidContents[0] == null){
-            return 0;
-        } else {
-            return fluidContents[0].amount;
-        }
     }
 
     @Override

@@ -26,6 +26,9 @@
 		],
 		"gatherTMBPlugins": [
 			"sunsetsatellite.catalyst.fluids.api.impl.tmb.TMBFluidPlugin"
+		],
+		"afterBlockInit": [
+			"sunsetsatellite.catalyst.CatalystFluids"
 		]
   },
   "mixins": [

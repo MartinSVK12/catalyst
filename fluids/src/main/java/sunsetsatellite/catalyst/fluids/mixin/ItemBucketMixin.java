@@ -52,11 +52,11 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 			return new FluidStack(Fluids.WATER,1000);
 		} else if (thisAs == Items.BUCKET_LAVA) {
 			return new FluidStack(Fluids.LAVA,1000);
-		} else if (thisAs == Items.BUCKET_MILK) {
+		} /*else if (thisAs == Items.BUCKET_MILK) {
 			return new FluidStack(Fluids.MILK,1000);
 		} else if (thisAs == Items.BUCKET_ICECREAM) {
 			return new FluidStack(Fluids.ICE_CREAM,1000);
-		}
+		}*/
 		return null;
 	}
 
@@ -69,13 +69,13 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 		} else if (fluidStack.fluid == Fluids.LAVA) {
 			stack.itemID = Items.BUCKET_LAVA.id;
 			fluidStack.amount -= 1000;
-		} else if (fluidStack.fluid == Fluids.MILK) {
+		} /*else if (fluidStack.fluid == Fluids.MILK) {
 			stack.itemID = Items.BUCKET_MILK.id;
 			fluidStack.amount -= 1000;
 		} else if (fluidStack.fluid == Fluids.ICE_CREAM) {
 			stack.itemID = Items.BUCKET_ICECREAM.id;
 			fluidStack.amount -= 1000;
-		}
+		}*/
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 				stack.itemID = Items.BUCKET_LAVA.id;
 				fluidStack.amount -= 1000;
 				return stack;
-			} else if (fluidStack.fluid == Fluids.MILK) {
+			} /*else if (fluidStack.fluid == Fluids.MILK) {
 				stack.itemID = Items.BUCKET_MILK.id;
 				fluidStack.amount -= 1000;
 				return stack;
@@ -98,7 +98,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 				stack.itemID = Items.BUCKET_ICECREAM.id;
 				fluidStack.amount -= 1000;
 				return stack;
-			}
+			}*/
 		}
 		return stack;
 	}
@@ -159,7 +159,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public List<Fluid> getAllowedFluids(ItemStack stack) {
-		return Catalyst.listOf(Fluids.LAVA, Fluids.WATER, Fluids.MILK, Fluids.ICE_CREAM);
+		return Catalyst.listOf(Fluids.LAVA, Fluids.WATER/*, Fluids.MILK, Fluids.ICE_CREAM*/);
 	}
 
 	@Override
@@ -169,11 +169,11 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 			return Items.BUCKET_WATER.getDefaultStack();
 		} else if (fluidStack.fluid == Fluids.LAVA) {
 			return Items.BUCKET_LAVA.getDefaultStack();
-		} else if (fluidStack.fluid == Fluids.MILK) {
+		} /*else if (fluidStack.fluid == Fluids.MILK) {
 			return Items.BUCKET_MILK.getDefaultStack();
 		} else if (fluidStack.fluid == Fluids.ICE_CREAM) {
 			return Items.BUCKET_ICECREAM.getDefaultStack();
-		}
+		}*/
 		return null;
 	}
 }

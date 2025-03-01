@@ -48,6 +48,7 @@ public class PacketSetFluidSlot extends Packet {
 		dataOutputStream.writeInt(this.fluidSlot);
 		if (this.fluidStack == null) {
 			dataOutputStream.writeUTF("null");
+			dataOutputStream.writeInt(-1);
 		} else {
 			dataOutputStream.writeUTF(this.fluidStack.fluid.id.toString());
 			dataOutputStream.writeInt(this.fluidStack.amount);

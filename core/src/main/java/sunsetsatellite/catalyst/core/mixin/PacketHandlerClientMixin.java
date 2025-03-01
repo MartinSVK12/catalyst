@@ -40,10 +40,11 @@ public class PacketHandlerClientMixin implements INetGuiHandler {
 			this.mc.thePlayer.craftingInventory.containerId = packet.windowId;
 		} else if (Objects.equals(packet.type, "item")) {
 			try {
-				this.mc.displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(packet.windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,packet.stack));
+				this.mc.displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(packet.windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,packet.stackIndex));
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 				throw new RuntimeException(e);
 			}
+			this.mc.thePlayer.craftingInventory.containerId = packet.windowId;
 		}
 	}
 }

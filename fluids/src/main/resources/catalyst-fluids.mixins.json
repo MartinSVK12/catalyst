@@ -4,7 +4,8 @@
   "package": "sunsetsatellite.catalyst.fluids.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ItemBucketMixin"
+    "ItemBucketMixin",
+    "accessors.RecipeSymbolAccessor"
   ],
   "client": [
     "PacketHandlerClientMixin",

@@ -1,13 +1,16 @@
 package sunsetsatellite.catalyst.fluids.impl;
 
 import net.minecraft.core.InventoryAction;
+import net.minecraft.core.crafting.ContainerListener;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.player.inventory.container.ContainerInventory;
 import net.minecraft.core.player.inventory.menu.MenuAbstract;
 import net.minecraft.core.player.inventory.slot.Slot;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 import sunsetsatellite.catalyst.fluids.api.IItemFluidContainer;
+import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidSlotUpdater;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 
@@ -19,9 +22,26 @@ public class MenuFluid extends MenuAbstract {
 	public ArrayList<SlotFluid> fluidSlots = new ArrayList<>();
 	public List<FluidStack> fluidItemStacks = new ArrayList<>();
 	public IFluidInventory fluidInventory;
+	public Container itemInventory;
 
 	public MenuFluid(IFluidInventory fluidInventory){
 		this.fluidInventory = fluidInventory;
+		if(fluidInventory instanceof Container) {
+			itemInventory = (Container) fluidInventory;
+		}
+	}
+
+	@Override
+	public void broadcastChanges() {
+		super.broadcastChanges();
+		for (int i = 0; i < this.fluidSlots.size(); i++) {
+			FluidStack fluidStack = this.fluidSlots.get(i).getFluidStack();
+			FluidStack fluidStack1 = this.fluidItemStacks.get(i);
+			this.fluidItemStacks.set(i, fluidStack1);
+			for (ContainerListener crafter : this.containerListeners) {
+				((FluidSlotUpdater) crafter).catalyst$updateFluidSlot(this, i, fluidStack);
+			}
+		}
 	}
 
 	protected void addFluidSlot(SlotFluid slot){

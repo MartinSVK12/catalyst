@@ -10,9 +10,10 @@ import sunsetsatellite.catalyst.fluids.mp.PacketSetFluidSlot;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.Fluids;
 import turniplabs.halplibe.helper.NetworkHelper;
+import turniplabs.halplibe.util.BlockInitEntrypoint;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
-public class CatalystFluids implements ModInitializer, GameStartEntrypoint {
+public class CatalystFluids implements ModInitializer, GameStartEntrypoint, BlockInitEntrypoint {
 	public static final String MOD_ID = "catalyst-fluids";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -30,8 +31,12 @@ public class CatalystFluids implements ModInitializer, GameStartEntrypoint {
 
 	@Override
 	public void afterGameStart() {
-		Fluids.init();
 		LOGGER.info("{} fluid types registered.", Fluid.fluidMap.size());
 		LOGGER.info("Catalyst: Fluids initialized.");
+	}
+
+	@Override
+	public void afterBlockInit() {
+		Fluids.init();
 	}
 }

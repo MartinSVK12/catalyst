@@ -3,6 +3,7 @@ package sunsetsatellite.catalyst.fluids.util;
 import net.minecraft.core.data.registry.Registries;
 import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.item.ItemStack;
+import sunsetsatellite.catalyst.fluids.mixin.accessors.RecipeSymbolAccessor;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -177,7 +178,7 @@ public class RecipeExtendedSymbol {
 			if(stack == null && fluidStack == null){
 				throw new NullPointerException("Null symbol!");
 			}
-            r.symbol = symbol;
+            ((RecipeSymbolAccessor) r).setSymbol(symbol);
             return r;
         } else {
             return new RecipeSymbol(symbol,stack,itemGroup);

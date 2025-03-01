@@ -32,19 +32,21 @@ public abstract class PlayerServerMixin extends Player implements IMpGui {
 	private int currentWindowId;
 	@Shadow
 	public PacketHandlerServer playerNetServerHandler;
+	@Shadow
+	private int lastHealth;
 	@Unique
 	private final PlayerServer thisAs = (PlayerServer)(Object)this;
 
 	//TODO: change display methods to have xyz argument and stack argument
 
 	@Override
-	public void catalyst$displayCustomGUI(Container inventory, ItemStack stack) {
+	public void catalyst$displayCustomGUI(Container inventory, int slotIndex, String id) {
 		this.getNextWindowId();
-		MpGuiEntry entry = Catalyst.GUIS.getItem(inventory.getNameTranslationKey());
-		this.playerNetServerHandler.sendPacket(new PacketOpenGui(this.currentWindowId, inventory.getNameTranslationKey(),stack));
+		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
+		this.playerNetServerHandler.sendPacket(new PacketOpenGui(this.currentWindowId, id, slotIndex));
 		if(entry.containerClass != null) {
 			try {
-				this.craftingInventory = (MenuAbstract) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, inventory);
+				this.craftingInventory = (MenuAbstract) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, slotIndex);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 				throw new RuntimeException(e);
 			}

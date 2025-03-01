@@ -185,8 +185,8 @@ public class Catalyst implements ModInitializer {
 		return Side.values()[(2 + ((MathHelper.floor((double) ((rotation * 4F) / 360F) + 0.5D) + 2) & 3))];
 	}
 
-	public static void displayGui(Player player, Container inventory, ItemStack stack){
-		((IMpGui)player).catalyst$displayCustomGUI(inventory,stack);
+	public static void displayGui(Player player, Container inventory, int slotIndex, String id){
+		((IMpGui)player).catalyst$displayCustomGUI(inventory,slotIndex, id);
 	}
 
 
