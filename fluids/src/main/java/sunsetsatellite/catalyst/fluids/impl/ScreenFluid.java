@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.fluids.impl;
 
 import net.minecraft.client.gui.container.ScreenContainerAbstract;
+import net.minecraft.core.net.command.TextFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPickupController;
@@ -37,11 +38,16 @@ public class ScreenFluid extends ScreenContainerAbstract {
 		if(slot != null && slot.hasStack()) {
 			boolean showDescription = mc.gameSettings.alwaysShowDescriptions.value || mc.gameSettings.keyDescription.isPressed();
 			String str = tooltipElement.getTooltipText(slot.getFluidStack().toItemStack(), showDescription);
+			str += "\n"+ TextFormatting.GRAY + slot.getFluidStack().amount + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
 			if(!str.isEmpty())
 			{
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				tooltipElement.render(str, mx-centerX, my-centerY, 8, -8);
 			}
+		} else if (slot != null && !slot.hasStack()) {
+			String str = TextFormatting.WHITE + "Empty\n" + TextFormatting.GRAY + "0" + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			tooltipElement.render(str, mx-centerX, my-centerY, 8, -8);
 		}
 		GL11.glPopMatrix();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

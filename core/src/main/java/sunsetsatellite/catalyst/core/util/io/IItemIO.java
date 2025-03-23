@@ -10,7 +10,13 @@ public interface IItemIO {
 
 	int getActiveItemSlotForSide(Direction dir, ItemStack stack);
 
+	void setActiveItemSlotForSide(Direction dir, int slot);
+
     Connection getItemIOForSide(Direction dir);
 
 	void setItemIOForSide(Direction dir, Connection con);
+
+	void cycleItemIOForSide(Direction dir);
+
+	void cycleActiveItemSlotForSide(Direction dir, boolean backwards);
 }

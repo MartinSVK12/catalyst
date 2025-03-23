@@ -71,10 +71,12 @@ public class MenuFluid extends MenuAbstract {
 							if (fluidInventory.getFluidInSlot(slot.slotIndex) == null){
 								item.drain(inventory.getHeldItemStack(), slot.slotIndex,fluidInventory);
 								slot.onSlotChanged();
+								broadcastChanges();
 							}
 							else if (fluidInventory.getFluidInSlot(slot.slotIndex).amount < fluidInventory.getFluidCapacityForSlot(slot.slotIndex)) {
 								item.drain(inventory.getHeldItemStack(), slot.slotIndex,fluidInventory);
 								slot.onSlotChanged();
+								broadcastChanges();
 							}
 							else if(fluidInventory.getFluidInSlot(slot.slotIndex).amount >= fluidInventory.getFluidCapacityForSlot(slot.slotIndex)){
 								if(item.canFill(inventory.getHeldItemStack())){
@@ -84,6 +86,7 @@ public class MenuFluid extends MenuAbstract {
 										inventory.setChanged();
 									}
 									slot.onSlotChanged();
+									broadcastChanges();
 								}
 							}
 						} else if(item.canFill(inventory.getHeldItemStack())){ //fill
@@ -92,6 +95,7 @@ public class MenuFluid extends MenuAbstract {
 								inventory.setHeldItemStack(filledStack);
 							}
 							slot.onSlotChanged();
+							broadcastChanges();
 						}
 					}
 				} else if(item.canFill(inventory.getHeldItemStack())){ //fill
@@ -100,10 +104,12 @@ public class MenuFluid extends MenuAbstract {
 						inventory.setHeldItemStack(filledStack);
 					}
 					slot.onSlotChanged();
+					broadcastChanges();
 				}
 			}
 
 			slot.onSlotChanged();
+			broadcastChanges();
 			return fluidSlots.get(slotID).getFluidStack();
 		}
 

@@ -15,6 +15,7 @@ import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.mp.IMpGui;
 import sunsetsatellite.catalyst.core.util.mp.MpGuiEntry;
 import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -40,13 +41,13 @@ public abstract class PlayerServerMixin extends Player implements IMpGui {
 	//TODO: change display methods to have xyz argument and stack argument
 
 	@Override
-	public void catalyst$displayCustomGUI(Container inventory, int slotIndex, String id) {
+	public void catalyst$displayCustomGUI(Container inventory, int slotIndex, boolean isArmor, String id) {
 		this.getNextWindowId();
 		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
-		this.playerNetServerHandler.sendPacket(new PacketOpenGui(this.currentWindowId, id, slotIndex));
+		NetworkHandler.sendToPlayer(thisAs,new PacketOpenGui(this.currentWindowId, id, slotIndex, isArmor));
 		if(entry.containerClass != null) {
 			try {
-				this.craftingInventory = (MenuAbstract) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, slotIndex);
+				this.craftingInventory = (MenuAbstract) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, slotIndex, isArmor);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 				throw new RuntimeException(e);
 			}
@@ -60,7 +61,7 @@ public abstract class PlayerServerMixin extends Player implements IMpGui {
 	public void catalyst$displayCustomGUI(TileEntity tileEntity, String id) {
 		this.getNextWindowId();
 		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
-		this.playerNetServerHandler.sendPacket(new PacketOpenGui(this.currentWindowId, id, tileEntity.x, tileEntity.y, tileEntity.z));
+		NetworkHandler.sendToPlayer(thisAs,new PacketOpenGui(this.currentWindowId, id, tileEntity.x, tileEntity.y, tileEntity.z));
 		if(entry.containerClass != null){
 			try {
 				this.craftingInventory = (MenuAbstract) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, tileEntity);

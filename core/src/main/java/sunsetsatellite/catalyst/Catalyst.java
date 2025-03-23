@@ -27,6 +27,7 @@ import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
 import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.section.BlockSection;
 import sunsetsatellite.catalyst.core.util.vector.Vec2f;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -44,8 +45,7 @@ public class Catalyst implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		//todo: hardcoding bad
-		Packet.addMapping(144,true,true, PacketOpenGui.class);
+		NetworkHandler.registerNetworkMessage(PacketOpenGui::new);
 
 		connectSignals();
 		LOGGER.info("Catalyst: Core initialized.");
@@ -154,7 +154,7 @@ public class Catalyst implements ModInitializer {
 	public static Pair<Direction, BlockSection> getBlockSurfaceClickPosition(World world, Player player, Side side, Vec2f clickPosition){
 		if (!Global.isServer) {
 			Direction dir = Direction.getDirectionFromSide(side.getId());
-			switch (side) {
+			/*switch (side) {
 				case NORTH:
 					clickPosition.x = 1-clickPosition.x;
 					break;
@@ -175,7 +175,7 @@ public class Catalyst implements ModInitializer {
 					clickPosition.y = temp2;
 					break;
 				}
-			}
+			}*/
 			return Pair.of(dir,BlockSection.getClosestBlockSection(clickPosition));
 		}
 		return null;
@@ -185,8 +185,8 @@ public class Catalyst implements ModInitializer {
 		return Side.values()[(2 + ((MathHelper.floor((double) ((rotation * 4F) / 360F) + 0.5D) + 2) & 3))];
 	}
 
-	public static void displayGui(Player player, Container inventory, int slotIndex, String id){
-		((IMpGui)player).catalyst$displayCustomGUI(inventory,slotIndex, id);
+	public static void displayGui(Player player, Container inventory, int slotIndex, boolean isArmor, String id){
+		((IMpGui)player).catalyst$displayCustomGUI(inventory, slotIndex, isArmor, id);
 	}
 
 
@@ -211,5 +211,53 @@ public class Catalyst implements ModInitializer {
 			}
 		}
 		return false;
+	}
+
+	public static byte[] HSBtoRGB(float hue, float saturation, float brightness) {
+		byte red = 0;
+		byte green = 0;
+		byte blue = 0;
+		if (saturation == 0.0F) {
+			red = green = blue = (byte) (brightness * 255F + 0.5F);
+		} else {
+			float f3 = (hue - (float) Math.floor(hue)) * 6F;
+			float f4 = f3 - (float) Math.floor(f3);
+			float f5 = brightness * (1.0F - saturation);
+			float f6 = brightness * (1.0F - saturation * f4);
+			float f7 = brightness * (1.0F - saturation * (1.0F - f4));
+			switch ((int) f3) {
+				case 0 :
+					red = (byte) (brightness * 255F + 0.5F);
+					green = (byte) (f7 * 255F + 0.5F);
+					blue = (byte) (f5 * 255F + 0.5F);
+					break;
+				case 1 :
+					red = (byte) (f6 * 255F + 0.5F);
+					green = (byte) (brightness * 255F + 0.5F);
+					blue = (byte) (f5 * 255F + 0.5F);
+					break;
+				case 2 :
+					red = (byte) (f5 * 255F + 0.5F);
+					green = (byte) (brightness * 255F + 0.5F);
+					blue = (byte) (f7 * 255F + 0.5F);
+					break;
+				case 3 :
+					red = (byte) (f5 * 255F + 0.5F);
+					green = (byte) (f6 * 255F + 0.5F);
+					blue = (byte) (brightness * 255F + 0.5F);
+					break;
+				case 4 :
+					red = (byte) (f7 * 255F + 0.5F);
+					green = (byte) (f5 * 255F + 0.5F);
+					blue = (byte) (brightness * 255F + 0.5F);
+					break;
+				case 5 :
+					red = (byte) (brightness * 255F + 0.5F);
+					green = (byte) (f5 * 255F + 0.5F);
+					blue = (byte) (f6 * 255F + 0.5F);
+					break;
+			}
+		}
+		return new byte[]{red,green,blue};
 	}
 }

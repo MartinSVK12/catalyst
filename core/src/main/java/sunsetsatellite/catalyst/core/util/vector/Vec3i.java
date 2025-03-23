@@ -261,4 +261,11 @@ public class Vec3i {
 	public int getBlockMetadata(WorldSource worldSource){
 		return worldSource.getBlockMetadata(this.x, this.y, this.z);
 	}
+
+	public double getSqDistanceTo(int x, int y, int z) {
+		int dx = this.x - x;
+		int dy = this.y - y;
+		int dz = this.z - z;
+		return Math.sqrt(dx * dx + dy * dy + dz * dz);
+	}
 }

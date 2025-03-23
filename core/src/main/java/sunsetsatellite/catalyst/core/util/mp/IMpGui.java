@@ -6,7 +6,7 @@ import net.minecraft.core.player.inventory.container.Container;
 
 public interface IMpGui {
 
-	void catalyst$displayCustomGUI(Container inventory, int slotIndex, String id);
+	void catalyst$displayCustomGUI(Container inventory, int slotIndex, boolean isArmor, String id);
 
 	void catalyst$displayCustomGUI(TileEntity tileEntity, String id);
 }

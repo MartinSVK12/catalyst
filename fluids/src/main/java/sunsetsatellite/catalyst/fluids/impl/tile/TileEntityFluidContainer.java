@@ -10,10 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.core.util.Connection;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.io.IFluidIO;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 import sunsetsatellite.catalyst.fluids.api.IFluidTransfer;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
+import turniplabs.halplibe.helper.EnvironmentHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -308,6 +310,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
     }
 
     public void moveFluids(Direction dir, TileEntityFluidPipe tile) {
+		if(EnvironmentHelper.isClientWorld()) return;
         int activeSlot = activeFluidSlots.get(dir);
 		if(activeSlot == -1) return;
         if(fluidConnections.get(dir) == Connection.BOTH || fluidConnections.get(dir) == Connection.OUTPUT){
@@ -322,6 +325,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
     }
 
 	public void extractFluids(){
+		if(EnvironmentHelper.isClientWorld()) return;
 		for (Map.Entry<Direction, Connection> e : fluidConnections.entrySet()) {
 			Direction dir = e.getKey();
 			TileEntity tile = dir.getTileEntity(worldObj,this);
@@ -345,5 +349,50 @@ public abstract class TileEntityFluidContainer extends TileEntity
 	@Override
 	public void setFluidIOForSide(Direction dir, Connection con) {
 		fluidConnections.put(dir,con);
+	}
+
+	public Vec3i getPosition(){
+		return new Vec3i(x,y,z);
+	}
+
+	@Override
+	public void cycleFluidIOForSide(Direction dir) {
+		switch (fluidConnections.get(dir)) {
+			case NONE:
+				fluidConnections.replace(dir, Connection.INPUT);
+				break;
+			case INPUT:
+				fluidConnections.replace(dir, Connection.OUTPUT);
+				break;
+			case OUTPUT:
+				fluidConnections.replace(dir, Connection.BOTH);
+				break;
+			case BOTH:
+				fluidConnections.replace(dir, Connection.NONE);
+				break;
+		}
+	}
+
+	@Override
+	public void cycleActiveFluidSlotForSide(Direction dir, boolean backwards) {
+		int i = activeFluidSlots.get(dir);
+		if(!backwards){
+			if(i < getFluidInventorySize()-1){
+				activeFluidSlots.replace(dir,i+1);
+			} else {
+				activeFluidSlots.replace(dir,0);
+			}
+		} else {
+			if(i > -1){
+				activeFluidSlots.replace(dir,i-1);
+			} else {
+				activeFluidSlots.replace(dir,getFluidInventorySize()-1);
+			}
+		}
+	}
+
+	@Override
+	public void setActiveFluidSlotForSide(Direction dir, int slot) {
+		activeFluidSlots.replace(dir,slot);
 	}
 }

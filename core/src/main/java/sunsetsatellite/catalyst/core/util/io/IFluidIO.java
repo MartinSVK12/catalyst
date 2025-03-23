@@ -7,7 +7,13 @@ public interface IFluidIO {
 
     int getActiveFluidSlotForSide(Direction dir);
 
+	void setActiveFluidSlotForSide(Direction dir, int slot);
+
     Connection getFluidIOForSide(Direction dir);
 
 	void setFluidIOForSide(Direction dir, Connection con);
+
+	void cycleFluidIOForSide(Direction dir);
+
+	void cycleActiveFluidSlotForSide(Direction dir, boolean backwards);
 }

@@ -13,7 +13,7 @@ public class TileEntityMixin implements ITileEntityInit {
 	protected boolean initialized = false;
 
 	@Override
-	public void init(Block block) {
+	public void init(Block<?> block) {
 	}
 
 	@Override

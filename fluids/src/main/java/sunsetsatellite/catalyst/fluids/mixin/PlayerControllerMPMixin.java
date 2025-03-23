@@ -12,6 +12,7 @@ import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
 import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPickupController;
 import sunsetsatellite.catalyst.fluids.mp.PacketFluidWindowClick;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 @Mixin(
       value = PlayerControllerMP.class,
@@ -35,7 +36,7 @@ public class PlayerControllerMPMixin extends PlayerController implements FluidPi
 		} /*else if (player.craftingInventory instanceof ContainerItemFluid) {
 			fluidStack = ((ContainerItemFluid)player.craftingInventory).clickFluidSlot(slotID, button, shift, control, player);
 		}*/
-		this.netHandler.addToSendQueue(new PacketFluidWindowClick(i, slotID, button, shift, control, fluidStack, word0));
+		NetworkHandler.sendToServer(new PacketFluidWindowClick(i, slotID, button, shift, control, fluidStack, word0));
 		return fluidStack;
     }
 }

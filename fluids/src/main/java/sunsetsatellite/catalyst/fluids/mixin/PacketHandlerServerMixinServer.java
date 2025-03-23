@@ -22,8 +22,6 @@ public class PacketHandlerServerMixinServer implements FluidPacketHandlerServer 
 
     @Override
     public void catalyst$handleFluidWindowClick(PacketFluidWindowClick p) {
-        if (this.playerEntity.craftingInventory.containerId == p.windowId && this.playerEntity.craftingInventory instanceof MenuFluid) {
-            FluidStack fluidStack = ((MenuFluid)this.playerEntity.craftingInventory).clickFluidSlot(p.inventorySlot, p.mouseClick, p.shift, p.control, this.playerEntity);
-        }
+
     }
 }

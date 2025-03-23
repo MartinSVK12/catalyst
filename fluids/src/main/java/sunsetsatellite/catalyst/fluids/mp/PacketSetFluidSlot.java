@@ -5,15 +5,19 @@ import net.minecraft.core.net.handler.PacketHandler;
 import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
+import org.jetbrains.annotations.NotNull;
+import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
 import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPacketHandler;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
+import turniplabs.halplibe.helper.network.NetworkMessage;
+import turniplabs.halplibe.helper.network.UniversalPacket;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketSetFluidSlot extends Packet {
+public class PacketSetFluidSlot implements NetworkMessage {
 	public int windowId;
 	public int fluidSlot;
 	public FluidStack fluidStack;
@@ -28,11 +32,24 @@ public class PacketSetFluidSlot extends Packet {
 	}
 
 	@Override
-	public void read(DataInputStream dataInputStream) throws IOException {
-		this.windowId = dataInputStream.readByte();
-		this.fluidSlot = dataInputStream.readInt();
-		String fluidId = dataInputStream.readUTF();
-		int amount = dataInputStream.readInt();
+	public void encodeToUniversalPacket(@NotNull UniversalPacket packet) {
+		packet.writeByte(this.windowId);
+		packet.writeInt(this.fluidSlot);
+		if (this.fluidStack == null) {
+			packet.writeString("null");
+			packet.writeInt(-1);
+		} else {
+			packet.writeString(this.fluidStack.fluid.id.toString());
+			packet.writeInt(this.fluidStack.amount);
+		}
+	}
+
+	@Override
+	public void decodeFromUniversalPacket(@NotNull UniversalPacket packet) {
+		this.windowId = packet.readByte();
+		this.fluidSlot = packet.readInt();
+		String fluidId = packet.readString();
+		int amount = packet.readInt();
 		if(!fluidId.equals("null")) {
 			try {
 				fluidStack = new FluidStack(Fluid.fluidMap.get(NamespaceID.getTemp(fluidId)),amount);
@@ -43,25 +60,9 @@ public class PacketSetFluidSlot extends Packet {
 	}
 
 	@Override
-	public void write(DataOutputStream dataOutputStream) throws IOException {
-		dataOutputStream.writeByte(this.windowId);
-		dataOutputStream.writeInt(this.fluidSlot);
-		if (this.fluidStack == null) {
-			dataOutputStream.writeUTF("null");
-			dataOutputStream.writeInt(-1);
-		} else {
-			dataOutputStream.writeUTF(this.fluidStack.fluid.id.toString());
-			dataOutputStream.writeInt(this.fluidStack.amount);
+	public void handle(NetworkContext context) {
+		if (windowId == context.player.craftingInventory.containerId && context.player.craftingInventory instanceof MenuFluid) {
+			((MenuFluid) context.player.craftingInventory).putFluidInSlot(fluidSlot, fluidStack);
 		}
-	}
-
-	@Override
-	public void handlePacket(PacketHandler packetHandler) {
-		((FluidPacketHandler) packetHandler).catalyst$handleSetFluidSlot(this);
-	}
-
-	@Override
-	public int getEstimatedSize() {
-		return 1+4+4+(fluidStack == null ? 0 : fluidStack.fluid.id.length());
 	}
 }

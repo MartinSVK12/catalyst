@@ -8,10 +8,15 @@ import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
 import sunsetsatellite.catalyst.fluids.mp.PacketFluidWindowClick;
 import sunsetsatellite.catalyst.fluids.mp.PacketSetFluidSlot;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
+import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import sunsetsatellite.catalyst.fluids.util.Fluids;
 import turniplabs.halplibe.helper.NetworkHelper;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.util.BlockInitEntrypoint;
 import turniplabs.halplibe.util.GameStartEntrypoint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CatalystFluids implements ModInitializer, GameStartEntrypoint, BlockInitEntrypoint {
 	public static final String MOD_ID = "catalyst-fluids";
@@ -19,9 +24,8 @@ public class CatalystFluids implements ModInitializer, GameStartEntrypoint, Bloc
 
 	@Override
 	public void onInitialize() {
-		//todo: hardcoding bad
-		Packet.addMapping(145,true,true, PacketFluidWindowClick.class);
-		Packet.addMapping(146,true,true, PacketSetFluidSlot.class);
+		NetworkHandler.registerNetworkMessage(PacketFluidWindowClick::new);
+		NetworkHandler.registerNetworkMessage(PacketSetFluidSlot::new);
 	}
 
 	@Override
@@ -38,5 +42,22 @@ public class CatalystFluids implements ModInitializer, GameStartEntrypoint, Bloc
 	@Override
 	public void afterBlockInit() {
 		Fluids.init();
+	}
+
+	public static ArrayList<FluidStack> condenseFluidList(List<FluidStack> list) {
+		ArrayList<FluidStack> stacks = new ArrayList<>();
+		for (FluidStack stack : list) {
+			if (stack != null) {
+				boolean found = false;
+				for (FluidStack S : stacks) {
+					if (S.isFluidEqual(stack)) {
+						S.amount += stack.amount;
+						found = true;
+					}
+				}
+				if(!found) stacks.add(stack.copy());
+			}
+		}
+		return stacks;
 	}
 }

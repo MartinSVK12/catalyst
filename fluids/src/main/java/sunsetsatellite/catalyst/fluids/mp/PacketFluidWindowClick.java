@@ -6,15 +6,19 @@ import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
 import net.minecraft.server.net.handler.PacketHandlerServer;
+import org.jetbrains.annotations.NotNull;
+import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
 import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPacketHandlerServer;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
+import turniplabs.halplibe.helper.network.NetworkMessage;
+import turniplabs.halplibe.helper.network.UniversalPacket;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PacketFluidWindowClick extends Packet {
+public class PacketFluidWindowClick implements NetworkMessage {
     public int windowId;
     public int inventorySlot;
     public int mouseClick;
@@ -37,15 +41,32 @@ public class PacketFluidWindowClick extends Packet {
 	}
 
 	@Override
-	public void read(DataInputStream dataInputStream) throws IOException {
-		this.windowId = dataInputStream.readByte();
-		this.inventorySlot = dataInputStream.readShort();
-		this.mouseClick = dataInputStream.readByte();
-		this.action = dataInputStream.readShort();
-		this.shift = dataInputStream.readBoolean();
-		this.control = dataInputStream.readBoolean();
-		String fluidId = dataInputStream.readUTF();
-		int amount = dataInputStream.readInt();
+	public void encodeToUniversalPacket(@NotNull UniversalPacket packet) {
+		packet.writeByte(this.windowId);
+		packet.writeInt(this.inventorySlot);
+		packet.writeByte(this.mouseClick);
+		packet.writeShort(this.action);
+		packet.writeBoolean(this.shift);
+		packet.writeBoolean(this.control);
+		if (this.fluidStack == null) {
+			packet.writeString("null");
+			packet.writeInt(-1);
+		} else {
+			packet.writeString(this.fluidStack.fluid.id.toString());
+			packet.writeInt(this.fluidStack.amount);
+		}
+	}
+
+	@Override
+	public void decodeFromUniversalPacket(@NotNull UniversalPacket packet) {
+		this.windowId = packet.readByte();
+		this.inventorySlot = packet.readInt();
+		this.mouseClick = packet.readByte();
+		this.action = packet.readShort();
+		this.shift = packet.readBoolean();
+		this.control = packet.readBoolean();
+		String fluidId = packet.readString();
+		int amount = packet.readInt();
 		if(!fluidId.equals("null")) {
 			try {
 				fluidStack = new FluidStack(Fluid.fluidMap.get(NamespaceID.getTemp(fluidId)),amount);
@@ -56,29 +77,9 @@ public class PacketFluidWindowClick extends Packet {
 	}
 
 	@Override
-	public void write(DataOutputStream dataOutputStream) throws IOException {
-		dataOutputStream.writeByte(this.windowId);
-		dataOutputStream.writeShort(this.inventorySlot);
-		dataOutputStream.writeByte(this.mouseClick);
-		dataOutputStream.writeShort(this.action);
-		dataOutputStream.writeBoolean(this.shift);
-		dataOutputStream.writeBoolean(this.control);
-		if (this.fluidStack == null) {
-			dataOutputStream.writeUTF("null");
-			dataOutputStream.writeInt(-1);
-		} else {
-			dataOutputStream.writeUTF(this.fluidStack.fluid.id.toString());
-			dataOutputStream.writeInt(this.fluidStack.amount);
+	public void handle(NetworkContext context) {
+		if (context.player.craftingInventory.containerId == windowId && context.player.craftingInventory instanceof MenuFluid) {
+			FluidStack fluidStack = ((MenuFluid)context.player.craftingInventory).clickFluidSlot(inventorySlot, mouseClick, shift, control, context.player);
 		}
-	}
-
-	@Override
-	public void handlePacket(PacketHandler packetHandler) {
-		((FluidPacketHandlerServer) packetHandler).catalyst$handleFluidWindowClick(this);
-	}
-
-	@Override
-	public int getEstimatedSize() {
-		return 1+2+1+1+1+1+(fluidStack == null ? 0 : fluidStack.fluid.id.length())+4;
 	}
 }

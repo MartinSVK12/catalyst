@@ -29,8 +29,6 @@ public class PacketHandlerClientMixin extends PacketHandler implements FluidPack
 
     @Override
     public void catalyst$handleSetFluidSlot(PacketSetFluidSlot packetSetFluidSlot) {
-        if (packetSetFluidSlot.windowId == this.mc.thePlayer.craftingInventory.containerId && this.mc.thePlayer.craftingInventory instanceof MenuFluid) {
-            ((MenuFluid) this.mc.thePlayer.craftingInventory).putFluidInSlot(packetSetFluidSlot.fluidSlot, packetSetFluidSlot.fluidStack);
-        }
+
     }
 }

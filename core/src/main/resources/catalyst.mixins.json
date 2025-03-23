@@ -11,12 +11,12 @@
     "WorldMixin"
   ],
   "client": [
+    "BlockModelMixin",
     "BlockModelStandardMixin",
     "FontRendererMixin",
     "GameSettingsMixin",
     "GuiTooltipMixin",
     "ItemModelStandardMixin",
-    "PacketHandlerClientMixin",
     "PlayerLocalMixin",
     "RenderGlobalMixin"
   ],

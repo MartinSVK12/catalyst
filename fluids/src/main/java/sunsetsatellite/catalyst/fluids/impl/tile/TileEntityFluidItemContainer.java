@@ -17,13 +17,14 @@ import net.minecraft.core.world.World;
 import org.jetbrains.annotations.Nullable;
 import sunsetsatellite.catalyst.core.util.Connection;
 import sunsetsatellite.catalyst.core.util.Direction;
+import sunsetsatellite.catalyst.core.util.io.IItemIO;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class TileEntityFluidItemContainer extends TileEntityFluidContainer
-    implements Container {
+    implements Container, IItemIO {
 
     public ItemStack[] itemContents = new ItemStack[1];
 
@@ -167,6 +168,105 @@ public abstract class TileEntityFluidItemContainer extends TileEntityFluidContai
 			item.yd *= 0.5;
 			item.zd *= 0.5;
 			item.pickupDelay = 0;
+		}
+	}
+
+	@Override
+	public int getActiveItemSlotForSide(Direction dir) {
+		if(activeItemSlots.get(dir) == -1){
+			if(itemConnections.get(dir) == Connection.INPUT){
+				for (int i = 0; i < itemContents.length; i++) {
+					ItemStack content = itemContents[i];
+					if (content == null) {
+						return i;
+					}
+				}
+			} else if(itemConnections.get(dir) == Connection.OUTPUT) {
+				for (int i = 0; i < itemContents.length; i++) {
+					ItemStack content = itemContents[i];
+					if (content != null) {
+						return i;
+					}
+				}
+			}
+			return 0;
+		} else {
+			return activeItemSlots.get(dir);
+		}
+	}
+
+	@Override
+	public int getActiveItemSlotForSide(Direction dir, ItemStack stack) {
+		if(activeItemSlots.get(dir) == -1){
+			if(itemConnections.get(dir) == Connection.INPUT){
+				for (int i = 0; i < itemContents.length; i++) {
+					ItemStack content = itemContents[i];
+					if (content == null || (content.isItemEqual(stack) && content.stackSize+stack.stackSize <= content.getMaxStackSize())) {
+						return i;
+					}
+				}
+			} else if(itemConnections.get(dir) == Connection.OUTPUT) {
+				for (int i = 0; i < itemContents.length; i++) {
+					ItemStack content = itemContents[i];
+					if (content != null) {
+						return i;
+					}
+				}
+			}
+			return 0;
+		} else {
+			return activeItemSlots.get(dir);
+		}
+	}
+
+	@Override
+	public void setActiveItemSlotForSide(Direction dir, int slot) {
+		activeItemSlots.replace(dir,slot);
+	}
+
+	@Override
+	public Connection getItemIOForSide(Direction dir) {
+		return itemConnections.get(dir);
+	}
+
+	@Override
+	public void setItemIOForSide(Direction dir, Connection con) {
+		itemConnections.put(dir,con);
+	}
+
+	@Override
+	public void cycleItemIOForSide(Direction dir) {
+		switch (itemConnections.get(dir)) {
+			case NONE:
+				itemConnections.replace(dir, Connection.INPUT);
+				break;
+			case INPUT:
+				itemConnections.replace(dir, Connection.OUTPUT);
+				break;
+			case OUTPUT:
+				itemConnections.replace(dir, Connection.BOTH);
+				break;
+			case BOTH:
+				itemConnections.replace(dir, Connection.NONE);
+				break;
+		}
+	}
+
+	@Override
+	public void cycleActiveItemSlotForSide(Direction dir, boolean backwards) {
+		int i = activeItemSlots.get(dir);
+		if(!backwards){
+			if(i < getContainerSize()-1){
+				activeItemSlots.replace(dir,i+1);
+			} else {
+				activeItemSlots.replace(dir,0);
+			}
+		} else {
+			if(i > -1){
+				activeItemSlots.replace(dir,i-1);
+			} else {
+				activeItemSlots.replace(dir,getContainerSize()-1);
+			}
 		}
 	}
 
