@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.core.mixin;
 
+import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
@@ -65,6 +66,22 @@ public abstract class PlayerServerMixin extends Player implements IMpGui {
 		if(entry.containerClass != null){
 			try {
 				this.craftingInventory = (MenuAbstract) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, tileEntity);
+			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+				throw new RuntimeException(e);
+			}
+			this.craftingInventory.containerId = this.currentWindowId;
+			this.craftingInventory.addSlotListener(thisAs);
+		}
+	}
+
+	@Override
+	public void catalyst$displayCustomGUI(TileEntity tileEntity, String id, CompoundTag data) {
+		this.getNextWindowId();
+		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
+		NetworkHandler.sendToPlayer(thisAs,new PacketOpenGui(this.currentWindowId, id, tileEntity.x, tileEntity.y, tileEntity.z, data));
+		if(entry.containerClass != null){
+			try {
+				this.craftingInventory = (MenuAbstract) entry.containerClass.getDeclaredConstructors()[0].newInstance(thisAs.inventory, tileEntity, data);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 				throw new RuntimeException(e);
 			}

@@ -17,6 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
+import java.util.Random;
 
 public class PacketOpenGui implements NetworkMessage {
 
@@ -28,6 +29,7 @@ public class PacketOpenGui implements NetworkMessage {
 	public int blockZ;
 	public int stackIndex;
 	public boolean isArmor;
+	public CompoundTag data = null;
 
 	public PacketOpenGui(){}
 
@@ -38,6 +40,16 @@ public class PacketOpenGui implements NetworkMessage {
 		this.blockX = x;
 		this.blockY = y;
 		this.blockZ = z;
+	}
+
+	public PacketOpenGui(int windowId, String windowTitle, int x, int y, int z, CompoundTag data) {
+		this.windowId = windowId;
+		this.windowTitle = windowTitle;
+		this.type = "tile";
+		this.blockX = x;
+		this.blockY = y;
+		this.blockZ = z;
+		this.data = data;
 	}
 
 	public PacketOpenGui(int windowId, String windowTitle, int stackIndex, boolean isArmor) {
@@ -58,6 +70,10 @@ public class PacketOpenGui implements NetworkMessage {
 		packet.writeInt(this.blockZ);
 		packet.writeInt(this.stackIndex);
 		packet.writeBoolean(this.isArmor);
+		packet.writeBoolean(data != null);
+		if(data != null){
+			packet.writeCompoundTag(data);
+		}
 	}
 
 	@Override
@@ -70,6 +86,12 @@ public class PacketOpenGui implements NetworkMessage {
 		this.blockZ = packet.readInt();
 		this.stackIndex = packet.readInt();
 		this.isArmor = packet.readBoolean();
+		boolean hasData = packet.readBoolean();
+		if(hasData){
+			this.data = packet.readCompoundTag();
+		} else {
+			this.data = null;
+		}
 	}
 
 	@Override
@@ -80,11 +102,20 @@ public class PacketOpenGui implements NetworkMessage {
 				tile = context.player.world.getTileEntity(blockX,blockY,blockZ);
 			}
 			if(tile != null){
-				try {
-					Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory,tile));
-				} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-					throw new RuntimeException(e);
+				if(data == null) {
+					try {
+						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory,tile));
+					} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+						throw new RuntimeException(e);
+					}
+				} else {
+					try {
+						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory,tile,data));
+					} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+						throw new RuntimeException(e);
+					}
 				}
+
 			}
 			context.player.craftingInventory.containerId = windowId;
 		} else if (Objects.equals(type, "item")) {

@@ -27,7 +27,7 @@ public class SlotFluid {
     }
 
     public boolean isFluidValid(Fluid stack) {
-        return true;
+        return fluidInventory.getAllowedFluidsForSlot(slotIndex).contains(stack);
     }
 
 	public boolean isAnyFluidValid(List<Fluid> stack) {

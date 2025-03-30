@@ -12,6 +12,8 @@ import net.minecraft.core.item.Items;
 import sunsetsatellite.catalyst.core.util.mixin.interfaces.IKeybinds;
 import turniplabs.halplibe.util.ClientStartEntrypoint;
 
+import java.lang.reflect.InvocationTargetException;
+
 @Environment(EnvType.CLIENT)
 public class CatalystClient implements ClientStartEntrypoint {
 
@@ -48,6 +50,14 @@ public class CatalystClient implements ClientStartEntrypoint {
 				.withComponent(effectsCategory)
 				.withComponent(multipartCategory);
 			OptionsPages.register(optionsPage);
+
+			try {
+				Class<?> catalystMultipart = Class.forName("sunsetsatellite.catalyst.CatalystMultipartClient");
+				catalystMultipart.getMethod("addSettingsPage").invoke(null);
+			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+					 IllegalAccessException ignored) {
+
+			}
 		}
 	}
 }

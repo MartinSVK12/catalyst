@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.core.mixin;
 
+import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.PlayerLocal;
 import net.minecraft.client.gui.Screen;
@@ -35,6 +36,16 @@ public class PlayerLocalMixin implements IMpGui {
 		MpGuiEntryClient entry = (MpGuiEntryClient) Catalyst.GUIS.getItem(id);
 		try {
 			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,tileEntity));
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void catalyst$displayCustomGUI(TileEntity tileEntity, String id, CompoundTag data) {
+		MpGuiEntryClient entry = (MpGuiEntryClient) Catalyst.GUIS.getItem(id);
+		try {
+			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,tileEntity,data));
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

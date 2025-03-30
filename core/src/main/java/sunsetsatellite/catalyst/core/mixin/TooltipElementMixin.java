@@ -23,7 +23,7 @@ import java.util.Objects;
         value = TooltipElement.class,
         remap = false
 )
-public class GuiTooltipMixin extends Gui {
+public class TooltipElementMixin extends Gui {
 
 	@Inject(
 		method = "getTooltipText(Lnet/minecraft/core/item/ItemStack;ZLnet/minecraft/core/player/inventory/slot/Slot;)Ljava/lang/String;",

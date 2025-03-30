@@ -1,5 +1,7 @@
 package sunsetsatellite.catalyst;
 
+import com.mojang.nbt.tags.CompoundTag;
+import com.mojang.nbt.tags.Tag;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
@@ -9,7 +11,6 @@ import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.data.registry.Registry;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.util.collection.Pair;
 import net.minecraft.core.util.helper.MathHelper;
@@ -24,6 +25,7 @@ import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.core.util.mp.IMpGui;
 import sunsetsatellite.catalyst.core.util.mp.MpGuiEntry;
 import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
+import sunsetsatellite.catalyst.core.util.mp.PacketScreenAction;
 import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.section.BlockSection;
 import sunsetsatellite.catalyst.core.util.vector.Vec2f;
@@ -46,6 +48,7 @@ public class Catalyst implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		NetworkHandler.registerNetworkMessage(PacketOpenGui::new);
+		NetworkHandler.registerNetworkMessage(PacketScreenAction::new);
 
 		connectSignals();
 		LOGGER.info("Catalyst: Core initialized.");
@@ -105,6 +108,27 @@ public class Catalyst implements ModInitializer {
 		return list;
 	}
 
+	public static CompoundTag compoundOf(String[] keys, Object... values){
+		CompoundTag tag = new CompoundTag();
+
+		tag.setValue(mapOf(keys, Arrays.stream(values).map(Catalyst::tagOf).toArray(Tag[]::new)));
+
+		return tag;
+	}
+
+	public static <T> Tag<T> tagOf(T value){
+		Tag<T> tag = (Tag<T>) Tag.createTagOfType(value.getClass());
+		tag.setValue(value);
+		return tag;
+	}
+
+	public static <T> Tag<T> tagOf(String name, T value){
+		Tag<T> tag = (Tag<T>) Tag.createTagOfType(value.getClass());
+		tag.setValue(value);
+		tag.setName(name);
+		return tag;
+	}
+
 	/**
 	 * @param values The values to be checked
 	 * @return Returns the smallest of <code>values</code>
@@ -152,33 +176,8 @@ public class Catalyst implements ModInitializer {
 	}
 
 	public static Pair<Direction, BlockSection> getBlockSurfaceClickPosition(World world, Player player, Side side, Vec2f clickPosition){
-		if (!Global.isServer) {
-			Direction dir = Direction.getDirectionFromSide(side.getId());
-			/*switch (side) {
-				case NORTH:
-					clickPosition.x = 1-clickPosition.x;
-					break;
-				case EAST: {
-					double temp1 = clickPosition.y;
-					double temp2 = clickPosition.x;
-					clickPosition.x = 1-temp1;
-					clickPosition.y = temp2;
-					break;
-				}
-				case SOUTH:
-					//no change needed
-					break;
-				case WEST: {
-					double temp1 = clickPosition.y;
-					double temp2 = clickPosition.x;
-					clickPosition.x = temp1;
-					clickPosition.y = temp2;
-					break;
-				}
-			}*/
-			return Pair.of(dir,BlockSection.getClosestBlockSection(clickPosition));
-		}
-		return null;
+		Direction dir = Direction.getDirectionFromSide(side.getId());
+		return Pair.of(dir,BlockSection.getClosestBlockSection(clickPosition));
 	}
 
 	public static Side calculatePlayerFacing(float rotation) {
@@ -192,6 +191,10 @@ public class Catalyst implements ModInitializer {
 
 	public static void displayGui(Player player, TileEntity tileEntity, String id){
 		((IMpGui)player).catalyst$displayCustomGUI(tileEntity, id);
+	}
+
+	public static void displayGui(Player player, TileEntity tileEntity, String id, CompoundTag data){
+		((IMpGui)player).catalyst$displayCustomGUI(tileEntity, id, data);
 	}
 
 	public static <T> T blockLogic(Block<? extends BlockLogic> block, Class<T> clazz){

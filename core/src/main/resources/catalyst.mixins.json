@@ -15,7 +15,7 @@
     "BlockModelStandardMixin",
     "FontRendererMixin",
     "GameSettingsMixin",
-    "GuiTooltipMixin",
+    "TooltipElementMixin",
     "ItemModelStandardMixin",
     "PlayerLocalMixin",
     "RenderGlobalMixin"
