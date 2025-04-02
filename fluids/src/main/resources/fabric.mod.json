@@ -35,8 +35,6 @@
 		"catalyst-fluids.mixins.json"
   ],
 
-	"accessWidener": "catalyst-fluids.accesswidener",
-
   "depends": {
 		"fabricloader": ">=0.15.5",
 		"catalyst-core": ">=2.0.0",

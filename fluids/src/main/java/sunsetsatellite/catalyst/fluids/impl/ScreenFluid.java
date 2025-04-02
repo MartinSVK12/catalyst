@@ -1,5 +1,8 @@
 package sunsetsatellite.catalyst.fluids.impl;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ItemElement;
+import net.minecraft.client.gui.TooltipElement;
 import net.minecraft.client.gui.container.ScreenContainerAbstract;
 import net.minecraft.core.net.command.TextFormatting;
 import org.lwjgl.input.Keyboard;
@@ -10,10 +13,14 @@ import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 public class ScreenFluid extends ScreenContainerAbstract {
 
 	public MenuFluid fluidSlots;
+	public TooltipElement tooltipElement;
+	public ItemElement itemElement;
 
 	public ScreenFluid(MenuFluid container) {
 		super(container);
 		this.fluidSlots = container;
+		this.tooltipElement = new TooltipElement(Minecraft.getMinecraft());
+		this.itemElement = new ItemElement(Minecraft.getMinecraft());
 	}
 
 	@Override
