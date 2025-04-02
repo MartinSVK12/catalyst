@@ -27,7 +27,7 @@ public class Fluid {
     @NotNull
     public static final Map<NamespaceID, Fluid> fluidMap = new LinkedHashMap<>();
 
-	public Fluid(@NotNull NamespaceID id, @NotNull String translationKey) {
+	/*public Fluid(@NotNull NamespaceID id, @NotNull String translationKey) {
 		this.id = id;
 		this.translationKey = translationKey;
 
@@ -36,12 +36,17 @@ public class Fluid {
 		}
 
 		fluidMap.put(this.id, this);
-	}
+	}*/
 
     public Fluid(@NotNull NamespaceID id, @NotNull String translationKey, @Nullable List<Block<?>> blocks) {
         this.id = id;
 		this.translationKey = translationKey;
-        if (blocks != null) this.blocks.addAll(blocks);
+
+		if(blocks == null || blocks.isEmpty()){
+			throw new IllegalArgumentException("Fluid '" + id + "' must have at least one block associated with it.");
+		}
+
+		this.blocks.addAll(blocks);
 
         if (fluidMap.containsKey(this.id)){
             throw new IllegalArgumentException("Fluid id '" + id + "' is already used by '" + fluidMap.get(this.id) + "' when adding " + this);
@@ -69,5 +74,12 @@ public class Fluid {
 	@Override
 	public int hashCode() {
 		return id.hashCode();
+	}
+
+	public int getFirstId(){
+		if(blocks.isEmpty()){
+			return 0;
+		}
+		return blocks.get(0).id();
 	}
 }

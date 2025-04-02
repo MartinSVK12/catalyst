@@ -87,10 +87,10 @@ dependencies {
 	mappings loom.layered() {}
 
 	// Catalyst Modules
-	include(implementation(project(path: "core", configuration: "namedElements")))
-	include(implementation(project(path: "energy", configuration: "namedElements")))
-	include(implementation(project(path: "fluids", configuration: "namedElements")))
-	include(implementation(project(path: "multiblocks", configuration: "namedElements")))
+	include(implementation(project(path: ":core", configuration: "namedElements")))
+	include(implementation(project(path: ":energy", configuration: "namedElements")))
+	include(implementation(project(path: ":fluids", configuration: "namedElements")))
+	include(implementation(project(path: ":multiblocks", configuration: "namedElements")))
 
 	// Fabric loader + b1.7.3
 	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar

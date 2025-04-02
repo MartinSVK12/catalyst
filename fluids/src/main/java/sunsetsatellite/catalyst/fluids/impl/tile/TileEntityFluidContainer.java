@@ -111,7 +111,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
                         IMassFluidInventory massFluidInv = (IMassFluidInventory) tile;
                         if(fluidStack.isFluidEqual(massFluidInv.getFilter(dir.getOpposite())) || massFluidInv.getFilter(dir.getOpposite()) == null){
 							int maxAmount = Math.min(fluidStack.amount, maxFlow);
-                            if(massFluidInv.canInsertFluid(new FluidStack(fluidStack.liquid,maxAmount))){
+                            if(massFluidInv.canInsertFluid(new FluidStack(fluidStack.fluid,maxAmount))){
                                 FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
                                 massFluidInv.insertFluid(transferablePortion);
                             }
@@ -147,7 +147,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 						IMassFluidInventory massFluidInv = (IMassFluidInventory) tile;
 						if(fluidStack.isFluidEqual(massFluidInv.getFilter(dir.getOpposite())) || massFluidInv.getFilter(dir.getOpposite()) == null){
 							int maxAmount = Math.min(fluidStack.amount, maxFlow);
-							if(massFluidInv.canInsertFluid(new FluidStack(fluidStack.liquid,maxAmount))){
+							if(massFluidInv.canInsertFluid(new FluidStack(fluidStack.fluid,maxAmount))){
 								FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
 								massFluidInv.insertFluid(transferablePortion);
 							}

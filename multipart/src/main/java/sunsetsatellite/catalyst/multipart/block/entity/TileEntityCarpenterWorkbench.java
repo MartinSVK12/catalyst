@@ -64,10 +64,6 @@ public class TileEntityCarpenterWorkbench extends TileEntity implements Containe
 		}
 	}
 
-	public int getSizeInventory() {
-		return 2;
-	}
-
 	@Override
 	public int getContainerSize() {
 		return contents.length;
@@ -122,7 +118,7 @@ public class TileEntityCarpenterWorkbench extends TileEntity implements Containe
 	public void readFromNBT(CompoundTag nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 		ListTag nbttaglist = nbttagcompound.getList("Items");
-		this.contents = new ItemStack[this.getSizeInventory()];
+		this.contents = new ItemStack[this.getContainerSize()];
 
 		for(int i = 0; i < nbttaglist.tagCount(); ++i) {
 			CompoundTag nbttagcompound1 = (CompoundTag)nbttaglist.tagAt(i);

@@ -4,6 +4,10 @@ import net.minecraft.core.block.Blocks;
 import net.minecraft.core.util.collection.NamespaceID;
 import sunsetsatellite.catalyst.Catalyst;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Fluids {
 
 	public static Fluid WATER;
@@ -18,6 +22,15 @@ public class Fluids {
 		//ICE_CREAM = new Fluid(NamespaceID.getPermanent("minecraft", "fluid/ice_cream"),"fluid.ice_cream.name");
 	}
 
+	public static Fluid getFluid(int id) {
+		List<Fluid> list = new ArrayList<>();
+		for (Fluid F : Fluid.fluidMap.values()) {
+			if (F.blocks.contains(Blocks.getBlock(id))) {
+				list.add(F);
+			}
+		}
+		return list.get(0);
+	}
 
 
 }
