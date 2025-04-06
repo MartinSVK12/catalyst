@@ -38,7 +38,7 @@ public class TooltipElementMixin extends Gui {
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/TooltipElement;formatDescription(Ljava/lang/String;I)Ljava/lang/String;",shift = At.Shift.AFTER, ordinal = 1)
 	)
 	public void injectPersistentTooltip(ItemStack itemStack, boolean showDescription, Slot slot, CallbackInfoReturnable<String> cir, @Local StringBuilder text){
-		//addDescription(itemStack, text);
+		addPersistentDescription(itemStack, text);
 	}
 
 	@Unique
@@ -60,5 +60,27 @@ public class TooltipElementMixin extends Gui {
 			}
 		}
 	}
+
+	@Unique
+	private void addPersistentDescription(ItemStack itemStack, StringBuilder text) {
+		if(itemStack != null && itemStack.getItem() instanceof ICustomDescription){
+			if(!Objects.equals(((ICustomDescription) itemStack.getItem()).getPersistentDescription(itemStack), "")){
+				text.append(((ICustomDescription) itemStack.getItem()).getPersistentDescription(itemStack)).append("\n");
+				return;
+			}
+		}
+
+		if(itemStack != null && itemStack.getItem() instanceof ItemBlock){
+			Block<?> b = ((ItemBlock<?>) itemStack.getItem()).getBlock();
+			ICustomDescription block = Catalyst.blockLogic(b, ICustomDescription.class);
+			if(block != null){
+				if(!Objects.equals(block.getPersistentDescription(itemStack), "")){
+					text.append(block.getPersistentDescription(itemStack)).append("\n");
+				}
+			}
+		}
+	}
 }
+
+
 
