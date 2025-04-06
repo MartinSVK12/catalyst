@@ -35,6 +35,11 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 	}
 
 	@Override
+	public int getFluidAmount(ItemStack stack) {
+		return (thisAs instanceof ItemBucketEmpty) ? 0 : 1000;
+	}
+
+	@Override
 	public boolean canFill(ItemStack stack) {
 		return thisAs instanceof ItemBucketEmpty;
 	}

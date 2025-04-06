@@ -12,6 +12,7 @@ import java.util.List;
 public interface IItemFluidContainer {
     int getCapacity(ItemStack stack);
     int getRemainingCapacity(ItemStack stack);
+	int getFluidAmount(ItemStack stack);
     boolean canFill(ItemStack stack);
     boolean canDrain(ItemStack stack);
 	FluidStack getCurrentFluid(ItemStack stack);
