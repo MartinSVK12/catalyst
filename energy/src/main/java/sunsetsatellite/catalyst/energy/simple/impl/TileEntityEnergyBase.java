@@ -2,6 +2,8 @@ package sunsetsatellite.catalyst.energy.simple.impl;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.net.packet.Packet;
+import net.minecraft.core.net.packet.PacketTileEntityData;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.network.Network;
 import sunsetsatellite.catalyst.core.util.network.NetworkComponentTile;
@@ -81,6 +83,11 @@ public abstract class TileEntityEnergyBase extends TileEntity implements IEnergy
 		capacity = tag.getLong("Capacity");
 		maxReceive = tag.getLong("MaxReceive");
 		maxProvide = tag.getLong("MaxProvide");
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return new PacketTileEntityData(this);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.core.util.network;
 
 import com.llamalad7.mixinextras.lib.apache.commons.ArrayUtils;
+import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.Catalyst;
@@ -134,7 +135,8 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 		nextConduits.clear();
 		if(currentConduit == null){
 			TileEntity thisConduit = world.getTileEntity(currentPos.x, currentPos.y, currentPos.z);
-			if(!(thisConduit instanceof IConduitTile)){
+			Block<?> block = world.getBlock(currentPos.x, currentPos.y, currentPos.z);
+			if(!(thisConduit instanceof IConduitTile) || block == null){
 				return false;
 			}
 			currentConduit = (T) thisConduit;
@@ -148,7 +150,8 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 			}
 
 			TileEntity tile = direction.getTileEntity(world, (TileEntity) currentConduit);
-			if(tile instanceof IConduitTile){
+			Block<?> block = direction.getBlock(world, (TileEntity) currentConduit);
+			if(tile instanceof IConduitTile && block != null){
 				T otherConduit = (T) tile;
 				if(!otherConduit.isConnected(direction.getOpposite()) || isWalked(otherConduit)){
 					continue;
@@ -175,6 +178,7 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 	}
 
 	protected boolean isValid(T conduit, T neighbourConduit, Vec3i pos, Direction dirToNeighbour){
+		if(pos.getBlock(world) == null) return false;
 		return conduit.getType() == neighbourConduit.getType();
 	}
 

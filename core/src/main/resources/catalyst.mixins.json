@@ -15,15 +15,17 @@
     "BlockModelStandardMixin",
     "FontRendererMixin",
     "GameSettingsMixin",
-    "TooltipElementMixin",
     "ItemModelStandardMixin",
     "PlayerLocalMixin",
-    "RenderGlobalMixin"
+    "RenderGlobalMixin",
+    "TooltipElementMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "server": [
+    "PacketHandlerLoginMixin",
+    "PlayerListMixin",
     "PlayerServerMixin"
   ]
 }

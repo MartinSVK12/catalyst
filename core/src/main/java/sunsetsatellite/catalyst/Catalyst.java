@@ -22,10 +22,7 @@ import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.core.util.BlockChangeInfo;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.Signal;
-import sunsetsatellite.catalyst.core.util.mp.IMpGui;
-import sunsetsatellite.catalyst.core.util.mp.MpGuiEntry;
-import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
-import sunsetsatellite.catalyst.core.util.mp.PacketScreenAction;
+import sunsetsatellite.catalyst.core.util.mp.*;
 import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.section.BlockSection;
 import sunsetsatellite.catalyst.core.util.vector.Vec2f;
@@ -49,6 +46,9 @@ public class Catalyst implements ModInitializer {
 	public void onInitialize() {
 		NetworkHandler.registerNetworkMessage(PacketOpenGui::new);
 		NetworkHandler.registerNetworkMessage(PacketScreenAction::new);
+		NetworkHandler.registerNetworkMessage(PacketBlockNetworkData::new);
+		NetworkHandler.registerNetworkMessage(PacketAddNetworkBlock::new);
+		NetworkHandler.registerNetworkMessage(PacketRemoveNetworkBlock::new);
 
 		connectSignals();
 		LOGGER.info("Catalyst: Core initialized.");

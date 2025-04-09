@@ -265,6 +265,7 @@ public class Network {
 				((NetworkComponentTile) tile).networkChanged(this);
 			}
 		});
+		NET_PATH_DATA.clear();
 	}
 
 	public boolean isOfSameType(NetworkComponent component){

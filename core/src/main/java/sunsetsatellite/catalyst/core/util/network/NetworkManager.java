@@ -7,11 +7,15 @@ import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
+import net.minecraft.server.net.PlayerList;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.BlockChangeInfo;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.Signal;
+import sunsetsatellite.catalyst.core.util.mp.PacketAddNetworkBlock;
+import sunsetsatellite.catalyst.core.util.mp.PacketRemoveNetworkBlock;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,8 +50,10 @@ public class NetworkManager {
 				return;
 			}
 			if(blockChanged.id == 0){
+				NetworkHandler.sendToAllPlayers(new PacketRemoveNetworkBlock(blockChanged.pos.x,blockChanged.pos.y,blockChanged.pos.z, blockChanged.world.dimension.id));
 				removeBlock(blockChanged);
 			} else {
+				NetworkHandler.sendToAllPlayers(new PacketAddNetworkBlock(blockChanged.pos.x,blockChanged.pos.y,blockChanged.pos.z, blockChanged.id, blockChanged.meta, blockChanged.world.dimension.id));
 				addBlock(blockChanged);
 			}
 		}
@@ -198,6 +204,7 @@ public class NetworkManager {
 		int y = blockChanged.pos.y;
 		int z = blockChanged.pos.z;
 		World world = blockChanged.world;
+
 		Set<Network> nets = NETS.get(world.dimension.id);
 
 		if (nets == null) {
@@ -293,6 +300,9 @@ public class NetworkManager {
 		return Collections.unmodifiableSet(NETS.getOrDefault(dim, Collections.emptySet()));
 	}
 
+	public static void clearNets(int dim){
+		NETS.remove(dim);
+	}
 
 	public static void updateAllNets(){
 		NETS.forEach((dimId, nets)->{
