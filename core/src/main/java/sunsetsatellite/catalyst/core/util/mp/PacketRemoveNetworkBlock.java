@@ -5,6 +5,7 @@ import sunsetsatellite.catalyst.core.util.BlockChangeInfo;
 import sunsetsatellite.catalyst.core.util.network.Network;
 import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
+import turniplabs.halplibe.helper.EnvironmentHelper;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
@@ -43,12 +44,14 @@ public class PacketRemoveNetworkBlock implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if (context.player.world != null && context.player.world.dimension.id == dim) {
-			Network net = NetworkManager.getNet(context.player.world, x, y, z);
-			if(net != null){
-				net.update();
+		if(EnvironmentHelper.isClientWorld()) {
+			if (context.player.world != null && context.player.world.dimension.id == dim) {
+				Network net = NetworkManager.getNet(context.player.world, x, y, z);
+				if (net != null) {
+					net.update();
+				}
+				NetworkManager.removeBlock(new BlockChangeInfo(context.player.world, new Vec3i(x, y, z), 0, 0));
 			}
-			NetworkManager.removeBlock(new BlockChangeInfo(context.player.world,new Vec3i(x,y,z),0,0));
 		}
 	}
 }

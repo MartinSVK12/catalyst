@@ -211,7 +211,8 @@ tasks.register('github') {
 	doLast {
 
 		List<RemapJarTask> ts = List.of(
-			rootProject.project(":energu").remapJar as RemapJarTask,
+			rootProject.project(":core").remapJar as RemapJarTask,
+			rootProject.project(":energy").remapJar as RemapJarTask,
 			rootProject.project(":fluids").remapJar as RemapJarTask,
 			rootProject.project(":multiblocks").remapJar as RemapJarTask,
 			rootProject.project(":multipart").remapJar as RemapJarTask
