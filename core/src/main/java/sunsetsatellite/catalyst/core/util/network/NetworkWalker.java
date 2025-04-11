@@ -110,7 +110,7 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 			walkers = new ArrayList<>();
 			for (int i = 0; i < nextConduitDirections.size(); i++) {
 				Direction direction = nextConduitDirections.get(i);
-				NetworkWalker<T> walker = createSubWalker(world, direction, currentPos.add(direction.getVec()), walkedBlocks + 1);
+				NetworkWalker<T> walker = createSubWalker(world, direction, currentPos.copy().add(direction.getVec()), walkedBlocks + 1);
 				walker.root = root;
 				walker.currentConduit = nextConduits.get(i);
 				walker.from = direction.getOpposite();

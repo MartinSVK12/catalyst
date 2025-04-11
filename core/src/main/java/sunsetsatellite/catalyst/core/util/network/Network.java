@@ -83,15 +83,15 @@ public class Network {
 		Block<?> b = Blocks.blocksList[world.getBlockId(x, y, z)];
 		byte meta = (byte) world.getBlockMetadata(x, y, z);
 
+		if(!(b != null && b.getLogic() instanceof NetworkComponent)) return;
+
 		Vec3i pos = new Vec3i(x, y, z);
 		blocks.put(pos, new BlockEntry(b, meta));
-		if (b != null) {
-			BlockLogic block = b.getLogic();
-			if (((NetworkComponent) block).getType().equals(type)) {
-				networkBlocks.put(pos, (NetworkComponent) block);
-				if(world.getTileEntity(x,y,z) instanceof NetworkComponentTile){
-					((NetworkComponentTile) world.getTileEntity(x,y,z)).networkChanged(this);
-				}
+		BlockLogic block = b.getLogic();
+		if (((NetworkComponent) block).getType().equals(type)) {
+			networkBlocks.put(pos, (NetworkComponent) block);
+			if(world.getTileEntity(x,y,z) instanceof NetworkComponentTile){
+				((NetworkComponentTile) world.getTileEntity(x,y,z)).networkChanged(this);
 			}
 		}
 		update();
