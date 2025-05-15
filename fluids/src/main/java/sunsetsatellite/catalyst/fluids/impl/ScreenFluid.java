@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPickupController;
 import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 
+import static net.minecraft.client.option.enums.DescriptionPromptEnum.ALWAYS_SHOW;
+
 public class ScreenFluid extends ScreenContainerAbstract {
 
 	public MenuFluid fluidSlots;
@@ -43,7 +45,7 @@ public class ScreenFluid extends ScreenContainerAbstract {
 		}
 
 		if(slot != null && slot.hasStack()) {
-			boolean showDescription = mc.gameSettings.alwaysShowDescriptions.value || mc.gameSettings.keyDescription.isPressed();
+			boolean showDescription = mc.gameSettings.itemDescriptions.value == ALWAYS_SHOW || mc.gameSettings.keyDescription.isPressed();
 			String str = tooltipElement.getTooltipText(slot.getFluidStack().toItemStack(), showDescription);
 			str += "\n"+ TextFormatting.GRAY + slot.getFluidStack().amount + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
 			if(!str.isEmpty())

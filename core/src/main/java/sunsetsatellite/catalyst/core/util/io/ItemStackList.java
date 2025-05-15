@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.core.util.io;
 
 import com.mojang.nbt.tags.CompoundTag;
+import com.mojang.nbt.tags.Tag;
 import net.minecraft.core.entity.EntityItem;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.world.World;
@@ -393,4 +394,30 @@ public class ItemStackList implements IItemStackList, Iterable<ItemStack> {
     public Iterator<ItemStack> iterator() {
         return contents.iterator();
     }
+
+	public void writeToNbt(CompoundTag tag){
+		for (int i = 0; i < contents.size(); i++) {
+			ItemStack item = contents.get(i);
+			CompoundTag itemNBT = new CompoundTag();
+			if (item != null) {
+				item.writeToNBT(itemNBT);
+				itemNBT.putInt("Count", item.stackSize);
+				tag.putCompound(String.valueOf(i), itemNBT);
+			} else {
+				tag.getValue().remove(String.valueOf(i));
+			}
+		}
+	}
+
+	public void readFromNbt(CompoundTag tag){
+		for (Tag<?> value : tag.getValues()) {
+			CompoundTag itemNBT = (CompoundTag) value;
+			ItemStack stack = new ItemStack(0, 0, 0, new CompoundTag());
+			stack.readFromNBT(itemNBT);
+			stack.stackSize = tag.getInteger("Count");
+			if(stack.stackSize > 0){
+				contents.add(stack);
+			}
+		}
+	}
 }
