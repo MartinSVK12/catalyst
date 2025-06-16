@@ -2,6 +2,7 @@ package sunsetsatellite.catalyst;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.tag.BlockTags;
 import net.minecraft.core.data.tag.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,10 @@ public class CatalystEnergy implements ModInitializer, GameStartEntrypoint {
 
     @Override
     public void onInitialize() {
+
+		BlockTags.TAG_LIST.add(ENERGY_CONDUITS_CONNECT);
+		BlockTags.TAG_LIST.add(WIRES_CONNECT);
+
         LOGGER.info("Catalyst: Energy initialized.");
     }
 
