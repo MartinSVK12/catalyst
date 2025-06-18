@@ -243,7 +243,7 @@ modrinth {
 	versionType = "release" // This is the default -- can also be `beta` or `alpha`
 	uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
 	gameVersions = ["b1.7.3"] // Must be an array, even with only one version
-	loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
+	loaders = ["bta-babric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
 	changelog = Files.readString(java.nio.file.Path.of("${project.projectDir}/CHANGELOG.md"))
 }
 
