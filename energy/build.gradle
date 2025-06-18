@@ -194,3 +194,7 @@ static boolean checkVersion(String group, String name, String version) {
 		return true
 	}
 }
+
+remapJar {
+	archiveVersion.set(archiveVersion.get()+"-${bta_version}")
+}
