@@ -10,6 +10,7 @@ import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.enums.EnumBlockSoundEffectType;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.item.block.ItemBlock;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.net.command.TextFormatting;
 import net.minecraft.core.util.collection.Pair;
@@ -29,6 +30,9 @@ import sunsetsatellite.catalyst.multipart.api.MultipartType;
 import java.util.Objects;
 
 public class ItemMultipart extends Item implements ISideInteractable, ICustomDescription {
+
+	private static final ItemStack previewStack = new ItemStack(1,1,0);
+
 	public ItemMultipart(String translationKey, String namespaceId, int id) {
 		super(translationKey, namespaceId, id);
 	}
@@ -48,8 +52,12 @@ public class ItemMultipart extends Item implements ISideInteractable, ICustomDes
 	public String getTranslatedName(ItemStack itemstack) {
 		String type = itemstack.getData().getCompound("Multipart").getStringOrDefault("Type", "");
 		Block<?> block = Blocks.getBlock(itemstack.getData().getCompound("Multipart").getInteger("Block"));
+		int meta = itemstack.getData().getCompound("Multipart").getInteger("Meta");
 		if(!Objects.equals(type, "") && block != null && MultipartType.types.containsKey(type)) {
-			return I18n.getInstance().translateKey(block.getKey() + ".name") + " " + I18n.getInstance().translateKey("multipart."+type+".name");
+			ItemBlock<?> item = (ItemBlock<?>) block.asItem();
+			previewStack.itemID = block.id();
+			previewStack.setMetadata(meta);
+			return I18n.getInstance().translateKey(item.getLanguageKey(previewStack) + ".name") + " " + I18n.getInstance().translateKey("multipart."+type+".name");
 		}
 		return super.getTranslatedName(itemstack);
 	}
