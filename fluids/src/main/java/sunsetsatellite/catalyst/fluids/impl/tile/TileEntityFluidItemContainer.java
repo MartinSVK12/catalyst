@@ -39,10 +39,10 @@ public abstract class TileEntityFluidItemContainer extends TileEntityFluidContai
     }
 
 	@Override
-	public void readFromNBT(CompoundTag nbttagcompound)
+	public void readFromNBT(CompoundTag tag)
 	{
-		super.readFromNBT(nbttagcompound);
-		ListTag nbttaglist = nbttagcompound.getList("Items");
+		super.readFromNBT(tag);
+		ListTag nbttaglist = tag.getList("Items");
 		itemContents = new ItemStack[getContainerSize()];
 		for(int i = 0; i < nbttaglist.tagCount(); i++)
 		{
@@ -53,12 +53,22 @@ public abstract class TileEntityFluidItemContainer extends TileEntityFluidContai
 				itemContents[j] = ItemStack.readItemStackFromNbt(nbttagcompound1);
 			}
 		}
+
+		CompoundTag connectionsTag = tag.getCompound("itemConnections");
+		for (Object con : connectionsTag.getValues()) {
+			itemConnections.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],Connection.values()[((IntTag)con).getValue()]);
+		}
+
+		CompoundTag activeItemSlotsTag = tag.getCompound("itemActiveSlots");
+		for (Object con : activeItemSlotsTag.getValues()) {
+			activeItemSlots.replace(Direction.values()[Integer.parseInt(((IntTag)con).getTagName())],((IntTag) con).getValue());
+		}
 	}
 
 	@Override
-	public void writeToNBT(CompoundTag nbttagcompound)
+	public void writeToNBT(CompoundTag tag)
 	{
-		super.writeToNBT(nbttagcompound);
+		super.writeToNBT(tag);
 		ListTag nbttaglist = new ListTag();
 		CompoundTag itemConnectionsTag = new CompoundTag();
 		CompoundTag activeItemSlotsTag = new CompoundTag();
@@ -82,10 +92,10 @@ public abstract class TileEntityFluidItemContainer extends TileEntityFluidContai
 			Connection con = entry.getValue();
 			itemConnectionsTag.putInt(String.valueOf(dir.ordinal()),con.ordinal());
 		}
-		nbttagcompound.putCompound("itemConnections",itemConnectionsTag);
-		nbttagcompound.putCompound("itemActiveSlots",activeItemSlotsTag);
+		tag.putCompound("itemConnections",itemConnectionsTag);
+		tag.putCompound("itemActiveSlots",activeItemSlotsTag);
 
-		nbttagcompound.put("Items", nbttaglist);
+		tag.put("Items", nbttaglist);
 	}
 
 	@Override
