@@ -1,10 +1,11 @@
 package sunsetsatellite.catalyst.multipart.api;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class MultipartType {
 
-	public static final HashMap<String, MultipartType> types = new HashMap<>();
+	public static final TreeMap<String, MultipartType> types = new TreeMap<>();
 	public final String model;
 	public final String name;
 	public final int thickness;

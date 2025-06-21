@@ -15,8 +15,10 @@ import sunsetsatellite.catalyst.CatalystMultipart;
 import sunsetsatellite.catalyst.core.util.IScreenActionListener;
 import sunsetsatellite.catalyst.multipart.api.MultipartType;
 import sunsetsatellite.catalyst.multipart.util.SlotPartPicker;
+import turniplabs.halplibe.helper.EnvironmentHelper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TileEntityCarpenterWorkbench extends TileEntity implements Container, IScreenActionListener {
@@ -119,6 +121,7 @@ public class TileEntityCarpenterWorkbench extends TileEntity implements Containe
 	public void readFromNBT(CompoundTag nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 		ListTag nbttaglist = nbttagcompound.getList("Items");
+		ListTag partsTag = nbttagcompound.getList("Parts");
 		this.contents = new ItemStack[this.getContainerSize()];
 
 		for(int i = 0; i < nbttaglist.tagCount(); ++i) {

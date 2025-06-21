@@ -37,7 +37,7 @@ public class ScreenCarpenterWorkbench extends ScreenContainerAbstract {
 		super.init();
 		for (Object slot : inventorySlots.slots) {
 			if (slot instanceof SlotPartPicker) {
-				((SlotPartPicker) slot).variableIndex = ((SlotPartPicker) slot).getSlotIndex() + (9 * (tile.page - 1));
+				((SlotPartPicker) slot).variableIndex = (((SlotPartPicker) slot).getSlotIndex()-2) + (9 * (tile.page - 1));
 			}
 		}
 		buttons.add(new ButtonElement(0, Math.round((float) width / 2 + 60), Math.round((float) height / 2 - 68), 20, 20, "/\\"));
