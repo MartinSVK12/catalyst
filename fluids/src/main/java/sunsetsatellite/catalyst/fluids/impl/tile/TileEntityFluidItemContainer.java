@@ -163,11 +163,7 @@ public abstract class TileEntityFluidItemContainer extends TileEntityFluidContai
 		for(int i = 0; i < this.getContainerSize(); i++) {
 			ItemStack itemStack = this.getItem(i);
 			if(itemStack == null) continue;
-			EntityItem item = world.dropItem(x, y, z, itemStack);
-			item.xd *= 0.5;
-			item.yd *= 0.5;
-			item.zd *= 0.5;
-			item.pickupDelay = 0;
+			world.dropItem(x, y, z, itemStack);
 		}
 	}
 
