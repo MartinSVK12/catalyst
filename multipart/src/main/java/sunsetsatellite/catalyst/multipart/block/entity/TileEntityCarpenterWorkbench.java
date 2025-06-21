@@ -10,6 +10,7 @@ import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.item.tool.ItemToolAxe;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.util.helper.Side;
+import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.CatalystMultipart;
 import sunsetsatellite.catalyst.core.util.IScreenActionListener;
 import sunsetsatellite.catalyst.multipart.api.MultipartType;
@@ -184,6 +185,16 @@ public class TileEntityCarpenterWorkbench extends TileEntity implements Containe
 					break;
 				}
 				break;
+		}
+	}
+
+	@Override
+	public void dropContents(World world, int x, int y, int z) {
+		super.dropContents(world, x, y, z);
+		for(int i = 0; i < this.getContainerSize(); i++) {
+			ItemStack itemStack = this.getItem(i);
+			if(itemStack == null) continue;
+			world.dropItem(x, y, z, itemStack);
 		}
 	}
 }
