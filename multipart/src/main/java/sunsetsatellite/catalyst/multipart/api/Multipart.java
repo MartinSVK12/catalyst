@@ -7,6 +7,7 @@ import net.minecraft.core.block.Blocks;
 import net.minecraft.core.util.collection.NamespaceID;
 import net.minecraft.core.util.helper.Side;
 import sunsetsatellite.catalyst.Catalyst;
+import turniplabs.halplibe.helper.EnvironmentHelper;
 
 import java.util.HashMap;
 
@@ -27,7 +28,10 @@ public class Multipart {
 		this.specifiedSideOnly = true;
 		for (Side _side : Side.values()) {
 			if(_side == Side.NONE) continue;
-			NamespaceID id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side,meta).namespaceId;
+			NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
+			if(!EnvironmentHelper.isServerEnvironment()) {
+				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
+			}
 			this.textures.put(_side,id.namespace() + ":block/" + id.value());
 		}
 	}
@@ -40,7 +44,10 @@ public class Multipart {
 		this.specifiedSideOnly = false;
 		for (Side sside : Side.values()) {
 			if(sside == Side.NONE) continue;
-			NamespaceID id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside,meta).namespaceId;
+			NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
+			if(!EnvironmentHelper.isServerEnvironment()){
+				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside,meta).namespaceId;
+			}
 			this.textures.put(sside,id.namespace() + ":block/" + id.value());
 		}
 	}
@@ -61,13 +68,19 @@ public class Multipart {
 		if(specifiedSideOnly) {
 			for (Side _side : Side.values()) {
 				if(_side == Side.NONE) continue;
-				NamespaceID id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side,meta).namespaceId;
+				NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
+				if(!EnvironmentHelper.isServerEnvironment()) {
+					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
+				}
 				this.textures.put(_side,id.namespace() + ":block/" + id.value());
 			}
 		} else {
 			for (Side sside : Side.values()) {
 				if(sside == Side.NONE) continue;
-				NamespaceID id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside,meta).namespaceId;
+				NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
+				if(!EnvironmentHelper.isServerEnvironment()){
+					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside,meta).namespaceId;
+				}
 				this.textures.put(sside,id.namespace() + ":block/" + id.value());
 			}
 		}
