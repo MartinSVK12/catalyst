@@ -95,17 +95,25 @@ public abstract class WorldMixin implements IAbsoluteWorldTime {
 
 	@Inject(method = "setTileEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/world/chunk/Chunk;setTileEntity(IIILnet/minecraft/core/block/entity/TileEntity;)Z", shift = At.Shift.AFTER))
 	public void initTE(int x, int y, int z, TileEntity tileEntity, CallbackInfo ci){
-		if(!((ITileEntityInit) tileEntity).isInitialized()){
-			((ITileEntityInit) tileEntity).setInitialized();
-			((ITileEntityInit) tileEntity).init(Blocks.getBlock(getBlockId(x,y,z)));
+		if(tileEntity != null && getBlockId(x, y, z) == 0){
+			tileEntity.invalidate();
+		} else if(tileEntity != null){
+			if(!((ITileEntityInit) tileEntity).isInitialized()){
+				((ITileEntityInit) tileEntity).setInitialized();
+				((ITileEntityInit) tileEntity).init(Blocks.getBlock(getBlockId(x,y,z)));
+			}
 		}
 	}
 
 	@Inject(method = "updateEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/entity/TileEntity;tick()V", shift = At.Shift.BEFORE))
 	public void initTE2(CallbackInfo ci, @Local TileEntity tileentity1){
-		if(!((ITileEntityInit) tileentity1).isInitialized()){
-			((ITileEntityInit) tileentity1).setInitialized();
-			((ITileEntityInit) tileentity1).init(Blocks.getBlock(getBlockId(tileentity1.x, tileentity1.y, tileentity1.z)));
+		if(tileentity1 != null && getBlockId(tileentity1.x, tileentity1.y, tileentity1.z) == 0){
+			tileentity1.invalidate();
+		} else if (tileentity1 != null) {
+			if(!((ITileEntityInit) tileentity1).isInitialized()){
+				((ITileEntityInit) tileentity1).setInitialized();
+				((ITileEntityInit) tileentity1).init(Blocks.getBlock(getBlockId(tileentity1.x, tileentity1.y, tileentity1.z)));
+			}
 		}
 	}
 }
