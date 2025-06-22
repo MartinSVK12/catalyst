@@ -83,11 +83,11 @@ public abstract class TileEntityFluidItemContainer extends TileEntityFluidContai
 			}
 		}
 
-		for (Map.Entry<Direction, Integer> entry : activeFluidSlots.entrySet()) {
+		for (Map.Entry<Direction, Integer> entry : activeItemSlots.entrySet()) {
 			Direction dir = entry.getKey();
 			activeItemSlotsTag.putInt(String.valueOf(dir.ordinal()),entry.getValue());
 		}
-		for (Map.Entry<Direction, Connection> entry : fluidConnections.entrySet()) {
+		for (Map.Entry<Direction, Connection> entry : itemConnections.entrySet()) {
 			Direction dir = entry.getKey();
 			Connection con = entry.getValue();
 			itemConnectionsTag.putInt(String.valueOf(dir.ordinal()),con.ordinal());
