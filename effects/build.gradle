@@ -1,22 +1,10 @@
-buildscript {
-	dependencies {
-		classpath 'org.kohsuke:github-api:1.135'
-	}
-	repositories {
-		mavenCentral()
-	}
-}
-
 plugins {
 	id 'fabric-loom' version '1.10.0-bta'
 	id 'java'
 	id 'maven-publish'
-	id "com.modrinth.minotaur" version "2.+"
 }
 
 import org.gradle.internal.os.OperatingSystem
-
-import java.nio.file.Files
 
 project.ext.lwjglVersion = "3.3.3"
 
@@ -95,27 +83,20 @@ repositories {
 }
 
 dependencies {
-	// Minecraft
 	minecraft "::${project.bta_version}"
 	mappings loom.layered() {}
 
-	// Catalyst Modules
-	include(implementation(project(path: ":core", configuration: "namedElements")))
-	include(implementation(project(path: ":energy", configuration: "namedElements")))
-	include(implementation(project(path: ":fluids", configuration: "namedElements")))
-	include(implementation(project(path: ":multiblocks", configuration: "namedElements")))
-	include(implementation(project(path: ":multipart", configuration: "namedElements")))
-	include(implementation(project(path: ":effects", configuration: "namedElements")))
-
-	// Fabric loader + b1.7.3
 	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
+	implementation(project(path: ":core", configuration: "namedElements"))
+
 	// Helper library
+	// If you do not need Halplibe you can comment this line out or delete this line
 	implementation("turniplabs:halplibe:${project.halplibe_version}")
+
 	modImplementation("turniplabs:modmenu-bta:${project.mod_menu_version}")
 
-	// Misc required libraries
 	implementation "org.slf4j:slf4j-api:1.8.0-beta4"
 	implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.16.0"
 
@@ -146,6 +127,8 @@ dependencies {
 }
 
 java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 	withSourcesJar()
 }
 
@@ -170,11 +153,6 @@ processResources {
 	filesMatching("fabric.mod.json") {
 		expand "version": version
 	}
-}
-
-remapJar {
-	destinationDirectory.set(file("$projectDir/jars"))
-	archiveVersion.set(archiveVersion.get()+"-${bta_version}")
 }
 
 publishing {
@@ -202,53 +180,6 @@ publishing {
 	}
 }
 
-import net.fabricmc.loom.task.RemapJarTask
-import org.kohsuke.github.GHReleaseBuilder
-import org.kohsuke.github.GitHub
-
-import java.nio.file.Files
-
-tasks.register('github') {
-	doLast {
-
-		List<RemapJarTask> ts = List.of(
-			rootProject.project(":core").remapJar as RemapJarTask,
-			rootProject.project(":energy").remapJar as RemapJarTask,
-			rootProject.project(":fluids").remapJar as RemapJarTask,
-			rootProject.project(":multiblocks").remapJar as RemapJarTask,
-			rootProject.project(":multipart").remapJar as RemapJarTask
-		)
-
-		def github = GitHub.connectUsingOAuth(githubToken as String)
-		def repository = github.getRepository("MartinSVK12/catalyst")
-
-		def releaseBuilder = new GHReleaseBuilder(repository, version as String)
-		releaseBuilder.name("$version")
-		releaseBuilder.body(Files.readString(java.nio.file.Path.of("${project.projectDir}/CHANGELOG.md")))
-		releaseBuilder.commitish("7.3")
-
-		def release = releaseBuilder.create()
-		release.uploadAsset(project.file(remapJar.getArchiveFile().get().getAsFile()),"application/java-archive")
-		if(findProject(":catalyst") != null){
-			ts.forEach {
-				release.uploadAsset(project.file(it.getArchiveFile().get().getAsFile()),"application/java-archive")
-			}
-		}
-	}
-}
-
-modrinth {
-	token = modrinthToken
-	projectId = "catalyst" // This can be the project ID or the slug. Either will work!
-	versionNumber = project.mod_version // You don't need to set this manually. Will fail if Modrinth has this version already
-	versionType = "release" // This is the default -- can also be `beta` or `alpha`
-	uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
-	gameVersions = ["b1.7.3"] // Must be an array, even with only one version
-	loaders = ["bta-babric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
-	changelog = Files.readString(java.nio.file.Path.of("${project.projectDir}/CHANGELOG.md"))
-}
-
-
 static boolean checkVersion(String group, String name, String version) {
 	try {
 		def xml = new URL("https://maven.thesignalumproject.net/releases/${group}/${name}/maven-metadata.xml").text
@@ -262,4 +193,8 @@ static boolean checkVersion(String group, String name, String version) {
 	} catch (FileNotFoundException ignored){
 		return true
 	}
+}
+
+remapJar {
+	archiveVersion.set(archiveVersion.get()+"-${bta_version}")
 }

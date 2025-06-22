@@ -30,6 +30,7 @@ include ':core'
 include ':energy'
 include ':fluids'
 include ':multiblocks'
+include ':effects'
 
 include(":tmb")
 project(":tmb").projectDir = file("${rootProject.projectDir}/../tmb")

@@ -32,7 +32,7 @@ public class CatalystMultipartClient implements ClientModInitializer, ClientStar
 	public static void addSettingsPage(){
 		IKeybinds gameSettings = (IKeybinds) Minecraft.getMinecraft().gameSettings;
 		if(FabricLoader.getInstance().isModLoaded("tmb")){
-			CatalystClient.effectsCategory.withComponent(new BooleanOptionComponent(gameSettings.showMultipartsInTMB()));
+			CatalystClient.multipartCategory.withComponent(new BooleanOptionComponent(gameSettings.showMultipartsInTMB()));
 		}
 	}
 

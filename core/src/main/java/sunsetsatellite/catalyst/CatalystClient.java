@@ -58,6 +58,14 @@ public class CatalystClient implements ClientStartEntrypoint {
 					 IllegalAccessException ignored) {
 
 			}
+
+			try {
+				Class<?> catalystMultipart = Class.forName("sunsetsatellite.catalyst.CatalystEffectsClient");
+				catalystMultipart.getMethod("addSettingsPage").invoke(null);
+			} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+					 IllegalAccessException ignored) {
+
+			}
 		}
 	}
 }

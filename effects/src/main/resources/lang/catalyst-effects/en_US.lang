@@ -1,0 +1,14 @@
+attribute.catalyst.effectDuration.name=Effect Duration
+attribute.catalyst.effectDuration.desc=Modifies overall duration of all effects.
+
+effect.catalyst.durationBoost.name=Duration Boost
+
+gui.options.page.controls.category.catalyst-effects=
+gui.options.page.catalyst-effect=Catalyst: Effects
+options.catalyst-effect.displayEffectsIn=Display Effects In
+options.catalyst-effect.displayEffectsIn.inventory=Inventory
+options.catalyst-effect.displayEffectsIn.hud=HUD
+options.catalyst-effect.displayEffectsIn.both=Both
+
+error.catalyst-effects.invalidEffect=Invalid effect name provided!
+error.catalyst-effects.incompatibleEntity=Tried to add effects to an incompatible entity!
