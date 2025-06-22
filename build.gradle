@@ -216,7 +216,8 @@ tasks.register('github') {
 			rootProject.project(":energy").remapJar as RemapJarTask,
 			rootProject.project(":fluids").remapJar as RemapJarTask,
 			rootProject.project(":multiblocks").remapJar as RemapJarTask,
-			rootProject.project(":multipart").remapJar as RemapJarTask
+			rootProject.project(":multipart").remapJar as RemapJarTask,
+			rootProject.project(":effects").remapJar as RemapJarTask
 		)
 
 		def github = GitHub.connectUsingOAuth(githubToken as String)
@@ -240,6 +241,7 @@ tasks.register('github') {
 modrinth {
 	token = modrinthToken
 	projectId = "catalyst" // This can be the project ID or the slug. Either will work!
+	versionName = "Catalyst ${project.mod_version}"
 	versionNumber = project.mod_version // You don't need to set this manually. Will fail if Modrinth has this version already
 	versionType = "release" // This is the default -- can also be `beta` or `alpha`
 	uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
