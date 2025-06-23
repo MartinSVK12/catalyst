@@ -88,22 +88,18 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 		if(fluidStack.amount < 1000) return stack;
 		if(getAllowedFluids(stack).contains(fluidStack.fluid)) {
 			if (fluidStack.fluid == Fluids.WATER) {
-				stack.itemID = Items.BUCKET_WATER.id;
-				fluidStack.amount -= 1000;
-				return stack;
+				if(stack.stackSize == 1){
+					stack.itemID = Items.BUCKET_WATER.id;
+					fluidStack.amount -= 1000;
+					return stack;
+				}
 			} else if (fluidStack.fluid == Fluids.LAVA) {
-				stack.itemID = Items.BUCKET_LAVA.id;
-				fluidStack.amount -= 1000;
-				return stack;
-			} /*else if (fluidStack.fluid == Fluids.MILK) {
-				stack.itemID = Items.BUCKET_MILK.id;
-				fluidStack.amount -= 1000;
-				return stack;
-			} else if (fluidStack.fluid == Fluids.ICE_CREAM) {
-				stack.itemID = Items.BUCKET_ICECREAM.id;
-				fluidStack.amount -= 1000;
-				return stack;
-			}*/
+				if(stack.stackSize == 1) {
+					stack.itemID = Items.BUCKET_LAVA.id;
+					fluidStack.amount -= 1000;
+					return stack;
+				}
+			}
 		}
 		return stack;
 	}
@@ -128,6 +124,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 	@Override
 	public void drain(ItemStack stack, int slot, IFluidInventory tile) {
 		if(thisAs instanceof ItemBucketEmpty) return;
+		if(stack.stackSize != 1) return;
 		if(tile.getRemainingCapacity(slot) >= 1000) {
 			if(getCurrentFluid(stack).isFluidEqual(tile.getFluidInSlot(slot))) {
 				tile.getFluidInSlot(slot).amount += 1000;
@@ -142,6 +139,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 	@Override
 	public void drain(ItemStack stack, ItemStack other, int slot, IItemFluidContainer inv) {
 		if(thisAs instanceof ItemBucketEmpty) return;
+		if(stack.stackSize != 1) return;
 		if(inv.getRemainingCapacity(stack) >= 1000) {
 			if(getCurrentFluid(stack).isFluidEqual(inv.getCurrentFluid(stack))) {
 				inv.getCurrentFluid(stack).amount += 1000;
@@ -155,6 +153,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public FluidStack drain(ItemStack stack, int amount) {
+		if(stack.stackSize != 1) return null;
 		if(thisAs instanceof ItemBucketEmpty) return null;
 		if(amount < 1000) return null;
 		FluidStack currentFluid = getCurrentFluid(stack);
