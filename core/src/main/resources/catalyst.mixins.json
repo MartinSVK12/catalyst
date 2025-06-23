@@ -18,6 +18,7 @@
     "ItemModelStandardMixin",
     "PlayerLocalMixin",
     "RenderGlobalMixin",
+    "ScreenContainerAbstractMixin",
     "TooltipElementMixin"
   ],
   "injectors": {
