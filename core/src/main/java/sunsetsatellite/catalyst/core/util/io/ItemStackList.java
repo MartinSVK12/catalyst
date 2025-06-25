@@ -414,7 +414,7 @@ public class ItemStackList implements IItemStackList, Iterable<ItemStack> {
 			CompoundTag itemNBT = (CompoundTag) value;
 			ItemStack stack = new ItemStack(0, 0, 0, new CompoundTag());
 			stack.readFromNBT(itemNBT);
-			stack.stackSize = tag.getInteger("Count");
+			stack.stackSize = itemNBT.getInteger("Count");
 			if(stack.stackSize > 0){
 				contents.add(stack);
 			}
