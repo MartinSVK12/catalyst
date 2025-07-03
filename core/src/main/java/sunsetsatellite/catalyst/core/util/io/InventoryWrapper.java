@@ -118,6 +118,7 @@ public class InventoryWrapper implements IItemStackList {
             amount = Math.min(amount, stack.stackSize);
             if (!unlimited) amount = Math.min(amount, stack.getItem().getItemStackLimit(stack));
             ItemStack splitStack = stack.splitStack((int) amount);
+			connected.setItem(slot,stack);
             if (stack.stackSize <= 0) {
                 connected.setItem(slot,null);
             }
@@ -146,6 +147,22 @@ public class InventoryWrapper implements IItemStackList {
         }
         return null;
     }
+
+	public ItemStack removeUntil(int id, int meta, long amount, CompoundTag data, boolean strict, boolean unlimited) {
+		List<ItemStack> stacks = new ArrayList<>();
+		int actualAmount = 0;
+		int index = find(id, meta, data);
+		while (actualAmount < amount && index != -1) {
+			ItemStack stack = remove(index, amount - actualAmount, strict, unlimited);
+			if (stack != null) {
+				stacks.add(stack);
+				actualAmount += stack.stackSize;
+			}
+			index = find(id, meta, data);
+		}
+		stacks = Catalyst.condenseItemList(stacks);
+		return stacks.isEmpty() ? null : stacks.get(0);
+	}
 
     @Override
     public boolean removeAll(List<ItemStack> stacks, boolean strict, boolean unlimited) {
