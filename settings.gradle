@@ -30,6 +30,7 @@ include ':core'
 include ':energy'
 include ':fluids'
 include ':multiblocks'
+include ':multipart'
 include ':effects'
 
 include(":tmb")
