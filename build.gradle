@@ -100,12 +100,12 @@ dependencies {
 	mappings loom.layered() {}
 
 	// Catalyst Modules
-	include(implementation(project(path: ":core", configuration: "namedElements")))
-	include(implementation(project(path: ":energy", configuration: "namedElements")))
-	include(implementation(project(path: ":fluids", configuration: "namedElements")))
-	include(implementation(project(path: ":multiblocks", configuration: "namedElements")))
-	include(implementation(project(path: ":multipart", configuration: "namedElements")))
-	include(implementation(project(path: ":effects", configuration: "namedElements")))
+	include(implementation(project(path: ":catalyst-core", configuration: "namedElements")))
+	include(implementation(project(path: ":catalyst-energy", configuration: "namedElements")))
+	include(implementation(project(path: ":catalyst-fluids", configuration: "namedElements")))
+	include(implementation(project(path: ":catalyst-multiblocks", configuration: "namedElements")))
+	include(implementation(project(path: ":catalyst-multipart", configuration: "namedElements")))
+	include(implementation(project(path: ":catalyst-effects", configuration: "namedElements")))
 
 	// Fabric loader + b1.7.3
 	modRuntimeOnly "objects:client:43db9b498cb67058d2e12d394e6507722e71bb45" // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
@@ -212,12 +212,12 @@ tasks.register('github') {
 	doLast {
 
 		List<RemapJarTask> ts = List.of(
-			rootProject.project(":core").remapJar as RemapJarTask,
-			rootProject.project(":energy").remapJar as RemapJarTask,
-			rootProject.project(":fluids").remapJar as RemapJarTask,
-			rootProject.project(":multiblocks").remapJar as RemapJarTask,
-			rootProject.project(":multipart").remapJar as RemapJarTask,
-			rootProject.project(":effects").remapJar as RemapJarTask
+			rootProject.project(":catalyst-core").remapJar as RemapJarTask,
+			rootProject.project(":catalyst-energy").remapJar as RemapJarTask,
+			rootProject.project(":catalyst-fluids").remapJar as RemapJarTask,
+			rootProject.project(":catalyst-multiblocks").remapJar as RemapJarTask,
+			rootProject.project(":catalyst-multipart").remapJar as RemapJarTask,
+			rootProject.project(":catalyst-effects").remapJar as RemapJarTask
 		)
 
 		def github = GitHub.connectUsingOAuth(githubToken as String)
@@ -230,7 +230,7 @@ tasks.register('github') {
 
 		def release = releaseBuilder.create()
 		release.uploadAsset(project.file(remapJar.getArchiveFile().get().getAsFile()),"application/java-archive")
-		if(findProject(":catalyst") != null){
+		if(findProject(":catalyst-all") != null){
 			ts.forEach {
 				release.uploadAsset(project.file(it.getArchiveFile().get().getAsFile()),"application/java-archive")
 			}

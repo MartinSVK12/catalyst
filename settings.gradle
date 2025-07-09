@@ -26,12 +26,12 @@ plugins {
 	id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
-include ':core'
-include ':energy'
-include ':fluids'
-include ':multiblocks'
-include ':multipart'
-include ':effects'
+include ':catalyst-core'
+include ':catalyst-energy'
+include ':catalyst-fluids'
+include ':catalyst-multiblocks'
+include ':catalyst-multipart'
+include ':catalyst-effects'
 
 include(":tmb")
 project(":tmb").projectDir = file("${rootProject.projectDir}/../tmb")
