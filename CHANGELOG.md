@@ -1,5 +1,0 @@
-- Updated to BTA 7.3_04.
-- Fixed bug that would delete or visually duplicate an item if it was dropped from a block.
-- Fixed crash when trying to place multiparts on servers.
-- Remove unnecessary code from dropContents method.
-- Fix a weird edge case that would cause the game to crash.
