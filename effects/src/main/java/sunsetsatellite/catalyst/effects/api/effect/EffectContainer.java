@@ -30,12 +30,14 @@ public class EffectContainer<T> {
 	public void add(EffectStack effectStack){
 		for (EffectStack effect : effects) {
 			if(effect.getEffect() == effectStack.getEffect()){
-				if(effect.getAmount()+ effectStack.getAmount() <= effect.getEffect().getMaxStack()){
-					effect.add(effectStack.getAmount(),this);
-					return;
-				} else {
-					return;
+				int amount;
+				if(effect.getAmount() + effectStack.getAmount() >= effect.getEffect().getMaxStack()){
+					amount = effect.getEffect().getMaxStack() - effect.getAmount();
+				}else{
+					amount = effectStack.getAmount();
 				}
+				effect.add(amount,this);
+				return;
 			}
 		}
 		effects.add(effectStack);
