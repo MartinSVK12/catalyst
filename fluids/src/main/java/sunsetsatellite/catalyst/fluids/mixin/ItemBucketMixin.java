@@ -46,6 +46,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public boolean canDrain(ItemStack stack) {
+		if(thisAs == Items.BUCKET_ICECREAM || thisAs == Items.BUCKET_MILK) return false;
 		return !(thisAs instanceof ItemBucketEmpty);
 	}
 

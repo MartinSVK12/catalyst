@@ -5,6 +5,7 @@ import sunsetsatellite.catalyst.CatalystFluids;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import turing.tmb.TMB;
+import turing.tmb.TypedIngredient;
 import turing.tmb.api.ITMBPlugin;
 import turing.tmb.api.TMBEntrypoint;
 import turing.tmb.api.ingredient.IIngredientRegistry;
@@ -38,6 +39,28 @@ public class TMBFluidPlugin implements ITMBPlugin, TMBEntrypoint {
 		@Override
 		public FluidStack getDefaultIngredient(Fluid base) {
 			return new FluidStack(base,1000);
+		}
+
+		@Override
+		public String getName(FluidStack ingredient) {
+			return ingredient.fluid.getName();
+		}
+
+		@Override
+		public void add(FluidStack ingredient, int amount) {
+			ingredient.amount += amount;
+		}
+
+		@Override
+		public int getAmount(FluidStack ingredient) {
+			return ingredient.amount;
+		}
+
+		@Override
+		public boolean matches(FluidStack ingredient, Object otherIngredient) {
+			if(otherIngredient instanceof TypedIngredient<?>) throw new IllegalArgumentException("Received TypedIngredient instead of actual ingredient class, use .getIngredient() when calling this method.");
+			if(!(otherIngredient instanceof FluidStack)) return false;
+			return ingredient.isFluidEqual((FluidStack) otherIngredient);
 		}
 	};
 

@@ -197,6 +197,7 @@ publishing {
 				version = project.mod_version
 				from components.java
 				println("Version ${project.mod_version} of ${project.mod_group}.${project.mod_name} ready for release!")
+				println("@Mod Updates **Catalyst updated to ${project.mod_version}!**\n\n${Files.readString(java.nio.file.Path.of("${project.projectDir}/CHANGELOG.md"))}\n\n:modrinth:https://modrinth.com/mod/catalyst/version/${project.mod_version}\n:github:<https://github.com/MartinSVK12/catalyst/releases/tag/${project.mod_version}>")
 			}
 		}
 	}

@@ -11,6 +11,6 @@ public class ExtendedTypedIngredient<T> extends TypedIngredient<T> {
     }
 
     public static TypedIngredient<FluidStack> fluidStackIngredient(FluidStack stack) {
-        return new TypedIngredient<>(ModIDHelper.getModIDForItem(stack.toItemStack()), stack.toItemStack().getDisplayName(), TMBFluidPlugin.FLUID_STACK, stack);
+        return new TypedIngredient<>(ModIDHelper.getModIDForItem(stack.toItemStack()), stack.toItemStack().getDisplayName(), TMBFluidPlugin.FLUID_STACK, stack.copy());
     }
 }
