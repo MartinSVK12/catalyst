@@ -111,8 +111,13 @@ public class Catalyst implements ModInitializer {
 	public static CompoundTag compoundOf(String[] keys, Object... values){
 		CompoundTag tag = new CompoundTag();
 
-		tag.setValue(mapOf(keys, Arrays.stream(values).map(Catalyst::tagOf).toArray(Tag[]::new)));
-
+		tag.setValue(
+			mapOf(keys,
+				zip(listOf(keys),listOf(values))
+					.stream()
+					.map(pair -> tagOf(pair.getLeft(), pair.getRight()))
+					.toArray(Tag[]::new))
+		);
 		return tag;
 	}
 

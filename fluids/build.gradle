@@ -93,7 +93,7 @@ dependencies {
 	// If you do not need Halplibe you can comment this line out or delete this line
 	implementation("turniplabs:halplibe:${project.halplibe_version}")
 	modImplementation("turniplabs:modmenu-bta:${project.mod_menu_version}")
-	implementation(project(path: ":tmb", configuration: "namedElements"))
+	modImplementation "turing:tmb:2.0.0"
 
 	modImplementation "sunsetsatellite:catalyst-core:2.1.2"
 
