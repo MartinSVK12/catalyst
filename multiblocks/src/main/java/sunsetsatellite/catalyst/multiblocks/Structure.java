@@ -8,11 +8,14 @@ import com.mojang.nbt.tags.Tag;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.lang.I18n;
+import net.minecraft.core.util.collection.Pair;
+import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.CatalystMultiblocks;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
+import turing.tmb.util.Rect2i;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +45,7 @@ public class Structure {
         this.filePath = null;
         this.placeAir = placeAir;
         this.replaceBlocks = replaceBlocks;
+		CatalystMultiblocks.LOGGER.info(String.format("Structure '%s' contains %d blocks.",translateKey,this.data.getCompound("Blocks").getValues().size()));
     }
 
     public Structure(String modId, Class<?>[] modClasses, String translateKey, String filePath, boolean placeAir, boolean replaceBlocks){
@@ -203,6 +207,35 @@ public class Structure {
 		}
 		return tiles;
     }
+
+	public Pair<Vec3i,Vec3i> getSizes(){
+		ArrayList<BlockInstance> blocks = getBlocks();
+		int xMin = 1;
+		int yMin = 1;
+		int zMin = 1;
+
+		int xMax = 0;
+		int yMax = 0;
+		int zMax = 0;
+
+		for (BlockInstance block : blocks) {
+			if (block.pos.x < xMin) xMin = block.pos.x;
+			if (block.pos.y < yMin) yMin = block.pos.y;
+			if (block.pos.z < zMin) zMin = block.pos.z;
+
+			if (block.pos.x > xMax) xMax = block.pos.x;
+			if (block.pos.y > yMax) yMax = block.pos.y;
+			if (block.pos.z > zMax) zMax = block.pos.z;
+		}
+
+		return Pair.of(new Vec3i(xMin,yMin,zMin),new Vec3i(xMax,yMax,zMax));
+	}
+
+	public Vec3i getSize(){
+		Pair<Vec3i,Vec3i> sizes = getSizes();
+		sizes.getLeft().set(Math.abs(sizes.getLeft().x),Math.abs(sizes.getLeft().y),Math.abs(sizes.getLeft().z));
+		return sizes.getLeft().add(sizes.getRight()).add(1);
+	}
 
     public ArrayList<BlockInstance> getBlocks(){
         ArrayList<BlockInstance> tiles = new ArrayList<>();
