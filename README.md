@@ -1,5 +1,7 @@
 # Catalyst
 
+# Maybe you're looking for the [b1.7.3 StAPI](https://github.com/MartinSVK12/catalyst-stapi) version instead?
+
 **Library for advanced modding needs of BTA**
 
 Catalyst is split into modules, the current available modules are described below. 
