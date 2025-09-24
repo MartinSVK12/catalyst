@@ -1,5 +1,7 @@
 package sunsetsatellite.catalyst.multiblocks;
 
+import com.b100.utils.StringUtils;
+import com.google.gson.*;
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
@@ -27,6 +29,19 @@ public class StructureBuilder {
 
 	public StructureBuilder addLayer(String... layer){
 		layers.add(layer);
+		return this;
+	}
+
+	public StructureBuilder loadJson(String path){
+		String jsonString = StringUtils.readInputString(StructureBuilder.class.getResourceAsStream(path));
+		GsonBuilder builder = new GsonBuilder();
+		builder.setPrettyPrinting();
+		Gson gson = builder.create();
+		JsonArray jsonArray = JsonParser.parseString(jsonString).getAsJsonArray();
+		for(JsonElement element : jsonArray){
+			JsonArray layer = element.getAsJsonArray();
+			layers.add(gson.fromJson(layer, String[].class));
+		}
 		return this;
 	}
 
