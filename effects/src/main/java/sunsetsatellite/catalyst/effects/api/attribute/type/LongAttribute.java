@@ -3,6 +3,7 @@ package sunsetsatellite.catalyst.effects.api.attribute.type;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 import sunsetsatellite.catalyst.effects.api.modifier.type.LongModifier;
+import sunsetsatellite.catalyst.effects.api.modifier.type.NumberModifier;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,13 +27,14 @@ public final class LongAttribute extends NumberAttribute<Long> {
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
 				if(effectStack.hasAttribute(this)){
 					long value = getBaseValue();
-					List<LongModifier> validModifiers = effectStack
+					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
-							if(M instanceof LongModifier){
-								return ((LongModifier)M);
+							if(M instanceof NumberModifier){
+								return ((NumberModifier<? extends Number>)M);
 							} else {
 								return null;
 							}
@@ -40,20 +42,20 @@ public final class LongAttribute extends NumberAttribute<Long> {
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
 						.collect(Collectors.toList());
-					for (LongModifier modifier : validModifiers) {
+					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value > value){
-									value = modifier.value;
+								if(modifier.value.longValue() > value){
+									value = modifier.value.longValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value; break;
-							case SUBTRACT: value -= modifier.value; break;
-							case PERCENT_ADD: value += (value/100) * modifier.value; break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
-							case MULTIPLY: value *= modifier.value; break;
-							case DIVIDE: value /= modifier.value; break;
+							case ADD: value += modifier.value.longValue(); break;
+							case SUBTRACT: value -= modifier.value.longValue(); break;
+							case PERCENT_ADD: value += (value/100L) * modifier.value.longValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100L) * modifier.value.longValue(); break;
+							case MULTIPLY: value *= modifier.value.longValue(); break;
+							case DIVIDE: value /= modifier.value.longValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -61,7 +63,7 @@ public final class LongAttribute extends NumberAttribute<Long> {
 			}
 			return getBaseValue();
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 
 	@Override
@@ -70,13 +72,14 @@ public final class LongAttribute extends NumberAttribute<Long> {
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
 				if(effectStack.hasAttribute(this)){
 					long value = baseValue;
-					List<LongModifier> validModifiers = effectStack
+					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
-							if(M instanceof LongModifier){
-								return ((LongModifier)M);
+							if(M instanceof NumberModifier){
+								return ((NumberModifier<? extends Number>)M);
 							} else {
 								return null;
 							}
@@ -84,20 +87,20 @@ public final class LongAttribute extends NumberAttribute<Long> {
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
 						.collect(Collectors.toList());
-					for (LongModifier modifier : validModifiers) {
+					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value > value){
-									value = modifier.value;
+								if(modifier.value.longValue() > value){
+									value = modifier.value.longValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value; break;
-							case SUBTRACT: value -= modifier.value; break;
-							case PERCENT_ADD: value += (value/100) * modifier.value; break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
-							case MULTIPLY: value *= modifier.value; break;
-							case DIVIDE: value /= modifier.value; break;
+							case ADD: value += modifier.value.longValue(); break;
+							case SUBTRACT: value -= modifier.value.longValue(); break;
+							case PERCENT_ADD: value += (value/100L) * modifier.value.longValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100L) * modifier.value.longValue(); break;
+							case MULTIPLY: value *= modifier.value.longValue(); break;
+							case DIVIDE: value /= modifier.value.longValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -105,6 +108,6 @@ public final class LongAttribute extends NumberAttribute<Long> {
 			}
 			return baseValue;
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 }

@@ -2,10 +2,8 @@ package sunsetsatellite.catalyst.effects.api.attribute.type;
 
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
-import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
-import sunsetsatellite.catalyst.effects.api.modifier.type.IntModifier;
+import sunsetsatellite.catalyst.effects.api.modifier.type.NumberModifier;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -28,13 +26,14 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
 				if(effectStack.hasAttribute(this)){
                     int value = getBaseValue();
-					List<IntModifier> validModifiers = effectStack
+					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
-							if(M instanceof IntModifier){
-								return ((IntModifier)M);
+							if(M instanceof NumberModifier){
+								return ((NumberModifier<? extends Number>)M);
 							} else {
 								return null;
 							}
@@ -42,20 +41,20 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
 						.collect(Collectors.toList());
-					for (IntModifier modifier : validModifiers) {
+					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value > value){
-									value = modifier.value;
+								if(modifier.value.intValue() > value){
+									value = modifier.value.intValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value; break;
-							case SUBTRACT: value -= modifier.value; break;
-							case PERCENT_ADD: value += (value/100) * modifier.value; break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
-							case MULTIPLY: value *= modifier.value; break;
-							case DIVIDE: value /= modifier.value; break;
+							case ADD: value += modifier.value.intValue(); break;
+							case SUBTRACT: value -= modifier.value.intValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.value.intValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.intValue(); break;
+							case MULTIPLY: value *= modifier.value.intValue(); break;
+							case DIVIDE: value /= modifier.value.intValue(); break;
                         }
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -63,7 +62,7 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 			}
 			return getBaseValue();
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 
 	@Override
@@ -72,13 +71,14 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
 				if(effectStack.hasAttribute(this)){
 					int value = baseValue;
-					List<IntModifier> validModifiers = effectStack
+					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
-							if(M instanceof IntModifier){
-								return ((IntModifier)M);
+							if(M instanceof NumberModifier){
+								return ((NumberModifier<? extends Number>)M);
 							} else {
 								return null;
 							}
@@ -86,27 +86,27 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
 						.collect(Collectors.toList());
-					for (IntModifier modifier : validModifiers) {
+					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value > value){
-									value = modifier.value;
+								if(modifier.value.intValue() > value){
+									value = modifier.value.intValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value; break;
-							case SUBTRACT: value -= modifier.value; break;
-							case PERCENT_ADD: value += (value/100) * modifier.value; break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
-							case MULTIPLY: value *= modifier.value; break;
-							case DIVIDE: value /= modifier.value; break;
+							case ADD: value += modifier.value.intValue(); break;
+							case SUBTRACT: value -= modifier.value.intValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.value.intValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.intValue(); break;
+							case MULTIPLY: value *= modifier.value.intValue(); break;
+							case DIVIDE: value /= modifier.value.intValue(); break;
 						}
 					}
-					return Math.min(this.maxValue, Math.max(value * effectStack.getAmount(), this.minValue));
+					return Math.min(this.maxValue, Math.max(value, this.minValue));
 				}
 			}
 			return baseValue;
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 }

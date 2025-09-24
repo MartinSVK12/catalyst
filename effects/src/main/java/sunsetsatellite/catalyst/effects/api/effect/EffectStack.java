@@ -72,7 +72,7 @@ public class EffectStack {
 	public <T> void tick(EffectContainer<T> effectContainer) {
 		if(state == State.ACTIVE){
 			if(timeLeft > 0){
-				timeLeft--;
+				if(effect.getTimeType() != EffectTimeType.PERMANENT) timeLeft--;
 				effect.tick(this,effectContainer);
 			} else {
 				state = State.FINISHED;
@@ -84,8 +84,11 @@ public class EffectStack {
 	public <T> void add(int amount, EffectContainer<T> effectContainer) {
 		if(state == State.ACTIVE){
 			this.amount += amount;
-			if (Objects.requireNonNull(effect.getTimeType()) == EffectTimeType.RESET) {
+			if (effect.getTimeType() == EffectTimeType.RESET) {
 				timeLeft = duration;
+			}
+			if(effect.getTimeType() == EffectTimeType.ADD){
+				timeLeft += effect.getDurationIncrease();
 			}
 			effect.stackAdded(this,effectContainer);
 		}

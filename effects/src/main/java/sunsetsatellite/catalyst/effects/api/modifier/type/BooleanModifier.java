@@ -8,7 +8,7 @@ public final class BooleanModifier extends Modifier<Boolean> {
 	public BooleanModifier(Attribute<Boolean> attribute, ModifierType type, boolean value) {
 		super(attribute, type, value);
 		if(type != ModifierType.SET){
-			throw new IllegalArgumentException("Invalid type for modifier!");
+			throw new IllegalArgumentException("Invalid modifier type for boolean modifier!");
 		}
 	}
 

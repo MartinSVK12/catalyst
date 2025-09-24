@@ -3,7 +3,9 @@ package sunsetsatellite.catalyst.effects.api.attribute.type;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 import sunsetsatellite.catalyst.effects.api.modifier.type.DoubleModifier;
+import sunsetsatellite.catalyst.effects.api.modifier.type.FloatModifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.IntModifier;
+import sunsetsatellite.catalyst.effects.api.modifier.type.NumberModifier;
 
 import java.util.Comparator;
 import java.util.List;
@@ -27,13 +29,14 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
 				if(effectStack.hasAttribute(this)){
 					double value = getBaseValue();
-					List<DoubleModifier> validModifiers = effectStack
+					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
-							if(M instanceof DoubleModifier){
-								return ((DoubleModifier)M);
+							if(M instanceof NumberModifier){
+								return ((NumberModifier<? extends Number>)M);
 							} else {
 								return null;
 							}
@@ -41,20 +44,20 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
 						.collect(Collectors.toList());
-					for (DoubleModifier modifier : validModifiers) {
+					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value > value){
-									value = modifier.value;
+								if(modifier.value.doubleValue() > value){
+									value = modifier.value.doubleValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value; break;
-							case SUBTRACT: value -= modifier.value; break;
-							case PERCENT_ADD: value += (value/100) * modifier.value; break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
-							case MULTIPLY: value *= modifier.value; break;
-							case DIVIDE: value /= modifier.value; break;
+							case ADD: value += modifier.value.doubleValue(); break;
+							case SUBTRACT: value -= modifier.value.doubleValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.value.doubleValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.doubleValue(); break;
+							case MULTIPLY: value *= modifier.value.doubleValue(); break;
+							case DIVIDE: value /= modifier.value.doubleValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -62,7 +65,7 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 			}
 			return getBaseValue();
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 
 	@Override
@@ -71,13 +74,14 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
 				if(effectStack.hasAttribute(this)){
 					double value = baseValue;
-					List<DoubleModifier> validModifiers = effectStack
+					List<? extends NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
-							if(M instanceof DoubleModifier){
-								return ((DoubleModifier)M);
+							if(M instanceof NumberModifier){
+								return ((NumberModifier<? extends Number>)M);
 							} else {
 								return null;
 							}
@@ -85,20 +89,20 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 						.filter(Objects::nonNull)
 						.sorted(Comparator.comparing(M -> M.type))
 						.collect(Collectors.toList());
-					for (DoubleModifier modifier : validModifiers) {
+					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value > value){
-									value = modifier.value;
+								if(modifier.value.doubleValue() > value){
+									value = modifier.value.doubleValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value; break;
-							case SUBTRACT: value -= modifier.value; break;
-							case PERCENT_ADD: value += (value/100) * modifier.value; break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value; break;
-							case MULTIPLY: value *= modifier.value; break;
-							case DIVIDE: value /= modifier.value; break;
+							case ADD: value += modifier.value.doubleValue(); break;
+							case SUBTRACT: value -= modifier.value.doubleValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.value.doubleValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.doubleValue(); break;
+							case MULTIPLY: value *= modifier.value.doubleValue(); break;
+							case DIVIDE: value /= modifier.value.doubleValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -106,6 +110,6 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 			}
 			return baseValue;
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 }

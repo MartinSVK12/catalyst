@@ -27,6 +27,7 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
 							if(M instanceof BooleanModifier){
 								return ((BooleanModifier)M);
@@ -48,7 +49,7 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 			}
 			return getBaseValue();
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 
 	@Override
@@ -61,6 +62,7 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 						.getEffect()
 						.getModifiers()
 						.stream()
+						.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
 						.map((M)->{
 							if(M instanceof BooleanModifier){
 								return ((BooleanModifier)M);
@@ -82,6 +84,6 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 			}
 			return baseValue;
 		}
-		throw new IllegalStateException("target doesn't contain attribute");//return getBaseValue();
+		throw new IllegalStateException(String.format("Target '%s' doesn't contain attribute '%s'", target, this.getName()));
 	}
 }

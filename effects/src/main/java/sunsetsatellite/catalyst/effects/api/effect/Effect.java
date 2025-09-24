@@ -15,6 +15,7 @@ public class Effect {
 	private final List<Modifier<?>> modifiers;
 	private final EffectTimeType effectTimeType;
 	private final int defaultDuration;
+	private int durationIncrease;
 	private final int maxStack;
 	private boolean persistent = false;
 
@@ -36,6 +37,23 @@ public class Effect {
 
 	public boolean isPersistent() {
 		return persistent;
+	}
+
+	// amount of time that gets added when a new stack is applied
+	// can only be applied to effects with time type ADD
+	public Effect setDurationIncrease(int increase) {
+		if(effectTimeType != EffectTimeType.ADD){
+			throw new IllegalArgumentException("Duration increase can only be applied to effects with time type ADD!");
+		}
+		this.durationIncrease = increase;
+		return this;
+	}
+
+	public int getDurationIncrease() {
+		if(effectTimeType != EffectTimeType.ADD){
+			return 0;
+		}
+		return durationIncrease;
 	}
 
 	public String getNameKey() {

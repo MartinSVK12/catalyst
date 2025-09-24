@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
+import sunsetsatellite.catalyst.effects.api.effect.EffectTimeType;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.*;
 
@@ -71,7 +72,8 @@ public class ScreenEffects extends Gui {
 				}
 			}
 		}
-		sb.append("(").append(effect.getTimeLeft()/20).append("s)");
+		if(effect.getEffect().getTimeType() != EffectTimeType.PERMANENT) sb.append("(").append(effect.getTimeLeft()/20).append("s)");
+		if(effect.getEffect().getTimeType() == EffectTimeType.ADD) sb.append(" (+").append(effect.getEffect().getDurationIncrease()/20).append("s/ea)");
 		tooltip.render(sb.toString(),mouseX,mouseY,4,4);
 	}
 
