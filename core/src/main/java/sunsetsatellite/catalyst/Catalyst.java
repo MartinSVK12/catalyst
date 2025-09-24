@@ -268,4 +268,8 @@ public class Catalyst implements ModInitializer {
 		}
 		return new byte[]{red,green,blue};
 	}
+
+	public static int random(Random random, int min, int max){
+		return random.nextInt(max-min+1)+min;
+	}
 }
