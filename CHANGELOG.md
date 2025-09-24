@@ -1,1 +1,9 @@
-- Fixed the compoundOf method.
+- Added the StructureBuilder, allows defining multiblock structures in code.
+- Added loading of structure patterns from JSON files.
+- Added a bounded random method.
+- Added a separate amount field to recipe symbols.
+- Added a helper method to turn item stacks of fluid blocks into fluid stacks.
+- Permanent effects are actually permanent now.
+- Added a new ADD time type, where effect duration will be increased by a set amount each time a stack is applied.
+- Fixed a bug when calculating final attribute values.
+- Modifier and attribute type for numerical types does not need to match now.
