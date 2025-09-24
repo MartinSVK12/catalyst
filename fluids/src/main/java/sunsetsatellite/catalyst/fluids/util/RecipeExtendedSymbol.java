@@ -14,6 +14,8 @@ public class RecipeExtendedSymbol {
     private String itemGroup;
     private FluidStack fluidStack;
 
+	private int amount = 1;
+
     private List<ItemStack> override;
 
     private RecipeExtendedSymbol(char symbol, ItemStack stack, FluidStack fluidStack, String itemGroup) {
@@ -89,15 +91,23 @@ public class RecipeExtendedSymbol {
         this.stack = override.get(0);
     }
 
-    public List<ItemStack> resolve(){
-        if(override != null) return override;
+	public RecipeExtendedSymbol setAmount(int amount) {
+		this.amount = amount;
+		return this;
+	}
+
+	public List<ItemStack> resolve(){
+        if(override != null) {
+			return applyAmount(override);
+		}
         if(stack != null && itemGroup == null){
-            return Collections.singletonList(stack);
+            return applyAmount(Collections.singletonList(stack));
         } else if (itemGroup != null && stack == null) {
-            return Registries.ITEM_GROUPS.getItem(itemGroup);
+            return applyAmount(Registries.ITEM_GROUPS.getItem(itemGroup));
         } else if (itemGroup != null) {
             ArrayList<ItemStack> list = new ArrayList<>(Registries.ITEM_GROUPS.getItem(itemGroup));
             list.add(stack);
+			applyAmount(list);
             return list;
         }
         return new ArrayList<>();
@@ -105,8 +115,15 @@ public class RecipeExtendedSymbol {
 
     public List<FluidStack> resolveFluids(){
         if(fluidStack != null && itemGroup == null){
-            return Collections.singletonList(fluidStack);
-        }
+            return applyFluidAmount(Collections.singletonList(fluidStack));
+        } else if (itemGroup != null && stack == null) {
+			return applyFluidAmount(Fluids.getFluidStacks(Registries.ITEM_GROUPS.getItem(itemGroup)));
+		} else if (itemGroup != null) {
+			List<FluidStack> list = Fluids.getFluidStacks(Registries.ITEM_GROUPS.getItem(itemGroup));
+			list.add(fluidStack);
+			applyFluidAmount(list);
+			return list;
+		}
         return new ArrayList<>();
     }
 
@@ -147,6 +164,14 @@ public class RecipeExtendedSymbol {
         return found;
     }
 
+	public boolean matchesFluid(RecipeExtendedSymbol symbol){
+		if(symbol == null) return false;
+		if(equals(symbol)) return true;
+		List<RecipeExtendedSymbol> symbols = resolve().stream().map(RecipeExtendedSymbol::new).collect(Collectors.toList());
+		List<FluidStack> checkedStacks = symbol.resolveFluids();
+		return symbols.stream().anyMatch((S)->checkedStacks.stream().anyMatch(S::matchesFluid));
+	}
+
     public char getSymbol() {
         return symbol;
     }
@@ -161,7 +186,11 @@ public class RecipeExtendedSymbol {
 
     public FluidStack getFluidStack() { return fluidStack; }
 
-    public boolean hasFluid() { return fluidStack != null; }
+	public int getAmount() {
+		return amount;
+	}
+
+	public boolean hasFluid() { return fluidStack != null; }
 
     public RecipeExtendedSymbol copy(){
         return new RecipeExtendedSymbol(symbol,stack,fluidStack,itemGroup);
@@ -242,7 +271,21 @@ public class RecipeExtendedSymbol {
         return getFluidStack() != null ? getFluidStack().isFluidEqual(that.getFluidStack()) : that.getFluidStack() == null;
     }
 
+	public List<ItemStack> applyAmount(List<ItemStack> items){
+		return items.stream().map((I)-> {
+			ItemStack copy = I.copy();
+			copy.stackSize *= amount;
+			return copy;
+		}).collect(Collectors.toList());
+	}
 
+	public List<FluidStack> applyFluidAmount(List<FluidStack> items){
+		return items.stream().map((I)-> {
+			FluidStack copy = I.copy();
+			copy.amount *= amount;
+			return copy;
+		}).collect(Collectors.toList());
+	}
 
     @Override
     public String toString() {

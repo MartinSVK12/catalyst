@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.fluids.util;
 
 import net.minecraft.core.block.Blocks;
+import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.collection.NamespaceID;
 import sunsetsatellite.catalyst.Catalyst;
 
@@ -30,6 +31,10 @@ public class Fluids {
 			}
 		}
 		return list.get(0);
+	}
+
+	public static List<FluidStack> getFluidStacks(List<ItemStack> items) {
+		return items.stream().map(I->new FluidStack(getFluid(I.itemID),I.stackSize)).collect(Collectors.toList());
 	}
 
 
