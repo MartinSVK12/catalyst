@@ -4,6 +4,7 @@
   "package": "sunsetsatellite.catalyst.multipart.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MinecraftMixin"
   ],
   "client": [
     "GameSettingsMixin",
