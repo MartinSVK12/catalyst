@@ -1,3 +1,1 @@
-- Fixed a bug where effect stacks would not be taken into account when calculating the final value of an attribute.
-- Added the ability to define custom stacking behavior for modifiers.
-- You can now specify an IconCoordinate for the icon of an effect instead of a path.
+- Fixed a bug with effect UI rendering.

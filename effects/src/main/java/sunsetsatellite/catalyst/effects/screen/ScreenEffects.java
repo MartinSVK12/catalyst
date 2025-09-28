@@ -83,14 +83,10 @@ public class ScreenEffects extends Gui {
 		if(effect.getEffect().imagePath != null && !effect.getEffect().imagePath.isEmpty()){
 			mc.textureManager.loadTexture("/assets/"+effect.getEffect().id.split(":")[0]+"/effects/icons/"+effect.getEffect().imagePath).bind();
 			GL11.glColor4f(1,1,1,1);
-			GL11.glDisable(GL11.GL_LIGHTING);
 			drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);
-			GL11.glEnable(GL11.GL_LIGHTING);
 		} else if (effect.getEffect().icon != null) {
 			GL11.glColor4f(1,1,1,1);
-			GL11.glDisable(GL11.GL_LIGHTING);
 			drawTexturedIcon(x,y,20,20,effect.getEffect().icon);
-			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 		drawString(mc.font,"x"+effect.getAmount(),x+1,y+10,0xFFFFFFFF);
 		begin();

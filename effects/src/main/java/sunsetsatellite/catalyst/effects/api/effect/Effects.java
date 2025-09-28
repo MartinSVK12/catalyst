@@ -1,5 +1,7 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
+import net.minecraft.client.render.TextureManager;
+import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.data.registry.Registry;
 import sunsetsatellite.catalyst.CatalystEffects;
 import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
@@ -13,7 +15,7 @@ public class Effects extends Registry<Effect> {
 	public static final Effect DURATION_BOOST = new Effect(
 		"effect.catalyst.durationBoost",
 		CatalystEffects.MOD_ID+":duration_boost",
-		"",
+		TextureRegistry.getTexture("minecraft:item/diamond"),
 		0xFFAAFF00,
 		listOf(new IntModifier(Attributes.EFFECT_DURATION, ModifierType.MULTIPLY,2)),
 		EffectTimeType.RESET,
