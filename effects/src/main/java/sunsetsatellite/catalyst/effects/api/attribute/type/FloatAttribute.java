@@ -45,17 +45,17 @@ public final class FloatAttribute extends NumberAttribute<Float>{
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.floatValue() > value){
-									value = modifier.value.floatValue();
+								if(modifier.calculate(effectStack).floatValue() > value){
+									value = modifier.calculate(effectStack).floatValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.floatValue(); break;
-							case SUBTRACT: value -= modifier.value.floatValue(); break;
-							case PERCENT_ADD: value += (value/100f) * modifier.value.floatValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100f) * modifier.value.floatValue(); break;
-							case MULTIPLY: value *= modifier.value.floatValue(); break;
-							case DIVIDE: value /= modifier.value.floatValue(); break;
+							case ADD: value += modifier.calculate(effectStack).floatValue(); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).floatValue(); break;
+							case PERCENT_ADD: value += (value/100f) * modifier.calculate(effectStack).floatValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100f) * modifier.calculate(effectStack).floatValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).floatValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).floatValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -90,17 +90,17 @@ public final class FloatAttribute extends NumberAttribute<Float>{
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.floatValue() > value){
-									value = modifier.value.floatValue();
+								if(modifier.calculate(effectStack).floatValue() > value){
+									value = modifier.calculate(effectStack).floatValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.floatValue(); break;
-							case SUBTRACT: value -= modifier.value.floatValue(); break;
-							case PERCENT_ADD: value += (value/100f) * modifier.value.floatValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100f) * modifier.value.floatValue(); break;
-							case MULTIPLY: value *= modifier.value.floatValue(); break;
-							case DIVIDE: value /= modifier.value.floatValue(); break;
+							case ADD: value += modifier.calculate(effectStack).floatValue(); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).floatValue(); break;
+							case PERCENT_ADD: value += (value/100f) * modifier.calculate(effectStack).floatValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100f) * modifier.calculate(effectStack).floatValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).floatValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).floatValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));

@@ -45,17 +45,17 @@ public final class LongAttribute extends NumberAttribute<Long> {
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.longValue() > value){
-									value = modifier.value.longValue();
+								if(modifier.calculate(effectStack).longValue() > value){
+									value = modifier.calculate(effectStack).longValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.longValue(); break;
-							case SUBTRACT: value -= modifier.value.longValue(); break;
-							case PERCENT_ADD: value += (value/100L) * modifier.value.longValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100L) * modifier.value.longValue(); break;
-							case MULTIPLY: value *= modifier.value.longValue(); break;
-							case DIVIDE: value /= modifier.value.longValue(); break;
+							case ADD: value += modifier.calculate(effectStack).longValue(); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).longValue(); break;
+							case PERCENT_ADD: value += (value/100L) * modifier.calculate(effectStack).longValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100L) * modifier.calculate(effectStack).longValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).longValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).longValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -90,17 +90,17 @@ public final class LongAttribute extends NumberAttribute<Long> {
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.longValue() > value){
-									value = modifier.value.longValue();
+								if(modifier.calculate(effectStack).longValue() > value){
+									value = modifier.calculate(effectStack).longValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.longValue(); break;
-							case SUBTRACT: value -= modifier.value.longValue(); break;
-							case PERCENT_ADD: value += (value/100L) * modifier.value.longValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100L) * modifier.value.longValue(); break;
-							case MULTIPLY: value *= modifier.value.longValue(); break;
-							case DIVIDE: value /= modifier.value.longValue(); break;
+							case ADD: value += modifier.calculate(effectStack).longValue(); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).longValue(); break;
+							case PERCENT_ADD: value += (value/100L) * modifier.calculate(effectStack).longValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100L) * modifier.calculate(effectStack).longValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).longValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).longValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));

@@ -47,17 +47,17 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.doubleValue() > value){
-									value = modifier.value.doubleValue();
+								if(modifier.calculate(effectStack).doubleValue() > value){
+									value = modifier.calculate(effectStack).doubleValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.doubleValue(); break;
-							case SUBTRACT: value -= modifier.value.doubleValue(); break;
-							case PERCENT_ADD: value += (value/100) * modifier.value.doubleValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.doubleValue(); break;
-							case MULTIPLY: value *= modifier.value.doubleValue(); break;
-							case DIVIDE: value /= modifier.value.doubleValue(); break;
+							case ADD: value += (modifier.calculate(effectStack).doubleValue()); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).doubleValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.calculate(effectStack).doubleValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.calculate(effectStack).doubleValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).doubleValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).doubleValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -92,17 +92,17 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.doubleValue() > value){
-									value = modifier.value.doubleValue();
+								if(modifier.calculate(effectStack).doubleValue() > value){
+									value = modifier.calculate(effectStack).doubleValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.doubleValue(); break;
-							case SUBTRACT: value -= modifier.value.doubleValue(); break;
-							case PERCENT_ADD: value += (value/100) * modifier.value.doubleValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.doubleValue(); break;
-							case MULTIPLY: value *= modifier.value.doubleValue(); break;
-							case DIVIDE: value /= modifier.value.doubleValue(); break;
+							case ADD: value += modifier.calculate(effectStack).doubleValue(); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).doubleValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.calculate(effectStack).doubleValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.calculate(effectStack).doubleValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).doubleValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).doubleValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));

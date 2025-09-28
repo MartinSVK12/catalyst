@@ -36,28 +36,28 @@ public class ScreenEffects extends Gui {
 		sb.append(effect.getEffect().getName()).append(" ").append("(x").append(effect.getAmount()).append(")").append("\n");
 		for (Modifier<?> modifier : effect.getEffect().getModifiers()) {
 			if(modifier instanceof IntModifier){
-				sb.append("  ").append(String.format(modifier.type.template,((int)modifier.value) * effect.getAmount(),modifier.attribute.getName()));
+				sb.append("  ").append(String.format(modifier.type.template,((IntModifier) modifier).calculate(effect),modifier.attribute.getName()));
 				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
 				}
 			} else if(modifier instanceof LongModifier){
-				sb.append("  ").append(String.format(modifier.type.template,((long)modifier.value) * effect.getAmount(),modifier.attribute.getName()));
+				sb.append("  ").append(String.format(modifier.type.template,((LongModifier) modifier).calculate(effect),modifier.attribute.getName()));
 				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
 				}
 			} else if (modifier instanceof FloatModifier) {
-				sb.append("  ").append(String.format(modifier.type.template,String.format("%.2f",((float)modifier.value) * effect.getAmount()),modifier.attribute.getName()));
+				sb.append("  ").append(String.format(modifier.type.template,String.format("%.2f",((FloatModifier) modifier).calculate(effect)),modifier.attribute.getName()));
 				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
 				}
 			} else if (modifier instanceof DoubleModifier) {
-				sb.append("  ").append(String.format(modifier.type.template,String.format("%.2f",((double)modifier.value) * effect.getAmount()),modifier.attribute.getName()));
+				sb.append("  ").append(String.format(modifier.type.template,String.format("%.2f",((DoubleModifier) modifier).calculate(effect)),modifier.attribute.getName()));
 				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
@@ -83,7 +83,14 @@ public class ScreenEffects extends Gui {
 		if(effect.getEffect().imagePath != null && !effect.getEffect().imagePath.isEmpty()){
 			mc.textureManager.loadTexture("/assets/"+effect.getEffect().id.split(":")[0]+"/effects/icons/"+effect.getEffect().imagePath).bind();
 			GL11.glColor4f(1,1,1,1);
+			GL11.glDisable(GL11.GL_LIGHTING);
 			drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);
+			GL11.glEnable(GL11.GL_LIGHTING);
+		} else if (effect.getEffect().icon != null) {
+			GL11.glColor4f(1,1,1,1);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			drawTexturedIcon(x,y,20,20,effect.getEffect().icon);
+			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 		drawString(mc.font,"x"+effect.getAmount(),x+1,y+10,0xFFFFFFFF);
 		begin();

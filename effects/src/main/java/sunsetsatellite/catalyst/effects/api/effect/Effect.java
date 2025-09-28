@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
+import net.minecraft.client.render.texture.stitcher.IconCoordinate;
 import net.minecraft.core.lang.I18n;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 
@@ -11,6 +12,7 @@ public class Effect {
 	private final String nameKey;
 	public final String id;
 	public final String imagePath;
+	public final IconCoordinate icon;
 	public final int color;
 	private final List<Modifier<?>> modifiers;
 	private final EffectTimeType effectTimeType;
@@ -23,8 +25,21 @@ public class Effect {
 		this.nameKey = nameKey;
         this.id = id;
         this.imagePath = imagePath;
+		this.icon = null;
         this.color = color;
         this.modifiers = modifiers;
+		this.effectTimeType = effectTimeType;
+		this.defaultDuration = defaultDuration;
+		this.maxStack = maxStack;
+	}
+
+	public Effect(String nameKey, String id, IconCoordinate icon, int color, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int defaultDuration, int maxStack) {
+		this.nameKey = nameKey;
+		this.id = id;
+		this.imagePath = null;
+		this.icon = icon;
+		this.color = color;
+		this.modifiers = modifiers;
 		this.effectTimeType = effectTimeType;
 		this.defaultDuration = defaultDuration;
 		this.maxStack = maxStack;

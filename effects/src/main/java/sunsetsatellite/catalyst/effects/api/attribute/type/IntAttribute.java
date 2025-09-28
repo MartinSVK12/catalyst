@@ -44,17 +44,17 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.intValue() > value){
-									value = modifier.value.intValue();
+								if(modifier.calculate(effectStack).intValue() > value){
+									value = modifier.calculate(effectStack).intValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.intValue(); break;
-							case SUBTRACT: value -= modifier.value.intValue(); break;
-							case PERCENT_ADD: value += (value/100) * modifier.value.intValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.intValue(); break;
-							case MULTIPLY: value *= modifier.value.intValue(); break;
-							case DIVIDE: value /= modifier.value.intValue(); break;
+							case ADD: value += modifier.calculate(effectStack).intValue(); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).intValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.calculate(effectStack).intValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.calculate(effectStack).intValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).intValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).intValue(); break;
                         }
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
@@ -89,17 +89,17 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
 						switch (modifier.type){
 							case SET: {
-								if(modifier.value.intValue() > value){
-									value = modifier.value.intValue();
+								if(modifier.calculate(effectStack).intValue() > value){
+									value = modifier.calculate(effectStack).intValue();
 								}
 								break;
 							}
-							case ADD: value += modifier.value.intValue(); break;
-							case SUBTRACT: value -= modifier.value.intValue(); break;
-							case PERCENT_ADD: value += (value/100) * modifier.value.intValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.intValue(); break;
-							case MULTIPLY: value *= modifier.value.intValue(); break;
-							case DIVIDE: value /= modifier.value.intValue(); break;
+							case ADD: value += modifier.calculate(effectStack).intValue(); break;
+							case SUBTRACT: value -= modifier.calculate(effectStack).intValue(); break;
+							case PERCENT_ADD: value += (value/100) * modifier.calculate(effectStack).intValue(); break;
+							case PERCENT_SUBTRACT: value -= (value/100) * modifier.calculate(effectStack).intValue(); break;
+							case MULTIPLY: value *= modifier.calculate(effectStack).intValue(); break;
+							case DIVIDE: value /= modifier.calculate(effectStack).intValue(); break;
 						}
 					}
 					return Math.min(this.maxValue, Math.max(value, this.minValue));
