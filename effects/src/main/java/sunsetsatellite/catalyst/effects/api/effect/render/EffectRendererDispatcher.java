@@ -1,0 +1,36 @@
+package sunsetsatellite.catalyst.effects.api.effect.render;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.render.texture.stitcher.TextureRegistry;
+import net.minecraft.client.util.dispatch.Dispatcher;
+import sunsetsatellite.catalyst.effects.api.effect.Effect;
+import sunsetsatellite.catalyst.effects.api.effect.Effects;
+
+
+@Environment(EnvType.CLIENT)
+public class EffectRendererDispatcher extends Dispatcher<Effect, EffectRenderer<?>> {
+
+	private static final EffectRendererDispatcher instance = new EffectRendererDispatcher();
+
+	@Override
+	protected EffectRenderer<?> getDefault() {
+		return null;
+	}
+
+	public static EffectRendererDispatcher getInstance() {
+		return instance;
+	}
+
+	public EffectRenderer<?> getDispatch(Effect effect) {
+		return effect == null ? getDefault() : super.getDispatch(effect);
+	}
+
+	private EffectRendererDispatcher() {
+		this.addDispatch(Effects.DURATION_BOOST,
+			new TintEffectRender<>(Effects.DURATION_BOOST, null, 0x30aaff00)
+				.setIcon(TextureRegistry.getTexture("minecraft:item/diamond"))
+				.setColor(0xFFAAFF00)
+		);
+	}
+}

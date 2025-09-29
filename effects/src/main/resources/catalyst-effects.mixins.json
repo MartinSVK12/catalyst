@@ -4,13 +4,13 @@
   "package": "sunsetsatellite.catalyst.effects.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityMixin",
-    "GameSettingsMixin",
-    "MinecraftMixin"
+    "EntityMixin"
   ],
   "client": [
     "HudIngameMixin",
-    "ScreenInventoryMixin"
+    "ScreenInventoryMixin",
+    "MinecraftMixin",
+    "GameSettingsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

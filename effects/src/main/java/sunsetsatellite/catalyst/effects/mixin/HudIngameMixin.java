@@ -4,28 +4,52 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.hud.HudIngame;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sunsetsatellite.catalyst.CatalystEffects;
 import sunsetsatellite.catalyst.CatalystEffectsClient;
+import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
 import sunsetsatellite.catalyst.effects.api.effect.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
-import sunsetsatellite.catalyst.effects.screen.ScreenEffects;
+import sunsetsatellite.catalyst.effects.api.effect.render.EffectRendererManager;
 
 @Mixin(value = HudIngame.class,remap = false)
 public abstract class HudIngameMixin extends Gui {
 
+	@Shadow
+	protected Minecraft mc;
+
 	private HudIngameMixin(){}
+
+	@Unique
+	private EffectRendererManager catalyst$ScreenEffects = new EffectRendererManager();
 
 	@Inject(
 		method = "renderGameOverlay",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;setupScaledResolution()V", shift = At.Shift.AFTER)
 	)
 	public void renderAfterGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
-		if (CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.HUD || CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.BOTH) {
-			new ScreenEffects().drawEffects(((IHasEffects)Minecraft.getMinecraft().thePlayer).getContainer(),Minecraft.getMinecraft(),mouseX,mouseY,partialTicks);
+		EffectDisplayPlace effectDisplayPlace = CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value;
+		EffectContainer<?> player = ((IHasEffects)mc.thePlayer).getContainer();
+
+		if (effectDisplayPlace == EffectDisplayPlace.HUD || effectDisplayPlace == EffectDisplayPlace.BOTH) {
+			catalyst$ScreenEffects.drawEffectIndicators(player, mc, mouseX, mouseY, partialTicks);
 		}
+	}
+
+	@Inject(
+		method = "renderGameOverlay(FZII)V",
+		at = @At(
+			value ="INVOKE",
+			target = "Lnet/minecraft/core/player/inventory/container/ContainerInventory;armorItemInSlot(I)Lnet/minecraft/core/item/ItemStack;",
+			ordinal = 0
+		)
+	)
+	public void endRenderGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
+		EffectContainer<?> player = ((IHasEffects)mc.thePlayer).getContainer();
+		catalyst$ScreenEffects.drawScreenEffects(player, mc, mouseX, mouseY, partialTicks);
 	}
 
 }

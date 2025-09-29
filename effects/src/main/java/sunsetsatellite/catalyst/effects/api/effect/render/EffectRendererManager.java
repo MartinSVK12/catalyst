@@ -1,32 +1,75 @@
-package sunsetsatellite.catalyst.effects.screen;
+package sunsetsatellite.catalyst.effects.api.effect.render;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.TooltipElement;
 import net.minecraft.core.net.command.TextFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
-import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
-import sunsetsatellite.catalyst.effects.api.effect.EffectTimeType;
+import sunsetsatellite.catalyst.effects.api.effect.*;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.*;
 
-public class ScreenEffects extends Gui {
+import javax.annotation.Nullable;
 
-	public void drawEffects(EffectContainer<?> container, Minecraft mc, int mouseX, int mouseY, float partialTick){
+@Environment(EnvType.CLIENT)
+public class EffectRendererManager extends Gui {
+	private static final EffectRendererDispatcher dispatcher = EffectRendererDispatcher.getInstance();
+
+	/**
+	 * @param container The container being examined.
+	 * @return most potent EffectStack affecting the container.
+	 */
+	public static @Nullable EffectStack resolveDominantEffect(EffectContainer<?> container) {
+		EffectStack dominant = null;
+		for (EffectStack effectStack : container.getEffects()) {
+			final Effect effect = effectStack.getEffect();
+			final EffectRenderer<?> renderer = dispatcher.getDispatch(effect);
+
+			if (renderer.shouldDisplayScreenEffect()) {
+				if (dominant == null) dominant = effectStack;
+
+				int effectStackPotency = effectStack.getAmount() * effectStack.getDuration();
+				int dominantPotency = dominant.getAmount() * dominant.getDuration();
+				if (effectStackPotency > dominantPotency) dominant = effectStack;
+			}
+		}
+
+		return dominant;
+	}
+
+	public void drawScreenEffects(EffectContainer<?> container, Minecraft mc, int mouseX, int mouseY, float partialTick) {
+		EffectStack mostPotent = resolveDominantEffect(container);
+		if (mostPotent == null) return;
+
+		final Effect effect = mostPotent.getEffect();
+		final EffectRenderer<?> renderer = dispatcher.getDispatch(effect);
+		int width =  mc.resolution.getScaledWidthScreenCoords();
+		int height = mc.resolution.getScaledHeightScreenCoords();
+
+		renderer.drawScreenEffect(mc, this, mostPotent, width, height, mouseX, mouseY, partialTick);
+	}
+
+	public void drawEffectIndicators(EffectContainer<?> container, Minecraft mc, int mouseX, int mouseY, float partialTick){
 		begin();
 		int x = 4;
 		int y = 4;
-		for (EffectStack effect : container.getEffects()) {
-			drawEffect(mc,effect,x,y,mouseX,mouseY);
-			if(mouseX > x && mouseX < x+20 && mouseY > y && mouseY < y+20){
+
+		for (EffectStack stack : container.getEffects()) {
+			EffectRenderer<?> renderer = dispatcher.getDispatch(stack.getEffect());
+			if (!renderer.shouldDisplayIcon()) continue;
+
+			drawEffectIcon(mc, renderer, stack, x, y, mouseX, mouseY);
+			if (mouseX > x && mouseX < x + 20 && mouseY > y && mouseY < y+20){
 				end();
-				drawTooltip(mc,effect,mouseX,mouseY);
+				drawTooltip(mc,stack,mouseX,mouseY);
 				begin();
 			}
 			x+=24;
 		}
+
 		end();
 	}
 
@@ -77,20 +120,13 @@ public class ScreenEffects extends Gui {
 		tooltip.render(sb.toString(),mouseX,mouseY,4,4);
 	}
 
-	private void drawEffect(Minecraft mc, EffectStack effect, int x, int y, int mouseX, int mouseY) {
-		drawRectWidthHeight(x,y,20,20,effect.getEffect().color);
+	private void drawEffectIcon(Minecraft mc, EffectRenderer<?> effectRenderer, EffectStack stack, int x, int y, int mouseX, int mouseY) {
+		drawRectWidthHeight(x,y,20,20, effectRenderer.getColor());
 		end();
-		if(effect.getEffect().imagePath != null && !effect.getEffect().imagePath.isEmpty()){
-			mc.textureManager.loadTexture("/assets/"+effect.getEffect().id.split(":")[0]+"/effects/icons/"+effect.getEffect().imagePath).bind();
-			GL11.glColor4f(1,1,1,1);
-			drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);
-		} else if (effect.getEffect().icon != null) {
-			GL11.glColor4f(1,1,1,1);
-			drawTexturedIcon(x,y,20,20,effect.getEffect().icon);
-		}
-		drawString(mc.font,"x"+effect.getAmount(),x+1,y+10,0xFFFFFFFF);
+		effectRenderer.drawIcon(mc, this, x, y);
+		drawString(mc.font,"x" + stack.getAmount(),x+1,y+10,0xFFFFFFFF);
 		begin();
-		drawRectWidthHeight(x,y,20, (int) (20-((float)effect.getTimeLeft()/(float)effect.getDuration())*20), 0x80000000);
+		drawRectWidthHeight(x,y,20, (int) (20-((float)stack.getTimeLeft()/(float)stack.getDuration())*20), 0x80000000);
 	}
 
 	private void begin(){
