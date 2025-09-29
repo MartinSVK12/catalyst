@@ -13,7 +13,7 @@ public class TintEffectRender<T extends Effect> extends EffectRenderer<T> {
     private final String vignette;
     private final int tint;
 
-    TintEffectRender(T effect, String vignette, int tint) {
+    public TintEffectRender(T effect, String vignette, int tint) {
         super(effect);
 		this.vignette = vignette;
         this.tint = tint;
