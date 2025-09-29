@@ -82,23 +82,19 @@ public class EffectStack {
 	}
 
 	public <T> void add(int amount, EffectContainer<T> effectContainer) {
-		if(state == State.ACTIVE){
-			this.amount += amount;
-			if (effect.getTimeType() == EffectTimeType.RESET) {
-				timeLeft = duration;
-			}
-			if(effect.getTimeType() == EffectTimeType.ADD){
-				timeLeft += effect.getDurationIncrease();
-			}
-			effect.stackAdded(this,effectContainer);
+		this.amount += amount;
+		if (effect.getTimeType() == EffectTimeType.RESET) {
+			timeLeft = duration;
 		}
+		if(effect.getTimeType() == EffectTimeType.ADD){
+			timeLeft += effect.getDurationIncrease();
+		}
+		effect.stackAdded(this,effectContainer);
 	}
 
 	public <T> void subtract(int amount, EffectContainer<T> effectContainer) {
-		if(state == State.ACTIVE){
-			this.amount -= amount;
-			effect.stackSubtracted(this,effectContainer);
-		}
+		this.amount -= amount;
+		effect.stackSubtracted(this,effectContainer);
 	}
 
 	public boolean isActive() {

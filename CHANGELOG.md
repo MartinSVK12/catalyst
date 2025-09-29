@@ -1,1 +1,1 @@
-- Fixed a bug with effect UI rendering.
+- Fixed a visual bug with effect UI rendering.

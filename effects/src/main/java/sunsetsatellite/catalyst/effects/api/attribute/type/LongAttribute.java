@@ -25,7 +25,7 @@ public final class LongAttribute extends NumberAttribute<Long> {
 	public Long calculate(IHasEffects target) {
 		if(target.getContainer().getAttributes().contains(this)){
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
-				if(effectStack.hasAttribute(this)){
+				if(effectStack.hasAttribute(this) && effectStack.isActive()){
 					long value = getBaseValue();
 					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
