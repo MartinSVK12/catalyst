@@ -69,7 +69,7 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 	public Integer calculate(IHasEffects target, Integer baseValue) {
 		if(target.getContainer().getAttributes().contains(this)){
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
-				if(effectStack.hasAttribute(this)){
+				if(effectStack.hasAttribute(this) && effectStack.isActive()){
 					int value = baseValue;
 					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()

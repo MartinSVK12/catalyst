@@ -56,7 +56,7 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 	public Boolean calculate(IHasEffects target, Boolean baseValue) {
 		if(target.getContainer().getAttributes().contains(this)){
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
-				if(effectStack.hasAttribute(this)){
+				if(effectStack.hasAttribute(this) && effectStack.isActive()){
 					boolean value = baseValue;
 					List<BooleanModifier> validModifiers = effectStack
 						.getEffect()

@@ -27,7 +27,7 @@ public final class DoubleAttribute extends NumberAttribute<Double>{
 	public Double calculate(IHasEffects target) {
 		if(target.getContainer().getAttributes().contains(this)){
 			for (EffectStack effectStack : target.getContainer().getEffects()) {
-				if(effectStack.hasAttribute(this)){
+				if(effectStack.hasAttribute(this) && effectStack.isActive()){
 					double value = getBaseValue();
 					List<NumberModifier<? extends Number>> validModifiers = effectStack
 						.getEffect()
