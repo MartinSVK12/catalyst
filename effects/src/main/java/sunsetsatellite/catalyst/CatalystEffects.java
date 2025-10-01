@@ -11,6 +11,8 @@ import sunsetsatellite.catalyst.effects.api.effect.Effects;
 import sunsetsatellite.catalyst.effects.command.CommandAttributes;
 import sunsetsatellite.catalyst.effects.command.CommandEffects;
 import sunsetsatellite.catalyst.effects.interfaces.mixins.IKeybinds;
+import sunsetsatellite.catalyst.effects.net.SyncEffectContainerForEntityNetworkMessage;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
@@ -28,7 +30,7 @@ public class CatalystEffects implements ModInitializer, GameStartEntrypoint {
 	}
     @Override
     public void onInitialize() {
-
+		NetworkHandler.registerNetworkMessage(SyncEffectContainerForEntityNetworkMessage::new);
     }
 
 	@Override
@@ -38,8 +40,6 @@ public class CatalystEffects implements ModInitializer, GameStartEntrypoint {
 
 	@Override
 	public void afterGameStart() {
-		CommandManager.registerCommand(new CommandEffects());
-		CommandManager.registerCommand(new CommandAttributes());
 		Registries.getInstance().register("catalyst:effects",Effects.getInstance());
 		Registries.getInstance().register("catalyst:attributes",Attributes.getInstance());
 		LOGGER.info(String.format("%d attributes registered.",Attributes.getInstance().size()));

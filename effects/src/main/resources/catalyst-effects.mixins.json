@@ -7,10 +7,13 @@
     "EntityMixin"
   ],
   "client": [
+    "GameSettingsMixin",
     "HudIngameMixin",
-    "ScreenInventoryMixin",
     "MinecraftMixin",
-    "GameSettingsMixin"
+    "ScreenInventoryMixin"
+  ],
+  "server": [
+    "PlayerLoginMixin"
   ],
   "injectors": {
     "defaultRequire": 1
