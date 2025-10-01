@@ -19,10 +19,12 @@ import sunsetsatellite.catalyst.effects.command.argument.ArgumentTypeEffect;
 
 public class CommandEffects implements CommandManager.CommandRegistry {
 
-	public static final SimpleCommandExceptionType INCOMPATIBLE_ENTITY = new SimpleCommandExceptionType(new LiteralMessage(I18n.getInstance().translateKey("error.catalyst-effects.incompatibleEntity")));
+	public static SimpleCommandExceptionType INCOMPATIBLE_ENTITY;
 
 	@Override
 	public void register(CommandDispatcher<CommandSource> commandDispatcher) {
+		INCOMPATIBLE_ENTITY = new SimpleCommandExceptionType(new LiteralMessage(I18n.getInstance().translateKey("error.catalyst-effects.incompatibleEntity")));
+
 		commandDispatcher.register(ArgumentBuilderLiteral.<CommandSource>literal("effect")
 			.then(ArgumentBuilderLiteral.<CommandSource>literal("list")
 				.executes(ctx -> {

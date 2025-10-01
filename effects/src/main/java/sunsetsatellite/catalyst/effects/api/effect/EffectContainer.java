@@ -45,6 +45,7 @@ public class EffectContainer<T> {
 				return;
 			}
 		}
+
 		effects.add(effectStack);
 		if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
 	}

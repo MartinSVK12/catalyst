@@ -1,11 +1,13 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
 import com.mojang.nbt.tags.CompoundTag;
+import net.minecraft.core.entity.Entity;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
-
-import java.util.Objects;
+import sunsetsatellite.catalyst.effects.net.SyncEffectContainerForEntityNetworkMessage;
+import turniplabs.halplibe.helper.EnvironmentHelper;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 public class EffectStack {
 	private final Effect effect;
@@ -52,6 +54,9 @@ public class EffectStack {
 			state = State.ACTIVE;
 			timeLeft = duration;
 			effect.activated(this,container);
+
+			if (EnvironmentHelper.isServerEnvironment())
+				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
 		}
 	}
 
@@ -59,6 +64,9 @@ public class EffectStack {
 		if(state == State.ACTIVE){
 			state = State.PAUSED;
 			effect.paused(this,container);
+
+			if (EnvironmentHelper.isServerEnvironment())
+				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
 		}
 	}
 
@@ -66,6 +74,9 @@ public class EffectStack {
 		if(state == State.PAUSED){
 			state = State.ACTIVE;
 			effect.unpaused(this,container);
+
+			if (EnvironmentHelper.isServerEnvironment())
+				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
 		}
 	}
 
@@ -89,12 +100,19 @@ public class EffectStack {
 		if(effect.getTimeType() == EffectTimeType.ADD){
 			timeLeft += effect.getDurationIncrease();
 		}
+
 		effect.stackAdded(this,effectContainer);
+
+		if (EnvironmentHelper.isServerEnvironment())
+			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) effectContainer.getParent()));
 	}
 
 	public <T> void subtract(int amount, EffectContainer<T> effectContainer) {
 		this.amount -= amount;
 		effect.stackSubtracted(this,effectContainer);
+
+		if (EnvironmentHelper.isServerEnvironment())
+			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) effectContainer.getParent()));
 	}
 
 	public boolean isActive() {
