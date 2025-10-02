@@ -92,7 +92,7 @@ dependencies {
 
 	// Helper library
 	// If you do not need Halplibe you can comment this line out or delete this line
-	implementation("turniplabs:halplibe:${project.halplibe_version}")
+	modImplementation("turniplabs:halplibe:${project.halplibe_version}")
 	modImplementation("turniplabs:modmenu-bta:${project.mod_menu_version}")
 	modImplementation "turing:tmb:2.0.0"
 	//implementation(project(path: ":tmb", configuration: "namedElements"))
