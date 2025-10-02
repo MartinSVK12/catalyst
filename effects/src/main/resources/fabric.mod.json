@@ -24,7 +24,7 @@
 		"afterGameStart": [
 			"sunsetsatellite.catalyst.CatalystEffects"
 		],
-		"afterClientStart": [
+		"beforeClientStart": [
 			"sunsetsatellite.catalyst.CatalystEffectsClient"
 		],
 		"server": ["sunsetsatellite.catalyst.CatalystEffectsServer"]
