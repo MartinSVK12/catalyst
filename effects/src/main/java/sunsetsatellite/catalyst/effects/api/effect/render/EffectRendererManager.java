@@ -6,13 +6,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.TooltipElement;
 import net.minecraft.core.net.command.TextFormatting;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.effects.api.effect.*;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.*;
-
-import javax.annotation.Nullable;
 
 @Environment(EnvType.CLIENT)
 public class EffectRendererManager extends Gui {
