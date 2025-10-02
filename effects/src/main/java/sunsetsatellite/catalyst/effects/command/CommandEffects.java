@@ -3,16 +3,13 @@ package sunsetsatellite.catalyst.effects.command;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.LiteralMessage;
-import com.mojang.brigadier.Message;
 import com.mojang.brigadier.arguments.ArgumentTypeInteger;
-import com.mojang.brigadier.arguments.ArgumentTypeString;
 import com.mojang.brigadier.builder.ArgumentBuilderLiteral;
 import com.mojang.brigadier.builder.ArgumentBuilderRequired;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.net.command.CommandManager;
 import net.minecraft.core.net.command.CommandSource;
-import net.minecraft.core.net.command.exceptions.CommandExceptions;
 import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.effect.Effects;
@@ -22,10 +19,12 @@ import sunsetsatellite.catalyst.effects.command.argument.ArgumentTypeEffect;
 
 public class CommandEffects implements CommandManager.CommandRegistry {
 
-	public static final SimpleCommandExceptionType INCOMPATIBLE_ENTITY = new SimpleCommandExceptionType(new LiteralMessage(I18n.getInstance().translateKey("error.catalyst-effects.incompatibleEntity")));
+	public static SimpleCommandExceptionType INCOMPATIBLE_ENTITY;
 
 	@Override
 	public void register(CommandDispatcher<CommandSource> commandDispatcher) {
+		INCOMPATIBLE_ENTITY = new SimpleCommandExceptionType(new LiteralMessage(I18n.getInstance().translateKey("error.catalyst-effects.incompatibleEntity")));
+
 		commandDispatcher.register(ArgumentBuilderLiteral.<CommandSource>literal("effect")
 			.then(ArgumentBuilderLiteral.<CommandSource>literal("list")
 				.executes(ctx -> {

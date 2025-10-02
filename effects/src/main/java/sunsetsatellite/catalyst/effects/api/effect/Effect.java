@@ -11,38 +11,24 @@ import java.util.Objects;
 public class Effect {
 	private final String nameKey;
 	public final String id;
-	public final String imagePath;
-	public final IconCoordinate icon;
-	public final int color;
 	private final List<Modifier<?>> modifiers;
 	private final EffectTimeType effectTimeType;
-	private final int defaultDuration;
+	private int defaultDuration;
 	private int durationIncrease;
 	private final int maxStack;
 	private boolean persistent = false;
 
-	public Effect(String nameKey, String id, String imagePath, int color, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int defaultDuration, int maxStack) {
+	public Effect(String nameKey, String id, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int maxStack) {
 		this.nameKey = nameKey;
         this.id = id;
-        this.imagePath = imagePath;
-		this.icon = null;
-        this.color = color;
         this.modifiers = modifiers;
 		this.effectTimeType = effectTimeType;
-		this.defaultDuration = defaultDuration;
 		this.maxStack = maxStack;
 	}
 
-	public Effect(String nameKey, String id, IconCoordinate icon, int color, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int defaultDuration, int maxStack) {
-		this.nameKey = nameKey;
-		this.id = id;
-		this.imagePath = null;
-		this.icon = icon;
-		this.color = color;
-		this.modifiers = modifiers;
-		this.effectTimeType = effectTimeType;
+	public Effect setDefaultDuration(int defaultDuration) {
 		this.defaultDuration = defaultDuration;
-		this.maxStack = maxStack;
+		return this;
 	}
 
 	public Effect setPersistent() {
@@ -107,7 +93,6 @@ public class Effect {
 		if (getNameKey() != null ? !getNameKey().equals(effect.getNameKey()) : effect.getNameKey() != null)
 			return false;
 		if (!Objects.equals(id, effect.id)) return false;
-		if (!Objects.equals(imagePath, effect.imagePath)) return false;
 		if (getModifiers() != null ? !getModifiers().equals(effect.getModifiers()) : effect.getModifiers() != null)
 			return false;
         return effectTimeType == effect.effectTimeType;

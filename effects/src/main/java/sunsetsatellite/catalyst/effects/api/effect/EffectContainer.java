@@ -2,7 +2,11 @@ package sunsetsatellite.catalyst.effects.api.effect;
 
 import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.Tag;
+import net.minecraft.core.entity.Entity;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
+import sunsetsatellite.catalyst.effects.net.SyncEffectContainerForEntityNetworkMessage;
+import turniplabs.halplibe.helper.EnvironmentHelper;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.util.*;
 
@@ -37,19 +41,25 @@ public class EffectContainer<T> {
 					amount = effectStack.getAmount();
 				}
 				effect.add(amount,this);
+				if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
 				return;
 			}
 		}
+
 		effects.add(effectStack);
+		if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
 	}
 
 	public void subtract(EffectStack effectStack){
 		for (EffectStack effect : effects) {
 			if(effect.getEffect() == effectStack.getEffect()){
 				effect.subtract(effectStack.getAmount(),this);
+
+				if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
 				return;
 			}
 		}
+
 	}
 
 	public void remove(Effect effect){
@@ -60,6 +70,8 @@ public class EffectContainer<T> {
 				effectStack.getEffect().removed(effectStack,this);
 			}
 		}
+
+		if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
 	}
 	public void removeAll() {
 		List<EffectStack> copy = new ArrayList<>(effects);
@@ -90,6 +102,7 @@ public class EffectContainer<T> {
 			if(effectStack.getAmount() < 1){
 				effects.remove(effectStack);
 			}
+
 			if(effectStack.isFinished()){
 				effects.remove(effectStack);
 			}

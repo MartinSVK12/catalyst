@@ -9,11 +9,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sunsetsatellite.catalyst.CatalystEffects;
 import sunsetsatellite.catalyst.CatalystEffectsClient;
 import sunsetsatellite.catalyst.effects.api.effect.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
-import sunsetsatellite.catalyst.effects.screen.ScreenEffects;
+import sunsetsatellite.catalyst.effects.api.effect.render.EffectRendererManager;
 
 @Mixin(value = ScreenInventory.class,remap = false)
 public abstract class ScreenInventoryMixin extends ScreenContainerAbstract {
@@ -21,7 +20,7 @@ public abstract class ScreenInventoryMixin extends ScreenContainerAbstract {
 	@Unique
 	private Player player;
 	@Unique
-	private final ScreenEffects effects = new ScreenEffects();
+	private final EffectRendererManager effects = new EffectRendererManager();
 
 	private ScreenInventoryMixin(MenuAbstract container) {
 		super(container);
@@ -35,7 +34,7 @@ public abstract class ScreenInventoryMixin extends ScreenContainerAbstract {
 	@Inject(method = "render",at = @At("TAIL"))
 	public void drawEffects(int mouseX, int mouseY, float partialTick, CallbackInfo ci){
 		if (CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.INVENTORY || CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.BOTH) {
-			effects.drawEffects(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
+			effects.drawEffectIndicators(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
 		}
 	}
 }

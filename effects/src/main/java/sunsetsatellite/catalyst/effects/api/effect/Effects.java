@@ -15,15 +15,14 @@ public class Effects extends Registry<Effect> {
 	public static final Effect DURATION_BOOST = new Effect(
 		"effect.catalyst.durationBoost",
 		CatalystEffects.MOD_ID+":duration_boost",
-		TextureRegistry.getTexture("minecraft:item/diamond"),
-		0xFFAAFF00,
 		listOf(new IntModifier(Attributes.EFFECT_DURATION, ModifierType.MULTIPLY,2)),
 		EffectTimeType.RESET,
-		20*10,
 		1
-	).setPersistent();
+	)
+		.setPersistent()
+		.setDefaultDuration(20*10);
 
-	public Effects(){
+	private Effects(){
 		register(DURATION_BOOST.id, DURATION_BOOST);
 	}
 
