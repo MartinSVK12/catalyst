@@ -240,7 +240,7 @@ tasks.register('github') {
 }
 
 modrinth {
-	token = modrinthToken
+	//token = modrinthToken
 	projectId = "catalyst" // This can be the project ID or the slug. Either will work!
 	versionName = "Catalyst ${project.mod_version}"
 	versionNumber = project.mod_version // You don't need to set this manually. Will fail if Modrinth has this version already

@@ -32,7 +32,7 @@ public class EffectStack {
 	public EffectStack(IHasEffects target, Effect effect, int amount) {
 		this.effect = effect;
 		this.duration = Attributes.EFFECT_DURATION.calculate(target,effect.getDefaultDuration());
-		this.amount = amount;
+		this.amount = Math.min(amount, effect.getMaxStack());
 	}
 
 	public EffectStack(IHasEffects target, Effect effect, int duration, int amount) {
