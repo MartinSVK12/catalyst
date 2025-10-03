@@ -7,6 +7,7 @@ import net.minecraft.core.net.command.util.CommandHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
+import sunsetsatellite.catalyst.effects.api.effect.EffectTags;
 import sunsetsatellite.catalyst.effects.api.effect.Effects;
 import sunsetsatellite.catalyst.effects.command.CommandAttributes;
 import sunsetsatellite.catalyst.effects.command.CommandEffects;
@@ -31,6 +32,7 @@ public class CatalystEffects implements ModInitializer, GameStartEntrypoint {
     @Override
     public void onInitialize() {
 		NetworkHandler.registerNetworkMessage(SyncEffectContainerForEntityNetworkMessage::new);
+		EffectTags.assignTags();
     }
 
 	@Override

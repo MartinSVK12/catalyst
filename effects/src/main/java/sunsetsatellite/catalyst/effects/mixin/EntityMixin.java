@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.effects.mixin;
 
 import com.mojang.nbt.tags.CompoundTag;
+import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,8 +10,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.effects.api.attribute.Attributes;
+import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
+import sunsetsatellite.catalyst.effects.api.effect.EffectTagDispatcher;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
+
+import java.util.Set;
 
 @Mixin(value = Entity.class, remap = false)
 public class EntityMixin implements IHasEffects {
@@ -31,6 +36,17 @@ public class EntityMixin implements IHasEffects {
 	@Override
 	public EffectContainer<Entity> getContainer() {
 		return effectContainer;
+	}
+
+	@Override
+	public boolean isImmuneTo(Tag<Effect> effect) {
+		Set<Tag<Effect>> set = EffectTagDispatcher.getImmunitiesFor(thisAs.getClass());
+		return set.contains(effect);
+	}
+
+	@Override
+	public Set<Tag<Effect>> getImmunities() {
+		return EffectTagDispatcher.getImmunitiesFor(thisAs.getClass());
 	}
 
 	@Inject(method = "tick", at = @At("HEAD"))
