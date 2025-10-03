@@ -2,6 +2,7 @@ package sunsetsatellite.catalyst.effects.api.effect;
 
 import net.minecraft.core.data.tag.ITaggable;
 import net.minecraft.core.data.tag.Tag;
+import net.minecraft.core.entity.Entity;
 import net.minecraft.core.lang.I18n;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 
@@ -80,6 +81,14 @@ public class Effect implements ITaggable<Effect> {
 
 	public int getMaxStack() {
 		return maxStack;
+	}
+
+	public boolean canApplyTo(Entity target) {
+		for (Tag<Effect> tag : ((IHasEffects)target).getImmunities()) {
+			if (tag.appliesTo(this)) return true;
+		}
+
+		return false;
 	}
 
 	@Override

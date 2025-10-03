@@ -65,9 +65,8 @@ public class EffectTagDispatcher {
 		Set<Tag<Effect>> removedImmunities = removedImmunityMap.computeIfAbsent((Class) clazz, n -> new HashSet<>());
 
 		for (Tag<Effect> tag : tags) {
-			if (!immunities.remove(tag)) {
-				removedImmunities.add(tag);
-			}
+			if (immunities.contains(tag)) immunities.remove(tag);
+			else removedImmunities.add(tag);
 		}
 	}
 }
