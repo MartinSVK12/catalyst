@@ -85,10 +85,10 @@ public class Effect implements ITaggable<Effect> {
 
 	public boolean canApplyTo(Entity target) {
 		for (Tag<Effect> tag : ((IHasEffects)target).getImmunities()) {
-			if (tag.appliesTo(this)) return true;
+			if (tag.appliesTo(this)) return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	@Override
