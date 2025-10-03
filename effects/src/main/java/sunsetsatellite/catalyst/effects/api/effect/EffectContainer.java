@@ -1,7 +1,7 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
 import com.mojang.nbt.tags.CompoundTag;
-import com.mojang.nbt.tags.Tag;
+import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.entity.Entity;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 import sunsetsatellite.catalyst.effects.net.SyncEffectContainerForEntityNetworkMessage;
@@ -31,7 +31,16 @@ public class EffectContainer<T> {
 		return parent;
 	}
 
+	public boolean isParentImmune(Effect effect) {
+		for (Tag<Effect> tag : ((IHasEffects)this.getParent()).getImmunities()) {
+			if (tag.appliesTo(effect)) return true;
+		}
+		return false;
+	}
+
 	public void add(EffectStack effectStack){
+		if (isParentImmune(effectStack.getEffect())) return;
+
 		for (EffectStack effect : effects) {
 			if(effect.getEffect() == effectStack.getEffect()){
 				int amount;
@@ -119,7 +128,7 @@ public class EffectContainer<T> {
 	}
 
 	public void loadFromNbt(CompoundTag tag){
-		for (Tag<?> value : tag.getValues()) {
+		for (com.mojang.nbt.tags.Tag<?> value : tag.getValues()) {
 			if(value instanceof CompoundTag){
 				effects.add(new EffectStack((CompoundTag) value));
 			}

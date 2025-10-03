@@ -4,7 +4,10 @@
   "package": "sunsetsatellite.catalyst.effects.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityMixin"
+    "EntityMixin",
+    "MobAnimalMixin",
+    "MobMonsterMixin",
+    "PlayerMixin"
   ],
   "client": [
     "GameSettingsMixin",

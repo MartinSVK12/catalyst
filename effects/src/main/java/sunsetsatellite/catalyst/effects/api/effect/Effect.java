@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
-import net.minecraft.client.render.texture.stitcher.IconCoordinate;
+import net.minecraft.core.data.tag.ITaggable;
+import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.lang.I18n;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 
@@ -8,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Effect {
+public class Effect implements ITaggable<Effect> {
 	private final String nameKey;
 	public final String id;
 	private final List<Modifier<?>> modifiers;
@@ -128,5 +129,10 @@ public class Effect {
 
 	public <T> void stackSubtracted(EffectStack effectStack, EffectContainer<T> effectContainer) {
 
+	}
+
+	@Override
+	public boolean isIn(Tag tag) {
+		return tag.appliesTo(this);
 	}
 }
