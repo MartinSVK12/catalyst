@@ -31,15 +31,8 @@ public class EffectContainer<T> {
 		return parent;
 	}
 
-	public boolean isParentImmune(Effect effect) {
-		for (Tag<Effect> tag : ((IHasEffects)this.getParent()).getImmunities()) {
-			if (tag.appliesTo(effect)) return true;
-		}
-		return false;
-	}
-
 	public void add(EffectStack effectStack){
-		if (isParentImmune(effectStack.getEffect())) return;
+		if (!effectStack.getEffect().canApplyTo((Entity) parent)) return;
 
 		for (EffectStack effect : effects) {
 			if(effect.getEffect() == effectStack.getEffect()){
