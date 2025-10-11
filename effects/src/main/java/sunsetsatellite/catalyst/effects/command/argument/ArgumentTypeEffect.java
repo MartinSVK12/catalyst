@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 public class ArgumentTypeEffect implements ArgumentType<Effect> {
 
 	public static ArgumentType<Effect> effect() {
-			return new ArgumentTypeEffect();
+		return new ArgumentTypeEffect();
 	}
 
 	public static Effect getEffect(CommandContext<?> context, String name) {
