@@ -3,10 +3,12 @@ package sunsetsatellite.catalyst.fluids.util;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.util.collection.NamespaceID;
+import net.minecraft.core.util.collection.Pair;
 import sunsetsatellite.catalyst.Catalyst;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Fluids {
@@ -30,11 +32,23 @@ public class Fluids {
 				list.add(F);
 			}
 		}
-		return list.get(0);
+		return list.isEmpty() ? null : list.get(0);
 	}
 
 	public static List<FluidStack> getFluidStacks(List<ItemStack> items) {
-		return items.stream().map(I->new FluidStack(getFluid(I.itemID),I.stackSize)).collect(Collectors.toList());
+		List<Pair<Fluid,Integer>> list = new ArrayList<>();
+		for (ItemStack I : items) {
+			Fluid fluid = getFluid(I.itemID);
+			if (fluid != null) {
+				list.add(Pair.of(fluid,I.stackSize));
+			}
+		}
+		List<FluidStack> result = new ArrayList<>();
+		for (Pair<Fluid, Integer> P : list) {
+			FluidStack fluidStack = new FluidStack(P.getLeft(), P.getRight());
+			result.add(fluidStack);
+		}
+		return result;
 	}
 
 
