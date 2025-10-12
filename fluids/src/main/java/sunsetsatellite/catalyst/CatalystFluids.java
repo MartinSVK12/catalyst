@@ -2,9 +2,11 @@ package sunsetsatellite.catalyst;
 
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.net.packet.Packet;
+import org.jetbrains.annotations.UnmodifiableView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
+import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
 import sunsetsatellite.catalyst.fluids.mp.PacketFluidWindowClick;
 import sunsetsatellite.catalyst.fluids.mp.PacketSetFluidSlot;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
@@ -16,6 +18,7 @@ import turniplabs.halplibe.util.BlockInitEntrypoint;
 import turniplabs.halplibe.util.GameStartEntrypoint;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CatalystFluids implements ModInitializer, GameStartEntrypoint, BlockInitEntrypoint {
@@ -59,5 +62,20 @@ public class CatalystFluids implements ModInitializer, GameStartEntrypoint, Bloc
 			}
 		}
 		return stacks;
+	}
+
+	public static @UnmodifiableView List<FluidStack> collectFluidStacks(IFluidInventory inv){
+		if(inv == null) return Collections.emptyList();
+		ArrayList<FluidStack> stacks = new ArrayList<>();
+
+		for (int i = 0; i < inv.getFluidInventorySize(); i++) {
+			stacks.add(i,inv.getFluidInSlot(i));
+		}
+
+		return Collections.unmodifiableList(stacks);
+	}
+
+	public static @UnmodifiableView List<FluidStack> collectAndCondenseFluidStacks(IFluidInventory inv){
+		return condenseFluidList(collectFluidStacks(inv));
 	}
 }
