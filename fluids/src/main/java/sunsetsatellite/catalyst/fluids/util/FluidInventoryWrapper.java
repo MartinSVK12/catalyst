@@ -3,7 +3,6 @@ package sunsetsatellite.catalyst.fluids.util;
 import org.jetbrains.annotations.UnmodifiableView;
 import sunsetsatellite.catalyst.CatalystFluids;
 import sunsetsatellite.catalyst.fluids.api.IFluidInventory;
-import sunsetsatellite.retrostorage.RetroStorage;
 
 import java.util.*;
 

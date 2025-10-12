@@ -4,7 +4,7 @@ import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.Tag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.UnmodifiableView;
-import sunsetsatellite.retrostorage.RetroStorage;
+import sunsetsatellite.catalyst.CatalystFluids;
 
 import java.util.*;
 
@@ -102,7 +102,7 @@ public class FluidStackList implements IFluidStackList, Iterable<FluidStack> {
             newStacks.add(add(stack));
         }
 
-        return Collections.unmodifiableList(RetroStorage.condenseFluidList(newStacks));
+        return Collections.unmodifiableList(CatalystFluids.condenseFluidList(newStacks));
     }
 
     @Override
@@ -179,7 +179,7 @@ public class FluidStackList implements IFluidStackList, Iterable<FluidStack> {
             FluidStack addLeftover = where.add(removed);
             leftovers.add(addLeftover);
         }
-        return Collections.unmodifiableList(RetroStorage.condenseFluidList(leftovers));
+        return Collections.unmodifiableList(CatalystFluids.condenseFluidList(leftovers));
     }
 
     @Override
