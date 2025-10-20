@@ -25,6 +25,9 @@ public class CatalystEffectsClient implements ClientStartEntrypoint {
 
 	public static void addSettingsPage(){
 		IKeybinds gameSettings = keybinds = (IKeybinds) Minecraft.getMinecraft().gameSettings;
-		CatalystClient.effectsCategory.withComponent(new ToggleableOptionComponent<>(gameSettings.getEffectDisplayPlaceEnumOption()));
+
+		CatalystClient.effectsCategory
+			.withComponent(new ToggleableOptionComponent<>(gameSettings.getEffectDisplayPlaceEnumOption()))
+			.withComponent(new ToggleableOptionComponent<>(gameSettings.getExtraHealthDisplayStyle()));
 	}
 }
