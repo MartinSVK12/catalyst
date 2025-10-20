@@ -4,10 +4,12 @@
   "package": "sunsetsatellite.catalyst.effects.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "EntityMixin"
+    "EntityMixin",
+    "PlayerExtraHealthMixin"
   ],
   "client": [
     "GameSettingsMixin",
+    "HudComponentHealthBarMixin",
     "HudIngameMixin",
     "MinecraftMixin",
     "ScreenInventoryMixin"

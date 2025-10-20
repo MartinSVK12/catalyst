@@ -10,5 +10,9 @@ options.catalyst-effect.displayEffectsIn.inventory=Inventory
 options.catalyst-effect.displayEffectsIn.hud=HUD
 options.catalyst-effect.displayEffectsIn.both=Both
 
+options.catalyst-effect.displayExtraHealthAs=Display Extra Health as
+options.catalyst-effect.displayExtraHealthAs.extra_bars=Extra Hearts
+options.catalyst-effect.displayExtraHealthAs.multiplier=Number
+
 error.catalyst-effects.invalidEffect=Invalid effect name provided!
 error.catalyst-effects.incompatibleEntity=Tried to add effects to an incompatible entity!
