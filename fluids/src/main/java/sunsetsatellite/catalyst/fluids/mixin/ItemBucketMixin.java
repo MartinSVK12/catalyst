@@ -86,6 +86,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public ItemStack fill(FluidStack fluidStack, ItemStack stack) {
+		if(fluidStack == null) return stack;
 		if(fluidStack.amount < 1000) return stack;
 		if(getAllowedFluids(stack).contains(fluidStack.fluid)) {
 			if (fluidStack.fluid == Fluids.WATER) {
