@@ -11,7 +11,7 @@ import sunsetsatellite.catalyst.effects.api.effect.Effects;
 @Environment(EnvType.CLIENT)
 public class EffectRendererDispatcher extends Dispatcher<Effect, EffectRenderer<?>> {
 
-	private static final EffectRendererDispatcher instance = new EffectRendererDispatcher();
+	private static final EffectRendererDispatcher INSTANCE = new EffectRendererDispatcher();
 
 	@Override
 	protected EffectRenderer<?> getDefault() {
@@ -19,7 +19,7 @@ public class EffectRendererDispatcher extends Dispatcher<Effect, EffectRenderer<
 	}
 
 	public static EffectRendererDispatcher getInstance() {
-		return instance;
+		return INSTANCE;
 	}
 
 	public EffectRenderer<?> getDispatch(Effect effect) {
@@ -32,5 +32,9 @@ public class EffectRendererDispatcher extends Dispatcher<Effect, EffectRenderer<
 				.setIcon(TextureRegistry.getTexture("minecraft:item/diamond"))
 				.setColor(0xFFAAFF00)
 		);
+	}
+
+	public static EffectRenderer<?> getRendererFor(Effect effect) {
+		return INSTANCE.getDispatch(effect);
 	}
 }
