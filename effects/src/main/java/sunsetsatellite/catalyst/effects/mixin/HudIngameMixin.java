@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.CatalystEffectsClient;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
-import sunsetsatellite.catalyst.effects.api.effect.EffectDisplayPlace;
+import sunsetsatellite.catalyst.effects.api.effect.options.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 import sunsetsatellite.catalyst.effects.api.effect.render.EffectRendererManager;
 
@@ -24,7 +24,7 @@ public abstract class HudIngameMixin extends Gui {
 	private HudIngameMixin(){}
 
 	@Unique
-	private EffectRendererManager catalyst$ScreenEffects = new EffectRendererManager();
+	private final EffectRendererManager catalyst$ScreenEffects = new EffectRendererManager();
 
 	@Inject(
 		method = "renderGameOverlay",

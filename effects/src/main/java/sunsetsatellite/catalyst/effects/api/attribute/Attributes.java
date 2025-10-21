@@ -7,8 +7,11 @@ public class Attributes extends Registry<Attribute<?>> {
 
 	public static final IntAttribute EFFECT_DURATION = (IntAttribute) new IntAttribute("attribute.catalyst.effectDuration",1).setAsDefault();
 
+	public static IntAttribute EXTRA_HEALTH = (IntAttribute) new IntAttribute("attribute.catalyst.extraHealth", 0).setAsDefault();
+
 	public Attributes(){
 		register("catalyst-effects:effect_duration",EFFECT_DURATION);
+		register("catalyst-effects:extra_health", EXTRA_HEALTH);
 	}
 
 	private static final Attributes INSTANCE = new Attributes();

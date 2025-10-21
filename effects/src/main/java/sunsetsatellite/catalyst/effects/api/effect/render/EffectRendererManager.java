@@ -10,6 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.effects.api.effect.*;
+import sunsetsatellite.catalyst.effects.api.effect.EffectTimeType;
+import sunsetsatellite.catalyst.effects.api.effect.render.heartContainer.IHasCustomHeartContainer;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.*;
 
@@ -28,6 +30,28 @@ public class EffectRendererManager extends Gui {
 			final EffectRenderer<?> renderer = dispatcher.getDispatch(effect);
 
 			if (renderer.shouldDisplayScreenEffect()) {
+				if (dominant == null) dominant = effectStack;
+
+				int effectStackPotency = effectStack.getAmount() * effectStack.getDuration();
+				int dominantPotency = dominant.getAmount() * dominant.getDuration();
+				if (effectStackPotency > dominantPotency) dominant = effectStack;
+			}
+		}
+
+		return dominant;
+	}
+
+	/**
+	 * @param container affected container
+	 * @return most potent EffectStack affecting the player that implements IHasCustomHeartContainer
+	 */
+	public static EffectStack resolveDominantHeartContainer(EffectContainer<?> container) {
+		EffectStack dominant = null;
+		for (EffectStack effectStack : container.getEffects()) {
+			final Effect effect = effectStack.getEffect();
+			final EffectRenderer<?> renderer = dispatcher.getDispatch(effect);
+
+			if (renderer instanceof IHasCustomHeartContainer) {
 				if (dominant == null) dominant = effectStack;
 
 				int effectStackPotency = effectStack.getAmount() * effectStack.getDuration();
