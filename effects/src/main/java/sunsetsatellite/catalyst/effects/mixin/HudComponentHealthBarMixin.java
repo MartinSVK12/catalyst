@@ -79,7 +79,8 @@ public abstract class HudComponentHealthBarMixin extends HudComponentMovable {
 		ci.cancel();
 
 		if (stack != null) {
-			EffectRenderer<?> renderer = EffectRendererDispatcher.getInstance().getDispatch(stack.getEffect());
+			EffectRenderer<?> renderer = EffectRendererDispatcher.getRendererFor(stack.getEffect());
+
 			if (renderer instanceof IHasCustomHeartContainer) {
 				heartContainer = ((IHasCustomHeartContainer) renderer).getCustomContainer(player);
 			}
@@ -133,6 +134,7 @@ public abstract class HudComponentHealthBarMixin extends HudComponentMovable {
 	public void drawExtraBars(Minecraft mc, HudIngame hud, Player player, HeartContainer heartContainer, int x, int y) {
 		int health = player.getHealth();
 
+		GL11.glTranslated(0, 0, 0.01 * getRows(player));
 		for (int barCount = 0; barCount < getRows(player); barCount++) {
 			int totalHealth = HealthHelper.getMaxHealth(player);
 

@@ -11,7 +11,7 @@ public class Attributes extends Registry<Attribute<?>> {
 
 	public Attributes(){
 		register("catalyst-effects:effect_duration",EFFECT_DURATION);
-		register("catalyst:extra_health", EXTRA_HEALTH);
+		register("catalyst-effects:extra_health", EXTRA_HEALTH);
 	}
 
 	private static final Attributes INSTANCE = new Attributes();
