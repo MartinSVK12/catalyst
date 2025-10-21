@@ -45,12 +45,12 @@ public class CommandExtraHealth implements CommandManager.CommandRegistry {
 
         if (entities.size() == 1) {
             source.sendTranslatableMessage(
-                    "command.aether.add.extra_health.success_single_entity",
+                    "command.catalyst-effects.add.extra_health.success_single_entity",
                     max_health_added,
                     CommandHelper.getEntityName(entities.get(0))
             );
         } else
-            source.sendTranslatableMessage("command.aether.add.extra_health.success_multiple_entities", max_health_added);
+            source.sendTranslatableMessage("command.catalyst-effects.add.extra_health.success_multiple_entities", max_health_added);
         return 0;
     }
 
@@ -77,10 +77,10 @@ public class CommandExtraHealth implements CommandManager.CommandRegistry {
 
         if (entities.size() == 1) {
             source.sendTranslatableMessage(
-                    "command.aether.set.extra_health.success_single_entity",
+                    "command.catalyst-effects.set.extra_health.success_single_entity",
                     CommandHelper.getEntityName(entities.get(0)), amount
             );
-        } else source.sendTranslatableMessage("command.aether.set.extra_health.success_multiple_entities", amount);
+        } else source.sendTranslatableMessage("command.catalyst-effects.set.extra_health.success_multiple_entities", amount);
         return 0;
     }
 
@@ -95,10 +95,10 @@ public class CommandExtraHealth implements CommandManager.CommandRegistry {
         }
 
         if (entities.size() == 1) {
-            source.sendTranslatableMessage("command.aether.get.extra_health.success_single_entity",
+            source.sendTranslatableMessage("command.catalyst-effects.get.extra_health.success_single_entity",
                     CommandHelper.getEntityName(entities.get(0)), total_health);
         } else
-            source.sendTranslatableMessage("command.aether.get.extra_health.success_multiple_entities", total_health);
+            source.sendTranslatableMessage("command.catalyst-effects.get.extra_health.success_multiple_entities", total_health);
         return 0;
     }
 

@@ -20,7 +20,7 @@ public class GameSettingsMixin
 	@Unique
 	public OptionEnum<EffectDisplayPlace> effectDisplayPlaceEnumOption = new OptionEnum<>(
 		thisAs,
-		"catalyst-effect.displayEffectsIn",
+		"catalyst-effects.displayEffectsIn",
 		EffectDisplayPlace.class,
 		EffectDisplayPlace.INVENTORY
 	);
@@ -28,7 +28,7 @@ public class GameSettingsMixin
 	@Unique
 	public OptionEnum<EffectExtraHealthDisplayStyle> effectExtraHealthDisplayStyleEnumOption = new OptionEnum<>(
 		thisAs,
-		"catalyst-effect.displayExtraHealthAs",
+		"catalyst-effects.displayExtraHealthAs",
 		EffectExtraHealthDisplayStyle.class,
 		EffectExtraHealthDisplayStyle.EXTRA_BARS
 	);
