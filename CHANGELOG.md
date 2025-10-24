@@ -1,1 +1,1 @@
-- Fixed a visual bug with effect UI rendering.
+- Added a base implementation for an extra hearts effect. (by kheprep)
