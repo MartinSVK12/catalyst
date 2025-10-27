@@ -27,7 +27,9 @@
 		"beforeClientStart": [
 			"sunsetsatellite.catalyst.CatalystEffectsClient"
 		],
-		"server": ["sunsetsatellite.catalyst.CatalystEffectsServer"]
+		"afterClientStart": [
+			"sunsetsatellite.catalyst.CatalystEffectsClient"
+		]
   },
   "mixins": [
 		"catalyst-effects.mixins.json"
