@@ -24,7 +24,7 @@ public class SyncEffectContainerForEntityNetworkMessage implements NetworkMessag
 
 	public SyncEffectContainerForEntityNetworkMessage(Entity entity) {
 		this.entityID = entity.id;
-		this.container = ((IHasEffects) entity).getContainer();
+		this.container = ((IHasEffects<?>) entity).getContainer();
 	}
 
 
@@ -60,7 +60,7 @@ public class SyncEffectContainerForEntityNetworkMessage implements NetworkMessag
 			return;
 		}
 
-		EffectContainer<?> container = ((IHasEffects) entityOption.get()).getContainer();
+		EffectContainer<?> container = ((IHasEffects<?>) entityOption.get()).getContainer();
 		container.removeAll();
 		container.loadFromNbt(containerNBT);
 	}

@@ -72,7 +72,7 @@ public abstract class HudComponentHealthBarMixin extends HudComponentMovable {
 	public void render(Minecraft mc, HudIngame hud, int xSizeScreen, int ySizeScreen, float partialTick, CallbackInfo ci) {
 		Player player = mc.thePlayer;
 
-		EffectStack stack = EffectRendererManager.resolveDominantHeartContainer(((IHasEffects) player).getContainer());
+		EffectStack stack = EffectRendererManager.resolveDominantHeartContainer(((IHasEffects<?>) player).getContainer());
 		if (stack == null && getRows(player) == 1) return;
 
 		HeartContainer heartContainer = null;

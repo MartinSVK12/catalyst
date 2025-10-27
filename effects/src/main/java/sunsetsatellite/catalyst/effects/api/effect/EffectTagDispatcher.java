@@ -10,13 +10,13 @@ import java.util.*;
 public class EffectTagDispatcher {
 	protected EffectTagDispatcher() {}
 
-	private static final HashMap<Class<? extends IHasEffects>, Set<Tag<Effect>>> immunityMap = new HashMap<>();
-	private static final HashMap<Class<? extends IHasEffects>, Set<Tag<Effect>>> removedImmunityMap = new HashMap<>();
+	private static final HashMap<Class<? extends IHasEffects<?>>, Set<Tag<Effect>>> immunityMap = new HashMap<>();
+	private static final HashMap<Class<? extends IHasEffects<?>>, Set<Tag<Effect>>> removedImmunityMap = new HashMap<>();
 
 	public static @NotNull Set<Tag<Effect>> getImmunitiesFor(Class<? extends Entity> holder) {
 		Set<Tag<Effect>> tags = new HashSet<>();
 
-		List<Class<? extends IHasEffects>> classList = findGrandpa((Class<? extends IHasEffects>) holder);
+		List<Class<? extends IHasEffects<?>>> classList = findGrandpa((Class<? extends IHasEffects<?>>) holder);
 
 		for (int i = classList.size()-1; i >= 0; i--) {
 			Set<Tag<Effect>> superTags = immunityMap.get(classList.get(i));
@@ -34,14 +34,15 @@ public class EffectTagDispatcher {
 		return tags;
 	}
 
-	private static List<Class<? extends IHasEffects>> findGrandpa(Class<? extends IHasEffects> target) {
-		List<Class<? extends IHasEffects>> list = new ArrayList<>();
+	//wdym find grandpa? lmao :sob:
+	private static List<Class<? extends IHasEffects<?>>> findGrandpa(Class<? extends IHasEffects<?>> target) {
+		List<Class<? extends IHasEffects<?>>> list = new ArrayList<>();
 
-		Class<? extends IHasEffects> clazz = target;
+		Class<? extends IHasEffects<?>> clazz = target;
 		while (IHasEffects.class.isAssignableFrom(clazz)) {
 			list.add(clazz);
 			Class<?> zuper = clazz.getSuperclass();
-			if (IHasEffects.class.isAssignableFrom(zuper)) { clazz = (Class<? extends IHasEffects>) zuper; }
+			if (IHasEffects.class.isAssignableFrom(zuper)) { clazz = (Class<? extends IHasEffects<?>>) zuper; }
 			else break;
 		}
 

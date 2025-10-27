@@ -62,7 +62,7 @@ public class CommandAttributes implements CommandManager.CommandRegistry {
 
 	public static int listAttributesForSender(CommandContext<CommandSource> ctx) {
 		ctx.getSource().sendMessage("Available attributes:");
-		listAttributes(ctx, (IHasEffects) ctx.getSource().getSender());
+		listAttributes(ctx, (IHasEffects<?>) ctx.getSource().getSender());
 		return Command.SINGLE_SUCCESS;
 	}
 
@@ -85,7 +85,7 @@ public class CommandAttributes implements CommandManager.CommandRegistry {
 					)
 				);
 
-				listAttributes(ctx, (IHasEffects) entity);
+				listAttributes(ctx, (IHasEffects<?>) entity);
 				if (i < entities.size() -1) ctx.getSource().sendMessage(" ");
 			}
 		}
@@ -107,7 +107,7 @@ public class CommandAttributes implements CommandManager.CommandRegistry {
 			String.format(
 				"%s : %s",
 				Entity.getNameFromEntity(player, true),
-				attr.calculate((IHasEffects) player)
+				attr.calculate((IHasEffects<?>) player)
 			)
 		);
 
@@ -127,7 +127,7 @@ public class CommandAttributes implements CommandManager.CommandRegistry {
 				source.sendMessage(
 					Entity.getNameFromEntity(entity, true) + TextFormatting.RESET +
 						": " +
-						attr.calculate((IHasEffects) entity)
+						attr.calculate((IHasEffects<?>) entity)
 				);
 			}
 		}

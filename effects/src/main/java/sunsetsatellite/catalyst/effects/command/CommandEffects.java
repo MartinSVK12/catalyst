@@ -39,7 +39,7 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects effects = ((IHasEffects)ctx.getSource().getSender());
+		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
 		effects.getContainer().remove(effect);
 		return Command.SINGLE_SUCCESS;
 	}
@@ -49,7 +49,7 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects effects = ((IHasEffects)ctx.getSource().getSender());
+		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
 		effects.getContainer().removeAll();
 		ctx.getSource().sendMessage("Removed all effects.");
 		return Command.SINGLE_SUCCESS;
@@ -64,7 +64,7 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects effects = ((IHasEffects)ctx.getSource().getSender());
+		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
 		EffectStack stack = new EffectStack(effects,effect,duration,amount);
 		effects.getContainer().add(stack);
 		stack.start(effects.getContainer());
@@ -80,7 +80,7 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects effects = ((IHasEffects)ctx.getSource().getSender());
+		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
 		EffectStack stack = new EffectStack(effects, effect, amount);
 		effects.getContainer().add(stack);
 		stack.start(effects.getContainer());

@@ -32,7 +32,7 @@ public abstract class HudIngameMixin extends Gui {
 	)
 	public void renderAfterGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
 		EffectDisplayPlace effectDisplayPlace = CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value;
-		EffectContainer<?> player = ((IHasEffects)mc.thePlayer).getContainer();
+		EffectContainer<?> player = ((IHasEffects<?>)mc.thePlayer).getContainer();
 
 		if (effectDisplayPlace == EffectDisplayPlace.HUD || effectDisplayPlace == EffectDisplayPlace.BOTH) {
 			catalyst$ScreenEffects.drawEffectIndicators(player, mc, mouseX, mouseY, partialTicks);
@@ -48,7 +48,7 @@ public abstract class HudIngameMixin extends Gui {
 		)
 	)
 	public void endRenderGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
-		EffectContainer<?> player = ((IHasEffects)mc.thePlayer).getContainer();
+		EffectContainer<?> player = ((IHasEffects<?>)mc.thePlayer).getContainer();
 		catalyst$ScreenEffects.drawScreenEffects(player, mc, mouseX, mouseY, partialTicks);
 	}
 

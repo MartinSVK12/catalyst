@@ -31,7 +31,7 @@ public abstract class MinecraftMixin {
 		at = @At("HEAD")
 	)
 	public void saveEffectsOnDeath(boolean flag, int i, CallbackInfo ci, @Share("effectContainer") LocalRef<EffectContainer<?>> eff) {
-		eff.set(((IHasEffects) thePlayer).getContainer());
+		eff.set(((IHasEffects<?>) thePlayer).getContainer());
 	}
 
 
@@ -41,7 +41,7 @@ public abstract class MinecraftMixin {
 	)
 	public void restoreEffectsOnRespawn(boolean flag, int i, CallbackInfo ci, @Share("effectContainer") LocalRef<EffectContainer<?>> eff) {
 		for (EffectStack effect : eff.get().getEffects()) {
-			if(effect.getEffect().isPersistent()) ((IHasEffects) thePlayer).getContainer().add(effect);
+			if(effect.getEffect().isPersistent()) ((IHasEffects<?>) thePlayer).getContainer().add(effect);
 		}
 	}
 }

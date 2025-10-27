@@ -16,7 +16,7 @@ public class HealthHelper {
      * @return the amount of extra health
      */
     public static int getExtraHealth(Player player) {
-        return Attributes.EXTRA_HEALTH.calculate((IHasEffects) player);
+        return Attributes.EXTRA_HEALTH.calculate((IHasEffects<?>) player);
     }
 
     /**
@@ -27,10 +27,10 @@ public class HealthHelper {
      */
     public static void setExtraHealth(Player player, int amount) {
 
-        EffectContainer<?> container = ((IHasEffects) player).getContainer();
+        EffectContainer<?> container = ((IHasEffects<?>) player).getContainer();
 
         container.remove(Effects.EXTRA_HEALTH);
-        container.add(new EffectStack((IHasEffects) player, Effects.EXTRA_HEALTH, amount));
+        container.add(new EffectStack((IHasEffects<?>) player, Effects.EXTRA_HEALTH, amount));
     }
 
     /**
@@ -40,7 +40,7 @@ public class HealthHelper {
      * @param amount the amount of extra health to add, on top of the amount they already have
      */
     public static void addExtraHealth(Player player, int amount) {
-        ((IHasEffects) player).getContainer().add(new EffectStack((IHasEffects) player, Effects.EXTRA_HEALTH, amount));
+        ((IHasEffects<?>) player).getContainer().add(new EffectStack((IHasEffects<?>) player, Effects.EXTRA_HEALTH, amount));
     }
 
     /**

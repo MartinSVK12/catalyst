@@ -34,7 +34,7 @@ public abstract class ScreenInventoryMixin extends ScreenContainerAbstract {
 	@Inject(method = "render",at = @At("TAIL"))
 	public void drawEffects(int mouseX, int mouseY, float partialTick, CallbackInfo ci){
 		if (CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.INVENTORY || CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value == EffectDisplayPlace.BOTH) {
-			effects.drawEffectIndicators(((IHasEffects)player).getContainer(),mc,mouseX,mouseY,partialTick);
+			effects.drawEffectIndicators(((IHasEffects<?>)player).getContainer(),mc,mouseX,mouseY,partialTick);
 		}
 	}
 }
