@@ -1,18 +1,20 @@
 package sunsetsatellite.catalyst.effects.api.effect;
 
 import com.mojang.nbt.tags.CompoundTag;
-import net.minecraft.core.data.tag.Tag;
 import net.minecraft.core.entity.Entity;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
+import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.net.SyncEffectContainerForEntityNetworkMessage;
 import turniplabs.halplibe.helper.EnvironmentHelper;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class EffectContainer<T> {
 	private final List<EffectStack> effects = new ArrayList<>();
 	private final Set<Attribute<?>> attributes = new HashSet<>();
+	public final List<Function<T,List<Modifier<?>>>> additionalModifierSuppliers = new ArrayList<>();
 	private final T parent;
 
     public EffectContainer(T parent) {

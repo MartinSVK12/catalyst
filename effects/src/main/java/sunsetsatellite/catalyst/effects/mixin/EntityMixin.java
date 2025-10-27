@@ -14,11 +14,14 @@ import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
 import sunsetsatellite.catalyst.effects.api.effect.EffectTagDispatcher;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
+import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Mixin(value = Entity.class, remap = false)
-public class EntityMixin implements IHasEffects {
+public class EntityMixin implements IHasEffects<Entity> {
 
 	@Unique
 	private final Entity thisAs = (Entity) ((Object)this);

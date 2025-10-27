@@ -71,6 +71,6 @@ public abstract class Attribute<T> {
 		return I18n.getInstance().translateDescKey(key);
 	}
 
-	public abstract T calculate(IHasEffects target);
-	public abstract T calculate(IHasEffects target, T baseValue);
+	public abstract T calculate(IHasEffects<?> target);
+	public abstract T calculate(IHasEffects<?> target, T baseValue);
 }

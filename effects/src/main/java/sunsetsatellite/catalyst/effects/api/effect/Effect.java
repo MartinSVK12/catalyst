@@ -19,6 +19,7 @@ public class Effect implements ITaggable<Effect> {
 	private int durationIncrease;
 	private final int maxStack;
 	private boolean persistent = false;
+	private int priority = 0;
 
 	public Effect(String nameKey, String id, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int maxStack) {
 		this.nameKey = nameKey;
@@ -35,6 +36,15 @@ public class Effect implements ITaggable<Effect> {
 
 	public Effect setPersistent() {
 		this.persistent = true;
+		return this;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public Effect setPriority(int priority) {
+		this.priority = priority;
 		return this;
 	}
 
@@ -84,7 +94,7 @@ public class Effect implements ITaggable<Effect> {
 	}
 
 	public boolean canApplyTo(Entity target) {
-		for (Tag<Effect> tag : ((IHasEffects)target).getImmunities()) {
+		for (Tag<Effect> tag : ((IHasEffects<?>)target).getImmunities()) {
 			if (tag.appliesTo(this)) return false;
 		}
 
