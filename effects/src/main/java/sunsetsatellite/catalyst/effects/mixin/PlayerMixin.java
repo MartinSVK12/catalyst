@@ -3,6 +3,7 @@ package sunsetsatellite.catalyst.effects.mixin;
 import net.minecraft.core.entity.Mob;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.player.inventory.container.ContainerInventory;
 import net.minecraft.core.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +32,7 @@ public class PlayerMixin extends Mob {
 			for (int i = 0; i < player.inventory.armorInventory.length; i++) {
 				ItemStack stack = player.inventory.armorInventory[i];
 				if(stack != null && stack.getItem() instanceof IItemWithModifiers){
-					Map<Modifier<?>, Boolean> itemModifiers = ((IItemWithModifiers) stack.getItem()).getModifiers((IHasEffects<?>) player, stack, i);
+					Map<Modifier<?>, Boolean> itemModifiers = ((IItemWithModifiers) stack.getItem()).getModifiers((IHasEffects<?>) player, stack, i + 100);
 					for (Map.Entry<Modifier<?>, Boolean> itemModifierEntry : itemModifiers.entrySet()) {
 						if (itemModifierEntry.getValue()) {
 							modifiers.add(itemModifierEntry.getKey());

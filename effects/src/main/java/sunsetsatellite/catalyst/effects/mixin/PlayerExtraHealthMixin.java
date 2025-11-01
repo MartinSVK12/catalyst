@@ -18,6 +18,17 @@ public class PlayerExtraHealthMixin extends Mob {
 
     @Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
     public void getMaxHealth(CallbackInfoReturnable<Integer> cir) {
-        cir.setReturnValue(cir.getReturnValue() + HealthHelper.getExtraHealth(Player.class.cast(this)));
+		int extraHealth = HealthHelper.getExtraHealth(Player.class.cast(this));
+		int maxHealth = cir.getReturnValue() + extraHealth;
+		cir.setReturnValue(maxHealth);
     }
+
+	@Override
+	public int getHealth() {
+		int health = super.getHealth();
+		if(health > getMaxHealth()){
+			setHealthRaw(getMaxHealth());
+		}
+		return health;
+	}
 }
