@@ -80,6 +80,14 @@ public class EffectStack {
 		}
 	}
 
+	public <T> void finish(EffectContainer<T> effectContainer){
+		if(state == State.ACTIVE){
+			timeLeft = 0;
+			state = State.FINISHED;
+			effect.expired(this,effectContainer);
+		}
+	}
+
 	public <T> void tick(EffectContainer<T> effectContainer) {
 		if(state == State.ACTIVE){
 			if(effect.getTimeType() == EffectTimeType.PERMANENT){
@@ -90,8 +98,7 @@ public class EffectStack {
 				timeLeft--;
 				effect.tick(this,effectContainer);
 			} else {
-				state = State.FINISHED;
-				effect.expired(this,effectContainer);
+				this.finish(effectContainer);
 			}
 		}
 	}
