@@ -82,8 +82,12 @@ public class EffectStack {
 
 	public <T> void tick(EffectContainer<T> effectContainer) {
 		if(state == State.ACTIVE){
+			if(effect.getTimeType() == EffectTimeType.PERMANENT){
+				effect.tick(this,effectContainer);
+				return;
+			}
 			if(timeLeft > 0){
-				if(effect.getTimeType() != EffectTimeType.PERMANENT) timeLeft--;
+				timeLeft--;
 				effect.tick(this,effectContainer);
 			} else {
 				state = State.FINISHED;
