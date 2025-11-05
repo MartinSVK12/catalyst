@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.fluids.api.impl.tmb;
 
 import sunsetsatellite.catalyst.fluids.util.RecipeExtendedSymbol;
+import sunsetsatellite.catalyst.fluids.util.RecipeOutputStack;
 import turing.tmb.TypedIngredient;
 import turing.tmb.api.drawable.IIngredientList;
 import turing.tmb.api.ingredient.ITypedIngredient;
@@ -52,5 +53,17 @@ public class ExtendedIngredientList implements IIngredientList {
 		}
 
 		return ingredientList;
+	}
+
+	public static ExtendedIngredientList fromRecipeOutput(RecipeOutputStack output) {
+		if (output == null) {
+			return new ExtendedIngredientList();
+		}
+		if (output.isItem()) {
+			return new ExtendedIngredientList(TypedIngredient.itemStackIngredient(output.stack));
+		} else if (output.isFluid()) {
+			return new ExtendedIngredientList(ExtendedTypedIngredient.fluidStackIngredient(output.fluid));
+		}
+		return new ExtendedIngredientList();
 	}
 }
