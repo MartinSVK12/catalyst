@@ -38,20 +38,15 @@ public class EffectContainer<T> {
 
 		for (EffectStack effect : effects) {
 			if(effect.getEffect() == effectStack.getEffect()){
-				int amount;
-				if(effect.getAmount() + effectStack.getAmount() >= effect.getEffect().getMaxStack()){
-					amount = effect.getEffect().getMaxStack() - effect.getAmount();
-				}else{
-					amount = effectStack.getAmount();
-				}
+				int amount = Math.min(effectStack.getAmount(), effect.getEffect().getMaxStack() - effect.getAmount());
 				effect.add(amount,this);
-				if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
+				syncEffectContainer();
 				return;
 			}
 		}
 
 		effects.add(effectStack);
-		if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
+		syncEffectContainer();
 	}
 
 	public void subtract(EffectStack effectStack){
@@ -59,7 +54,7 @@ public class EffectContainer<T> {
 			if(effect.getEffect() == effectStack.getEffect()){
 				effect.subtract(effectStack.getAmount(),this);
 
-				if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
+				syncEffectContainer();
 				return;
 			}
 		}
@@ -75,7 +70,7 @@ public class EffectContainer<T> {
 			}
 		}
 
-		if (EnvironmentHelper.isServerEnvironment()) NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
+		syncEffectContainer();
 	}
 	public void removeAll() {
 		List<EffectStack> copy = new ArrayList<>(effects);
@@ -127,6 +122,12 @@ public class EffectContainer<T> {
 			if(value instanceof CompoundTag){
 				effects.add(new EffectStack((CompoundTag) value));
 			}
+		}
+	}
+
+	private void syncEffectContainer() {
+		if (EnvironmentHelper.isServerEnvironment()) {
+			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
 		}
 	}
 }
