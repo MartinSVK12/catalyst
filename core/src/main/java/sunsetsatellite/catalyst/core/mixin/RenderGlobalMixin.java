@@ -1,5 +1,7 @@
 package sunsetsatellite.catalyst.core.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.RenderBlocks;
@@ -47,8 +49,8 @@ public class RenderGlobalMixin {
 	@Shadow
 	private WorldClient worldObj;
 
-	@Redirect(method = "drawSelectionBox",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderGlobal;drawOutlinedBoundingBox(Lnet/minecraft/core/util/phys/AABB;)V"))
-	public void drawOutlinedSectionedBoundingBox(RenderGlobal instance, AABB aabb, @Local int j)
+	@WrapOperation(method = "drawSelectionBox",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderGlobal;drawOutlinedBoundingBox(Lnet/minecraft/core/util/phys/AABB;)V"))
+	public void drawOutlinedSectionedBoundingBox(RenderGlobal instance, AABB aabb, Operation<Void> original, @Local int j)
 	{
 		if(mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ISideInteractable && ((ISideInteractable) mc.thePlayer.getCurrentEquippedItem().getItem()).alwaysShowOutlineWhenHeld()){
 			double minX = aabb.minX;
