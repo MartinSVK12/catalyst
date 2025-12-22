@@ -103,35 +103,35 @@ public class EffectRendererManager extends Gui {
 		for (Modifier<?> modifier : effect.getEffect().getModifiers()) {
 			if(modifier instanceof IntModifier){
 				sb.append("  ").append(String.format(modifier.type.template,((IntModifier) modifier).calculate(effect),modifier.attribute.getName()));
-				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
+				if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
 				}
 			} else if(modifier instanceof LongModifier){
 				sb.append("  ").append(String.format(modifier.type.template,((LongModifier) modifier).calculate(effect),modifier.attribute.getName()));
-				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
+				if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
 				}
 			} else if (modifier instanceof FloatModifier) {
 				sb.append("  ").append(String.format(modifier.type.template,String.format("%.2f",((FloatModifier) modifier).calculate(effect)),modifier.attribute.getName()));
-				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
+				if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
 				}
 			} else if (modifier instanceof DoubleModifier) {
 				sb.append("  ").append(String.format(modifier.type.template,String.format("%.2f",((DoubleModifier) modifier).calculate(effect)),modifier.attribute.getName()));
-				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
+				if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
 				}
 			} else if (modifier instanceof BooleanModifier) {
 				sb.append("  ").append(modifier);
-				if(Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54)){
+				if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)){
 					sb.append(": ").append(TextFormatting.GRAY).append(modifier.attribute.getDesc()).append(TextFormatting.WHITE).append("\n");
 				} else {
 					sb.append("\n");
@@ -147,7 +147,11 @@ public class EffectRendererManager extends Gui {
 		drawRectWidthHeight(x,y,20,20, effectRenderer.getColor());
 		end();
 		effectRenderer.drawIcon(mc, this, x, y);
-		drawString(mc.font,"x" + stack.getAmount(),x+1,y+10,0xFFFFFFFF);
+		String stackSize = "x" + stack.getAmount();
+		if (stack.getEffect().getMaxStack() == 1) {
+			stackSize = "";
+		}
+		drawString(mc.font, stackSize,x+1,y+10,0xFFFFFFFF);
 		begin();
 		drawRectWidthHeight(x,y,20, (int) (20-((float)stack.getTimeLeft()/(float)stack.getDuration())*20), 0x80000000);
 	}
