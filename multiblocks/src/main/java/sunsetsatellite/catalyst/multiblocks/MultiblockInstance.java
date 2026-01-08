@@ -24,6 +24,15 @@ public class MultiblockInstance implements Signal.Listener<BlockChangeInfo>{
 	@Override
 	public void signalEmitted(Signal<BlockChangeInfo> signal, BlockChangeInfo blockChanged) {
 		if(signal != Catalyst.ANY_BLOCK_CHANGED_SIGNAL) return;
+		if(origin == null){
+			valid = false;
+			return;
+		}
+		//todo: might not be the best idea
+		Vec3i pos = new Vec3i(origin.x,origin.y,origin.z);
+		if(blockChanged.pos.distanceTo(pos) > 64) {
+			return;
+		}
 		if(origin.worldObj == null){
 			valid = false;
 			return;

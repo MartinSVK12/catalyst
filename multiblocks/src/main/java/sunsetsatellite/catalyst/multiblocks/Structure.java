@@ -45,7 +45,6 @@ public class Structure {
         this.filePath = null;
         this.placeAir = placeAir;
         this.replaceBlocks = replaceBlocks;
-		CatalystMultiblocks.LOGGER.info(String.format("Structure '%s' contains %d blocks.",translateKey,this.data.getCompound("Blocks").getValues().size()));
     }
 
     public Structure(String modId, Class<?>[] modClasses, String translateKey, String filePath, boolean placeAir, boolean replaceBlocks){
