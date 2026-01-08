@@ -16,15 +16,18 @@
     "FontRendererMixin",
     "GameSettingsMixin",
     "ItemModelStandardMixin",
+    "MinecraftMixin",
     "PlayerLocalMixin",
     "RenderGlobalMixin",
     "ScreenContainerAbstractMixin",
+    "ScreenPauseMixin",
     "TooltipElementMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "server": [
+    "MinecraftServerMixin",
     "PacketHandlerLoginMixin",
     "PlayerListMixin",
     "PlayerServerMixin"

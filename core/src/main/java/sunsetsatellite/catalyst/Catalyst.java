@@ -16,6 +16,7 @@ import net.minecraft.core.util.collection.Pair;
 import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.World;
+import net.minecraft.core.world.save.LevelStorage;
 import org.jetbrains.annotations.UnmodifiableView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,9 @@ public class Catalyst implements ModInitializer {
 
 	public static final Signal<BlockChangeInfo> TILE_ENTITY_BLOCK_CHANGED_SIGNAL = new Signal<>();
 	public static final Signal<BlockChangeInfo> ANY_BLOCK_CHANGED_SIGNAL = new Signal<>();
+	public static final Signal<LevelStorage> WORLD_LOAD_SIGNAL = new Signal<>();
+	public static final Signal<World> WORLD_QUIT_SIGNAL = new Signal<>();
+	public static final Signal<World> DISCONNECT_SIGNAL = new Signal<>();
 	public static final Signal<World> DIMENSION_LOAD_SIGNAL = new Signal<>();
 	public static final Signal<World> DIMENSION_SAVE_SIGNAL = new Signal<>();
 
