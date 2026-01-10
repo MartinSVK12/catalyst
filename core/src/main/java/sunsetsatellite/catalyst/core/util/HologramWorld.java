@@ -12,11 +12,12 @@ import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class HologramWorld implements WorldSource {
 	private final HashMap<Vec3i, BlockInstance> blocks = new HashMap<>();
 
-	public HologramWorld(ArrayList<BlockInstance> structure){
+	public HologramWorld(List<BlockInstance> structure){
 		for (BlockInstance block : structure) {
 			blocks.put(block.pos,block);
 		}

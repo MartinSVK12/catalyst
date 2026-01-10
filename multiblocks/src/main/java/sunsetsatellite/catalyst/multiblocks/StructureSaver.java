@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class StructureSaver {
 
-	public static CompoundTag serialize(@NotNull String name, @NotNull List<BlockInstance> blocks) {
+	public static CompoundTag serialize(@NotNull String name, @NotNull List<BlockInstance> blocks, boolean saveTileEntityData) {
 		CompoundTag structureData = new CompoundTag();
 		CompoundTag blocksTag = new CompoundTag();
 		CompoundTag tileEntitiesTag = new CompoundTag();
@@ -33,6 +33,11 @@ public class StructureSaver {
 			blockTag.putCompound("pos", posTag);
 			blocksTag.put(String.valueOf(i), blockTag);
 			if (isTile) {
+				if (block.tile != null && saveTileEntityData) {
+					CompoundTag data = new CompoundTag();
+					block.tile.writeToNBT(data);
+					blockTag.putCompound("data", data);
+				}
 				tileEntitiesTag.put(String.valueOf(i), blockTag);
 			}
 		}

@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst.core.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.world.save.ISaveFormat;
 import net.minecraft.core.world.save.SaveHandlerServer;
 import net.minecraft.server.MinecraftServer;
@@ -15,8 +16,7 @@ import java.io.File;
 public class MinecraftServerMixin {
 
 	@Inject(method = "initWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/world/Dimension;getDimensionList()Ljava/util/Map;", shift = At.Shift.BEFORE))
-	private void initWorld(ISaveFormat saveFormat, String worldDirName, long l, CallbackInfo ci) {
-		SaveHandlerServer saveHandler = new SaveHandlerServer(saveFormat, new File("."), worldDirName, true);
+	private void initWorld(ISaveFormat saveFormat, String worldDirName, long l, CallbackInfo ci, @Local SaveHandlerServer saveHandler) {
 		Catalyst.WORLD_LOAD_SIGNAL.emit(saveHandler);
 	}
 
