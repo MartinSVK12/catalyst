@@ -17,7 +17,7 @@ public abstract class Modifier<T> {
 
 	@Override
 	public String toString() {
-		return String.format(type.template,value,attribute.getName());
+		return String.format(type.template, value, attribute.getName());
 	}
 
 	@Override
@@ -27,6 +27,6 @@ public abstract class Modifier<T> {
 
 		Modifier<?> modifier = (Modifier<?>) o;
 
-        return Objects.equals(attribute, modifier.attribute);
-    }
+		return Objects.equals(attribute, modifier.attribute);
+	}
 }

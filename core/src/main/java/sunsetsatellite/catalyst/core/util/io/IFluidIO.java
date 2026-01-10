@@ -5,11 +5,11 @@ import sunsetsatellite.catalyst.core.util.Direction;
 
 public interface IFluidIO {
 
-    int getActiveFluidSlotForSide(Direction dir);
+	int getActiveFluidSlotForSide(Direction dir);
 
 	void setActiveFluidSlotForSide(Direction dir, int slot);
 
-    Connection getFluidIOForSide(Direction dir);
+	Connection getFluidIOForSide(Direction dir);
 
 	void setFluidIOForSide(Direction dir, Connection con);
 

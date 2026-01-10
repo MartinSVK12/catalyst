@@ -53,7 +53,7 @@ public class BlockModelMultipartItem extends BlockModelStandard<BlockLogic> {
 		float zRot;
 
 		MultipartInternalModel[] models = getModelsFromState(null, 0, 0, 0, false);
-		PositionData displayData = MultipartModelHelper.getOrCreateBlockModel(CatalystMultipart.MOD_ID,multipart).getDisplayPosition(CatalystMultipart.renderState);
+		PositionData displayData = MultipartModelHelper.getOrCreateBlockModel(CatalystMultipart.MOD_ID, multipart).getDisplayPosition(CatalystMultipart.renderState);
 		switch (CatalystMultipart.renderState) {
 			case "ground":
 				xScale = (float) displayData.scale[2] * 4;
@@ -109,7 +109,7 @@ public class BlockModelMultipartItem extends BlockModelStandard<BlockLogic> {
 				break;
 			case "thirdperson_righthand":
 				GL11.glFrontFace(GL11.GL_CW);
-				float scale = 8f/3;
+				float scale = 8f / 3;
 				xScale = (float) displayData.scale[2] * scale;
 				yScale = (float) displayData.scale[1] * scale;
 				zScale = (float) displayData.scale[0] * scale;
@@ -138,7 +138,7 @@ public class BlockModelMultipartItem extends BlockModelStandard<BlockLogic> {
 
 				xOffset -= (float) displayData.translation[2] / 16f;
 				yOffset -= (float) displayData.translation[1] / 16f;
-				zOffset -= (float) (((float) displayData.translation[0] / 16f) + Catalyst.map(multipart.type.thickness,1,16,0.5d,0)); //+ 0.5f for foils, 0 for full blocks
+				zOffset -= (float) (((float) displayData.translation[0] / 16f) + Catalyst.map(multipart.type.thickness, 1, 16, 0.5d, 0)); //+ 0.5f for foils, 0 for full blocks
 
 				xRot = (float) displayData.rotation[0] - 30;
 				yRot = (float) displayData.rotation[1] - 45;
@@ -154,13 +154,14 @@ public class BlockModelMultipartItem extends BlockModelStandard<BlockLogic> {
 		GL11.glTranslatef(-xOffset, -yOffset, -zOffset);
 		GL11.glScalef(xScale, yScale, zScale);
 		for (MultipartInternalModel model : models) {
-			if (model.model.blockCubes != null){
+			if (model.model.blockCubes != null) {
 				tessellator.startDrawingQuads();
 				GL11.glColor4f(brightness, brightness, brightness, 1);
 				BlockCube[] blockCubes = model.model.blockCubes;
 				for (int i = 0; i < blockCubes.length; i++) {
 					BlockCube cube = blockCubes[i];
-					if(i < 2 * multipart.type.cubesPerSide || i >= (2 * multipart.type.cubesPerSide) + multipart.type.cubesPerSide) continue;
+					if (i < 2 * multipart.type.cubesPerSide || i >= (2 * multipart.type.cubesPerSide) + multipart.type.cubesPerSide)
+						continue;
 					for (BlockFace face : cube.getFaces().values()) {
 						tessellator.setNormal(face.getSide().getOffsetX(), face.getSide().getOffsetY(), face.getSide().getOffsetZ());
 						if (LightmapHelper.isLightmapEnabled() && lightmapCoordinate != null) {
@@ -185,7 +186,7 @@ public class BlockModelMultipartItem extends BlockModelStandard<BlockLogic> {
 		GL11.glTranslatef(xOffset, yOffset, zOffset);
 	}
 
-	public MultipartInternalModel[] getModelsFromState(Block<?> block, int x, int y, int z, boolean sourceFromWorld){
+	public MultipartInternalModel[] getModelsFromState(Block<?> block, int x, int y, int z, boolean sourceFromWorld) {
 		MultipartInternalModel internalModel = new MultipartInternalModel(MultipartModelHelper.getOrCreateBlockModel(CatalystMultipart.MOD_ID, multipart), Side.NORTH, multipart);
 		internalModel.model.refreshModel();
 		return new MultipartInternalModel[]{internalModel};

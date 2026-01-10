@@ -1,6 +1,5 @@
 package sunsetsatellite.catalyst.multipart.api;
 
-import java.util.HashMap;
 import java.util.TreeMap;
 
 public class MultipartType {
@@ -26,9 +25,9 @@ public class MultipartType {
 	/*public static final MultipartType ANTI_FOIL = new MultipartType("antifoil", "antifoil", 15, 1);
 	public static final MultipartType ANTI_COVER = new MultipartType("anticover", "anticover", 14, 1);
 	public static final MultipartType ANTI_PANEL = new MultipartType("antipanel", "antipanel", 12, 1);*/
-	public static final MultipartType HOLLOW_FOIL = new MultipartType("hollow_foil", "hollow_foil",1, 4);
-	public static final MultipartType HOLLOW_COVER = new MultipartType("hollow_cover", "hollow_cover",2, 4);
-	public static final MultipartType HOLLOW_PANEL = new MultipartType("hollow_panel", "hollow_panel",4, 4);
-	public static final MultipartType HOLLOW_SLAB = new MultipartType("hollow_slab", "hollow_slab",8, 4);
+	public static final MultipartType HOLLOW_FOIL = new MultipartType("hollow_foil", "hollow_foil", 1, 4);
+	public static final MultipartType HOLLOW_COVER = new MultipartType("hollow_cover", "hollow_cover", 2, 4);
+	public static final MultipartType HOLLOW_PANEL = new MultipartType("hollow_panel", "hollow_panel", 4, 4);
+	public static final MultipartType HOLLOW_SLAB = new MultipartType("hollow_slab", "hollow_slab", 8, 4);
 	//public static final MultipartType PILLAR = new MultipartType("pillar", "pillar",16, 1);
 }

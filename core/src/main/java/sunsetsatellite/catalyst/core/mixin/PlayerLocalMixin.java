@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.PlayerLocal;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.container.Container;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,7 +14,7 @@ import sunsetsatellite.catalyst.core.util.mp.MpGuiEntryClient;
 
 import java.lang.reflect.InvocationTargetException;
 
-@Mixin(value = PlayerLocal.class,remap = false)
+@Mixin(value = PlayerLocal.class, remap = false)
 public class PlayerLocalMixin implements IMpGui {
 
 	@Shadow
@@ -25,7 +24,7 @@ public class PlayerLocalMixin implements IMpGui {
 	public void catalyst$displayCustomGUI(Container inventory, int slotIndex, boolean isArmor, String id) {
 		MpGuiEntryClient entry = (MpGuiEntryClient) Catalyst.GUIS.getItem(id);
 		try {
-			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,slotIndex, isArmor));
+			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory, slotIndex, isArmor));
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
@@ -35,7 +34,7 @@ public class PlayerLocalMixin implements IMpGui {
 	public void catalyst$displayCustomGUI(TileEntity tileEntity, String id) {
 		MpGuiEntryClient entry = (MpGuiEntryClient) Catalyst.GUIS.getItem(id);
 		try {
-			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,tileEntity));
+			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory, tileEntity));
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
@@ -45,7 +44,7 @@ public class PlayerLocalMixin implements IMpGui {
 	public void catalyst$displayCustomGUI(TileEntity tileEntity, String id, CompoundTag data) {
 		MpGuiEntryClient entry = (MpGuiEntryClient) Catalyst.GUIS.getItem(id);
 		try {
-			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory,tileEntity,data));
+			mc.displayScreen((Screen) entry.guiClass.getDeclaredConstructors()[0].newInstance(this.mc.thePlayer.inventory, tileEntity, data));
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

@@ -26,30 +26,30 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 	public static int listEffects(CommandContext<CommandSource> ctx) {
 		ctx.getSource().sendMessage("Available effects:");
 		for (Effect effect : Effects.getInstance()) {
-			ctx.getSource().sendMessage("- " +Effects.getInstance().getKey(effect));
+			ctx.getSource().sendMessage("- " + Effects.getInstance().getKey(effect));
 		}
 
 		return Command.SINGLE_SUCCESS;
 	}
 
-	public static int removeEffect(CommandContext<CommandSource> ctx) throws CommandSyntaxException{
+	public static int removeEffect(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
 		final Effect effect = ArgumentTypeEffect.getEffect(ctx, "name");
 
-		if(!(ctx.getSource().getSender() instanceof IHasEffects)){
+		if (!(ctx.getSource().getSender() instanceof IHasEffects)) {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
+		IHasEffects<?> effects = ((IHasEffects<?>) ctx.getSource().getSender());
 		effects.getContainer().remove(effect);
 		return Command.SINGLE_SUCCESS;
 	}
 
 	public static int removeAllEffects(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
-		if(!(ctx.getSource().getSender() instanceof IHasEffects)){
+		if (!(ctx.getSource().getSender() instanceof IHasEffects)) {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
+		IHasEffects<?> effects = ((IHasEffects<?>) ctx.getSource().getSender());
 		effects.getContainer().removeAll();
 		ctx.getSource().sendMessage("Removed all effects.");
 		return Command.SINGLE_SUCCESS;
@@ -60,12 +60,12 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 		final int duration = ArgumentTypeInteger.getInteger(ctx, "duration");
 		final int amount = ArgumentTypeInteger.getInteger(ctx, "amount");
 
-		if(!(ctx.getSource().getSender() instanceof IHasEffects)){
+		if (!(ctx.getSource().getSender() instanceof IHasEffects)) {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
-		EffectStack stack = new EffectStack(effects,effect,duration,amount);
+		IHasEffects<?> effects = ((IHasEffects<?>) ctx.getSource().getSender());
+		EffectStack stack = new EffectStack(effects, effect, duration, amount);
 		effects.getContainer().add(stack);
 		stack.start(effects.getContainer());
 
@@ -76,11 +76,11 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 		final Effect effect = ArgumentTypeEffect.getEffect(ctx, "name");
 		final int amount = ArgumentTypeInteger.getInteger(ctx, "amount");
 
-		if(!(ctx.getSource().getSender() instanceof IHasEffects)){
+		if (!(ctx.getSource().getSender() instanceof IHasEffects)) {
 			throw INCOMPATIBLE_ENTITY.create();
 		}
 
-		IHasEffects<?> effects = ((IHasEffects<?>)ctx.getSource().getSender());
+		IHasEffects<?> effects = ((IHasEffects<?>) ctx.getSource().getSender());
 		EffectStack stack = new EffectStack(effects, effect, amount);
 		effects.getContainer().add(stack);
 		stack.start(effects.getContainer());
@@ -95,31 +95,31 @@ public class CommandEffects implements CommandManager.CommandRegistry {
 		commandDispatcher.register(
 			ArgumentBuilderLiteral.<CommandSource>literal("effect")
 
-			.then(ArgumentBuilderLiteral.<CommandSource>literal("list")
-				.executes(CommandEffects::listEffects)
-			)
+				.then(ArgumentBuilderLiteral.<CommandSource>literal("list")
+					.executes(CommandEffects::listEffects)
+				)
 
-			.then(ArgumentBuilderLiteral.<CommandSource>literal("remove")
-				.requires(src -> src.hasAdmin() && src.getSender() != null)
-				.then(ArgumentBuilderLiteral.<CommandSource>literal("all").executes(CommandEffects::removeAllEffects))
-				.then(ArgumentBuilderRequired.<CommandSource, Effect>argument("name", ArgumentTypeEffect.effect())
-					.executes(CommandEffects::removeEffect))
-			)
+				.then(ArgumentBuilderLiteral.<CommandSource>literal("remove")
+					.requires(src -> src.hasAdmin() && src.getSender() != null)
+					.then(ArgumentBuilderLiteral.<CommandSource>literal("all").executes(CommandEffects::removeAllEffects))
+					.then(ArgumentBuilderRequired.<CommandSource, Effect>argument("name", ArgumentTypeEffect.effect())
+						.executes(CommandEffects::removeEffect))
+				)
 
-			.then(ArgumentBuilderLiteral.<CommandSource>literal("add")
-				.requires(src -> src.hasAdmin() && src.getSender() != null)
-				.then(ArgumentBuilderRequired.<CommandSource, Effect>argument("name", ArgumentTypeEffect.effect())
-					.then(ArgumentBuilderRequired.<CommandSource, Integer>argument("amount", ArgumentTypeInteger.integer())
-						.executes(CommandEffects::addEffectNoDuration)
-					)
-
-					.then(ArgumentBuilderRequired.<CommandSource, Integer>argument("duration", ArgumentTypeInteger.integer())
+				.then(ArgumentBuilderLiteral.<CommandSource>literal("add")
+					.requires(src -> src.hasAdmin() && src.getSender() != null)
+					.then(ArgumentBuilderRequired.<CommandSource, Effect>argument("name", ArgumentTypeEffect.effect())
 						.then(ArgumentBuilderRequired.<CommandSource, Integer>argument("amount", ArgumentTypeInteger.integer())
-							.executes(CommandEffects::addEffect)
+							.executes(CommandEffects::addEffectNoDuration)
+						)
+
+						.then(ArgumentBuilderRequired.<CommandSource, Integer>argument("duration", ArgumentTypeInteger.integer())
+							.then(ArgumentBuilderRequired.<CommandSource, Integer>argument("amount", ArgumentTypeInteger.integer())
+								.executes(CommandEffects::addEffect)
+							)
 						)
 					)
 				)
-			)
 		);
 	}
 }

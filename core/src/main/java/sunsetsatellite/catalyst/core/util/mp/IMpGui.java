@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.core.util.mp;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.container.Container;
 
 public interface IMpGui {

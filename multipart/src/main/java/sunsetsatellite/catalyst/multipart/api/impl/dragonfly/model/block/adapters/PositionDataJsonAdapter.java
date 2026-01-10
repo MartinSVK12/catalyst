@@ -14,12 +14,13 @@ public class PositionDataJsonAdapter implements JsonDeserializer<PositionData>, 
 		JsonObject obj = json.getAsJsonObject();
 		double[] rotation = new double[3];
 		double[] translation = new double[3];
-		double[] scale = new double[]{1,1,1};
+		double[] scale = new double[]{1, 1, 1};
 		if (obj.has("rotation")) rotation = Utilities.doubleArrFromJsonArr(obj.getAsJsonArray("rotation"));
 		if (obj.has("translation")) translation = Utilities.doubleArrFromJsonArr(obj.getAsJsonArray("translation"));
 		if (obj.has("scale")) scale = Utilities.doubleArrFromJsonArr(obj.getAsJsonArray("scale"));
 		return new PositionData(rotation, translation, scale);
 	}
+
 	@Override
 	public JsonElement serialize(PositionData src, Type typeOfSrc, JsonSerializationContext context) {
 		throw new NotImplementedException();

@@ -14,7 +14,6 @@ import net.minecraft.core.net.command.CommandSource;
 import net.minecraft.core.net.command.TextFormatting;
 import net.minecraft.core.net.command.arguments.ArgumentTypeEntity;
 import net.minecraft.core.net.command.helpers.EntitySelector;
-import org.jetbrains.annotations.NotNull;
 import org.useless.seedviewer.collections.NamespaceID;
 import sunsetsatellite.catalyst.CatalystEffects;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
@@ -79,18 +78,16 @@ public class CommandAttributes implements CommandManager.CommandRegistry {
 					String.format(
 						"Available attributes for %s:",
 						TextFormatting.get((entity instanceof Mob) ? ((Mob) entity).chatColor : 0).toString() +
-						TextFormatting.BOLD +
-						Entity.getNameFromEntity(entity, true) +
-						TextFormatting.RESET
+							TextFormatting.BOLD +
+							Entity.getNameFromEntity(entity, true) +
+							TextFormatting.RESET
 					)
 				);
 
 				listAttributes(ctx, (IHasEffects<?>) entity);
-				if (i < entities.size() -1) ctx.getSource().sendMessage(" ");
+				if (i < entities.size() - 1) ctx.getSource().sendMessage(" ");
 			}
-		}
-
-		catch (CommandSyntaxException e) {
+		} catch (CommandSyntaxException e) {
 			CatalystEffects.LOGGER.info(String.valueOf(e));
 			throw new RuntimeException(e);
 		}
@@ -130,9 +127,7 @@ public class CommandAttributes implements CommandManager.CommandRegistry {
 						attr.calculate((IHasEffects<?>) entity)
 				);
 			}
-		}
-
-		catch (CommandSyntaxException e) {
+		} catch (CommandSyntaxException e) {
 			CatalystEffects.LOGGER.info(String.valueOf(e));
 			throw new RuntimeException(e);
 		}
@@ -144,26 +139,26 @@ public class CommandAttributes implements CommandManager.CommandRegistry {
 	public void register(CommandDispatcher<CommandSource> commandDispatcher) {
 		ArgumentBuilderLiteral<CommandSource> attributes =
 			ArgumentBuilderLiteral.<CommandSource>literal("attribute")
-			.then(
-				ArgumentBuilderLiteral.<CommandSource>literal("list")
 				.then(
-					ArgumentBuilderRequired.<CommandSource, EntitySelector>argument("target", ArgumentTypeEntity.entities())
-					.executes(CommandAttributes::listAttributesForTarget)
-				)
-				.executes(CommandAttributes::listAttributesForSender)
+					ArgumentBuilderLiteral.<CommandSource>literal("list")
+						.then(
+							ArgumentBuilderRequired.<CommandSource, EntitySelector>argument("target", ArgumentTypeEntity.entities())
+								.executes(CommandAttributes::listAttributesForTarget)
+						)
+						.executes(CommandAttributes::listAttributesForSender)
 
-			)
-			.then(
-				ArgumentBuilderLiteral.<CommandSource>literal("get")
-				.then(
-					ArgumentBuilderRequired.<CommandSource, Attribute<?>>argument("attribute", ArgumentTypeAttribute.attribute())
-					.then(
-						ArgumentBuilderRequired.<CommandSource, EntitySelector>argument("target", ArgumentTypeEntity.entities())
-						.executes(CommandAttributes::getAttributeForTarget)
-					)
-					.executes(CommandAttributes::getAttribute)
 				)
-			);
+				.then(
+					ArgumentBuilderLiteral.<CommandSource>literal("get")
+						.then(
+							ArgumentBuilderRequired.<CommandSource, Attribute<?>>argument("attribute", ArgumentTypeAttribute.attribute())
+								.then(
+									ArgumentBuilderRequired.<CommandSource, EntitySelector>argument("target", ArgumentTypeEntity.entities())
+										.executes(CommandAttributes::getAttributeForTarget)
+								)
+								.executes(CommandAttributes::getAttribute)
+						)
+				);
 
 		commandDispatcher.register(attributes);
 	}

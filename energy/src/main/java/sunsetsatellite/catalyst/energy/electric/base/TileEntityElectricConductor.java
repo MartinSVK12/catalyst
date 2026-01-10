@@ -34,12 +34,12 @@ public abstract class TileEntityElectricConductor extends TileEntity implements 
 
 	@Override
 	public Vec3i getPosition() {
-		return new Vec3i(x,y,z);
+		return new Vec3i(x, y, z);
 	}
 
 	@Override
 	public boolean isConnected(Direction direction) {
-		return direction.getTileEntity(worldObj,this) instanceof TileEntityElectricConductor || direction.getTileEntity(worldObj,this) instanceof IElectric;
+		return direction.getTileEntity(worldObj, this) instanceof TileEntityElectricConductor || direction.getTileEntity(worldObj, this) instanceof IElectric;
 	}
 
 	@Override
@@ -56,22 +56,25 @@ public abstract class TileEntityElectricConductor extends TileEntity implements 
 	public long getVoltageRating() {
 		return voltageRating;
 	}
+
 	@Override
-	public long getAmpRating() {return ampRating;}
+	public long getAmpRating() {
+		return ampRating;
+	}
 
 	public long getTemperature() {
 		return temperature;
 	}
 
-	public void incrementAmperage(long amps){
-		averageAmpLoad.increment(worldObj,amps);
+	public void incrementAmperage(long amps) {
+		averageAmpLoad.increment(worldObj, amps);
 		int dif = (int) (averageAmpLoad.getLast(worldObj) - getAmpRating());
 		if (dif > 0) {
 			onOvercurrent();
 		}
 	}
 
-	public double getAverageAmpLoad(){
+	public double getAverageAmpLoad() {
 		return averageAmpLoad.getAverage(worldObj);
 	}
 

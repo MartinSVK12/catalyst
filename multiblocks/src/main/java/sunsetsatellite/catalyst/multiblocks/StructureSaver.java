@@ -5,7 +5,6 @@ import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.world.World;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
-import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,15 +49,14 @@ public class StructureSaver {
 		return structureData;
 	}
 
-	public static UUID save(CompoundTag data, World world){
+	public static UUID save(CompoundTag data, World world) {
 		try {
 			UUID uuid = UUID.randomUUID();
-			File file = world.getSaveHandler().getDataFile("struct_"+ uuid);
+			File file = world.getSaveHandler().getDataFile("struct_" + uuid);
 			if (file == null) return null;
 			NbtIo.writeCompressed(data, Files.newOutputStream(file.toPath()));
 			return uuid;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}

@@ -15,6 +15,7 @@ import java.util.*;
  * Travels across a network recording possible paths between its components.
  * <p>
  * This class uses <code>IConduitTile</code> to differentiate between the medium (wires) and endpoints (devices) of a network to build paths.
+ *
  * @param <T> Any type that extends <code>NetworkComponentTile</code>
  */
 public class NetworkWalker<T extends NetworkComponentTile> {
@@ -22,8 +23,8 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 	protected NetworkWalker<T> root;
 	private final World world;
 	private Set<T> walkedConduits;
-	private final List<Direction> nextConduitDirections = new ArrayList<>(Direction.values().length-1);
-	private final List<T> nextConduits = new ArrayList<>(Direction.values().length-1);
+	private final List<Direction> nextConduitDirections = new ArrayList<>(Direction.values().length - 1);
+	private final List<T> nextConduits = new ArrayList<>(Direction.values().length - 1);
 	private List<NetworkWalker<T>> walkers;
 	private Vec3i currentPos;
 	private T currentConduit;
@@ -36,7 +37,7 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 	private T[] conduits;
 	private final List<NetworkPath> routes;
 
-	public NetworkWalker(World world, Vec3i source, int walkedBlocks, List<NetworkPath> routes){
+	public NetworkWalker(World world, Vec3i source, int walkedBlocks, List<NetworkPath> routes) {
 		this.world = world;
 		this.walkedBlocks = walkedBlocks;
 		this.currentPos = source;
@@ -44,16 +45,16 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 		this.routes = routes;
 	}
 
-	public static <T extends NetworkComponentTile> List<NetworkPath> createNetworkPaths(World world, Vec3i source){
-		if(source.getTileEntity(world) instanceof NetworkComponentTile){
-			NetworkWalker<T> walker = new NetworkWalker<>(world,source,1,new ArrayList<>());
+	public static <T extends NetworkComponentTile> List<NetworkPath> createNetworkPaths(World world, Vec3i source) {
+		if (source.getTileEntity(world) instanceof NetworkComponentTile) {
+			NetworkWalker<T> walker = new NetworkWalker<>(world, source, 1, new ArrayList<>());
 			walker.traverse();
 			return walker.isFailed() ? null : walker.routes;
 		}
 		return null;
 	}
 
-	protected NetworkWalker<T> createSubWalker(World world, Direction nextDir, Vec3i nextPos, int walkedBlocks){
+	protected NetworkWalker<T> createSubWalker(World world, Direction nextDir, Vec3i nextPos, int walkedBlocks) {
 		NetworkWalker<T> subWalker = new NetworkWalker<>(world, nextPos, walkedBlocks, routes);
 		subWalker.conduits = conduits;
 		return subWalker;
@@ -62,16 +63,17 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 	/**
 	 * By default, will travel at most 32768 blocks.
 	 */
-	public void traverse(){
+	public void traverse() {
 		traverse(32768);
 	}
 
 	/**
 	 * Traverse the network until <code>max</code> is reached or there aren't any more valid paths.
+	 *
 	 * @param max The maximum amount of blocks to traverse
 	 */
-	public void traverse(int max){
-		if(used){
+	public void traverse(int max) {
+		if (used) {
 			throw new IllegalStateException("Walker already used!");
 		}
 		root = this;
@@ -80,26 +82,26 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 		running = true;
 		//runs purely on side effects
 		//noinspection StatementWithEmptyBody
-		while(running && !walk() && i++ < max);
+		while (running && !walk() && i++ < max) ;
 		running = false;
 		walkedConduits = null;
-		if(i >= max){
+		if (i >= max) {
 			Catalyst.LOGGER.error("Walker reached maximum amount of walks: {}", i);
 		}
 		used = true;
 	}
 
-	private boolean walk(){
-		if(walkers == null){
-			if(!checkPos()){
+	private boolean walk() {
+		if (walkers == null) {
+			if (!checkPos()) {
 				this.root.failed = true;
 				return true;
 			}
 
-			if(nextConduitDirections.isEmpty()){
+			if (nextConduitDirections.isEmpty()) {
 				return true;
 			}
-			if(nextConduitDirections.size() == 1){
+			if (nextConduitDirections.size() == 1) {
 				currentPos = nextConduits.get(0).getPosition();
 				currentConduit = nextConduits.get(0);
 				from = nextConduitDirections.get(0).getOpposite();
@@ -118,9 +120,9 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 			}
 		}
 		Iterator<NetworkWalker<T>> iterator = walkers.iterator();
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			NetworkWalker<T> next = iterator.next();
-			if(next.walk()){
+			if (next.walk()) {
 				onRemoveSubWalker(next);
 				iterator.remove();
 			}
@@ -130,33 +132,33 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 	}
 
 
-	private boolean checkPos(){
+	private boolean checkPos() {
 		nextConduitDirections.clear();
 		nextConduits.clear();
-		if(currentConduit == null){
+		if (currentConduit == null) {
 			TileEntity thisConduit = world.getTileEntity(currentPos.x, currentPos.y, currentPos.z);
 			Block<?> block = world.getBlock(currentPos.x, currentPos.y, currentPos.z);
-			if(!(thisConduit instanceof IConduitTile) || block == null){
+			if (!(thisConduit instanceof IConduitTile) || block == null) {
 				return false;
 			}
 			currentConduit = (T) thisConduit;
 		}
-		checkConduit(currentConduit,currentPos);
+		checkConduit(currentConduit, currentPos);
 		root.walkedConduits.add(currentConduit);
 
 		for (Direction direction : getAllowedDirections()) {
-			if(direction == from || !currentConduit.isConnected(direction)){
+			if (direction == from || !currentConduit.isConnected(direction)) {
 				continue;
 			}
 
 			TileEntity tile = direction.getTileEntity(world, (TileEntity) currentConduit);
 			Block<?> block = direction.getBlock(world, (TileEntity) currentConduit);
-			if(tile instanceof IConduitTile && block != null){
+			if (tile instanceof IConduitTile && block != null) {
 				T otherConduit = (T) tile;
-				if(!otherConduit.isConnected(direction.getOpposite()) || isWalked(otherConduit)){
+				if (!otherConduit.isConnected(direction.getOpposite()) || isWalked(otherConduit)) {
 					continue;
 				}
-				if(isValid(currentConduit,otherConduit,currentPos,direction)){
+				if (isValid(currentConduit, otherConduit, currentPos, direction)) {
 					nextConduitDirections.add(direction);
 					nextConduits.add(otherConduit);
 					continue;
@@ -167,18 +169,19 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 		return true;
 	}
 
-	protected void checkNeighbour(T conduit, Vec3i pos, Direction dirToNeighbour, TileEntity neighbour){
-		if(conduit != conduits[conduits.length -1]) throw new IllegalStateException("Current conduit is not the last one added, you dun goofed.");
-		if(!(neighbour instanceof IConduitTile) && neighbour.getBlock() != null && neighbour.getBlock().getLogic() instanceof NetworkComponent){
-			NetworkComponentTile[] path = new NetworkComponentTile[conduits.length+1];
+	protected void checkNeighbour(T conduit, Vec3i pos, Direction dirToNeighbour, TileEntity neighbour) {
+		if (conduit != conduits[conduits.length - 1])
+			throw new IllegalStateException("Current conduit is not the last one added, you dun goofed.");
+		if (!(neighbour instanceof IConduitTile) && neighbour.getBlock() != null && neighbour.getBlock().getLogic() instanceof NetworkComponent) {
+			NetworkComponentTile[] path = new NetworkComponentTile[conduits.length + 1];
 			System.arraycopy(conduits, 0, path, 0, conduits.length);
-			path[path.length-1] = (NetworkComponentTile) neighbour;
+			path[path.length - 1] = (NetworkComponentTile) neighbour;
 			routes.add(new NetworkPath(dirToNeighbour, path, getWalkedBlocks()));
 		}
 	}
 
-	protected boolean isValid(T conduit, T neighbourConduit, Vec3i pos, Direction dirToNeighbour){
-		if(pos.getBlock(world) == null) return false;
+	protected boolean isValid(T conduit, T neighbourConduit, Vec3i pos, Direction dirToNeighbour) {
+		if (pos.getBlock(world) == null) return false;
 		return conduit.getType() == neighbourConduit.getType();
 	}
 
@@ -190,7 +193,8 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 		conduits = ArrayUtils.add(conduits, currentConduit);
 	}
 
-	protected void onRemoveSubWalker(NetworkWalker<T> subWalker){}
+	protected void onRemoveSubWalker(NetworkWalker<T> subWalker) {
+	}
 
 	protected boolean isWalked(T conduit) {
 		return root.walkedConduits.contains(conduit);

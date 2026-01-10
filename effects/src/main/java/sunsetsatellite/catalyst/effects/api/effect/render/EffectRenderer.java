@@ -5,7 +5,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.render.texture.stitcher.IconCoordinate;
-import net.minecraft.core.util.helper.DyeColor;
 import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
@@ -61,13 +60,12 @@ public class EffectRenderer<T extends Effect> {
 
 	public void drawIcon(Minecraft mc, Gui gui, int x, int y) {
 		if (iconPath != null) {
-			mc.textureManager.loadTexture("/assets/"+effect.id.split(":")[0]+"/effects/icons/"+this.iconPath).bind();
-			GL11.glColor4f(1,1,1,1);
-			gui.drawTexturedModalRect(x, y, 0, 0, 20, 20,16,1/16f);
-		}
-		else if (this.iconCoordinate != null) {
-			GL11.glColor4f(1,1,1,1);
-			gui.drawTexturedIcon(x,y,20,20, iconCoordinate);
+			mc.textureManager.loadTexture("/assets/" + effect.id.split(":")[0] + "/effects/icons/" + this.iconPath).bind();
+			GL11.glColor4f(1, 1, 1, 1);
+			gui.drawTexturedModalRect(x, y, 0, 0, 20, 20, 16, 1 / 16f);
+		} else if (this.iconCoordinate != null) {
+			GL11.glColor4f(1, 1, 1, 1);
+			gui.drawTexturedIcon(x, y, 20, 20, iconCoordinate);
 		}
 	}
 }

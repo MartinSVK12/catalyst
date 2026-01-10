@@ -32,7 +32,7 @@ public class CatalystClient implements ClientStartEntrypoint {
 
 	@Override
 	public void afterClientStart() {
-		if(!Global.isServer){
+		if (!Global.isServer) {
 			optionsPage = new OptionsPage("gui.options.page.catalyst", Items.DUST_REDSTONE.getDefaultStack());
 			IKeybinds gameSettings = (IKeybinds) Minecraft.getMinecraft().gameSettings;
 			coreCategory = new OptionsCategory("gui.options.page.catalyst.category.core");

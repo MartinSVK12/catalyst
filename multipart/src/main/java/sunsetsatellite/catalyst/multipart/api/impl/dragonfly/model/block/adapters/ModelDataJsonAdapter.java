@@ -18,21 +18,21 @@ public class ModelDataJsonAdapter implements JsonDeserializer<ModelData>, JsonSe
 		ModelData data = new ModelData();
 		if (obj.has("parent")) data.parent = obj.get("parent").getAsString();
 		if (obj.has("ambientocclusion")) data.ambientocclusion = obj.get("ambientocclusion").getAsBoolean();
-		if (obj.has("display")){
-			for (Map.Entry<String, JsonElement> e : obj.getAsJsonObject("display").asMap().entrySet()){
+		if (obj.has("display")) {
+			for (Map.Entry<String, JsonElement> e : obj.getAsJsonObject("display").asMap().entrySet()) {
 				data.display.put(e.getKey(), CatalystMultipart.GSON.fromJson(e.getValue(), PositionData.class));
 
 			}
 		}
-		if (obj.has("textures")){
-			for (Map.Entry<String, JsonElement> e : obj.getAsJsonObject("textures").asMap().entrySet()){
+		if (obj.has("textures")) {
+			for (Map.Entry<String, JsonElement> e : obj.getAsJsonObject("textures").asMap().entrySet()) {
 				data.textures.put(e.getKey(), e.getValue().getAsString());
 			}
 		}
-		if (obj.has("elements")){
+		if (obj.has("elements")) {
 			JsonArray arr = obj.getAsJsonArray("elements");
 			data.elements = new CubeData[arr.size()];
-			for (int i = 0; i < arr.size(); i++){
+			for (int i = 0; i < arr.size(); i++) {
 				data.elements[i] = CatalystMultipart.GSON.fromJson(arr.get(i), CubeData.class);
 			}
 		}

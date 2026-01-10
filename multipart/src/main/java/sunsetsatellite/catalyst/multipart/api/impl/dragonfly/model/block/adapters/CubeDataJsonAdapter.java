@@ -20,10 +20,11 @@ public class CubeDataJsonAdapter implements JsonDeserializer<CubeData>, JsonSeri
 
 		if (obj.has("from")) data.from = Utilities.floatArrFromJsonArr(obj.getAsJsonArray("from"));
 		if (obj.has("to")) data.to = Utilities.floatArrFromJsonArr(obj.getAsJsonArray("to"));
-		if (obj.has("rotation")) data.rotation = CatalystMultipart.GSON.fromJson(obj.getAsJsonObject("rotation"), RotationData.class);
+		if (obj.has("rotation"))
+			data.rotation = CatalystMultipart.GSON.fromJson(obj.getAsJsonObject("rotation"), RotationData.class);
 		if (obj.has("shade")) data.shade = obj.get("shade").getAsBoolean();
-		if (obj.has("faces")){
-			for (Map.Entry<String, JsonElement> e : obj.getAsJsonObject("faces").asMap().entrySet()){
+		if (obj.has("faces")) {
+			for (Map.Entry<String, JsonElement> e : obj.getAsJsonObject("faces").asMap().entrySet()) {
 				data.faces.put(e.getKey(), CatalystMultipart.GSON.fromJson(e.getValue(), FaceData.class));
 			}
 		}

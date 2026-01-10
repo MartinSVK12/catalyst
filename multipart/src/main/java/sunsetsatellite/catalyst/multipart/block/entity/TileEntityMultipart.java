@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class TileEntityMultipart extends TileEntity implements ISupportsMultiparts {
 
-	public final HashMap<Direction, Multipart> parts = (HashMap<Direction, Multipart>) Catalyst.mapOf(Direction.values(),new Multipart[Direction.values().length]);
+	public final HashMap<Direction, Multipart> parts = (HashMap<Direction, Multipart>) Catalyst.mapOf(Direction.values(), new Multipart[Direction.values().length]);
 
 	public TileEntityMultipart() {
 
@@ -22,7 +22,7 @@ public class TileEntityMultipart extends TileEntity implements ISupportsMultipar
 	@Override
 	public void tick() {
 		super.tick();
-		worldObj.markBlockDirty(x,y,z);
+		worldObj.markBlockDirty(x, y, z);
 	}
 
 	@Override
@@ -31,13 +31,13 @@ public class TileEntityMultipart extends TileEntity implements ISupportsMultipar
 		CompoundTag coversNbt = new CompoundTag();
 
 		for (Map.Entry<Direction, Multipart> entry : parts.entrySet()) {
-			if(entry.getValue() == null) continue;
+			if (entry.getValue() == null) continue;
 			CompoundTag partNbt = new CompoundTag();
 			entry.getValue().writeToNbt(partNbt);
-			coversNbt.putCompound(String.valueOf(entry.getKey().ordinal()),partNbt);
+			coversNbt.putCompound(String.valueOf(entry.getKey().ordinal()), partNbt);
 		}
 
-		tag.putCompound("Parts",coversNbt);
+		tag.putCompound("Parts", coversNbt);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class TileEntityMultipart extends TileEntity implements ISupportsMultipar
 		for (Map.Entry<String, Tag<?>> entry : coversNbt.getValue().entrySet()) {
 			Direction dir = Direction.values()[Integer.parseInt(entry.getKey())];
 			CompoundTag partTag = (CompoundTag) entry.getValue();
-			parts.put(dir,new Multipart(partTag));
+			parts.put(dir, new Multipart(partTag));
 		}
 	}
 

@@ -12,8 +12,8 @@ import turniplabs.halplibe.util.toml.Toml;
 
 
 public class CatalystEnergy implements ModInitializer, GameStartEntrypoint {
-    public static final String MOD_ID = "catalyst-energy";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final String MOD_ID = "catalyst-energy";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final TomlConfigHandler config;
 
 	public static final Tag<Block<?>> ENERGY_CONDUITS_CONNECT = Tag.of("energy_conduits_connect");
@@ -21,21 +21,22 @@ public class CatalystEnergy implements ModInitializer, GameStartEntrypoint {
 
 	static {
 		Toml configToml = new Toml("Catalyst: Energy configuration file.");
-		configToml.addEntry("energyName","Energy");
-		configToml.addEntry("energySuffix","E");
-		config = new TomlConfigHandler(MOD_ID,configToml);
+		configToml.addEntry("energyName", "Energy");
+		configToml.addEntry("energySuffix", "E");
+		config = new TomlConfigHandler(MOD_ID, configToml);
 	}
+
 	public static final String ENERGY_NAME = config.getString("energyName");
 	public static final String ENERGY_SUFFIX = config.getString("energySuffix");
 
-    @Override
-    public void onInitialize() {
+	@Override
+	public void onInitialize() {
 
 		BlockTags.TAG_LIST.add(ENERGY_CONDUITS_CONNECT);
 		BlockTags.TAG_LIST.add(WIRES_CONNECT);
 
-        LOGGER.info("Catalyst: Energy initialized.");
-    }
+		LOGGER.info("Catalyst: Energy initialized.");
+	}
 
 	@Override
 	public void beforeGameStart() {

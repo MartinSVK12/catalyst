@@ -1,8 +1,6 @@
 package sunsetsatellite.catalyst.effects.api.attribute.type;
 
-import org.jetbrains.annotations.Nullable;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
-import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.NumberModifier;
 
@@ -18,16 +16,16 @@ public abstract class NumberAttribute<T extends Number> extends Attribute<T> {
 
 	public NumberAttribute(String key, T defaultValue, T minValue, T maxValue) {
 		super(key, defaultValue);
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-    }
+		this.minValue = minValue;
+		this.maxValue = maxValue;
+	}
 
-	protected List<NumberModifier<? extends Number>> validateModifiers(List<Modifier<?>> modifiers){
+	protected List<NumberModifier<? extends Number>> validateModifiers(List<Modifier<?>> modifiers) {
 		return modifiers.stream()
-			.filter((M)->M.attribute.getClass().isAssignableFrom(this.getClass()))
-			.map((M)->{
-				if(M instanceof NumberModifier){
-					return ((NumberModifier<? extends Number>)M);
+			.filter((M) -> M.attribute.getClass().isAssignableFrom(this.getClass()))
+			.map((M) -> {
+				if (M instanceof NumberModifier) {
+					return ((NumberModifier<? extends Number>) M);
 				} else {
 					return null;
 				}

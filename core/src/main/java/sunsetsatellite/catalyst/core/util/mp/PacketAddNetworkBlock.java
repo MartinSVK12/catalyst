@@ -52,13 +52,13 @@ public class PacketAddNetworkBlock implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if(EnvironmentHelper.isClientWorld()){
+		if (EnvironmentHelper.isClientWorld()) {
 			if (context.player.world != null && context.player.world.dimension.id == dim) {
 				Network net = NetworkManager.getNet(context.player.world, x, y, z);
-				if(net != null){
+				if (net != null) {
 					net.update();
 				}
-				NetworkManager.addBlock(new BlockChangeInfo(context.player.world,new Vec3i(x,y,z),id,meta));
+				NetworkManager.addBlock(new BlockChangeInfo(context.player.world, new Vec3i(x, y, z), id, meta));
 			}
 		}
 	}

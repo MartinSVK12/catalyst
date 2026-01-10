@@ -8,5 +8,6 @@ public interface IHasEffects<T> {
 	EffectContainer<T> getContainer();
 
 	boolean isImmuneTo(Tag<Effect> tag);
+
 	Set<Tag<Effect>> getImmunities();
 }

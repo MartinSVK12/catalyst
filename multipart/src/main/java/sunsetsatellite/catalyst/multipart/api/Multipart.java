@@ -27,12 +27,12 @@ public class Multipart {
 		this.side = side;
 		this.specifiedSideOnly = true;
 		for (Side _side : Side.values()) {
-			if(_side == Side.NONE) continue;
-			NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
-			if(!EnvironmentHelper.isServerEnvironment()) {
+			if (_side == Side.NONE) continue;
+			NamespaceID id = NamespaceID.getTemp("minecraft", "bedrock");
+			if (!EnvironmentHelper.isServerEnvironment()) {
 				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
 			}
-			this.textures.put(_side,id.namespace() + ":block/" + id.value());
+			this.textures.put(_side, id.namespace() + ":block/" + id.value());
 		}
 	}
 
@@ -43,21 +43,21 @@ public class Multipart {
 		this.side = null;
 		this.specifiedSideOnly = false;
 		for (Side sside : Side.values()) {
-			if(sside == Side.NONE) continue;
-			NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
-			if(!EnvironmentHelper.isServerEnvironment()){
-				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside,meta).namespaceId;
+			if (sside == Side.NONE) continue;
+			NamespaceID id = NamespaceID.getTemp("minecraft", "bedrock");
+			if (!EnvironmentHelper.isServerEnvironment()) {
+				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside, meta).namespaceId;
 			}
-			this.textures.put(sside,id.namespace() + ":block/" + id.value());
+			this.textures.put(sside, id.namespace() + ":block/" + id.value());
 		}
 	}
 
-	public Multipart(CompoundTag partNbt){
+	public Multipart(CompoundTag partNbt) {
 		boolean sideOnly;
 		this.type = MultipartType.types.get(partNbt.getString("Type"));
 		this.block = Blocks.getBlock(partNbt.getInteger("Block"));
 		this.meta = partNbt.getInteger("Meta");
-		if(partNbt.containsKey("Side")){
+		if (partNbt.containsKey("Side")) {
 			this.side = Side.getSideById(partNbt.getInteger("Side"));
 			sideOnly = true;
 		} else {
@@ -65,23 +65,23 @@ public class Multipart {
 			sideOnly = false;
 		}
 		this.specifiedSideOnly = sideOnly;
-		if(specifiedSideOnly) {
+		if (specifiedSideOnly) {
 			for (Side _side : Side.values()) {
-				if(_side == Side.NONE) continue;
-				NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
-				if(!EnvironmentHelper.isServerEnvironment()) {
+				if (_side == Side.NONE) continue;
+				NamespaceID id = NamespaceID.getTemp("minecraft", "bedrock");
+				if (!EnvironmentHelper.isServerEnvironment()) {
 					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
 				}
-				this.textures.put(_side,id.namespace() + ":block/" + id.value());
+				this.textures.put(_side, id.namespace() + ":block/" + id.value());
 			}
 		} else {
 			for (Side sside : Side.values()) {
-				if(sside == Side.NONE) continue;
-				NamespaceID id = NamespaceID.getTemp("minecraft","bedrock");
-				if(!EnvironmentHelper.isServerEnvironment()){
-					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside,meta).namespaceId;
+				if (sside == Side.NONE) continue;
+				NamespaceID id = NamespaceID.getTemp("minecraft", "bedrock");
+				if (!EnvironmentHelper.isServerEnvironment()) {
+					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside, meta).namespaceId;
 				}
-				this.textures.put(sside,id.namespace() + ":block/" + id.value());
+				this.textures.put(sside, id.namespace() + ":block/" + id.value());
 			}
 		}
 	}

@@ -25,12 +25,12 @@ public abstract class TileEntityEnergyConductor extends TileEntity implements IC
 
 	@Override
 	public Vec3i getPosition() {
-		return new Vec3i(x,y,z);
+		return new Vec3i(x, y, z);
 	}
 
 	@Override
 	public boolean isConnected(Direction direction) {
-		return direction.getTileEntity(worldObj,this) instanceof TileEntityEnergyConductor || direction.getTileEntity(worldObj,this) instanceof IEnergyContainer;
+		return direction.getTileEntity(worldObj, this) instanceof TileEntityEnergyConductor || direction.getTileEntity(worldObj, this) instanceof IEnergyContainer;
 	}
 
 	@Override

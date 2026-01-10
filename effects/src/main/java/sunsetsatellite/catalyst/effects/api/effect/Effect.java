@@ -23,8 +23,8 @@ public class Effect implements ITaggable<Effect> {
 
 	public Effect(String nameKey, String id, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int maxStack) {
 		this.nameKey = nameKey;
-        this.id = id;
-        this.modifiers = modifiers;
+		this.id = id;
+		this.modifiers = modifiers;
 		this.effectTimeType = effectTimeType;
 		this.maxStack = maxStack;
 	}
@@ -55,7 +55,7 @@ public class Effect implements ITaggable<Effect> {
 	// amount of time that gets added when a new stack is applied
 	// can only be applied to effects with time type ADD
 	public Effect setDurationIncrease(int increase) {
-		if(effectTimeType != EffectTimeType.ADD){
+		if (effectTimeType != EffectTimeType.ADD) {
 			throw new IllegalArgumentException("Duration increase can only be applied to effects with time type ADD!");
 		}
 		this.durationIncrease = increase;
@@ -63,7 +63,7 @@ public class Effect implements ITaggable<Effect> {
 	}
 
 	public int getDurationIncrease() {
-		if(effectTimeType != EffectTimeType.ADD){
+		if (effectTimeType != EffectTimeType.ADD) {
 			return 0;
 		}
 		return durationIncrease;
@@ -73,7 +73,7 @@ public class Effect implements ITaggable<Effect> {
 		return nameKey;
 	}
 
-	public String getName(){
+	public String getName() {
 		return I18n.getInstance().translateNameKey(nameKey);
 	}
 
@@ -94,7 +94,7 @@ public class Effect implements ITaggable<Effect> {
 	}
 
 	public boolean canApplyTo(Entity target) {
-		for (Tag<Effect> tag : ((IHasEffects<?>)target).getImmunities()) {
+		for (Tag<Effect> tag : ((IHasEffects<?>) target).getImmunities()) {
 			if (tag.appliesTo(this)) return false;
 		}
 
@@ -115,8 +115,8 @@ public class Effect implements ITaggable<Effect> {
 		if (!Objects.equals(id, effect.id)) return false;
 		if (getModifiers() != null ? !getModifiers().equals(effect.getModifiers()) : effect.getModifiers() != null)
 			return false;
-        return effectTimeType == effect.effectTimeType;
-    }
+		return effectTimeType == effect.effectTimeType;
+	}
 
 	public <T> void removed(EffectStack effectStack, EffectContainer<T> effectContainer) {
 

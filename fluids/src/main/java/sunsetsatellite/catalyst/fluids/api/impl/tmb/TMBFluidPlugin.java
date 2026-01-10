@@ -38,7 +38,7 @@ public class TMBFluidPlugin implements ITMBPlugin, TMBEntrypoint {
 
 		@Override
 		public FluidStack getDefaultIngredient(Fluid base) {
-			return new FluidStack(base,1000);
+			return new FluidStack(base, 1000);
 		}
 
 		@Override
@@ -58,8 +58,9 @@ public class TMBFluidPlugin implements ITMBPlugin, TMBEntrypoint {
 
 		@Override
 		public boolean matches(FluidStack ingredient, Object otherIngredient) {
-			if(otherIngredient instanceof TypedIngredient<?>) throw new IllegalArgumentException("Received TypedIngredient instead of actual ingredient class, use .getIngredient() when calling this method.");
-			if(!(otherIngredient instanceof FluidStack)) return false;
+			if (otherIngredient instanceof TypedIngredient<?>)
+				throw new IllegalArgumentException("Received TypedIngredient instead of actual ingredient class, use .getIngredient() when calling this method.");
+			if (!(otherIngredient instanceof FluidStack)) return false;
 			return ingredient.isFluidEqual((FluidStack) otherIngredient);
 		}
 	};
@@ -73,7 +74,7 @@ public class TMBFluidPlugin implements ITMBPlugin, TMBEntrypoint {
 	public void registerIngredients(ITMBRuntime runtime) {
 		IIngredientRegistry<FluidStack> registry = runtime.getRegistryForIngredientType(FLUID_STACK);
 		for (Fluid fluid : Fluid.fluidMap.values()) {
-			if(!fluid.blocks.isEmpty()){
+			if (!fluid.blocks.isEmpty()) {
 				ItemStack stack = fluid.blocks.get(0).getDefaultStack();
 				registry.registerIngredient(ModIDHelper.getModIDForItem(stack), stack.getDisplayName(), new FluidStack(fluid, 1));
 			}

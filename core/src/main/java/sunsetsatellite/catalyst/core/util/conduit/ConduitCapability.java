@@ -1,10 +1,10 @@
 package sunsetsatellite.catalyst.core.util.conduit;
 
 public enum ConduitCapability {
-    FLUID,
-    SIGNALUM,
-    ITEM,
+	FLUID,
+	SIGNALUM,
+	ITEM,
 	RES_NETWORK,
-    CATALYST_ENERGY,
+	CATALYST_ENERGY,
 	ELECTRIC
 }

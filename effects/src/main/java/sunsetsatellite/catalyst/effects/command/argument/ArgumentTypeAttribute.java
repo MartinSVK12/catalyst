@@ -26,8 +26,9 @@ public class ArgumentTypeAttribute implements ArgumentType<Attribute<?>> {
 		int start = stringReader.getCursor();
 
 		String key;
-		try { key = stringReader.readStringUntil(' ');}
-		catch (CommandSyntaxException e) {
+		try {
+			key = stringReader.readStringUntil(' ');
+		} catch (CommandSyntaxException e) {
 			stringReader.setCursor(start);
 			key = stringReader.getRemaining();
 		}

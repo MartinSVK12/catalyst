@@ -1,6 +1,5 @@
 package sunsetsatellite.catalyst;
 
-import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
@@ -39,13 +38,17 @@ public class CatalystEffectsClient implements ClientStartEntrypoint {
 
 		EffectRendererDispatcher.getInstance().addDispatch(
 			Effects.EXTRA_HEALTH,
-			new EffectRenderer<Effect>(Effects.EXTRA_HEALTH)
-			{ @Override public boolean shouldDisplayIcon() { return false; } }
+			new EffectRenderer<Effect>(Effects.EXTRA_HEALTH) {
+				@Override
+				public boolean shouldDisplayIcon() {
+					return false;
+				}
+			}
 				.setIcon(TextureRegistry.getTexture(Items.FOOD_APPLE.namespaceID))
 		);
 	}
 
-	public static void addSettingsPage(){
+	public static void addSettingsPage() {
 		IKeybinds gameSettings = keybinds = (IKeybinds) Minecraft.getMinecraft().gameSettings;
 
 		CatalystClient.effectsCategory

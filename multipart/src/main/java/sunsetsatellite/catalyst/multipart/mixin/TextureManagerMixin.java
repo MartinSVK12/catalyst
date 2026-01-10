@@ -12,7 +12,7 @@ import java.util.List;
 @Mixin(value = TextureManager.class, remap = false)
 public class TextureManagerMixin {
 	@Inject(method = "refreshTextures(Ljava/util/List;)V", at = @At(value = "INVOKE", target = "Ljava/lang/System;nanoTime()J"))
-	private void refreshModels(List<Throwable> errors, CallbackInfo ci){
+	private void refreshModels(List<Throwable> errors, CallbackInfo ci) {
 		MultipartModelHelper.refreshModels();
 	}
 }

@@ -21,36 +21,38 @@ import sunsetsatellite.catalyst.core.util.vector.Vec4f;
 import java.nio.FloatBuffer;
 
 
-@Mixin(value = BlockModelStandard.class,remap = false)
+@Mixin(value = BlockModelStandard.class, remap = false)
 public abstract class BlockModelStandardMixin extends BlockModel<BlockLogic> implements IColorOverride, IFullbright {
 
 	private boolean overrideColor = false;
-    @Unique
-    private Vec4f colorOverride = new Vec4f(1);
-    @Unique
-    private boolean fullbright = false;
+	@Unique
+	private Vec4f colorOverride = new Vec4f(1);
+	@Unique
+	private boolean fullbright = false;
 
-    private BlockModelStandardMixin(Block<BlockLogic> block) {
-        super(block);
-    }
+	private BlockModelStandardMixin(Block<BlockLogic> block) {
+		super(block);
+	}
 
-    @Inject(method = "renderBlockOnInventory", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/block/model/BlockModelStandard;getBlockBoundsForItemRender()Lnet/minecraft/core/util/phys/AABB;"))
-    public void renderBlockOnInventory(Tessellator tessellator, int metadata, float brightness, float alpha, Integer lightmapCoordinate, CallbackInfo ci) {
+	@Inject(method = "renderBlockOnInventory", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/block/model/BlockModelStandard;getBlockBoundsForItemRender()Lnet/minecraft/core/util/phys/AABB;"))
+	public void renderBlockOnInventory(Tessellator tessellator, int metadata, float brightness, float alpha, Integer lightmapCoordinate, CallbackInfo ci) {
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
 		GL11.glGetFloatv(GL11.GL_CURRENT_COLOR, buffer);
-		if(overrideColor) GL11.glColor4d(colorOverride.x * buffer.get(0),colorOverride.y * buffer.get(1),colorOverride.z * buffer.get(2),colorOverride.w * buffer.get(3));
-    }
+		if (overrideColor)
+			GL11.glColor4d(colorOverride.x * buffer.get(0), colorOverride.y * buffer.get(1), colorOverride.z * buffer.get(2), colorOverride.w * buffer.get(3));
+	}
 
-    @Inject(method = "renderBlockWithBounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/tessellator/Tessellator;startDrawingQuads()V", shift = At.Shift.AFTER))
-    public void disableLightmap(Tessellator tessellator, AABB bounds, int metadata, float brightness, float alpha, Integer lightmapCoordinate, CallbackInfo ci) {
-        if(LightmapHelper.isLightmapEnabled() && fullbright) tessellator.setLightmapCoord(LightmapHelper.getLightmapCoord(15,15));
-    }
+	@Inject(method = "renderBlockWithBounds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/tessellator/Tessellator;startDrawingQuads()V", shift = At.Shift.AFTER))
+	public void disableLightmap(Tessellator tessellator, AABB bounds, int metadata, float brightness, float alpha, Integer lightmapCoordinate, CallbackInfo ci) {
+		if (LightmapHelper.isLightmapEnabled() && fullbright)
+			tessellator.setLightmapCoord(LightmapHelper.getLightmapCoord(15, 15));
+	}
 
 
-    @Override
-    public void overrideColor(float r, float g, float b, float alpha) {
-        colorOverride = new Vec4f(r,g,b,alpha);
-    }
+	@Override
+	public void overrideColor(float r, float g, float b, float alpha) {
+		colorOverride = new Vec4f(r, g, b, alpha);
+	}
 
 	@Override
 	public void enableColorOverride() {
@@ -63,12 +65,12 @@ public abstract class BlockModelStandardMixin extends BlockModel<BlockLogic> imp
 	}
 
 	@Override
-    public void enableFullbright() {
-        fullbright = true;
-    }
+	public void enableFullbright() {
+		fullbright = true;
+	}
 
-    @Override
-    public void disableFullbright() {
-        fullbright = false;
-    }
+	@Override
+	public void disableFullbright() {
+		fullbright = false;
+	}
 }

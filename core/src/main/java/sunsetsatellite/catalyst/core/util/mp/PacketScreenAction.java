@@ -25,7 +25,8 @@ public class PacketScreenAction implements NetworkMessage {
 		this.tileClass = tileClass;
 	}
 
-	public PacketScreenAction() {}
+	public PacketScreenAction() {
+	}
 
 	@Override
 	public void encodeToUniversalPacket(@NotNull UniversalPacket packet) {
@@ -49,10 +50,10 @@ public class PacketScreenAction implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if(EnvironmentHelper.isServerEnvironment()) {
+		if (EnvironmentHelper.isServerEnvironment()) {
 			if (context.player.world != null) {
 				TileEntity tileEntity = context.player.world.getTileEntity(pos.x, pos.y, pos.z);
-				if(tileEntity instanceof IScreenActionListener && tileEntity.worldObj != null){
+				if (tileEntity instanceof IScreenActionListener && tileEntity.worldObj != null) {
 					((IScreenActionListener) tileEntity).buttonClicked(id, button, channel);
 				}
 			}

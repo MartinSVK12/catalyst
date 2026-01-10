@@ -13,17 +13,17 @@ import sunsetsatellite.catalyst.core.util.network.Network;
 import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 
-@Mixin(value = PacketHandlerLogin.class,remap = false)
+@Mixin(value = PacketHandlerLogin.class, remap = false)
 public class PacketHandlerLoginMixin {
 
-    @Inject(method = "doLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/net/handler/PacketHandlerServer;sendPacket(Lnet/minecraft/core/net/packet/Packet;)V", ordinal = 13))
-    public void doLogin(PacketLogin loginPacket, CallbackInfo ci, @Local(name = "player") PlayerServer player) {
+	@Inject(method = "doLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/net/handler/PacketHandlerServer;sendPacket(Lnet/minecraft/core/net/packet/Packet;)V", ordinal = 13))
+	public void doLogin(PacketLogin loginPacket, CallbackInfo ci, @Local(name = "player") PlayerServer player) {
 		if (player.world != null) {
 			for (Network network : NetworkManager.getNetsForDimension(player.world.dimension.id)) {
 				network.update();
 			}
 			NetworkHandler.sendToPlayer(player, new PacketBlockNetworkData(player.world));
 		}
-    }
+	}
 
 }

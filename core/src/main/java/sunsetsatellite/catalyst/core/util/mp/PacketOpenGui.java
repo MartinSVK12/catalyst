@@ -4,20 +4,13 @@ import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.core.block.entity.TileEntity;
-import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.net.handler.PacketHandler;
-import net.minecraft.core.net.packet.Packet;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.Catalyst;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
-import java.util.Random;
 
 public class PacketOpenGui implements NetworkMessage {
 
@@ -31,7 +24,8 @@ public class PacketOpenGui implements NetworkMessage {
 	public boolean isArmor;
 	public CompoundTag data = null;
 
-	public PacketOpenGui(){}
+	public PacketOpenGui() {
+	}
 
 	public PacketOpenGui(int windowId, String windowTitle, int x, int y, int z) {
 		this.windowId = windowId;
@@ -71,7 +65,7 @@ public class PacketOpenGui implements NetworkMessage {
 		packet.writeInt(this.stackIndex);
 		packet.writeBoolean(this.isArmor);
 		packet.writeBoolean(data != null);
-		if(data != null){
+		if (data != null) {
 			packet.writeCompoundTag(data);
 		}
 	}
@@ -87,7 +81,7 @@ public class PacketOpenGui implements NetworkMessage {
 		this.stackIndex = packet.readInt();
 		this.isArmor = packet.readBoolean();
 		boolean hasData = packet.readBoolean();
-		if(hasData){
+		if (hasData) {
 			this.data = packet.readCompoundTag();
 		} else {
 			this.data = null;
@@ -96,21 +90,21 @@ public class PacketOpenGui implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if(Objects.equals(type, "tile")){
+		if (Objects.equals(type, "tile")) {
 			TileEntity tile = null;
 			if (context.player.world != null) {
-				tile = context.player.world.getTileEntity(blockX,blockY,blockZ);
+				tile = context.player.world.getTileEntity(blockX, blockY, blockZ);
 			}
-			if(tile != null){
-				if(data == null) {
+			if (tile != null) {
+				if (data == null) {
 					try {
-						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory,tile));
+						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory, tile));
 					} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 						throw new RuntimeException(e);
 					}
 				} else {
 					try {
-						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory,tile,data));
+						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory, tile, data));
 					} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 						throw new RuntimeException(e);
 					}
@@ -120,7 +114,7 @@ public class PacketOpenGui implements NetworkMessage {
 			context.player.craftingInventory.containerId = windowId;
 		} else if (Objects.equals(type, "item")) {
 			try {
-				Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory,stackIndex,isArmor));
+				Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory, stackIndex, isArmor));
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
 				throw new RuntimeException(e);
 			}

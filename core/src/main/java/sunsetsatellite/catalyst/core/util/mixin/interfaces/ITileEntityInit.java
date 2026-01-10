@@ -9,7 +9,7 @@ public interface ITileEntityInit {
 		return false;
 	}
 
-	default void setInitialized(){
+	default void setInitialized() {
 
 	}
 }

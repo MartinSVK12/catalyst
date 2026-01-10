@@ -10,19 +10,19 @@ import sunsetsatellite.catalyst.core.util.mixin.interfaces.UnlimitedItemStack;
 
 @Mixin(value = ItemStack.class, remap = false)
 public class ItemStackMixin implements UnlimitedItemStack {
-    @Unique
-    public boolean unlimited = false;
+	@Unique
+	public boolean unlimited = false;
 	@Unique
 	public boolean customMaxSizeEnabled = false;
 
 	@Unique
 	public int customMaxSize = 64;
 
-    @Override
-    @Unique
-    public void setUnlimited(boolean unlimited) {
-        this.unlimited = unlimited;
-    }
+	@Override
+	@Unique
+	public void setUnlimited(boolean unlimited) {
+		this.unlimited = unlimited;
+	}
 
 	@Override
 	public void enableCustomMaxSize(int maxSize) {
@@ -36,10 +36,10 @@ public class ItemStackMixin implements UnlimitedItemStack {
 	}
 
 	@Inject(method = "getMaxStackSize()I", at = @At("HEAD"), cancellable = true)
-    public void getMaxStackSize(CallbackInfoReturnable<Integer> cir) {
-        if (unlimited) {
-            cir.setReturnValue(Integer.MAX_VALUE);
-        } else if (customMaxSizeEnabled) {
+	public void getMaxStackSize(CallbackInfoReturnable<Integer> cir) {
+		if (unlimited) {
+			cir.setReturnValue(Integer.MAX_VALUE);
+		} else if (customMaxSizeEnabled) {
 			cir.setReturnValue(customMaxSize);
 		}
 	}

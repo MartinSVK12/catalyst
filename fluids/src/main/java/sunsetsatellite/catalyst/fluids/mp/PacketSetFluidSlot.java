@@ -1,21 +1,14 @@
 package sunsetsatellite.catalyst.fluids.mp;
 
 
-import net.minecraft.core.net.handler.PacketHandler;
-import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
-import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPacketHandler;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 
 public class PacketSetFluidSlot implements NetworkMessage {
 	public int windowId;
@@ -50,9 +43,9 @@ public class PacketSetFluidSlot implements NetworkMessage {
 		this.fluidSlot = packet.readInt();
 		String fluidId = packet.readString();
 		int amount = packet.readInt();
-		if(!fluidId.equals("null")) {
+		if (!fluidId.equals("null")) {
 			try {
-				fluidStack = new FluidStack(Fluid.fluidMap.get(NamespaceID.getTemp(fluidId)),amount);
+				fluidStack = new FluidStack(Fluid.fluidMap.get(NamespaceID.getTemp(fluidId)), amount);
 			} catch (HardIllegalArgumentException e) {
 				throw new RuntimeException(e);
 			}

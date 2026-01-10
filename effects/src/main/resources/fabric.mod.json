@@ -1,26 +1,23 @@
 {
-  "schemaVersion": 1,
-  "id": "catalyst-effects",
-  "version": "${version}",
-
-  "name": "Catalyst: Effects",
-  "description": "Effects module of Catalyst: API for attributes and stackable effects.",
+	"schemaVersion": 1,
+	"id": "catalyst-effects",
+	"version": "${version}",
+	"name": "Catalyst: Effects",
+	"description": "Effects module of Catalyst: API for attributes and stackable effects.",
 	"icon": "icon.png",
-  "authors": [
-    "sunsetsatellite"
-  ],
-  "contact": {
-    "homepage": "",
-    "sources": "https://github.com/MartinSVK12/catalyst"
-  },
-
-  "license": "MIT",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "sunsetsatellite.catalyst.CatalystEffects"
-    ],
+	"authors": [
+		"sunsetsatellite"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MartinSVK12/catalyst"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"sunsetsatellite.catalyst.CatalystEffects"
+		],
 		"afterGameStart": [
 			"sunsetsatellite.catalyst.CatalystEffects"
 		],
@@ -30,19 +27,20 @@
 		"afterClientStart": [
 			"sunsetsatellite.catalyst.CatalystEffectsClient"
 		],
-		"server": ["sunsetsatellite.catalyst.CatalystEffectsServer"]
-  },
-  "mixins": [
+		"server": [
+			"sunsetsatellite.catalyst.CatalystEffectsServer"
+		]
+	},
+	"mixins": [
 		"catalyst-effects.mixins.json"
-  ],
-
-  "depends": {
+	],
+	"depends": {
 		"fabricloader": ">=0.15.5",
 		"catalyst-core": ">=2.0.4",
 		"minecraft": "~7.3"
 	},
-  "suggests": {
-  },
+	"suggests": {
+	},
 	"custom": {
 		"modmenu:api": true
 	}

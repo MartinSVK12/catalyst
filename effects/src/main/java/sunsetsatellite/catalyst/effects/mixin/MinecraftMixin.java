@@ -15,17 +15,18 @@ import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 
-@Mixin(value = Minecraft.class,remap = false)
+@Mixin(value = Minecraft.class, remap = false)
 public abstract class MinecraftMixin {
 
 	@Unique
-	private final Minecraft thisAs = (Minecraft) ((Object)this);
+	private final Minecraft thisAs = (Minecraft) ((Object) this);
 
 	@Shadow
 	public GameSettings gameSettings;
 
 	@Shadow
 	public PlayerLocal thePlayer;
+
 	@Inject(
 		method = "respawn",
 		at = @At("HEAD")
@@ -41,7 +42,7 @@ public abstract class MinecraftMixin {
 	)
 	public void restoreEffectsOnRespawn(boolean flag, int i, CallbackInfo ci, @Share("effectContainer") LocalRef<EffectContainer<?>> eff) {
 		for (EffectStack effect : eff.get().getEffects()) {
-			if(effect.getEffect().isPersistent()) ((IHasEffects<?>) thePlayer).getContainer().add(effect);
+			if (effect.getEffect().isPersistent()) ((IHasEffects<?>) thePlayer).getContainer().add(effect);
 		}
 	}
 }

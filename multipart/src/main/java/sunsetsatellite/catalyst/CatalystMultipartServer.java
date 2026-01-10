@@ -10,6 +10,6 @@ import static sunsetsatellite.catalyst.CatalystMultipart.key;
 public class CatalystMultipartServer implements DedicatedServerModInitializer {
 	@Override
 	public void onInitializeServer() {
-		Catalyst.GUIS.register(key("gui/carpenter_workbench"),new MpGuiEntry(TileEntityCarpenterWorkbench.class, MenuCarpenterWorkbench.class));
+		Catalyst.GUIS.register(key("gui/carpenter_workbench"), new MpGuiEntry(TileEntityCarpenterWorkbench.class, MenuCarpenterWorkbench.class));
 	}
 }

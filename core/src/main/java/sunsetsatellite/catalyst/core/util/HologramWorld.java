@@ -10,24 +10,23 @@ import net.minecraft.core.world.biome.Biome;
 import net.minecraft.core.world.season.SeasonManager;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class HologramWorld implements WorldSource {
 	private final HashMap<Vec3i, BlockInstance> blocks = new HashMap<>();
 
-	public HologramWorld(List<BlockInstance> structure){
+	public HologramWorld(List<BlockInstance> structure) {
 		for (BlockInstance block : structure) {
-			blocks.put(block.pos,block);
+			blocks.put(block.pos, block);
 		}
 	}
 
 	@Override
 	public int getBlockId(int i, int j, int k) {
-		Vec3i vec = new Vec3i(i,j,k);
+		Vec3i vec = new Vec3i(i, j, k);
 		BlockInstance inst = blocks.get(vec);
-		if(inst == null){
+		if (inst == null) {
 			return 0;
 		}
 		return inst.block.id();
@@ -35,9 +34,9 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public Block<?> getBlock(int i, int j, int k) {
-		Vec3i vec = new Vec3i(i,j,k);
+		Vec3i vec = new Vec3i(i, j, k);
 		BlockInstance inst = blocks.get(vec);
-		if(inst == null){
+		if (inst == null) {
 			return null;
 		}
 		return inst.block;
@@ -70,9 +69,9 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public int getBlockMetadata(int i, int j, int k) {
-		Vec3i vec = new Vec3i(i,j,k);
+		Vec3i vec = new Vec3i(i, j, k);
 		BlockInstance inst = blocks.get(vec);
-		if(inst == null){
+		if (inst == null) {
 			return 0;
 		}
 		return inst.meta;
@@ -80,9 +79,9 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public Material getBlockMaterial(int i, int j, int k) {
-		Vec3i vec = new Vec3i(i,j,k);
+		Vec3i vec = new Vec3i(i, j, k);
 		BlockInstance inst = blocks.get(vec);
-		if(inst == null){
+		if (inst == null) {
 			return null;
 		}
 		return inst.block.getMaterial();
@@ -90,9 +89,9 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public boolean isBlockOpaqueCube(int i, int j, int k) {
-		Vec3i vec = new Vec3i(i,j,k);
+		Vec3i vec = new Vec3i(i, j, k);
 		BlockInstance inst = blocks.get(vec);
-		if(inst == null){
+		if (inst == null) {
 			return false;
 		}
 		return inst.block.isSolidRender();
@@ -100,9 +99,9 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public boolean isBlockNormalCube(int i, int j, int k) {
-		Vec3i vec = new Vec3i(i,j,k);
+		Vec3i vec = new Vec3i(i, j, k);
 		BlockInstance inst = blocks.get(vec);
-		if(inst == null){
+		if (inst == null) {
 			return false;
 		}
 		Block<?> block = inst.block;

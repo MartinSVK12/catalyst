@@ -5,11 +5,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.core.item.Item;
-import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.net.command.helpers.ArgumentParser;
-import net.minecraft.core.net.command.util.CommandHelper;
 import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.Effects;
 
@@ -45,7 +42,7 @@ public class ArgumentParserEffect extends ArgumentParser {
 	private void parseEffect() throws CommandSyntaxException {
 		StringBuilder builder = new StringBuilder();
 
-		while(this.reader.canRead()) {
+		while (this.reader.canRead()) {
 			char peak = this.reader.peek();
 			if (peak == '[' || peak == '{' || peak == ' ') {
 				break;

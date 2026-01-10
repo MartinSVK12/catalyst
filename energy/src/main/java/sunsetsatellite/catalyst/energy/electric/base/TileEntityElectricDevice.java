@@ -8,7 +8,6 @@ import sunsetsatellite.catalyst.core.util.network.NetworkPath;
 import sunsetsatellite.catalyst.energy.electric.api.IElectric;
 
 
-
 public abstract class TileEntityElectricDevice extends TileEntityElectricBase implements NetworkComponentTile {
 
 	@Override
@@ -21,40 +20,40 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 		super.tick();
 		//reset counters
 		ampsUsing = 0;
-		averageAmpLoad.increment(worldObj,0);
-		averageEnergyTransfer.increment(worldObj,0);
+		averageAmpLoad.increment(worldObj, 0);
+		averageEnergyTransfer.increment(worldObj, 0);
 		//try to pull max allowed current from any connected side
 		for (Direction dir : Direction.values()) {
-			TileEntity tile = dir.getTileEntity(worldObj,this);
-			if(tile instanceof TileEntityElectricConductor) {
+			TileEntity tile = dir.getTileEntity(worldObj, this);
+			if (tile instanceof TileEntityElectricConductor) {
 				TileEntityElectricConductor wire = (TileEntityElectricConductor) tile;
-				receiveEnergy(dir,getMaxInputAmperage());
+				receiveEnergy(dir, getMaxInputAmperage());
 			}
 		}
 	}
 
 	@Override
 	public long receiveEnergy(@NotNull Direction dir, long amperage) {
-		if(amperage > getMaxInputAmperage()){
+		if (amperage > getMaxInputAmperage()) {
 			return 0;
 		}
 		long remainingCapacity = getCapacityRemaining();
 		long willUseAmps = 0;
-		TileEntity tile = dir.getTileEntity(worldObj,this);
-		if(tile instanceof TileEntityElectricConductor) {
+		TileEntity tile = dir.getTileEntity(worldObj, this);
+		if (tile instanceof TileEntityElectricConductor) {
 			TileEntityElectricConductor wire = (TileEntityElectricConductor) tile;
 
 			//for every known path
 			for (NetworkPath path : energyNet.getPathData(wire.getPosition())) {
 				long pathLoss = 0;
 				//ignore itself or non-electric components in the path
-				if(path.target == this || !(path.target instanceof IElectric)){
+				if (path.target == this || !(path.target instanceof IElectric)) {
 					continue;
 				}
 				IElectric dest = (IElectric) path.target;
 
 				//receive/provide check
-				if(dest.canProvide(path.targetDirection.getOpposite())) {
+				if (dest.canProvide(path.targetDirection.getOpposite())) {
 					if (canReceive(dir)) {
 						//get max voltage from destination
 						//limit amps to maximum available from dest
@@ -62,11 +61,11 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 						amperage = Math.min(amperage, (dest.getMaxOutputAmperage() - dest.getAmpsCurrentlyUsed()));
 						//calculate path loss
 						for (NetworkComponentTile component : path.path) {
-							if(component instanceof TileEntityElectricConductor){
+							if (component instanceof TileEntityElectricConductor) {
 								pathLoss += ((TileEntityElectricConductor) component).getProperties().getMaterial().getLossPerBlock();
 							}
 						}
-						if(pathLoss >= voltage){
+						if (pathLoss >= voltage) {
 							//avoid paths where all energy is lost
 							continue;
 						}
@@ -75,9 +74,9 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 						boolean pathBroken = false;
 						//handle wires with insufficient voltage rating
 						for (NetworkComponentTile pathTile : path.path) {
-							if(pathTile instanceof TileEntityElectricConductor){
+							if (pathTile instanceof TileEntityElectricConductor) {
 								TileEntityElectricConductor pathWire = (TileEntityElectricConductor) pathTile;
-								if(pathWire.getVoltageRating() < voltage){
+								if (pathWire.getVoltageRating() < voltage) {
 									pathWire.onOvervoltage(voltage);
 									pathBroken = true;
 									pathVoltage = Math.min(pathWire.getVoltageRating(), pathVoltage);
@@ -85,20 +84,20 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 								}
 							}
 						}
-						if(pathBroken) continue;
+						if (pathBroken) continue;
 
-						if(pathVoltage > 0){
+						if (pathVoltage > 0) {
 							//handle device over-voltage
-							if(pathVoltage > getMaxInputVoltage()){
+							if (pathVoltage > getMaxInputVoltage()) {
 								onOvervoltage(pathVoltage);
 								return Math.max(amperage, getMaxInputAmperage() - ampsUsing); //short circuit amperage
 							}
-							if(remainingCapacity >= pathVoltage){
+							if (remainingCapacity >= pathVoltage) {
 								//calculate real current draw
 								willUseAmps = Math.min(remainingCapacity / pathVoltage, Math.min(amperage, getMaxInputAmperage() - ampsUsing));
-								if(willUseAmps > 0){
+								if (willUseAmps > 0) {
 									long willUseEnergy = pathVoltage * willUseAmps;
-									if(dest.getEnergy() >= willUseEnergy){
+									if (dest.getEnergy() >= willUseEnergy) {
 
 										//set current in wires
 										for (NetworkComponentTile pathTile : path.path) {

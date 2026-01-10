@@ -37,11 +37,12 @@ public abstract class TileEntityElectricBase extends ExtendableTileEntity implem
 	protected AveragingCounter averageEnergyTransfer = new AveragingCounter();
 	protected long ampsUsing = 0;
 
-	public TileEntityElectricBase() {}
+	public TileEntityElectricBase() {
+	}
 
 	@Override
 	public VoltageTier getTier() {
-		IVoltageTiered block = Catalyst.blockLogic(getBlock(),IVoltageTiered.class);
+		IVoltageTiered block = Catalyst.blockLogic(getBlock(), IVoltageTiered.class);
 		return block.getTier();
 	}
 
@@ -78,7 +79,7 @@ public abstract class TileEntityElectricBase extends ExtendableTileEntity implem
 
 	@Override
 	public long internalChangeEnergy(long difference) {
-		averageEnergyTransfer.increment(worldObj,difference);
+		averageEnergyTransfer.increment(worldObj, difference);
 		energy += difference;
 		return difference;
 	}
@@ -95,7 +96,7 @@ public abstract class TileEntityElectricBase extends ExtendableTileEntity implem
 
 	@Override
 	public void addAmpsToUse(long amperage) {
-		averageAmpLoad.increment(worldObj,amperage);
+		averageAmpLoad.increment(worldObj, amperage);
 		ampsUsing += amperage;
 	}
 
@@ -114,12 +115,12 @@ public abstract class TileEntityElectricBase extends ExtendableTileEntity implem
 
 	@Override
 	public Vec3i getPosition() {
-		return new Vec3i(x,y,z);
+		return new Vec3i(x, y, z);
 	}
 
 	@Override
 	public boolean isConnected(Direction direction) {
-		return direction.getTileEntity(worldObj,this) instanceof TileEntityElectricConductor;
+		return direction.getTileEntity(worldObj, this) instanceof TileEntityElectricConductor;
 	}
 
 	@Override
@@ -140,7 +141,7 @@ public abstract class TileEntityElectricBase extends ExtendableTileEntity implem
 
 	@Override
 	public void writeToNBT(CompoundTag tag) {
-		tag.putLong("Energy",energy);
+		tag.putLong("Energy", energy);
 		super.writeToNBT(tag);
 	}
 }

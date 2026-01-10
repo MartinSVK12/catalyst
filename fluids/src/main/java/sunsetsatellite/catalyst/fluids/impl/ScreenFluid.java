@@ -31,7 +31,7 @@ public class ScreenFluid extends ScreenContainerAbstract {
 		int centerX = (this.width - this.xSize) / 2;
 		int centerY = (this.height - this.ySize) / 2;
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float)centerX, (float)centerY, 0.0F);
+		GL11.glTranslatef((float) centerX, (float) centerY, 0.0F);
 		SlotFluid slot = null;
 		for (int i = 0; i < fluidSlots.fluidSlots.size(); i++) {
 			SlotFluid currentSlot = fluidSlots.fluidSlots.get(i);
@@ -44,19 +44,18 @@ public class ScreenFluid extends ScreenContainerAbstract {
 			}
 		}
 
-		if(slot != null && slot.hasStack()) {
+		if (slot != null && slot.hasStack()) {
 			boolean showDescription = mc.gameSettings.itemDescriptions.value == ALWAYS_SHOW || mc.gameSettings.keyDescription.isPressed();
 			String str = tooltipElement.getTooltipText(slot.getFluidStack().toItemStack(), showDescription);
-			str += "\n"+ TextFormatting.GRAY + slot.getFluidStack().amount + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
-			if(!str.isEmpty())
-			{
+			str += "\n" + TextFormatting.GRAY + slot.getFluidStack().amount + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
+			if (!str.isEmpty()) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				tooltipElement.render(str, mx-centerX, my-centerY, 8, -8);
+				tooltipElement.render(str, mx - centerX, my - centerY, 8, -8);
 			}
 		} else if (slot != null && !slot.hasStack()) {
 			String str = TextFormatting.WHITE + "Empty\n" + TextFormatting.GRAY + "0" + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			tooltipElement.render(str, mx-centerX, my-centerY, 8, -8);
+			tooltipElement.render(str, mx - centerX, my - centerY, 8, -8);
 		}
 		GL11.glPopMatrix();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -78,9 +77,9 @@ public class ScreenFluid extends ScreenContainerAbstract {
 
 	protected SlotFluid getFluidSlotAtPosition(int i1, int i2) {
 		MenuFluid fluidContainer = ((MenuFluid) inventorySlots);
-		for(int i3 = 0; i3 < fluidContainer.fluidSlots.size(); ++i3) {
+		for (int i3 = 0; i3 < fluidContainer.fluidSlots.size(); ++i3) {
 			SlotFluid slot4 = fluidContainer.fluidSlots.get(i3);
-			if(this.getIsMouseOverFluidSlot(slot4, i1, i2)) {
+			if (this.getIsMouseOverFluidSlot(slot4, i1, i2)) {
 				return slot4;
 			}
 		}
@@ -106,13 +105,13 @@ public class ScreenFluid extends ScreenContainerAbstract {
 			slotId = slot.slotIndex;
 		}
 
-		boolean outsideScreen = mx < x || my < y || mx >= x + this.xSize || my >= y+ this.ySize;
+		boolean outsideScreen = mx < x || my < y || mx >= x + this.xSize || my >= y + this.ySize;
 
-		if(outsideScreen){
+		if (outsideScreen) {
 			slotId = -999;
 		}
 
-		if(slotId != -1){
+		if (slotId != -1) {
 			boolean shift = slotId != -999 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54) || button == 10);
 			boolean control = slotId != -999 && (Keyboard.isKeyDown(29) || Keyboard.isKeyDown(157));
 			if (this.mc.gameSettings.swapCraftingButtons.value) {
@@ -121,7 +120,7 @@ public class ScreenFluid extends ScreenContainerAbstract {
 				control = a;
 			}
 
-			((FluidPickupController)this.mc.playerController).catalyst$fluidPickUpFromInventory(this.inventorySlots.containerId, slotId, button == 10 ? 0 : button, shift, control, this.mc.thePlayer);
+			((FluidPickupController) this.mc.playerController).catalyst$fluidPickUpFromInventory(this.inventorySlots.containerId, slotId, button == 10 ? 0 : button, shift, control, this.mc.thePlayer);
 		}
 	}
 

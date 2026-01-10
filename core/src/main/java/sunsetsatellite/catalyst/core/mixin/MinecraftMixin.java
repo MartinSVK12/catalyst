@@ -1,6 +1,5 @@
 package sunsetsatellite.catalyst.core.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.world.save.ISaveFormat;
 import net.minecraft.core.world.save.LevelStorage;

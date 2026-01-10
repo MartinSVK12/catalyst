@@ -6,11 +6,11 @@ import org.slf4j.LoggerFactory;
 
 
 public class CatalystMultiblocks implements ModInitializer {
-    public static final String MOD_ID = "catalyst-multiblocks";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final String MOD_ID = "catalyst-multiblocks";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    @Override
-    public void onInitialize() {
-        LOGGER.info("Catalyst: Multiblocks initialized.");
-    }
+	@Override
+	public void onInitialize() {
+		LOGGER.info("Catalyst: Multiblocks initialized.");
+	}
 }

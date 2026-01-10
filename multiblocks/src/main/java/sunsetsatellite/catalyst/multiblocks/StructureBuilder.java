@@ -27,33 +27,33 @@ public class StructureBuilder {
 		this.originMeta = originMeta;
 	}
 
-	public StructureBuilder addLayer(String... layer){
+	public StructureBuilder addLayer(String... layer) {
 		layers.add(layer);
 		return this;
 	}
 
-	public StructureBuilder loadJson(String path){
+	public StructureBuilder loadJson(String path) {
 		String jsonString = StringUtils.readInputString(StructureBuilder.class.getResourceAsStream(path));
 		GsonBuilder builder = new GsonBuilder();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		JsonArray jsonArray = JsonParser.parseString(jsonString).getAsJsonArray();
-		for(JsonElement element : jsonArray){
+		for (JsonElement element : jsonArray) {
 			JsonArray layer = element.getAsJsonArray();
 			layers.add(gson.fromJson(layer, String[].class));
 		}
 		return this;
 	}
 
-	public StructureBuilder mapSymbol(char symbol, ItemStack stack){
-		if(stack.itemID > 16384 || Blocks.getBlock(stack.itemID) == null){
+	public StructureBuilder mapSymbol(char symbol, ItemStack stack) {
+		if (stack.itemID > 16384 || Blocks.getBlock(stack.itemID) == null) {
 			throw new IllegalArgumentException("Symbol stack has to contain an already existing block!");
 		}
 		symbolMap.put(symbol, stack);
 		return this;
 	}
 
-	public CompoundTag build(){
+	public CompoundTag build() {
 
 		int x = 0;
 		int y = 0;
@@ -72,8 +72,8 @@ public class StructureBuilder {
 			for (String section : layer) {
 				x = 0;
 				for (char symbol : section.toCharArray()) {
-					if(symbol == originSymbol){
-						originPos = new Vec3i(x,y,z);
+					if (symbol == originSymbol) {
+						originPos = new Vec3i(x, y, z);
 						break top;
 					}
 					x++;
@@ -83,16 +83,16 @@ public class StructureBuilder {
 			y++;
 		}
 
-		if(originPos == null){
+		if (originPos == null) {
 			throw new IllegalStateException("No origin found in structure schematic!");
 		}
 
 		originTag.putInt("id", originBlock.id());
-		originTag.putInt("meta",originMeta);
+		originTag.putInt("meta", originMeta);
 		originTag.putBoolean("tile", originBlock.isEntityTile);
 		CompoundTag originPosTag = new CompoundTag();
 		new Vec3i().writeToNBT(originPosTag);
-		originTag.putCompound("pos",originPosTag);
+		originTag.putCompound("pos", originPosTag);
 
 		x = y = z = 0;
 
@@ -103,28 +103,28 @@ public class StructureBuilder {
 			for (String section : layer) {
 				x = 0;
 				for (char symbol : section.toCharArray()) {
-					if(symbol == ' '){
+					if (symbol == ' ') {
 						x++;
 						continue;
 					}
-					if(symbol == originSymbol){
+					if (symbol == originSymbol) {
 						x++;
 						continue;
 					}
 					ItemStack mappedStack = symbolMap.get(symbol);
-					if(mappedStack == null){
-						throw new NullPointerException("Unmapped symbol: '"+symbol+"'!");
+					if (mappedStack == null) {
+						throw new NullPointerException("Unmapped symbol: '" + symbol + "'!");
 					}
 					CompoundTag blockTag = new CompoundTag();
 					CompoundTag posTag = new CompoundTag();
 					boolean isTile = Blocks.getBlock(mappedStack.itemID).isEntityTile;
-					new Vec3i(x,y,z).subtract(originPos).writeToNBT(posTag);
+					new Vec3i(x, y, z).subtract(originPos).writeToNBT(posTag);
 					blockTag.putInt("id", mappedStack.itemID);
 					blockTag.putInt("meta", mappedStack.getMetadata());
 					blockTag.putBoolean("tile", isTile);
 					blockTag.putCompound("pos", posTag);
 					blocksTag.put(String.valueOf(i), blockTag);
-					if(isTile){
+					if (isTile) {
 						tileEntitiesTag.put(String.valueOf(i), blockTag);
 					}
 					i++;

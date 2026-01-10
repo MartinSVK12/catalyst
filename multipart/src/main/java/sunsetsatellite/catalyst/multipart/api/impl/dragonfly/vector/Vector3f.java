@@ -58,6 +58,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Load from another Vector3f
+	 *
 	 * @param src The source vector
 	 * @return this
 	 */
@@ -77,6 +78,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Translate a vector
+	 *
 	 * @param x The translation in x
 	 * @param y the translation in y
 	 * @return this
@@ -91,9 +93,10 @@ public class Vector3f extends Vector {
 	/**
 	 * Add a vector to another vector and place the result in a destination
 	 * vector.
-	 * @param left The LHS vector
+	 *
+	 * @param left  The LHS vector
 	 * @param right The RHS vector
-	 * @param dest The destination vector, or null if a new vector is to be created
+	 * @param dest  The destination vector, or null if a new vector is to be created
 	 * @return the sum of left and right in dest
 	 */
 	public static Vector3f add(Vector3f left, Vector3f right, Vector3f dest) {
@@ -108,9 +111,10 @@ public class Vector3f extends Vector {
 	/**
 	 * Subtract a vector from another vector and place the result in a destination
 	 * vector.
-	 * @param left The LHS vector
+	 *
+	 * @param left  The LHS vector
 	 * @param right The RHS vector
-	 * @param dest The destination vector, or null if a new vector is to be created
+	 * @param dest  The destination vector, or null if a new vector is to be created
 	 * @return left minus right in dest
 	 */
 	public static Vector3f sub(Vector3f left, Vector3f right, Vector3f dest) {
@@ -125,16 +129,15 @@ public class Vector3f extends Vector {
 	/**
 	 * The cross product of two vectors.
 	 *
-	 * @param left The LHS vector
+	 * @param left  The LHS vector
 	 * @param right The RHS vector
-	 * @param dest The destination result, or null if a new vector is to be created
+	 * @param dest  The destination result, or null if a new vector is to be created
 	 * @return left cross right
 	 */
 	public static Vector3f cross(
 		Vector3f left,
 		Vector3f right,
-		Vector3f dest)
-	{
+		Vector3f dest) {
 
 		if (dest == null)
 			dest = new Vector3f();
@@ -149,9 +152,9 @@ public class Vector3f extends Vector {
 	}
 
 
-
 	/**
 	 * Negate a vector
+	 *
 	 * @return this
 	 */
 	public Vector negate() {
@@ -163,6 +166,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Negate a vector and place the result in a destination vector.
+	 *
 	 * @param dest The destination vector or null if a new vector is to be created
 	 * @return the negated vector
 	 */
@@ -178,6 +182,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Normalise this vector and place the result in another vector.
+	 *
 	 * @param dest The destination vector, or null if a new vector is to be created
 	 * @return the normalised vector
 	 */
@@ -195,7 +200,8 @@ public class Vector3f extends Vector {
 	/**
 	 * The dot product of two vectors is calculated as
 	 * v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
-	 * @param left The LHS vector
+	 *
+	 * @param left  The LHS vector
 	 * @param right The RHS vector
 	 * @return left dot right
 	 */
@@ -205,6 +211,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Calculate the angle between two vectors, in radians
+	 *
 	 * @param a A vector
 	 * @param b The other vector
 	 * @return the angle between the two vectors, in radians
@@ -215,7 +222,7 @@ public class Vector3f extends Vector {
 			dls = -1f;
 		else if (dls > 1.0f)
 			dls = 1.0f;
-		return (float)Math.acos(dls);
+		return (float) Math.acos(dls);
 	}
 
 	/* (non-Javadoc)
@@ -257,16 +264,15 @@ public class Vector3f extends Vector {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		StringBuilder sb = new StringBuilder(64);
 
-		sb.append("Vector3f[");
-		sb.append(x);
-		sb.append(", ");
-		sb.append(y);
-		sb.append(", ");
-		sb.append(z);
-		sb.append(']');
-		return sb.toString();
+		String sb = "Vector3f[" +
+			x +
+			", " +
+			y +
+			", " +
+			z +
+			']';
+		return sb;
 	}
 
 	/**
@@ -285,6 +291,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Set X
+	 *
 	 * @param x
 	 */
 	public final void setX(float x) {
@@ -293,6 +300,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Set Y
+	 *
 	 * @param y
 	 */
 	public final void setY(float y) {
@@ -301,6 +309,7 @@ public class Vector3f extends Vector {
 
 	/**
 	 * Set Z
+	 *
 	 * @param z
 	 */
 	public void setZ(float z) {
@@ -318,20 +327,19 @@ public class Vector3f extends Vector {
 		if (this == obj) return true;
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
-		Vector3f other = (Vector3f)obj;
+		Vector3f other = (Vector3f) obj;
 
-		if (x == other.x && y == other.y && z == other.z) return true;
-
-		return false;
+		return x == other.x && y == other.y && z == other.z;
 	}
 
 	// =================================================================
 	// Below this line is additional methods made for DragonFly
 	// =================================================================
 	public static Vector3f origin = new Vector3f(0.5f, 0.5f, 0.5f);
-	public Vector3f rotateAroundX(Vector3f origin, float angle){
+
+	public Vector3f rotateAroundX(Vector3f origin, float angle) {
 		if (angle == 0) return this;
-		angle = (float) ((angle) * (Math.PI/180)); // Convert to radians
+		angle = (float) ((angle) * (Math.PI / 180)); // Convert to radians
 		float y = getY();
 		float z = getZ();
 		z -= origin.getZ();
@@ -345,9 +353,9 @@ public class Vector3f extends Vector {
 		return new Vector3f(getX(), y, z);
 	}
 
-	public Vector3f rotateAroundY(Vector3f origin, float angle){
+	public Vector3f rotateAroundY(Vector3f origin, float angle) {
 		if (angle == 0) return this;
-		angle = (float) ((angle) * (Math.PI/180)); // Convert to radians
+		angle = (float) ((angle) * (Math.PI / 180)); // Convert to radians
 		float x = getX();
 		float z = getZ();
 		z -= origin.getZ();
@@ -360,9 +368,10 @@ public class Vector3f extends Vector {
 		x = newX + origin.getX();
 		return new Vector3f(x, getY(), z);
 	}
-	public Vector3f rotateAroundZ(Vector3f origin, float angle){
+
+	public Vector3f rotateAroundZ(Vector3f origin, float angle) {
 		if (angle == 0) return this;
-		angle = (float) ((angle) * (Math.PI/180)); // Convert to radians
+		angle = (float) ((angle) * (Math.PI / 180)); // Convert to radians
 		float x = getX();
 		float y = getY();
 		y -= origin.getY();
@@ -376,8 +385,8 @@ public class Vector3f extends Vector {
 		return new Vector3f(x, y, getZ());
 	}
 
-	public float getFromIndex(int index){
-		switch (index){
+	public float getFromIndex(int index) {
+		switch (index) {
 			case 0:
 				return x;
 			case 1:

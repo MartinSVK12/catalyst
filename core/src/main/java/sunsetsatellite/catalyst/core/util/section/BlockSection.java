@@ -5,15 +5,15 @@ import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.vector.Vec2f;
 
 public enum BlockSection {
-	TOP_LEFT(new Vec2f(0.0,0.8),new Vec2f(0.2,0.1)),
-	BOTTOM_LEFT(new Vec2f(0.0,0.0),new Vec2f(0.2,0.2)),
-	CENTER_LEFT(new Vec2f(0.0,0.4),new Vec2f(0.2,0.6)),
-	TOP_RIGHT(new Vec2f(0.8,0.8),new Vec2f(1,1)),
-	BOTTOM_RIGHT(new Vec2f(0.8,0.0),new Vec2f(1,0.2)),
-	CENTER_RIGHT(new Vec2f(0.8,0.4),new Vec2f(1,0.6)),
-	UPPER_CENTER(new Vec2f(0.4,1),new Vec2f(0.6,0.8)),
-	LOWER_CENTER(new Vec2f(0.4,0.0),new Vec2f(0.6,0.2)),
-	CENTER(new Vec2f(0.4,0.4),new Vec2f(0.6,0.6)),
+	TOP_LEFT(new Vec2f(0.0, 0.8), new Vec2f(0.2, 0.1)),
+	BOTTOM_LEFT(new Vec2f(0.0, 0.0), new Vec2f(0.2, 0.2)),
+	CENTER_LEFT(new Vec2f(0.0, 0.4), new Vec2f(0.2, 0.6)),
+	TOP_RIGHT(new Vec2f(0.8, 0.8), new Vec2f(1, 1)),
+	BOTTOM_RIGHT(new Vec2f(0.8, 0.0), new Vec2f(1, 0.2)),
+	CENTER_RIGHT(new Vec2f(0.8, 0.4), new Vec2f(1, 0.6)),
+	UPPER_CENTER(new Vec2f(0.4, 1), new Vec2f(0.6, 0.8)),
+	LOWER_CENTER(new Vec2f(0.4, 0.0), new Vec2f(0.6, 0.2)),
+	CENTER(new Vec2f(0.4, 0.4), new Vec2f(0.6, 0.6)),
 	;
 
 	public final Vec2f min;
@@ -24,24 +24,24 @@ public enum BlockSection {
 		this.max = max;
 	}
 
-    public static BlockSection getClosestBlockSection(Vec2f vec) {
-        double bestDistance = Double.MAX_VALUE;
-        BlockSection bestSection = null;
-        for (BlockSection section : BlockSection.values()) {
-            double minDistance = vec.distanceTo(section.min);
-            double maxDistance = vec.distanceTo(section.max);
-            double currentMinimumDistance = Math.min(minDistance, maxDistance);
-            if (currentMinimumDistance < bestDistance) {
-                bestDistance = currentMinimumDistance;
-                bestSection = section;
-            }
-        }
-        return bestSection;
-    }
+	public static BlockSection getClosestBlockSection(Vec2f vec) {
+		double bestDistance = Double.MAX_VALUE;
+		BlockSection bestSection = null;
+		for (BlockSection section : BlockSection.values()) {
+			double minDistance = vec.distanceTo(section.min);
+			double maxDistance = vec.distanceTo(section.max);
+			double currentMinimumDistance = Math.min(minDistance, maxDistance);
+			if (currentMinimumDistance < bestDistance) {
+				bestDistance = currentMinimumDistance;
+				bestSection = section;
+			}
+		}
+		return bestSection;
+	}
 
-	public Direction toDirection(Direction blockSide, Side playerFacing){
-		if(blockSide.getAxis().isVertical()){
-			switch (this){
+	public Direction toDirection(Direction blockSide, Side playerFacing) {
+		if (blockSide.getAxis().isVertical()) {
+			switch (this) {
 				case TOP_RIGHT:
 				case BOTTOM_LEFT:
 				case BOTTOM_RIGHT:

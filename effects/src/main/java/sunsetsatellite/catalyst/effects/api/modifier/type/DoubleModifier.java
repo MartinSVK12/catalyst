@@ -5,9 +5,9 @@ import sunsetsatellite.catalyst.effects.api.modifier.ModifierType;
 
 import java.util.function.BiFunction;
 
-public final class DoubleModifier extends NumberModifier<Double>{
+public final class DoubleModifier extends NumberModifier<Double> {
 	public DoubleModifier(Attribute<Double> attribute, ModifierType type, double value) {
-		super(attribute, type, value, (baseValue,stack) -> baseValue * stack);
+		super(attribute, type, value, (baseValue, stack) -> baseValue * stack);
 	}
 
 	public DoubleModifier(Attribute<Double> attribute, ModifierType type, Double value, BiFunction<Double, Integer, Double> stackFunction) {

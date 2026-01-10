@@ -19,32 +19,32 @@ public abstract class TileEntityEnergyDevice extends TileEntityEnergyBase implem
 	public void tick() {
 		super.tick();
 		for (Direction dir : Direction.values()) {
-			receiveEnergy(dir,getMaxReceive());
+			receiveEnergy(dir, getMaxReceive());
 		}
 	}
 
 	@Override
 	public long receiveEnergy(@NotNull Direction dir, long energy) {
-		if(energyNet == null) return 0;
+		if (energyNet == null) return 0;
 		long energyReceived = 0;
 
-		TileEntity tile = dir.getTileEntity(worldObj,this);
-		if(tile instanceof TileEntityEnergyConductor){
-			TileEntityEnergyConductor wire = (TileEntityEnergyConductor)tile;
+		TileEntity tile = dir.getTileEntity(worldObj, this);
+		if (tile instanceof TileEntityEnergyConductor) {
+			TileEntityEnergyConductor wire = (TileEntityEnergyConductor) tile;
 
 			for (NetworkPath path : energyNet.getPathData(wire.getPosition())) {
 				long energyReceivedFromPath = 0;
-				if(path.target == this || !(path.target instanceof IEnergyContainer)){
+				if (path.target == this || !(path.target instanceof IEnergyContainer)) {
 					continue;
 				}
 
 				IEnergyContainer dest = (IEnergyContainer) path.target;
 
-				if(dest.canProvide(path.targetDirection)){
-					if(canReceive(dir)){
+				if (dest.canProvide(path.targetDirection)) {
+					if (canReceive(dir)) {
 						long maxThroughput = Long.MAX_VALUE;
 						for (NetworkComponentTile component : path.path) {
-							if(component instanceof TileEntityEnergyConductor){
+							if (component instanceof TileEntityEnergyConductor) {
 								maxThroughput = Math.min(maxThroughput, ((TileEntityEnergyConductor) component).throughput);
 							}
 						}

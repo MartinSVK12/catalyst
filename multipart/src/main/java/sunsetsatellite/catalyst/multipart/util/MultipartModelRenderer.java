@@ -25,6 +25,7 @@ public class MultipartModelRenderer {
 	public static Minecraft mc = Minecraft.getMinecraft();
 	private static final int rotationX = 0;
 	private static final int rotationY = 0;
+
 	public static boolean renderModelNormal(Tessellator tessellator, ModernMultipartBlockModel model, Block block, double x, double y, double z, Side side, Multipart part) {
 		boolean didRender;
 		didRender = renderStandardModelWithColorMultiplier(tessellator, model, block, x, y, z, 1, 1, 1, side, part);
@@ -115,11 +116,12 @@ public class MultipartModelRenderer {
 		xi = (int) Math.round(x);
 		yi = (int) Math.round(y);
 		zi = (int) Math.round(z);
-		float blockBrightness = getRenderBlocks().getBlockBrightness(getRenderBlocks().blockAccess,xi,yi,zi);
+		float blockBrightness = getRenderBlocks().getBlockBrightness(getRenderBlocks().blockAccess, xi, yi, zi);
 		BlockCube[] blockCubes = model.blockCubes;
 		for (int i = 0; i < blockCubes.length; i++) {
 			BlockCube cube = blockCubes[i];
-			if(i < partSide.ordinal() * part.type.cubesPerSide || i >= (partSide.ordinal() * part.type.cubesPerSide) + part.type.cubesPerSide) continue;
+			if (i < partSide.ordinal() * part.type.cubesPerSide || i >= (partSide.ordinal() * part.type.cubesPerSide) + part.type.cubesPerSide)
+				continue;
 			for (Side side : CatalystMultipart.sides) {
 				BlockFace face = cube.getFaceFromSide(side, rotationX, rotationY);
 				if (face == null) continue;
@@ -135,7 +137,7 @@ public class MultipartModelRenderer {
 				if (!cube.isOuterFace(side, rotationX, rotationY) && !block.getMaterial().isLiquid()) {
 					sideBrightness = blockBrightness;
 				} else {
-					sideBrightness = getRenderBlocks().getBlockBrightness(getRenderBlocks().blockAccess,_x,_y,_z);
+					sideBrightness = getRenderBlocks().getBlockBrightness(getRenderBlocks().blockAccess, _x, _y, _z);
 				}
 				if (model instanceof ModernMultipartBlockModel) sideBrightness = blockBrightness;
 
@@ -229,13 +231,15 @@ public class MultipartModelRenderer {
 		}
 		return renderedSomething;
 	}
-	public static boolean renderSide(Tessellator tessellator, ModernMultipartBlockModel model, BlockCube cube, Side side, int x, int y, int z){
+
+	public static boolean renderSide(Tessellator tessellator, ModernMultipartBlockModel model, BlockCube cube, Side side, int x, int y, int z) {
 		WorldSource blockAccess = getRenderBlocks().blockAccess;
 		Block<?> block = blockAccess.getBlock(x, y, z);
 		BlockModel<?> blockModel = BlockModelDispatcher.getInstance().getDispatch(block);
 		boolean renderOuterSide = blockModel.shouldSideBeRendered(blockAccess, blockModel.getBlockBoundsForItemRender(), x + side.getOffsetX(), y + side.getOffsetY(), z + side.getOffsetZ(), side.getId(), blockAccess.getBlockMetadata(x + side.getOffsetX(), y + side.getOffsetY(), z + side.getOffsetZ()));
 		return !cube.getFaceFromSide(side, rotationX, rotationY).cullFace(x, y, z, renderOuterSide);
 	}
+
 	public static void renderModelFaceWithColor(Tessellator tessellator, BlockFace face, double x, double y, double z, float r, float g, float b) {
 		double[] uvTL;
 		double[] uvBL;
@@ -246,7 +250,7 @@ public class MultipartModelRenderer {
 			uvBL = face.generateVertexUV(getRenderBlocks().overrideBlockTexture, 1);
 			uvBR = face.generateVertexUV(getRenderBlocks().overrideBlockTexture, 2);
 			uvTR = face.generateVertexUV(getRenderBlocks().overrideBlockTexture, 3);
-		}  else {
+		} else {
 			uvTL = face.getVertexUV(0);
 			uvBL = face.getVertexUV(1);
 			uvBR = face.getVertexUV(2);
@@ -287,7 +291,8 @@ public class MultipartModelRenderer {
 			tessellator.addVertexWithUV(x + vtr.x, y + vtr.y, z + vtr.z, uvTR[0], uvTR[1]); // Top Right
 		}
 	}
-	public static RenderBlocks getRenderBlocks(){
+
+	public static RenderBlocks getRenderBlocks() {
 		return BlockModelStandard.renderBlocks;
 	}
 }

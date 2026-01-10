@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.multipart.api.impl.tmb;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.menu.MenuInventoryCreative;
@@ -20,23 +19,23 @@ public class TMBMultipartPlugin implements ITMBPlugin, TMBEntrypoint {
 
 	@Override
 	public void registerIngredients(ITMBRuntime runtime) {
-		if(((IKeybinds) Minecraft.getMinecraft().gameSettings).showMultipartsInTMB().value){
+		if (((IKeybinds) Minecraft.getMinecraft().gameSettings).showMultipartsInTMB().value) {
 			IIngredientRegistry<ItemStack> registry = runtime.getRegistryForIngredientType(VanillaTypes.ITEM_STACK);
-			MultipartType.types.forEach((K, V)->{
+			MultipartType.types.forEach((K, V) -> {
 				for (ItemStack item : MenuInventoryCreative.creativeItems) {
 					if (item == null) continue;
 					if (item.itemID >= 16384) continue;
 					if (!Blocks.getBlock(item.itemID).hasTag(CatalystMultipart.CAN_BE_MULTIPART)) continue;
 					if (!Blocks.getBlock(item.itemID).hasTag(CatalystMultipart.TYPE_TAGS.get(K))) continue;
-					ItemStack stack = new ItemStack(CatalystMultipart.multipartItem,1, 0);
+					ItemStack stack = new ItemStack(CatalystMultipart.multipartItem, 1, 0);
 					CompoundTag tag = new CompoundTag();
 					CompoundTag multipartTag = new CompoundTag();
-					multipartTag.putString("Type",K);
+					multipartTag.putString("Type", K);
 					multipartTag.putInt("Block", item.itemID);
 					multipartTag.putInt("Meta", item.getMetadata());
-					tag.putCompound("Multipart",multipartTag);
+					tag.putCompound("Multipart", multipartTag);
 					stack.setData(tag);
-					registry.registerIngredient(CatalystMultipart.MOD_ID,stack.getDisplayName(), stack);
+					registry.registerIngredient(CatalystMultipart.MOD_ID, stack.getDisplayName(), stack);
 				}
 			});
 		}
@@ -44,7 +43,7 @@ public class TMBMultipartPlugin implements ITMBPlugin, TMBEntrypoint {
 
 	@Override
 	public void onGatherPlugins(boolean isReload) {
-		TMB.LOGGER.info("Loading plugin: "+this.getClass().getSimpleName()+" from "+CatalystMultipart.MOD_ID);
+		TMB.LOGGER.info("Loading plugin: " + this.getClass().getSimpleName() + " from " + CatalystMultipart.MOD_ID);
 		TMB.registerPlugin(this);
 	}
 }

@@ -8,6 +8,7 @@ public interface IElectricItem {
 	 * @return Amount of energy currently available in item
 	 */
 	long getEnergy(ItemStack stack);
+
 	/**
 	 * @return Maximum energy capacity of the item
 	 */
@@ -39,6 +40,7 @@ public interface IElectricItem {
 
 	/**
 	 * Charges the item.
+	 *
 	 * @param energy The amount of energy to charge the item by
 	 * @return Amount of energy actually charged
 	 */
@@ -46,6 +48,7 @@ public interface IElectricItem {
 
 	/**
 	 * Discharges the item.
+	 *
 	 * @param energy The amount of energy to discharge
 	 * @return Amount of energy actually discharged
 	 */

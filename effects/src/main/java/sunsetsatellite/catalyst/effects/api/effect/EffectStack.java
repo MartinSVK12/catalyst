@@ -25,23 +25,23 @@ public class EffectStack {
 
 	public EffectStack(IHasEffects target, Effect effect) {
 		this.effect = effect;
-		this.duration = Attributes.EFFECT_DURATION.calculate(target,effect.getDefaultDuration());
+		this.duration = Attributes.EFFECT_DURATION.calculate(target, effect.getDefaultDuration());
 		this.amount = 1;
 	}
 
 	public EffectStack(IHasEffects target, Effect effect, int amount) {
 		this.effect = effect;
-		this.duration = Attributes.EFFECT_DURATION.calculate(target,effect.getDefaultDuration());
+		this.duration = Attributes.EFFECT_DURATION.calculate(target, effect.getDefaultDuration());
 		this.amount = Math.min(amount, effect.getMaxStack());
 	}
 
 	public EffectStack(IHasEffects target, Effect effect, int duration, int amount) {
 		this.effect = effect;
-		this.duration = Attributes.EFFECT_DURATION.calculate(target,duration);
+		this.duration = Attributes.EFFECT_DURATION.calculate(target, duration);
 		this.amount = Math.min(amount, effect.getMaxStack());
 	}
 
-	public EffectStack(CompoundTag tag){
+	public EffectStack(CompoundTag tag) {
 		this.effect = Effects.getInstance().getItem(tag.getString("id"));
 		this.duration = tag.getInteger("duration");
 		this.amount = tag.getInteger("amount");
@@ -49,54 +49,54 @@ public class EffectStack {
 		this.timeLeft = tag.getInteger("timeLeft");
 	}
 
-	public <T> void start(EffectContainer<T> container){
-		if(state == State.INACTIVE){
+	public <T> void start(EffectContainer<T> container) {
+		if (state == State.INACTIVE) {
 			state = State.ACTIVE;
 			timeLeft = duration;
-			effect.activated(this,container);
+			effect.activated(this, container);
 
 			if (EnvironmentHelper.isServerEnvironment())
 				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
 		}
 	}
 
-	public <T> void pause(EffectContainer<T> container){
-		if(state == State.ACTIVE){
+	public <T> void pause(EffectContainer<T> container) {
+		if (state == State.ACTIVE) {
 			state = State.PAUSED;
-			effect.paused(this,container);
+			effect.paused(this, container);
 
 			if (EnvironmentHelper.isServerEnvironment())
 				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
 		}
 	}
 
-	public <T> void unpause(EffectContainer<T> container){
-		if(state == State.PAUSED){
+	public <T> void unpause(EffectContainer<T> container) {
+		if (state == State.PAUSED) {
 			state = State.ACTIVE;
-			effect.unpaused(this,container);
+			effect.unpaused(this, container);
 
 			if (EnvironmentHelper.isServerEnvironment())
 				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
 		}
 	}
 
-	public <T> void finish(EffectContainer<T> effectContainer){
-		if(state == State.ACTIVE){
+	public <T> void finish(EffectContainer<T> effectContainer) {
+		if (state == State.ACTIVE) {
 			timeLeft = 0;
 			state = State.FINISHED;
-			effect.expired(this,effectContainer);
+			effect.expired(this, effectContainer);
 		}
 	}
 
 	public <T> void tick(EffectContainer<T> effectContainer) {
-		if(state == State.ACTIVE){
-			if(effect.getTimeType() == EffectTimeType.PERMANENT){
-				effect.tick(this,effectContainer);
+		if (state == State.ACTIVE) {
+			if (effect.getTimeType() == EffectTimeType.PERMANENT) {
+				effect.tick(this, effectContainer);
 				return;
 			}
-			if(timeLeft > 0){
+			if (timeLeft > 0) {
 				timeLeft--;
-				effect.tick(this,effectContainer);
+				effect.tick(this, effectContainer);
 			} else {
 				this.finish(effectContainer);
 			}
@@ -108,11 +108,11 @@ public class EffectStack {
 		if (effect.getTimeType() == EffectTimeType.RESET) {
 			timeLeft = duration;
 		}
-		if(effect.getTimeType() == EffectTimeType.ADD){
+		if (effect.getTimeType() == EffectTimeType.ADD) {
 			timeLeft += effect.getDurationIncrease();
 		}
 
-		effect.stackAdded(this,effectContainer);
+		effect.stackAdded(this, effectContainer);
 
 		if (EnvironmentHelper.isServerEnvironment())
 			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) effectContainer.getParent()));
@@ -120,7 +120,7 @@ public class EffectStack {
 
 	public <T> void subtract(int amount, EffectContainer<T> effectContainer) {
 		this.amount -= amount;
-		effect.stackSubtracted(this,effectContainer);
+		effect.stackSubtracted(this, effectContainer);
 
 		if (EnvironmentHelper.isServerEnvironment())
 			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) effectContainer.getParent()));
@@ -134,7 +134,7 @@ public class EffectStack {
 		return state == State.PAUSED;
 	}
 
-	public boolean isFinished(){
+	public boolean isFinished() {
 		return state == State.FINISHED;
 	}
 
@@ -154,21 +154,21 @@ public class EffectStack {
 		return duration;
 	}
 
-	public boolean hasAttribute(Attribute<?> attribute){
+	public boolean hasAttribute(Attribute<?> attribute) {
 		for (Modifier<?> modifier : effect.getModifiers()) {
-			if(modifier.attribute.equals(attribute)){
+			if (modifier.attribute.equals(attribute)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public void saveToNbt(CompoundTag tag){
-		tag.putString("id",effect.id);
-		tag.putInt("duration",duration);
-		tag.putInt("timeLeft",timeLeft);
-		tag.putInt("amount",amount);
-		tag.putString("state",state.name());
+	public void saveToNbt(CompoundTag tag) {
+		tag.putString("id", effect.id);
+		tag.putInt("duration", duration);
+		tag.putInt("timeLeft", timeLeft);
+		tag.putInt("amount", amount);
+		tag.putString("state", state.name());
 	}
 
 }

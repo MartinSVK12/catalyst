@@ -21,7 +21,7 @@ public abstract class Attribute<T> {
 		this.baseValue = defaultValue;
 	}
 
-	public Attribute<T> setAsDefault(){
+	public Attribute<T> setAsDefault() {
 		this.isDefault = true;
 		return this;
 	}
@@ -47,12 +47,12 @@ public abstract class Attribute<T> {
 		Attribute<?> attribute = (Attribute<?>) o;
 
 		if (!Objects.equals(key, attribute.key)) return false;
-        return Objects.equals(baseValue, attribute.baseValue);
-    }
+		return Objects.equals(baseValue, attribute.baseValue);
+	}
 
 	@Override
 	public String toString() {
-		return "Attribute{" + getName() +": "+ baseValue +'}';
+		return "Attribute{" + getName() + ": " + baseValue + '}';
 	}
 
 	public String getKey() {
@@ -72,5 +72,6 @@ public abstract class Attribute<T> {
 	}
 
 	public abstract T calculate(IHasEffects<?> target);
+
 	public abstract T calculate(IHasEffects<?> target, T baseValue);
 }

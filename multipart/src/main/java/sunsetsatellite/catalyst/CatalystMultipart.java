@@ -56,8 +56,8 @@ import static net.minecraft.core.block.Blocks.*;
 
 
 public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, ItemInitEntrypoint, RecipeEntrypoint {
-    public static final String MOD_ID = "catalyst-multipart";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static final String MOD_ID = "catalyst-multipart";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	private static final int blockIdStart = 3256;
 	private static final int itemIdStart = 19640;
@@ -65,7 +65,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 	public static final TomlConfigHandler config;
 
 	public static final Tag<Block<?>> CAN_BE_MULTIPART = Tag.of("can_be_multipart");
-	public static final HashMap<String,Tag<Block<?>>> TYPE_TAGS = new HashMap<>();
+	public static final HashMap<String, Tag<Block<?>>> TYPE_TAGS = new HashMap<>();
 
 	public static final Gson GSON = new GsonBuilder()
 		.registerTypeAdapter(Vector3f.class, new Vector3fJsonAdapter())
@@ -95,7 +95,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 			defaultConfig.addEntry("ItemIDs." + itemField.getName(), itemId++);
 		}
 
-		config = new TomlConfigHandler(MOD_ID, new Toml("Catalyst: Multipart configuration file."),false);
+		config = new TomlConfigHandler(MOD_ID, new Toml("Catalyst: Multipart configuration file."), false);
 
 		File configFile = config.getConfigFile();
 
@@ -141,7 +141,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 		}
 	}
 
-	public static Tag<Block<?>>[] getAllMultipartTags(){
+	public static Tag<Block<?>>[] getAllMultipartTags() {
 		ArrayList<Tag<Block<?>>> list = new ArrayList<>(TYPE_TAGS.values());
 		return list.toArray(new Tag[0]);
 	}
@@ -158,14 +158,14 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 		return NamespaceID.getPermanent(MOD_ID, id);
 	}
 
-    @Override
-    public void onInitialize() {
+	@Override
+	public void onInitialize() {
 
 		EntityHelper.createTileEntity(TileEntityMultipart.class, id("multipart"));
 		EntityHelper.createTileEntity(TileEntityCarpenterWorkbench.class, id("carpenter_workbench"));
 
-        LOGGER.info("Catalyst: Multipart initialized.");
-    }
+		LOGGER.info("Catalyst: Multipart initialized.");
+	}
 
 	public static Block<? extends BlockLogic> multipartBlock;
 	public static Block<? extends BlockLogic> carpenterWorkbench;
@@ -186,7 +186,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 			BlockLogicCarpenterWorkbench::new
 		);
 
-		MultipartType.types.forEach((K, V)-> TYPE_TAGS.put(K,Tag.of(K)));
+		MultipartType.types.forEach((K, V) -> TYPE_TAGS.put(K, Tag.of(K)));
 
 		ArrayList<Tag<Block<?>>> list = new ArrayList<>(TYPE_TAGS.values());
 		Tag<Block<?>>[] tags = list.toArray(new Tag[0]);
@@ -411,7 +411,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 
 	@Override
 	public void afterItemInit() {
-		multipartItem = (ItemMultipart) new ItemBuilder(MOD_ID).build(new ItemMultipart("multipart","catalyst-multipart:item/multipart",item("multipartItem"))).withTags(ItemTags.NOT_IN_CREATIVE_MENU);
+		multipartItem = (ItemMultipart) new ItemBuilder(MOD_ID).build(new ItemMultipart("multipart", "catalyst-multipart:item/multipart", item("multipartItem"))).withTags(ItemTags.NOT_IN_CREATIVE_MENU);
 	}
 
 	public <T extends BlockLogic> Block<T> customBlock(BlockBuilder builder, String lang, String name, String configId, int miningLevel, BlockLogicSupplier<T> blockLogicSupplier) {
@@ -421,8 +421,8 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 		return block;
 	}
 
-	public static String key(String key){
-		return CatalystMultipart.MOD_ID+":"+key;
+	public static String key(String key) {
+		return CatalystMultipart.MOD_ID + ":" + key;
 	}
 
 	@Override

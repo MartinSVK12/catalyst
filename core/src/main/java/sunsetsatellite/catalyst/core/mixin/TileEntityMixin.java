@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import sunsetsatellite.catalyst.core.util.mixin.interfaces.ITileEntityInit;
 
-@Mixin(value = TileEntity.class,remap = false)
+@Mixin(value = TileEntity.class, remap = false)
 public class TileEntityMixin implements ITileEntityInit {
 
 	@Unique

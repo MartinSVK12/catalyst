@@ -11,36 +11,36 @@ import java.util.HashMap;
 
 public class Multiblock extends Structure {
 
-    public static final HashMap<String,Multiblock> multiblocks = new HashMap<>();
+	public static final HashMap<String, Multiblock> multiblocks = new HashMap<>();
 
-    public Multiblock(String modId, Class<?>[] modClasses, String translateKey, CompoundTag data, boolean includeAir) {
-        super(modId, modClasses, translateKey, data, includeAir, false);
-        this.translateKey = "multiblock."+modId+"."+translateKey;
-    }
+	public Multiblock(String modId, Class<?>[] modClasses, String translateKey, CompoundTag data, boolean includeAir) {
+		super(modId, modClasses, translateKey, data, includeAir, false);
+		this.translateKey = "multiblock." + modId + "." + translateKey;
+	}
 
-    public Multiblock(String modId, Class<?>[] modClasses, String translateKey, String filePath, boolean includeAir) {
-        super(modId, modClasses, translateKey, filePath, includeAir, false);
-        this.translateKey = "multiblock."+modId+"."+translateKey;
-    }
+	public Multiblock(String modId, Class<?>[] modClasses, String translateKey, String filePath, boolean includeAir) {
+		super(modId, modClasses, translateKey, filePath, includeAir, false);
+		this.translateKey = "multiblock." + modId + "." + translateKey;
+	}
 
-    public boolean isValidAt(World world, BlockInstance origin, Direction dir){
-        ArrayList<BlockInstance> blocks = getBlocks(origin.pos,dir);
-        ArrayList<BlockInstance> substitutions = getSubstitutions(origin.pos,dir);
-        for (BlockInstance block : blocks) {
-            if (!block.exists(world)) {
-                boolean foundSub = substitutions.stream().anyMatch((BI) -> BI.pos.equals(block.pos) && BI.exists(world));
-                if (!foundSub) {
+	public boolean isValidAt(World world, BlockInstance origin, Direction dir) {
+		ArrayList<BlockInstance> blocks = getBlocks(origin.pos, dir);
+		ArrayList<BlockInstance> substitutions = getSubstitutions(origin.pos, dir);
+		for (BlockInstance block : blocks) {
+			if (!block.exists(world)) {
+				boolean foundSub = substitutions.stream().anyMatch((BI) -> BI.pos.equals(block.pos) && BI.exists(world));
+				if (!foundSub) {
 					//Minecraft.getMinecraft().hudIngame.addChatMessage("Invalid at "+block.pos);
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
-	public boolean isValidAtSilent(World world, BlockInstance origin, Direction dir){
-		ArrayList<BlockInstance> blocks = getBlocks(origin.pos,dir);
-		ArrayList<BlockInstance> substitutions = getSubstitutions(origin.pos,dir);
+	public boolean isValidAtSilent(World world, BlockInstance origin, Direction dir) {
+		ArrayList<BlockInstance> blocks = getBlocks(origin.pos, dir);
+		ArrayList<BlockInstance> substitutions = getSubstitutions(origin.pos, dir);
 		for (BlockInstance block : blocks) {
 			if (!block.exists(world)) {
 				boolean foundSub = substitutions.stream().anyMatch((BI) -> BI.pos.equals(block.pos) && BI.exists(world));

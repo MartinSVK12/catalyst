@@ -44,20 +44,20 @@ public class BlockLogicMultipart extends BlockLogic implements ISideInteractable
 
 	@Override
 	public ItemStack[] getBreakResult(World world, EnumDropCause dropCause, int x, int y, int z, int meta, TileEntity tileEntity) {
-		if(tileEntity instanceof ISupportsMultiparts){
+		if (tileEntity instanceof ISupportsMultiparts) {
 			List<ItemStack> list = new ArrayList<>();
 			for (Multipart multipart : ((ISupportsMultiparts) tileEntity).getParts().values()) {
-				if(multipart == null) continue;
-				ItemStack stack = new ItemStack(CatalystMultipart.multipartItem,1, 0);
+				if (multipart == null) continue;
+				ItemStack stack = new ItemStack(CatalystMultipart.multipartItem, 1, 0);
 				CompoundTag tag = new CompoundTag();
 				CompoundTag multipartTag = new CompoundTag();
-				multipartTag.putString("Type",multipart.type.name);
+				multipartTag.putString("Type", multipart.type.name);
 				multipartTag.putInt("Block", multipart.block.id());
 				multipartTag.putInt("Meta", multipart.meta);
-				if(multipart.side != null){
+				if (multipart.side != null) {
 					multipartTag.putInt("Side", multipart.side.getId());
 				}
-				tag.putCompound("Multipart",multipartTag);
+				tag.putCompound("Multipart", multipartTag);
 				stack.setData(tag);
 				list.add(stack);
 			}
@@ -68,42 +68,42 @@ public class BlockLogicMultipart extends BlockLogic implements ISideInteractable
 
 	@Override
 	public void getCollidingBoundingBoxes(World world, int x, int y, int z, AABB aabb, ArrayList<AABB> aabbList) {
-		TileEntity tile = world.getTileEntity(x,y,z);
-		if(tile instanceof ISupportsMultiparts) {
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if (tile instanceof ISupportsMultiparts) {
 			if (((ISupportsMultiparts) tile).getParts().values().stream().allMatch(Objects::isNull)) {
 				super.getCollidingBoundingBoxes(world, x, y, z, aabb, aabbList);
 			} else {
-				((ISupportsMultiparts) tile).getParts().forEach((dir,multipart)->{
-					if(multipart == null) return;
-					double d = Catalyst.map(multipart.type.thickness,1,16,0,1);
-					switch (dir){
-						case X_POS:{
-							AABB bb = AABB.getTemporaryBB(x+(1-d),y,z,x+1,y+1,z+1);
+				((ISupportsMultiparts) tile).getParts().forEach((dir, multipart) -> {
+					if (multipart == null) return;
+					double d = Catalyst.map(multipart.type.thickness, 1, 16, 0, 1);
+					switch (dir) {
+						case X_POS: {
+							AABB bb = AABB.getTemporaryBB(x + (1 - d), y, z, x + 1, y + 1, z + 1);
 							aabbList.add(bb);
 							break;
 						}
-						case X_NEG:{
-							AABB bb = AABB.getTemporaryBB(x,y,z,x+d,y+1,z+1);
+						case X_NEG: {
+							AABB bb = AABB.getTemporaryBB(x, y, z, x + d, y + 1, z + 1);
 							aabbList.add(bb);
 							break;
 						}
-						case Y_POS:{
-							AABB bb = AABB.getTemporaryBB(x,y+(1-d),z,x+1,y+1,z+1);
+						case Y_POS: {
+							AABB bb = AABB.getTemporaryBB(x, y + (1 - d), z, x + 1, y + 1, z + 1);
 							aabbList.add(bb);
 							break;
 						}
-						case Y_NEG:{
-							AABB bb = AABB.getTemporaryBB(x,y,z,x+1,y+d,z+1);
+						case Y_NEG: {
+							AABB bb = AABB.getTemporaryBB(x, y, z, x + 1, y + d, z + 1);
 							aabbList.add(bb);
 							break;
 						}
 						case Z_POS: {
-							AABB bb = AABB.getTemporaryBB(x,y,z+(1-d),x+1,y+1,z+1);
+							AABB bb = AABB.getTemporaryBB(x, y, z + (1 - d), x + 1, y + 1, z + 1);
 							aabbList.add(bb);
 							break;
 						}
 						case Z_NEG: {
-							AABB bb = AABB.getTemporaryBB(x,y,z,x+1,y+1,z+d);
+							AABB bb = AABB.getTemporaryBB(x, y, z, x + 1, y + 1, z + d);
 							aabbList.add(bb);
 							break;
 						}

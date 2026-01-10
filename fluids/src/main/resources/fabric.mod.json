@@ -1,26 +1,23 @@
 {
-  "schemaVersion": 1,
-  "id": "catalyst-fluids",
-  "version": "${version}",
-
-  "name": "Catalyst: Fluids",
-  "description": "Fluid module of Catalyst: API for better fluid transport and storage.",
+	"schemaVersion": 1,
+	"id": "catalyst-fluids",
+	"version": "${version}",
+	"name": "Catalyst: Fluids",
+	"description": "Fluid module of Catalyst: API for better fluid transport and storage.",
 	"icon": "icon.png",
-  "authors": [
-    "sunsetsatellite"
-  ],
-  "contact": {
-    "homepage": "",
-    "sources": "https://github.com/MartinSVK12/catalyst"
-  },
-
-  "license": "MIT",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "sunsetsatellite.catalyst.CatalystFluids"
-    ],
+	"authors": [
+		"sunsetsatellite"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MartinSVK12/catalyst"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"sunsetsatellite.catalyst.CatalystFluids"
+		],
 		"afterGameStart": [
 			"sunsetsatellite.catalyst.CatalystFluids"
 		],
@@ -30,18 +27,17 @@
 		"afterBlockInit": [
 			"sunsetsatellite.catalyst.CatalystFluids"
 		]
-  },
-  "mixins": [
+	},
+	"mixins": [
 		"catalyst-fluids.mixins.json"
-  ],
-
-  "depends": {
+	],
+	"depends": {
 		"fabricloader": ">=0.15.5",
 		"catalyst-core": ">=2.0.0",
 		"minecraft": "~7.3"
 	},
-  "suggests": {
-  },
+	"suggests": {
+	},
 	"custom": {
 		"modmenu:api": true
 	}

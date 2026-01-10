@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.effects.net;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.entity.Entity;
-import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.world.World;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.CatalystEffects;
@@ -20,7 +19,8 @@ public class SyncEffectContainerForEntityNetworkMessage implements NetworkMessag
 	private EffectContainer<?> container;
 	private CompoundTag containerNBT;
 
-	public SyncEffectContainerForEntityNetworkMessage() {}
+	public SyncEffectContainerForEntityNetworkMessage() {
+	}
 
 	public SyncEffectContainerForEntityNetworkMessage(Entity entity) {
 		this.entityID = entity.id;

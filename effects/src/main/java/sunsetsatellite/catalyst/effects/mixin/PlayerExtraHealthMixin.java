@@ -12,21 +12,21 @@ import sunsetsatellite.catalyst.effects.helper.HealthHelper;
 
 @Mixin(value = Player.class, remap = false)
 public class PlayerExtraHealthMixin extends Mob {
-    public PlayerExtraHealthMixin(@Nullable World world) {
-        super(world);
-    }
+	public PlayerExtraHealthMixin(@Nullable World world) {
+		super(world);
+	}
 
-    @Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
-    public void getMaxHealth(CallbackInfoReturnable<Integer> cir) {
+	@Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
+	public void getMaxHealth(CallbackInfoReturnable<Integer> cir) {
 		int extraHealth = HealthHelper.getExtraHealth(Player.class.cast(this));
 		int maxHealth = cir.getReturnValue() + extraHealth;
 		cir.setReturnValue(maxHealth);
-    }
+	}
 
 	@Override
 	public int getHealth() {
 		int health = super.getHealth();
-		if(health > getMaxHealth()){
+		if (health > getMaxHealth()) {
 			setHealthRaw(getMaxHealth());
 		}
 		return health;

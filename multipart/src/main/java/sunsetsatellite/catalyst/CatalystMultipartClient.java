@@ -16,7 +16,7 @@ import static sunsetsatellite.catalyst.CatalystMultipart.key;
 public class CatalystMultipartClient implements ClientModInitializer, ClientStartEntrypoint {
 	@Override
 	public void onInitializeClient() {
-		Catalyst.GUIS.register(key("gui/carpenter_workbench"),new MpGuiEntryClient(TileEntityCarpenterWorkbench.class, ScreenCarpenterWorkbench.class, MenuCarpenterWorkbench.class));
+		Catalyst.GUIS.register(key("gui/carpenter_workbench"), new MpGuiEntryClient(TileEntityCarpenterWorkbench.class, ScreenCarpenterWorkbench.class, MenuCarpenterWorkbench.class));
 	}
 
 	@Override
@@ -29,13 +29,12 @@ public class CatalystMultipartClient implements ClientModInitializer, ClientStar
 
 	}
 
-	public static void addSettingsPage(){
+	public static void addSettingsPage() {
 		IKeybinds gameSettings = (IKeybinds) Minecraft.getMinecraft().gameSettings;
-		if(FabricLoader.getInstance().isModLoaded("tmb")){
+		if (FabricLoader.getInstance().isModLoaded("tmb")) {
 			CatalystClient.multipartCategory.withComponent(new BooleanOptionComponent(gameSettings.showMultipartsInTMB()));
 		}
 	}
-
 
 
 }

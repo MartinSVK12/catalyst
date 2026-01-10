@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.core.util.mixin.interfaces.IAbsoluteWorldTime;
 
-@Mixin(value = LevelData.class,remap = false)
+@Mixin(value = LevelData.class, remap = false)
 public class LevelDataMixin implements IAbsoluteWorldTime {
 
 	@Unique
@@ -25,18 +25,18 @@ public class LevelDataMixin implements IAbsoluteWorldTime {
 		absoluteWorldTime = value;
 	}
 
-	@Inject(method = "<init>(Lnet/minecraft/core/world/save/LevelData;)V",at = @At("TAIL"))
-	public void init(LevelData levelData, CallbackInfo ci){
+	@Inject(method = "<init>(Lnet/minecraft/core/world/save/LevelData;)V", at = @At("TAIL"))
+	public void init(LevelData levelData, CallbackInfo ci) {
 		absoluteWorldTime = ((IAbsoluteWorldTime) levelData).getAbsoluteWorldTime();
 	}
 
 	@Inject(method = "readFromCompoundTag", at = @At("HEAD"))
-	public void read(CompoundTag tag, CallbackInfo ci){
+	public void read(CompoundTag tag, CallbackInfo ci) {
 		absoluteWorldTime = tag.getLong("AbsoluteTime");
 	}
 
 	@Inject(method = "updateTagCompound", at = @At("HEAD"))
-	public void write(CompoundTag levelTag, CompoundTag playerTag, CallbackInfo ci){
+	public void write(CompoundTag levelTag, CompoundTag playerTag, CallbackInfo ci) {
 		levelTag.putLong("AbsoluteTime", absoluteWorldTime);
 	}
 }

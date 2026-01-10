@@ -14,7 +14,7 @@ import sunsetsatellite.catalyst.fluids.util.Fluids;
 import java.util.List;
 
 @SuppressWarnings("AddedMixinMembersNamePattern")
-@Mixin(value = {ItemBucket.class, ItemBucketEmpty.class, ItemBucketIceCream.class},remap = false)
+@Mixin(value = {ItemBucket.class, ItemBucketEmpty.class, ItemBucketIceCream.class}, remap = false)
 public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Unique
@@ -46,18 +46,18 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public boolean canDrain(ItemStack stack) {
-		if(thisAs == Items.BUCKET_ICECREAM || thisAs == Items.BUCKET_MILK) return false;
+		if (thisAs == Items.BUCKET_ICECREAM || thisAs == Items.BUCKET_MILK) return false;
 		return !(thisAs instanceof ItemBucketEmpty);
 	}
 
 	@Override
 	public FluidStack getCurrentFluid(ItemStack stack) {
-		if(thisAs instanceof ItemBucketEmpty) {
+		if (thisAs instanceof ItemBucketEmpty) {
 			return null;
 		} else if (thisAs == Items.BUCKET_WATER) {
-			return new FluidStack(Fluids.WATER,1000);
+			return new FluidStack(Fluids.WATER, 1000);
 		} else if (thisAs == Items.BUCKET_LAVA) {
-			return new FluidStack(Fluids.LAVA,1000);
+			return new FluidStack(Fluids.LAVA, 1000);
 		} /*else if (thisAs == Items.BUCKET_MILK) {
 			return new FluidStack(Fluids.MILK,1000);
 		} else if (thisAs == Items.BUCKET_ICECREAM) {
@@ -68,7 +68,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public void setCurrentFluid(FluidStack fluidStack, ItemStack stack) {
-		if(fluidStack.amount < 1000) return;
+		if (fluidStack.amount < 1000) return;
 		if (fluidStack.fluid == Fluids.WATER) {
 			stack.itemID = Items.BUCKET_WATER.id;
 			fluidStack.amount -= 1000;
@@ -86,17 +86,17 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public ItemStack fill(FluidStack fluidStack, ItemStack stack) {
-		if(fluidStack == null) return stack;
-		if(fluidStack.amount < 1000) return stack;
-		if(getAllowedFluids(stack).contains(fluidStack.fluid)) {
+		if (fluidStack == null) return stack;
+		if (fluidStack.amount < 1000) return stack;
+		if (getAllowedFluids(stack).contains(fluidStack.fluid)) {
 			if (fluidStack.fluid == Fluids.WATER) {
-				if(stack.stackSize == 1){
+				if (stack.stackSize == 1) {
 					stack.itemID = Items.BUCKET_WATER.id;
 					fluidStack.amount -= 1000;
 					return stack;
 				}
 			} else if (fluidStack.fluid == Fluids.LAVA) {
-				if(stack.stackSize == 1) {
+				if (stack.stackSize == 1) {
 					stack.itemID = Items.BUCKET_LAVA.id;
 					fluidStack.amount -= 1000;
 					return stack;
@@ -113,22 +113,22 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public ItemStack fill(FluidStack fluidStack, ItemStack stack, IFluidInventory tile, int maxAmount) {
-		if(maxAmount < 1000) return stack;
+		if (maxAmount < 1000) return stack;
 		return fill(fluidStack, stack);
 	}
 
 	@Override
 	public ItemStack fill(FluidStack fluidStack, ItemStack stack, IItemFluidContainer inv) {
-		if(fluidStack.amount < 1000) return stack;
+		if (fluidStack.amount < 1000) return stack;
 		return fill(fluidStack, stack);
 	}
 
 	@Override
 	public void drain(ItemStack stack, int slot, IFluidInventory tile) {
-		if(thisAs instanceof ItemBucketEmpty) return;
-		if(stack.stackSize != 1) return;
-		if(tile.getRemainingCapacity(slot) >= 1000) {
-			if(getCurrentFluid(stack).isFluidEqual(tile.getFluidInSlot(slot))) {
+		if (thisAs instanceof ItemBucketEmpty) return;
+		if (stack.stackSize != 1) return;
+		if (tile.getRemainingCapacity(slot) >= 1000) {
+			if (getCurrentFluid(stack).isFluidEqual(tile.getFluidInSlot(slot))) {
 				tile.getFluidInSlot(slot).amount += 1000;
 				stack.itemID = Items.BUCKET.id;
 			} else if (tile.getFluidInSlot(slot) == null) {
@@ -140,10 +140,10 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public void drain(ItemStack stack, ItemStack other, int slot, IItemFluidContainer inv) {
-		if(thisAs instanceof ItemBucketEmpty) return;
-		if(stack.stackSize != 1) return;
-		if(inv.getRemainingCapacity(stack) >= 1000) {
-			if(getCurrentFluid(stack).isFluidEqual(inv.getCurrentFluid(stack))) {
+		if (thisAs instanceof ItemBucketEmpty) return;
+		if (stack.stackSize != 1) return;
+		if (inv.getRemainingCapacity(stack) >= 1000) {
+			if (getCurrentFluid(stack).isFluidEqual(inv.getCurrentFluid(stack))) {
 				inv.getCurrentFluid(stack).amount += 1000;
 				stack.itemID = Items.BUCKET.id;
 			} else if (inv.getCurrentFluid(other) == null) {
@@ -155,9 +155,9 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public FluidStack drain(ItemStack stack, int amount) {
-		if(stack.stackSize != 1) return null;
-		if(thisAs instanceof ItemBucketEmpty) return null;
-		if(amount < 1000) return null;
+		if (stack.stackSize != 1) return null;
+		if (thisAs instanceof ItemBucketEmpty) return null;
+		if (amount < 1000) return null;
 		FluidStack currentFluid = getCurrentFluid(stack);
 		stack.itemID = Items.BUCKET.id;
 		return currentFluid;
@@ -170,7 +170,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public ItemStack getFilled(ItemStack stack, FluidStack fluidStack) {
-		if(!(thisAs instanceof ItemBucketEmpty)) return null;
+		if (!(thisAs instanceof ItemBucketEmpty)) return null;
 		if (fluidStack.fluid == Fluids.WATER) {
 			return Items.BUCKET_WATER.getDefaultStack();
 		} else if (fluidStack.fluid == Fluids.LAVA) {

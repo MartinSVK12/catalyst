@@ -4,7 +4,7 @@ public interface IVoltageTiered {
 
 	VoltageTier getTier();
 
-	default VoltageTier getTier(IVoltageTiered block){
+	default VoltageTier getTier(IVoltageTiered block) {
 		return block.getTier();
 	}
 }

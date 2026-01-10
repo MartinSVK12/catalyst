@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public final class IntAttribute extends NumberAttribute<Integer>{
+public final class IntAttribute extends NumberAttribute<Integer> {
 
 
 	public IntAttribute(String key, Integer defaultValue, Integer minValue, Integer maxValue) {
@@ -28,21 +28,35 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 
 	@Override
 	public Integer calculate(IHasEffects<?> target, Integer baseValue) {
-		if(target.getContainer().getAttributes().contains(this)){
+		if (target.getContainer().getAttributes().contains(this)) {
 			int value = baseValue;
 
 			for (Function<?, List<Modifier<?>>> modifierSupplier : target.getContainer().additionalModifierSuppliers) {
 				List<NumberModifier<? extends Number>> modifiers = validateModifiers(((Function<IHasEffects<?>, List<Modifier<?>>>) modifierSupplier).apply(target));
 
 				for (NumberModifier<? extends Number> modifier : modifiers) {
-					switch (modifier.type){
-						case SET: value = modifier.value.intValue(); break;
-						case ADD: value += modifier.value.intValue(); break;
-						case SUBTRACT: value -= modifier.value.intValue(); break;
-						case PERCENT_ADD: value += (value/100) * modifier.value.intValue(); break;
-						case PERCENT_SUBTRACT: value -= (value/100) * modifier.value.intValue(); break;
-						case MULTIPLY: value *= modifier.value.intValue(); break;
-						case DIVIDE: value /= modifier.value.intValue(); break;
+					switch (modifier.type) {
+						case SET:
+							value = modifier.value.intValue();
+							break;
+						case ADD:
+							value += modifier.value.intValue();
+							break;
+						case SUBTRACT:
+							value -= modifier.value.intValue();
+							break;
+						case PERCENT_ADD:
+							value += (value / 100) * modifier.value.intValue();
+							break;
+						case PERCENT_SUBTRACT:
+							value -= (value / 100) * modifier.value.intValue();
+							break;
+						case MULTIPLY:
+							value *= modifier.value.intValue();
+							break;
+						case DIVIDE:
+							value /= modifier.value.intValue();
+							break;
 					}
 				}
 			}
@@ -50,17 +64,31 @@ public final class IntAttribute extends NumberAttribute<Integer>{
 			List<EffectStack> sortedStacks = target.getContainer().getEffects().stream().sorted(Comparator.comparingInt((S) -> S.getEffect().getPriority())).collect(Collectors.toList());
 
 			for (EffectStack effectStack : sortedStacks) {
-				if(effectStack.hasAttribute(this) && effectStack.isActive()){
+				if (effectStack.hasAttribute(this) && effectStack.isActive()) {
 					List<NumberModifier<? extends Number>> validModifiers = validateModifiers(effectStack.getEffect().getModifiers());
 					for (NumberModifier<? extends Number> modifier : validModifiers) {
-						switch (modifier.type){
-							case SET: value = modifier.calculate(effectStack).intValue(); break;
-							case ADD: value += modifier.calculate(effectStack).intValue(); break;
-							case SUBTRACT: value -= modifier.calculate(effectStack).intValue(); break;
-							case PERCENT_ADD: value += (value/100) * modifier.calculate(effectStack).intValue(); break;
-							case PERCENT_SUBTRACT: value -= (value/100) * modifier.calculate(effectStack).intValue(); break;
-							case MULTIPLY: value *= modifier.calculate(effectStack).intValue(); break;
-							case DIVIDE: value /= modifier.calculate(effectStack).intValue(); break;
+						switch (modifier.type) {
+							case SET:
+								value = modifier.calculate(effectStack).intValue();
+								break;
+							case ADD:
+								value += modifier.calculate(effectStack).intValue();
+								break;
+							case SUBTRACT:
+								value -= modifier.calculate(effectStack).intValue();
+								break;
+							case PERCENT_ADD:
+								value += (value / 100) * modifier.calculate(effectStack).intValue();
+								break;
+							case PERCENT_SUBTRACT:
+								value -= (value / 100) * modifier.calculate(effectStack).intValue();
+								break;
+							case MULTIPLY:
+								value *= modifier.calculate(effectStack).intValue();
+								break;
+							case DIVIDE:
+								value /= modifier.calculate(effectStack).intValue();
+								break;
 						}
 					}
 				}

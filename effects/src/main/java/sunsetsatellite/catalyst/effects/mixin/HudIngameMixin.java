@@ -11,17 +11,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.CatalystEffectsClient;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
-import sunsetsatellite.catalyst.effects.api.effect.options.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
+import sunsetsatellite.catalyst.effects.api.effect.options.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.render.EffectRendererManager;
 
-@Mixin(value = HudIngame.class,remap = false)
+@Mixin(value = HudIngame.class, remap = false)
 public abstract class HudIngameMixin extends Gui {
 
 	@Shadow
 	protected Minecraft mc;
 
-	private HudIngameMixin(){}
+	private HudIngameMixin() {
+	}
 
 	@Unique
 	private final EffectRendererManager catalyst$ScreenEffects = new EffectRendererManager();
@@ -32,7 +33,7 @@ public abstract class HudIngameMixin extends Gui {
 	)
 	public void renderAfterGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
 		EffectDisplayPlace effectDisplayPlace = CatalystEffectsClient.keybinds.getEffectDisplayPlaceEnumOption().value;
-		EffectContainer<?> player = ((IHasEffects<?>)mc.thePlayer).getContainer();
+		EffectContainer<?> player = ((IHasEffects<?>) mc.thePlayer).getContainer();
 
 		if (effectDisplayPlace == EffectDisplayPlace.HUD || effectDisplayPlace == EffectDisplayPlace.BOTH) {
 			catalyst$ScreenEffects.drawEffectIndicators(player, mc, mouseX, mouseY, partialTicks);
@@ -42,13 +43,13 @@ public abstract class HudIngameMixin extends Gui {
 	@Inject(
 		method = "renderGameOverlay(FZII)V",
 		at = @At(
-			value ="INVOKE",
+			value = "INVOKE",
 			target = "Lnet/minecraft/core/player/inventory/container/ContainerInventory;armorItemInSlot(I)Lnet/minecraft/core/item/ItemStack;",
 			ordinal = 0
 		)
 	)
 	public void endRenderGameOverlay(float partialTicks, boolean flag, int mouseX, int mouseY, CallbackInfo ci) {
-		EffectContainer<?> player = ((IHasEffects<?>)mc.thePlayer).getContainer();
+		EffectContainer<?> player = ((IHasEffects<?>) mc.thePlayer).getContainer();
 		catalyst$ScreenEffects.drawScreenEffects(player, mc, mouseX, mouseY, partialTicks);
 	}
 

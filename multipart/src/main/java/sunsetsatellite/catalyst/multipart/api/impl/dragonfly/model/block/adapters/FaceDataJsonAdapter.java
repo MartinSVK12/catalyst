@@ -12,10 +12,12 @@ import java.util.HashMap;
 public class FaceDataJsonAdapter implements JsonDeserializer<FaceData>, JsonSerializer<FaceData> {
 	public static final HashMap<String, Side> keyToSide = new HashMap<>();
 	public static final HashMap<Side, String> sideToKey = new HashMap<>();
-	private static void registerSide(Side side, String key){
+
+	private static void registerSide(Side side, String key) {
 		keyToSide.put(key, side);
 		sideToKey.put(side, key);
 	}
+
 	static {
 		registerSide(Side.BOTTOM, "down");
 		registerSide(Side.TOP, "up");
@@ -24,6 +26,7 @@ public class FaceDataJsonAdapter implements JsonDeserializer<FaceData>, JsonSeri
 		registerSide(Side.WEST, "west");
 		registerSide(Side.EAST, "east");
 	}
+
 	@Override
 	public FaceData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		JsonObject obj = json.getAsJsonObject();

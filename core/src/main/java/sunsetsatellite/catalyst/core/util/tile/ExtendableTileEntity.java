@@ -13,21 +13,21 @@ import java.util.Map;
 
 public class ExtendableTileEntity extends TileEntity implements ITileEntityInit, IHasFeatures {
 
-	protected Map<String,TEFeature> features = new HashMap<>();
+	protected Map<String, TEFeature> features = new HashMap<>();
 	private CompoundTag loadData;
 
 	@MustBeInvokedByOverriders
 	@Override
 	public void init(Block<?> block) {
 		loadFeatures();
-		features.forEach((S,F)->F.init(block));
+		features.forEach((S, F) -> F.init(block));
 	}
 
 	@MustBeInvokedByOverriders
 	@Override
 	public void tick() {
 		super.tick();
-		features.forEach((S,F)->F.tick());
+		features.forEach((S, F) -> F.tick());
 	}
 
 	@MustBeInvokedByOverriders
@@ -36,23 +36,23 @@ public class ExtendableTileEntity extends TileEntity implements ITileEntityInit,
 		super.writeToNBT(nbttagcompound);
 		CompoundTag featuresTag = new CompoundTag();
 
-		features.forEach((S,F)->{
+		features.forEach((S, F) -> {
 			CompoundTag featureTag = new CompoundTag();
 			F.writeToNBT(featureTag);
-			featuresTag.putCompound(S,featureTag);
+			featuresTag.putCompound(S, featureTag);
 		});
-		nbttagcompound.put("Features",featuresTag);
+		nbttagcompound.put("Features", featuresTag);
 	}
 
-	public void loadFeatures(){
-		if(loadData != null){
+	public void loadFeatures() {
+		if (loadData != null) {
 			CompoundTag featuresTag = loadData.getCompound("Features");
 			for (Tag<?> tag : featuresTag.getValues()) {
-				if(tag instanceof CompoundTag) {
+				if (tag instanceof CompoundTag) {
 					CompoundTag featureTag = (CompoundTag) tag;
 					TEFeature feature = TEFeature.loadFeature(featureTag, worldObj);
-					if(feature != null) {
-						features.put(feature.id,feature);
+					if (feature != null) {
+						features.put(feature.id, feature);
 					}
 				}
 			}
@@ -68,19 +68,19 @@ public class ExtendableTileEntity extends TileEntity implements ITileEntityInit,
 	}
 
 	@Override
-	public boolean hasFeature(String id){
+	public boolean hasFeature(String id) {
 		return features.get(id) != null;
 	}
 
 	@Override
-	public TEFeature getFeature(String id){
+	public TEFeature getFeature(String id) {
 		return features.get(id);
 	}
 
 	@Override
-	public TEFeature createAndAddFeature(String featureId){
+	public TEFeature createAndAddFeature(String featureId) {
 		TEFeature feature = TEFeature.createFeature(featureId, worldObj, x, y, z);
-		features.put(featureId,feature);
+		features.put(featureId, feature);
 		return feature;
 	}
 }

@@ -9,16 +9,20 @@ public interface IElectric {
 	 * @return <code>true</code> if container can receive energy from <code>dir</code>, <code>false</code> otherwise
 	 */
 	boolean canReceive(@NotNull Direction dir);
+
 	/**
 	 * @param dir Direction to check
 	 * @return <code>true</code> if container can provide energy to <code>dir</code>, <code>false</code> otherwise
 	 */
-	default boolean canProvide(@NotNull Direction dir) { return false; }
+	default boolean canProvide(@NotNull Direction dir) {
+		return false;
+	}
 
 	/**
 	 * @return Amount of energy currently available in container
 	 */
 	long getEnergy();
+
 	/**
 	 * @return Maximum energy capacity of the container
 	 */
@@ -53,6 +57,7 @@ public interface IElectric {
 
 	/**
 	 * Changes energy amount in container.
+	 *
 	 * @param difference Amount of energy changed, will remove energy if negative
 	 * @return Amount of energy actually changed.
 	 */
@@ -60,20 +65,22 @@ public interface IElectric {
 
 	/**
 	 * Adds energy to container.
+	 *
 	 * @param energy Amount of energy to be added
 	 * @return Amount of energy actually added
 	 */
 	default long internalAddEnergy(long energy) {
-		return internalChangeEnergy(Math.min(energy,getCapacityRemaining()));
+		return internalChangeEnergy(Math.min(energy, getCapacityRemaining()));
 	}
 
 	/**
 	 * Removes energy from the container.
+	 *
 	 * @param energy Amount of energy to be removed
 	 * @return Amount of energy actually removed
 	 */
 	default long internalRemoveEnergy(long energy) {
-		return internalChangeEnergy(-Math.min(getEnergy(),energy));
+		return internalChangeEnergy(-Math.min(getEnergy(), energy));
 	}
 
 	double getAverageEnergyTransfer();
@@ -89,7 +96,8 @@ public interface IElectric {
 
 	/**
 	 * Only this method should be to pass energy in blocks, handles both voltage and amperage.
-	 * @param dir Direction of receive
+	 *
+	 * @param dir      Direction of receive
 	 * @param amperage Receiving amperage
 	 * @return Amps used
 	 */

@@ -37,7 +37,7 @@ public class ScreenCarpenterWorkbench extends ScreenContainerAbstract {
 		super.init();
 		for (Object slot : inventorySlots.slots) {
 			if (slot instanceof SlotPartPicker) {
-				((SlotPartPicker) slot).variableIndex = (((SlotPartPicker) slot).getSlotIndex()-2) + (9 * (tile.page - 1));
+				((SlotPartPicker) slot).variableIndex = (((SlotPartPicker) slot).getSlotIndex() - 2) + (9 * (tile.page - 1));
 			}
 		}
 		buttons.add(new ButtonElement(0, Math.round((float) width / 2 + 60), Math.round((float) height / 2 - 68), 20, 20, "/\\"));
@@ -74,19 +74,19 @@ public class ScreenCarpenterWorkbench extends ScreenContainerAbstract {
 			case 2:
 				int i = this.tile.selectedSide.ordinal();
 				i++;
-				if(i >= Side.values().length) {
+				if (i >= Side.values().length) {
 					i = 0;
 				}
 				this.tile.selectedSide = Side.values()[i];
-				if(this.tile.selectedSide == Side.NONE) {
+				if (this.tile.selectedSide == Side.NONE) {
 					guibutton.displayString = "*";
 					break;
 				}
 				guibutton.displayString = String.valueOf(this.tile.selectedSide.name().charAt(0));
 				break;
 		}
-		if(EnvironmentHelper.isClientWorld()){
-			NetworkHandler.sendToServer(new PacketScreenAction(guibutton.id,0,0,new Vec3i(tile.x, tile.y, tile.z), tile.getClass()));
+		if (EnvironmentHelper.isClientWorld()) {
+			NetworkHandler.sendToServer(new PacketScreenAction(guibutton.id, 0, 0, new Vec3i(tile.x, tile.y, tile.z), tile.getClass()));
 		}
 	}
 

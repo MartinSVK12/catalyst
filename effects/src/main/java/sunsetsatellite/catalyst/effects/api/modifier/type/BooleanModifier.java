@@ -7,7 +7,7 @@ import sunsetsatellite.catalyst.effects.api.modifier.ModifierType;
 public final class BooleanModifier extends Modifier<Boolean> {
 	public BooleanModifier(Attribute<Boolean> attribute, ModifierType type, boolean value) {
 		super(attribute, type, value);
-		if(type != ModifierType.SET){
+		if (type != ModifierType.SET) {
 			throw new IllegalArgumentException("Invalid modifier type for boolean modifier!");
 		}
 	}

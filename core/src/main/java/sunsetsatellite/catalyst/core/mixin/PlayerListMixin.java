@@ -21,26 +21,28 @@ import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.util.UUID;
 
-@Mixin(value = PlayerList.class,remap = false)
+@Mixin(value = PlayerList.class, remap = false)
 public class PlayerListMixin {
 
-    @Shadow @Final private MinecraftServer server;
+	@Shadow
+	@Final
+	private MinecraftServer server;
 
-    @Inject(method = "getPlayerForLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/net/handler/PacketHandlerServer;kickPlayer(Ljava/lang/String;)V", shift = At.Shift.BEFORE), cancellable = true)
-    public void getPlayerForLogin(PacketHandlerLogin handler, String username, UUID uuid, CallbackInfoReturnable<PlayerServer> cir, @Local(name = "player") PlayerServer player) {
-        if(player.uuid == null && uuid == null){
-            cir.setReturnValue(new PlayerServer(server, server.getDimensionWorld(0), username, uuid, new ServerPlayerController(server.getDimensionWorld(0))));
-        }
-    }
+	@Inject(method = "getPlayerForLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/net/handler/PacketHandlerServer;kickPlayer(Ljava/lang/String;)V", shift = At.Shift.BEFORE), cancellable = true)
+	public void getPlayerForLogin(PacketHandlerLogin handler, String username, UUID uuid, CallbackInfoReturnable<PlayerServer> cir, @Local(name = "player") PlayerServer player) {
+		if (player.uuid == null && uuid == null) {
+			cir.setReturnValue(new PlayerServer(server, server.getDimensionWorld(0), username, uuid, new ServerPlayerController(server.getDimensionWorld(0))));
+		}
+	}
 
-    @Inject(method = "sendPlayerToOtherDimension", at = @At("TAIL"))
-    public void sendPlayerToOtherDimension(PlayerServer playerServer, int targetDim, DyeColor portalColor, boolean generatePortal, CallbackInfo ci){
-        if (playerServer.world != null) {
-            for (Network network : NetworkManager.getNetsForDimension(playerServer.world.dimension.id)) {
-                network.update();
-            }
-            NetworkHandler.sendToPlayer(playerServer, new PacketBlockNetworkData(playerServer.world));
-        }
-    }
+	@Inject(method = "sendPlayerToOtherDimension", at = @At("TAIL"))
+	public void sendPlayerToOtherDimension(PlayerServer playerServer, int targetDim, DyeColor portalColor, boolean generatePortal, CallbackInfo ci) {
+		if (playerServer.world != null) {
+			for (Network network : NetworkManager.getNetsForDimension(playerServer.world.dimension.id)) {
+				network.update();
+			}
+			NetworkHandler.sendToPlayer(playerServer, new PacketBlockNetworkData(playerServer.world));
+		}
+	}
 
 }

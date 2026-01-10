@@ -1,38 +1,34 @@
 {
-  "schemaVersion": 1,
-  "id": "catalyst-multiblocks",
-  "version": "${version}",
-
-  "name": "Catalyst: Multiblocks",
-  "description": "Multiblock module of Catalyst: Adds support for multiblock structures.",
+	"schemaVersion": 1,
+	"id": "catalyst-multiblocks",
+	"version": "${version}",
+	"name": "Catalyst: Multiblocks",
+	"description": "Multiblock module of Catalyst: Adds support for multiblock structures.",
 	"icon": "icon.png",
-  "authors": [
-    "sunsetsatellite"
-  ],
-  "contact": {
-    "homepage": "",
-    "sources": "https://github.com/MartinSVK12/catalyst"
-  },
-
-  "license": "MIT",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "sunsetsatellite.catalyst.CatalystMultiblocks"
-    ]
-  },
-  "mixins": [
+	"authors": [
+		"sunsetsatellite"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MartinSVK12/catalyst"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"sunsetsatellite.catalyst.CatalystMultiblocks"
+		]
+	},
+	"mixins": [
 		"catalyst-multiblocks.mixins.json"
-  ],
-
-  "depends": {
-    "fabricloader": ">=0.15.5",
+	],
+	"depends": {
+		"fabricloader": ">=0.15.5",
 		"catalyst-core": ">=2.0.0",
 		"minecraft": "~7.3"
 	},
-  "suggests": {
-  },
+	"suggests": {
+	},
 	"custom": {
 		"modmenu:api": true
 	}

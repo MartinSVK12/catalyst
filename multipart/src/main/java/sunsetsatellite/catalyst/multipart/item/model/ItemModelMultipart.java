@@ -89,15 +89,15 @@ public class ItemModelMultipart extends ItemModelStandard {
 		Block<?> block = Blocks.getBlock(itemstack.getData().getCompound("Multipart").getInteger("Block"));
 		int meta = itemstack.getData().getCompound("Multipart").getInteger("Meta");
 		boolean specifiedSideOnly = itemstack.getData().getCompound("Multipart").containsKey("Side");
-		if(!Objects.equals(type, "") && block != null && MultipartType.types.containsKey(type)) {
+		if (!Objects.equals(type, "") && block != null && MultipartType.types.containsKey(type)) {
 			BlockModelMultipartItem blockModel = new MultipartBlockModelBuilder(CatalystMultipart.MOD_ID)
 				.buildItem();
-			if(specifiedSideOnly){
+			if (specifiedSideOnly) {
 				Side side = Side.getSideById(itemstack.getData().getCompound("Multipart").getInteger("Side"));
-				blockModel.multipart = new Multipart(MultipartType.types.get(type),block,side,meta);
+				blockModel.multipart = new Multipart(MultipartType.types.get(type), block, side, meta);
 				return blockModel;
 			}
-			blockModel.multipart = new Multipart(MultipartType.types.get(type),block,meta);
+			blockModel.multipart = new Multipart(MultipartType.types.get(type), block, meta);
 			return blockModel;
 		}
 		return null;
@@ -127,7 +127,7 @@ public class ItemModelMultipart extends ItemModelStandard {
 				GL11.glBlendFunc(770, 771);
 				TextureRegistry.blockAtlas.bind();
 				GL11.glPushMatrix();
-				GL11.glTranslatef((float)(x - 2), (float)(y + 3), -3.0F);
+				GL11.glTranslatef((float) (x - 2), (float) (y + 3), -3.0F);
 				GL11.glScalef(10.0F, 10.0F, 10.0F);
 				GL11.glTranslatef(1.0F, 0.5F, 1.0F);
 				GL11.glScalef(1.0F, 1.0F, -1.0F);
@@ -135,9 +135,9 @@ public class ItemModelMultipart extends ItemModelStandard {
 				GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
 				if (this.useColor) {
 					int color = this.getColor(itemStack);
-					float r = (float)(color >> 16 & 255) / 255.0F;
-					float g = (float)(color >> 8 & 255) / 255.0F;
-					float b = (float)(color & 255) / 255.0F;
+					float r = (float) (color >> 16 & 255) / 255.0F;
+					float g = (float) (color >> 8 & 255) / 255.0F;
+					float b = (float) (color & 255) / 255.0F;
 					GL11.glColor4f(r * brightness, g * brightness, b * brightness, alpha);
 				} else {
 					GL11.glColor4f(brightness, brightness, brightness, alpha);
@@ -165,7 +165,7 @@ public class ItemModelMultipart extends ItemModelStandard {
 			float itemSize = blockModel.getItemRenderScale();
 			GL11.glScalef(itemSize, itemSize, itemSize);
 
-			for(int i = 0; i < renderCount; ++i) {
+			for (int i = 0; i < renderCount; ++i) {
 				GL11.glPushMatrix();
 				if (i > 0) {
 					float rOffX = (random.nextFloat() * 2.0F - 1.0F) * 0.2F / itemSize;
@@ -203,9 +203,9 @@ public class ItemModelMultipart extends ItemModelStandard {
 				TextureRegistry.blockAtlas.bind();
 				if (this.useColor) {
 					int color = this.getColor(itemStack);
-					float r = (float)(color >> 16 & 255) / 255.0F;
-					float g = (float)(color >> 8 & 255) / 255.0F;
-					float b = (float)(color & 255) / 255.0F;
+					float r = (float) (color >> 16 & 255) / 255.0F;
+					float g = (float) (color >> 8 & 255) / 255.0F;
+					float b = (float) (color & 255) / 255.0F;
 					GL11.glColor4f(r * brightness, g * brightness, b * brightness, alpha);
 				} else {
 					GL11.glColor4f(brightness, brightness, brightness, alpha);

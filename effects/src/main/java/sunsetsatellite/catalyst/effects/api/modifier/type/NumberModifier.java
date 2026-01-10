@@ -1,7 +1,6 @@
 package sunsetsatellite.catalyst.effects.api.modifier.type;
 
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
-import sunsetsatellite.catalyst.effects.api.attribute.type.NumberAttribute;
 import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.ModifierType;
@@ -16,8 +15,8 @@ public abstract class NumberModifier<T extends Number> extends Modifier<T> {
 		super(attribute, type, value);
 		this.stackFunction = stackFunction;
 	}
-	
-	public T calculate(EffectStack effectStack){
-		return stackFunction.apply(value,effectStack.getAmount());
+
+	public T calculate(EffectStack effectStack) {
+		return stackFunction.apply(value, effectStack.getAmount());
 	}
 }

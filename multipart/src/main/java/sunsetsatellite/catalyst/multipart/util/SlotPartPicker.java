@@ -21,9 +21,9 @@ public class SlotPartPicker extends Slot {
 	@Override
 	public void onTake(ItemStack itemstack) {
 		super.onTake(itemstack);
-		if(tile.contents[0] != null && tile.contents[1] != null && tile.contents[1].getItem() instanceof ItemToolAxe) {
-			tile.removeItem(0,1);
-			tile.contents[1].damageItem(1,null);
+		if (tile.contents[0] != null && tile.contents[1] != null && tile.contents[1].getItem() instanceof ItemToolAxe) {
+			tile.removeItem(0, 1);
+			tile.contents[1].damageItem(1, null);
 		}
 	}
 
@@ -34,7 +34,7 @@ public class SlotPartPicker extends Slot {
 
 	@Override
 	public @Nullable ItemStack getItemStack() {
-		if(variableIndex < tile.parts.size()){
+		if (variableIndex < tile.parts.size()) {
 			return tile.parts.get(variableIndex);
 		}
 		return null;
@@ -52,7 +52,7 @@ public class SlotPartPicker extends Slot {
 
 	@Override
 	public @Nullable ItemStack remove(int i) {
-		if(variableIndex < tile.parts.size()){
+		if (variableIndex < tile.parts.size()) {
 			return tile.parts.get(variableIndex);
 		}
 		return null;

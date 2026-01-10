@@ -34,7 +34,7 @@ public class BlockModelMultipart extends BlockModelStandard<BlockLogic> {
 
 	@Override
 	public boolean render(Tessellator tessellator, int x, int y, int z) {
-		if(parentModel != null) parentModel.render(tessellator,x,y,z);
+		if (parentModel != null) parentModel.render(tessellator, x, y, z);
 		MultipartInternalModel[] models = getModelsFromState(block, x, y, z, false);
 		boolean didRender = false;
 		for (MultipartInternalModel model : models) {
@@ -44,8 +44,8 @@ public class BlockModelMultipart extends BlockModelStandard<BlockLogic> {
 			//Y = 90 -> EAST | X POS
 			//Y = 180 -> SOUTH | Z POS
 			//Y = 270 -> WEST | X NEG
-			if(model instanceof MultipartInternalModel){
-				didRender |= MultipartModelRenderer.renderModelNormal(tessellator, model.model, block, x, y, z, ((MultipartInternalModel) model).side, ((MultipartInternalModel) model).part);
+			if (model instanceof MultipartInternalModel) {
+				didRender |= MultipartModelRenderer.renderModelNormal(tessellator, model.model, block, x, y, z, model.side, model.part);
 			}
 		}
 		return didRender;
@@ -53,7 +53,8 @@ public class BlockModelMultipart extends BlockModelStandard<BlockLogic> {
 
 	@Override
 	public void renderBlockOnInventory(Tessellator tessellator, int metadata, float brightness, float alpha, @Nullable Integer lightmapCoordinate) {
-		if(parentModel != null) parentModel.renderBlockOnInventory(tessellator, metadata, brightness, alpha, lightmapCoordinate);
+		if (parentModel != null)
+			parentModel.renderBlockOnInventory(tessellator, metadata, brightness, alpha, lightmapCoordinate);
 	}
 
 	@Override
@@ -61,13 +62,13 @@ public class BlockModelMultipart extends BlockModelStandard<BlockLogic> {
 		return TextureRegistry.getTexture("minecraft:block/stone");
 	}
 
-	public MultipartInternalModel[] getModelsFromState(Block<?> block, int x, int y, int z, boolean sourceFromWorld){
+	public MultipartInternalModel[] getModelsFromState(Block<?> block, int x, int y, int z, boolean sourceFromWorld) {
 		WorldSource world = MultipartModelRenderer.getRenderBlocks().blockAccess;
-		TileEntity tile = world.getTileEntity(x,y,z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 		ArrayList<MultipartInternalModel> models = new ArrayList<>();
-		if(tile instanceof ISupportsMultiparts){
-			((ISupportsMultiparts) tile).getParts().forEach((dir,multipart)->{
-				if(multipart == null) return;
+		if (tile instanceof ISupportsMultiparts) {
+			((ISupportsMultiparts) tile).getParts().forEach((dir, multipart) -> {
+				if (multipart == null) return;
 				//X = 90 -> DOWN | Y NEG
 				//X = -90 -> UP | Y POS
 				//Y = 0 || 360 -> NORTH | Z NEG

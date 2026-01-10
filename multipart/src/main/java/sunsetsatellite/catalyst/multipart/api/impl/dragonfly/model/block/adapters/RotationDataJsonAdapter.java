@@ -12,11 +12,13 @@ import java.util.HashMap;
 
 public class RotationDataJsonAdapter implements JsonDeserializer<RotationData>, JsonSerializer<RotationData> {
 	public static HashMap<String, Axis> keyToAxis = new HashMap<>();
+
 	static {
 		keyToAxis.put("x", Axis.X);
 		keyToAxis.put("y", Axis.Y);
 		keyToAxis.put("z", Axis.Z);
 	}
+
 	@Override
 	public RotationData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		JsonObject obj = json.getAsJsonObject();

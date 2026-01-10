@@ -8,7 +8,8 @@ import java.util.*;
 
 @SuppressWarnings("UnusedReturnValue")
 public class EffectTagDispatcher {
-	protected EffectTagDispatcher() {}
+	protected EffectTagDispatcher() {
+	}
 
 	private static final HashMap<Class<? extends IHasEffects<?>>, Set<Tag<Effect>>> immunityMap = new HashMap<>();
 	private static final HashMap<Class<? extends IHasEffects<?>>, Set<Tag<Effect>>> removedImmunityMap = new HashMap<>();
@@ -18,7 +19,7 @@ public class EffectTagDispatcher {
 
 		List<Class<? extends IHasEffects<?>>> classList = findGrandpa((Class<? extends IHasEffects<?>>) holder);
 
-		for (int i = classList.size()-1; i >= 0; i--) {
+		for (int i = classList.size() - 1; i >= 0; i--) {
 			Set<Tag<Effect>> superTags = immunityMap.get(classList.get(i));
 			Set<Tag<Effect>> removedSuperTags = removedImmunityMap.get(classList.get(i));
 
@@ -42,8 +43,9 @@ public class EffectTagDispatcher {
 		while (IHasEffects.class.isAssignableFrom(clazz)) {
 			list.add(clazz);
 			Class<?> zuper = clazz.getSuperclass();
-			if (IHasEffects.class.isAssignableFrom(zuper)) { clazz = (Class<? extends IHasEffects<?>>) zuper; }
-			else break;
+			if (IHasEffects.class.isAssignableFrom(zuper)) {
+				clazz = (Class<? extends IHasEffects<?>>) zuper;
+			} else break;
 		}
 
 		return list;

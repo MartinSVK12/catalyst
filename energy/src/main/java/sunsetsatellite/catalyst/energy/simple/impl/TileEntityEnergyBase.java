@@ -20,7 +20,8 @@ public abstract class TileEntityEnergyBase extends TileEntity implements IEnergy
 	protected long maxReceive = 0;
 	protected long maxProvide = 0;
 
-	public TileEntityEnergyBase() {}
+	public TileEntityEnergyBase() {
+	}
 
 	//IEnergyContainer
 	@Override
@@ -59,12 +60,12 @@ public abstract class TileEntityEnergyBase extends TileEntity implements IEnergy
 
 	@Override
 	public Vec3i getPosition() {
-		return new Vec3i(x,y,z);
+		return new Vec3i(x, y, z);
 	}
 
 	@Override
 	public boolean isConnected(Direction direction) {
-		return direction.getTileEntity(worldObj,this) instanceof TileEntityEnergyConductor;
+		return direction.getTileEntity(worldObj, this) instanceof TileEntityEnergyConductor;
 	}
 
 	@Override

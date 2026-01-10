@@ -6,5 +6,5 @@ import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
 import java.util.Map;
 
 public interface IItemWithModifiers {
-	Map<Modifier<?>,Boolean> getModifiers(IHasEffects<?> target, ItemStack stack, int slot);
+	Map<Modifier<?>, Boolean> getModifiers(IHasEffects<?> target, ItemStack stack, int slot);
 }

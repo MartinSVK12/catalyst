@@ -7,5 +7,5 @@ import net.minecraft.core.entity.player.Player;
  * or player screen to be affected.
  */
 public interface IHasCustomHeartContainer {
-    HeartContainer getCustomContainer(Player player);
+	HeartContainer getCustomContainer(Player player);
 }

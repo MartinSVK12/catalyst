@@ -18,23 +18,23 @@ import turniplabs.halplibe.util.ModelEntrypoint;
 public class MultipartModels implements ModelEntrypoint {
 	@Override
 	public void initBlockModels(BlockModelDispatcher dispatcher) {
-		ModelHelper.setBlockModel(CatalystMultipart.carpenterWorkbench,()->{
+		ModelHelper.setBlockModel(CatalystMultipart.carpenterWorkbench, () -> {
 			return new BlockModelStandard<>(CatalystMultipart.carpenterWorkbench)
-				.setTex(0,"catalyst-multipart:block/carpenter_workbench_top", Side.TOP)
-				.setTex(0,"catalyst-multipart:block/carpenter_workbench_bottom", Side.BOTTOM)
-				.setTex(0,"catalyst-multipart:block/carpenter_workbench_front",Side.NORTH)
+				.setTex(0, "catalyst-multipart:block/carpenter_workbench_top", Side.TOP)
+				.setTex(0, "catalyst-multipart:block/carpenter_workbench_bottom", Side.BOTTOM)
+				.setTex(0, "catalyst-multipart:block/carpenter_workbench_front", Side.NORTH)
 				.setTex(0, "catalyst-multipart:block/carpenter_workbench_side", Side.EAST, Side.WEST, Side.SOUTH);
 		});
 
-		ModelHelper.setBlockModel(CatalystMultipart.multipartBlock,()->{
-			return new MultipartBlockModelBuilder(CatalystMultipart.MOD_ID).build((Block<BlockLogic>) CatalystMultipart.multipartBlock);
+		ModelHelper.setBlockModel(CatalystMultipart.multipartBlock, () -> {
+			return new MultipartBlockModelBuilder(CatalystMultipart.MOD_ID).build(CatalystMultipart.multipartBlock);
 		});
 	}
 
 	@Override
 	public void initItemModels(ItemModelDispatcher dispatcher) {
-		ModelHelper.setItemModel(CatalystMultipart.multipartItem, ()->{
-			return new ItemModelMultipart(CatalystMultipart.multipartItem,CatalystMultipart.MOD_ID);
+		ModelHelper.setItemModel(CatalystMultipart.multipartItem, () -> {
+			return new ItemModelMultipart(CatalystMultipart.multipartItem, CatalystMultipart.MOD_ID);
 		});
 	}
 

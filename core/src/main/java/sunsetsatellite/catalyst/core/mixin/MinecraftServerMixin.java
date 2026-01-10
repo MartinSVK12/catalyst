@@ -10,9 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.Catalyst;
 
-import java.io.File;
-
-@Mixin(value = MinecraftServer.class,remap = false)
+@Mixin(value = MinecraftServer.class, remap = false)
 public class MinecraftServerMixin {
 
 	@Inject(method = "initWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/world/Dimension;getDimensionList()Ljava/util/Map;", shift = At.Shift.BEFORE))

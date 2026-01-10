@@ -1,31 +1,23 @@
 package sunsetsatellite.catalyst.fluids.mp;
 
 
-import net.minecraft.core.net.handler.PacketHandler;
-import net.minecraft.core.net.packet.Packet;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
-import net.minecraft.server.net.handler.PacketHandlerServer;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
-import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPacketHandlerServer;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 public class PacketFluidWindowClick implements NetworkMessage {
-    public int windowId;
-    public int inventorySlot;
-    public int mouseClick;
-    public short action;
-    public FluidStack fluidStack;
-    public boolean shift;
-    public boolean control;
+	public int windowId;
+	public int inventorySlot;
+	public int mouseClick;
+	public short action;
+	public FluidStack fluidStack;
+	public boolean shift;
+	public boolean control;
 
 	public PacketFluidWindowClick() {
 	}
@@ -67,9 +59,9 @@ public class PacketFluidWindowClick implements NetworkMessage {
 		this.control = packet.readBoolean();
 		String fluidId = packet.readString();
 		int amount = packet.readInt();
-		if(!fluidId.equals("null")) {
+		if (!fluidId.equals("null")) {
 			try {
-				fluidStack = new FluidStack(Fluid.fluidMap.get(NamespaceID.getTemp(fluidId)),amount);
+				fluidStack = new FluidStack(Fluid.fluidMap.get(NamespaceID.getTemp(fluidId)), amount);
 			} catch (HardIllegalArgumentException e) {
 				throw new RuntimeException(e);
 			}
@@ -79,7 +71,7 @@ public class PacketFluidWindowClick implements NetworkMessage {
 	@Override
 	public void handle(NetworkContext context) {
 		if (context.player.craftingInventory.containerId == windowId && context.player.craftingInventory instanceof MenuFluid) {
-			FluidStack fluidStack = ((MenuFluid)context.player.craftingInventory).clickFluidSlot(inventorySlot, mouseClick, shift, control, context.player);
+			FluidStack fluidStack = ((MenuFluid) context.player.craftingInventory).clickFluidSlot(inventorySlot, mouseClick, shift, control, context.player);
 		}
 	}
 }

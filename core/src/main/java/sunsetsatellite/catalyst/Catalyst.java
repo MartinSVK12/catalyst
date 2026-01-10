@@ -3,7 +3,6 @@ package sunsetsatellite.catalyst;
 import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.Tag;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.core.Global;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.BlockLogic;
 import net.minecraft.core.block.Blocks;
@@ -64,19 +63,19 @@ public class Catalyst implements ModInitializer {
 		DIMENSION_SAVE_SIGNAL.connect(NetworkManager.LoadSaveListener.INSTANCE);
 	}
 
-	public static <K,V> Map<K,V> mapOf(K[] keys, V[] values){
-		if(keys.length != values.length){
+	public static <K, V> Map<K, V> mapOf(K[] keys, V[] values) {
+		if (keys.length != values.length) {
 			throw new IllegalArgumentException("Arrays differ in size!");
 		}
-		HashMap<K,V> map = new HashMap<>();
+		HashMap<K, V> map = new HashMap<>();
 		for (int i = 0; i < keys.length; i++) {
-			map.put(keys[i],values[i]);
+			map.put(keys[i], values[i]);
 		}
 		return map;
 	}
 
-	public static <T,V> T[] arrayFill(T[] array,V value){
-		Arrays.fill(array,value);
+	public static <T, V> T[] arrayFill(T[] array, V value) {
+		Arrays.fill(array, value);
 		return array;
 	}
 
@@ -94,30 +93,30 @@ public class Catalyst implements ModInitializer {
 	}
 
 	@SafeVarargs
-	public static <T> List<T> listOf(T... values){
+	public static <T> List<T> listOf(T... values) {
 		return new ArrayList<>(Arrays.asList(values));
 	}
 
 	@SafeVarargs
-	public static <T> Set<T> setOf(T... values){
+	public static <T> Set<T> setOf(T... values) {
 		return new HashSet<>(Arrays.asList(values));
 	}
 
-	public static <T,U> List<Pair<T,U>> zip(List<T> first, List<U> second){
-		List<Pair<T,U>> list = new ArrayList<>();
+	public static <T, U> List<Pair<T, U>> zip(List<T> first, List<U> second) {
+		List<Pair<T, U>> list = new ArrayList<>();
 		List<?> shortest = first.size() < second.size() ? first : second;
 		for (int i = 0; i < shortest.size(); i++) {
-			list.add(Pair.of(first.get(i),second.get(i)));
+			list.add(Pair.of(first.get(i), second.get(i)));
 		}
 		return list;
 	}
 
-	public static CompoundTag compoundOf(String[] keys, Object... values){
+	public static CompoundTag compoundOf(String[] keys, Object... values) {
 		CompoundTag tag = new CompoundTag();
 
 		tag.setValue(
 			mapOf(keys,
-				zip(listOf(keys),listOf(values))
+				zip(listOf(keys), listOf(values))
 					.stream()
 					.map(pair -> tagOf(pair.getLeft(), pair.getRight()))
 					.toArray(Tag[]::new))
@@ -125,13 +124,13 @@ public class Catalyst implements ModInitializer {
 		return tag;
 	}
 
-	public static <T> Tag<T> tagOf(T value){
+	public static <T> Tag<T> tagOf(T value) {
 		Tag<T> tag = (Tag<T>) Tag.createTagOfType(value.getClass());
 		tag.setValue(value);
 		return tag;
 	}
 
-	public static <T> Tag<T> tagOf(String name, T value){
+	public static <T> Tag<T> tagOf(String name, T value) {
 		Tag<T> tag = (Tag<T>) Tag.createTagOfType(value.getClass());
 		tag.setValue(value);
 		tag.setName(name);
@@ -142,10 +141,10 @@ public class Catalyst implements ModInitializer {
 	 * @param values The values to be checked
 	 * @return Returns the smallest of <code>values</code>
 	 */
-	public static long multiMin(long... values){
+	public static long multiMin(long... values) {
 		long min = Long.MAX_VALUE;
 		for (long value : values) {
-			if(value < min){
+			if (value < min) {
 				min = value;
 			}
 		}
@@ -163,62 +162,62 @@ public class Catalyst implements ModInitializer {
 						found = true;
 					}
 				}
-				if(!found) stacks.add(stack.copy());
+				if (!found) stacks.add(stack.copy());
 			}
 		}
 		return stacks;
 	}
 
-	public static @UnmodifiableView List<ItemStack> collectStacks(Container inv){
-		if(inv == null) return Collections.emptyList();
+	public static @UnmodifiableView List<ItemStack> collectStacks(Container inv) {
+		if (inv == null) return Collections.emptyList();
 		ArrayList<ItemStack> stacks = new ArrayList<>();
 
 		for (int i = 0; i < inv.getContainerSize(); i++) {
-			stacks.add(i,inv.getItem(i));
+			stacks.add(i, inv.getItem(i));
 		}
 
 		return Collections.unmodifiableList(stacks);
 	}
 
-	public static @UnmodifiableView List<ItemStack> collectAndCondenseStacks(Container inv){
+	public static @UnmodifiableView List<ItemStack> collectAndCondenseStacks(Container inv) {
 		return condenseItemList(collectStacks(inv));
 	}
 
-	public static Pair<Direction, BlockSection> getBlockSurfaceClickPosition(World world, Player player, Side side, Vec2f clickPosition){
+	public static Pair<Direction, BlockSection> getBlockSurfaceClickPosition(World world, Player player, Side side, Vec2f clickPosition) {
 		Direction dir = Direction.getDirectionFromSide(side.getId());
-		return Pair.of(dir,BlockSection.getClosestBlockSection(clickPosition));
+		return Pair.of(dir, BlockSection.getClosestBlockSection(clickPosition));
 	}
 
 	public static Side calculatePlayerFacing(float rotation) {
 		return Side.values()[(2 + ((MathHelper.floor((double) ((rotation * 4F) / 360F) + 0.5D) + 2) & 3))];
 	}
 
-	public static void displayGui(Player player, Container inventory, int slotIndex, boolean isArmor, String id){
-		((IMpGui)player).catalyst$displayCustomGUI(inventory, slotIndex, isArmor, id);
+	public static void displayGui(Player player, Container inventory, int slotIndex, boolean isArmor, String id) {
+		((IMpGui) player).catalyst$displayCustomGUI(inventory, slotIndex, isArmor, id);
 	}
 
 
-	public static void displayGui(Player player, TileEntity tileEntity, String id){
-		((IMpGui)player).catalyst$displayCustomGUI(tileEntity, id);
+	public static void displayGui(Player player, TileEntity tileEntity, String id) {
+		((IMpGui) player).catalyst$displayCustomGUI(tileEntity, id);
 	}
 
-	public static void displayGui(Player player, TileEntity tileEntity, String id, CompoundTag data){
-		((IMpGui)player).catalyst$displayCustomGUI(tileEntity, id, data);
+	public static void displayGui(Player player, TileEntity tileEntity, String id, CompoundTag data) {
+		((IMpGui) player).catalyst$displayCustomGUI(tileEntity, id, data);
 	}
 
-	public static <T> T blockLogic(Block<? extends BlockLogic> block, Class<T> clazz){
-		if(Block.hasLogicClass(block, clazz)) return (T) block.getLogic();
+	public static <T> T blockLogic(Block<? extends BlockLogic> block, Class<T> clazz) {
+		if (Block.hasLogicClass(block, clazz)) return (T) block.getLogic();
 		else return null;
 	}
 
-	public static <T> T blockLogic(int id, Class<T> clazz){
-		if(Block.hasLogicClass(Blocks.blocksList[id], clazz)) return (T) Blocks.blocksList[id].getLogic();
+	public static <T> T blockLogic(int id, Class<T> clazz) {
+		if (Block.hasLogicClass(Blocks.blocksList[id], clazz)) return (T) Blocks.blocksList[id].getLogic();
 		else return null;
 	}
 
-	public static <T> boolean listContains(List<T> list, T o, BiFunction<T,T,Boolean> equals){
+	public static <T> boolean listContains(List<T> list, T o, BiFunction<T, T, Boolean> equals) {
 		for (T obj : list) {
-			if(equals.apply(o,obj)){
+			if (equals.apply(o, obj)) {
 				return true;
 			}
 		}
@@ -238,42 +237,42 @@ public class Catalyst implements ModInitializer {
 			float f6 = brightness * (1.0F - saturation * f4);
 			float f7 = brightness * (1.0F - saturation * (1.0F - f4));
 			switch ((int) f3) {
-				case 0 :
+				case 0:
 					red = (byte) (brightness * 255F + 0.5F);
 					green = (byte) (f7 * 255F + 0.5F);
 					blue = (byte) (f5 * 255F + 0.5F);
 					break;
-				case 1 :
+				case 1:
 					red = (byte) (f6 * 255F + 0.5F);
 					green = (byte) (brightness * 255F + 0.5F);
 					blue = (byte) (f5 * 255F + 0.5F);
 					break;
-				case 2 :
+				case 2:
 					red = (byte) (f5 * 255F + 0.5F);
 					green = (byte) (brightness * 255F + 0.5F);
 					blue = (byte) (f7 * 255F + 0.5F);
 					break;
-				case 3 :
+				case 3:
 					red = (byte) (f5 * 255F + 0.5F);
 					green = (byte) (f6 * 255F + 0.5F);
 					blue = (byte) (brightness * 255F + 0.5F);
 					break;
-				case 4 :
+				case 4:
 					red = (byte) (f7 * 255F + 0.5F);
 					green = (byte) (f5 * 255F + 0.5F);
 					blue = (byte) (brightness * 255F + 0.5F);
 					break;
-				case 5 :
+				case 5:
 					red = (byte) (brightness * 255F + 0.5F);
 					green = (byte) (f5 * 255F + 0.5F);
 					blue = (byte) (f6 * 255F + 0.5F);
 					break;
 			}
 		}
-		return new byte[]{red,green,blue};
+		return new byte[]{red, green, blue};
 	}
 
-	public static int random(Random random, int min, int max){
-		return random.nextInt(max-min+1)+min;
+	public static int random(Random random, int min, int max) {
+		return random.nextInt(max - min + 1) + min;
 	}
 }

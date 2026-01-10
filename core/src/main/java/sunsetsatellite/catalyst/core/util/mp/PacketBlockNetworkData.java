@@ -1,7 +1,6 @@
 package sunsetsatellite.catalyst.core.util.mp;
 
 import com.mojang.nbt.tags.CompoundTag;
-import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.world.World;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.core.util.network.NetworkManager;
@@ -17,7 +16,7 @@ public class PacketBlockNetworkData implements NetworkMessage {
 	public PacketBlockNetworkData(World world) {
 		networks = new CompoundTag();
 		this.dimension = world.dimension.id;
-		NetworkManager.netsToTag(world,networks);
+		NetworkManager.netsToTag(world, networks);
 	}
 
 	public PacketBlockNetworkData() {
@@ -38,10 +37,10 @@ public class PacketBlockNetworkData implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if(EnvironmentHelper.isClientWorld()){
+		if (EnvironmentHelper.isClientWorld()) {
 			if (context.player.world != null && context.player.world.dimension.id == dimension) {
 				NetworkManager.clearNets(context.player.dimension);
-				NetworkManager.netsFromTag(context.player.world,networks);
+				NetworkManager.netsFromTag(context.player.world, networks);
 			}
 		}
 	}

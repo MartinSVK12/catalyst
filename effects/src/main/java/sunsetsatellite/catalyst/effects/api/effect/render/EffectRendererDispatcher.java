@@ -2,11 +2,8 @@ package sunsetsatellite.catalyst.effects.api.effect.render;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.client.util.dispatch.Dispatcher;
-import net.minecraft.core.item.Items;
 import sunsetsatellite.catalyst.effects.api.effect.Effect;
-import sunsetsatellite.catalyst.effects.api.effect.Effects;
 
 
 @Environment(EnvType.CLIENT)

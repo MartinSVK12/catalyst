@@ -15,8 +15,8 @@ import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 
 @Mixin(
-      value = PlayerControllerMP.class,
-      remap = false
+	value = PlayerControllerMP.class,
+	remap = false
 )
 public class PlayerControllerMPMixin extends PlayerController implements FluidPickupController {
 
@@ -28,15 +28,15 @@ public class PlayerControllerMPMixin extends PlayerController implements FluidPi
 	}
 
 	@Override
-    public FluidStack catalyst$fluidPickUpFromInventory(int i, int slotID, int button, boolean shift, boolean control, Player player) {
+	public FluidStack catalyst$fluidPickUpFromInventory(int i, int slotID, int button, boolean shift, boolean control, Player player) {
 		short word0 = player.craftingInventory.backup(player.inventory);
 		FluidStack fluidStack = null;
-		if(player.craftingInventory instanceof MenuFluid){
-			fluidStack = ((MenuFluid)player.craftingInventory).clickFluidSlot(slotID, button, shift, control, player);
+		if (player.craftingInventory instanceof MenuFluid) {
+			fluidStack = ((MenuFluid) player.craftingInventory).clickFluidSlot(slotID, button, shift, control, player);
 		} /*else if (player.craftingInventory instanceof ContainerItemFluid) {
 			fluidStack = ((ContainerItemFluid)player.craftingInventory).clickFluidSlot(slotID, button, shift, control, player);
 		}*/
 		NetworkHandler.sendToServer(new PacketFluidWindowClick(i, slotID, button, shift, control, fluidStack, word0));
 		return fluidStack;
-    }
+	}
 }

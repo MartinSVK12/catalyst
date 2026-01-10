@@ -9,13 +9,12 @@ import sunsetsatellite.catalyst.effects.api.effect.options.EffectExtraHealthDisp
 import sunsetsatellite.catalyst.effects.interfaces.mixins.IKeybinds;
 
 @Mixin(
-        value = GameSettings.class,
-        remap = false
+	value = GameSettings.class,
+	remap = false
 )
 public class GameSettingsMixin
-    implements IKeybinds
-{
-	private final GameSettings thisAs = ((GameSettings)(Object)this);
+	implements IKeybinds {
+	private final GameSettings thisAs = ((GameSettings) (Object) this);
 
 	@Unique
 	public OptionEnum<EffectDisplayPlace> effectDisplayPlaceEnumOption = new OptionEnum<>(

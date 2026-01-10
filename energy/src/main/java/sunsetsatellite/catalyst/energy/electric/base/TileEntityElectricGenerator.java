@@ -3,7 +3,7 @@ package sunsetsatellite.catalyst.energy.electric.base;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.core.util.Direction;
 
-public abstract class TileEntityElectricGenerator extends TileEntityElectricBase{
+public abstract class TileEntityElectricGenerator extends TileEntityElectricBase {
 
 	@Override
 	public void tick() {

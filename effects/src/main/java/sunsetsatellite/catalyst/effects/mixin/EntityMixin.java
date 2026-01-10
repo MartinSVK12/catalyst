@@ -14,25 +14,23 @@ import sunsetsatellite.catalyst.effects.api.effect.Effect;
 import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
 import sunsetsatellite.catalyst.effects.api.effect.EffectTagDispatcher;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
-import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Mixin(value = Entity.class, remap = false)
 public class EntityMixin implements IHasEffects<Entity> {
 
 	@Unique
-	private final Entity thisAs = (Entity) ((Object)this);
+	private final Entity thisAs = (Entity) ((Object) this);
 
 	@Unique
 	public EffectContainer<Entity> effectContainer = new EffectContainer<>(thisAs);
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	public void init(World world, CallbackInfo ci){
-		Attributes.getInstance().forEach((A)->{
-			if(A.isDefault() && A.getValidEntities().stream().anyMatch(E->E.isAssignableFrom(thisAs.getClass()))) effectContainer.getAttributes().add(A);
+	public void init(World world, CallbackInfo ci) {
+		Attributes.getInstance().forEach((A) -> {
+			if (A.isDefault() && A.getValidEntities().stream().anyMatch(E -> E.isAssignableFrom(thisAs.getClass())))
+				effectContainer.getAttributes().add(A);
 		});
 	}
 
@@ -53,19 +51,19 @@ public class EntityMixin implements IHasEffects<Entity> {
 	}
 
 	@Inject(method = "tick", at = @At("HEAD"))
-	public void tick(CallbackInfo ci){
+	public void tick(CallbackInfo ci) {
 		effectContainer.tick();
 
 	}
 
-	@Inject(method = "saveWithoutId",at = @At("TAIL"))
+	@Inject(method = "saveWithoutId", at = @At("TAIL"))
 	public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
 		CompoundTag effects = new CompoundTag();
 		getContainer().saveToNbt(effects);
-		tag.putCompound("Effects",effects);
+		tag.putCompound("Effects", effects);
 	}
 
-	@Inject(method = "load",at = @At("TAIL"))
+	@Inject(method = "load", at = @At("TAIL"))
 	public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
 		getContainer().loadFromNbt(tag.getCompound("Effects"));
 	}

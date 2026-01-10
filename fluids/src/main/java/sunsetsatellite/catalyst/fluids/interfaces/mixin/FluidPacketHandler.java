@@ -5,5 +5,5 @@ import sunsetsatellite.catalyst.fluids.mp.PacketSetFluidSlot;
 
 public interface FluidPacketHandler {
 
-    void catalyst$handleSetFluidSlot(PacketSetFluidSlot packetSetFluidSlot);
+	void catalyst$handleSetFluidSlot(PacketSetFluidSlot packetSetFluidSlot);
 }

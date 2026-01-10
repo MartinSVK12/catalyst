@@ -8,8 +8,6 @@ import sunsetsatellite.catalyst.Catalyst;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Fluids {
 
@@ -36,11 +34,11 @@ public class Fluids {
 	}
 
 	public static List<FluidStack> getFluidStacks(List<ItemStack> items) {
-		List<Pair<Fluid,Integer>> list = new ArrayList<>();
+		List<Pair<Fluid, Integer>> list = new ArrayList<>();
 		for (ItemStack I : items) {
 			Fluid fluid = getFluid(I.itemID);
 			if (fluid != null) {
-				list.add(Pair.of(fluid,I.stackSize));
+				list.add(Pair.of(fluid, I.stackSize));
 			}
 		}
 		List<FluidStack> result = new ArrayList<>();
