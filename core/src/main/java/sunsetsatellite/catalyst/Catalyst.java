@@ -196,7 +196,6 @@ public class Catalyst implements ModInitializer {
 		((IMpGui) player).catalyst$displayCustomGUI(inventory, slotIndex, isArmor, id);
 	}
 
-
 	public static void displayGui(Player player, TileEntity tileEntity, String id) {
 		((IMpGui) player).catalyst$displayCustomGUI(tileEntity, id);
 	}

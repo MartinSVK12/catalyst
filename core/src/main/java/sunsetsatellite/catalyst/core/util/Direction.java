@@ -6,6 +6,7 @@ import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.util.phys.Vec3;
 import net.minecraft.core.world.WorldSource;
+import org.lwjgl.util.vector.Vector3f;
 import sunsetsatellite.catalyst.core.util.vector.Vec3f;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
@@ -157,6 +158,58 @@ public enum Direction {
 				return Direction.X_NEG;
 		}
 		return this;
+	}
+
+	public static Vector3f[] getVerticesForSide(Direction dir) {
+		float min = -0.5f; // Centered at 0,0,0
+		float max = 0.5f;
+
+		switch (dir) {
+			case Y_POS: // TOP
+				return new Vector3f[]{
+					new Vector3f(min, max, min),
+					new Vector3f(min, max, max),
+					new Vector3f(max, max, max),
+					new Vector3f(max, max, min)
+				};
+			case Y_NEG: // BOTTOM
+				return new Vector3f[]{
+					new Vector3f(min, min, min),
+					new Vector3f(max, min, min),
+					new Vector3f(max, min, max),
+					new Vector3f(min, min, max)
+				};
+			case Z_NEG: // NORTH
+				return new Vector3f[]{
+					new Vector3f(min, min, min),
+					new Vector3f(min, max, min),
+					new Vector3f(max, max, min),
+					new Vector3f(max, min, min)
+				};
+			case Z_POS: // SOUTH
+				return new Vector3f[]{
+					new Vector3f(min, min, max),
+					new Vector3f(max, min, max),
+					new Vector3f(max, max, max),
+					new Vector3f(min, max, max)
+				};
+			case X_NEG: // WEST
+				return new Vector3f[]{
+					new Vector3f(min, min, min),
+					new Vector3f(min, min, max),
+					new Vector3f(min, max, max),
+					new Vector3f(min, max, min)
+				};
+			case X_POS: // EAST
+				return new Vector3f[]{
+					new Vector3f(max, min, min),
+					new Vector3f(max, max, min),
+					new Vector3f(max, max, max),
+					new Vector3f(max, min, max)
+				};
+			default:
+				return new Vector3f[0];
+		}
 	}
 
 	public Vec3 getMinecraftVec() {

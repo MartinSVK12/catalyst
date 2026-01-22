@@ -10,13 +10,14 @@ import net.minecraft.core.world.biome.Biome;
 import net.minecraft.core.world.season.SeasonManager;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class HologramWorld implements WorldSource {
 	private final HashMap<Vec3i, BlockInstance> blocks = new HashMap<>();
 
-	public HologramWorld(List<BlockInstance> structure) {
+	public HologramWorld(ArrayList<BlockInstance> structure) {
 		for (BlockInstance block : structure) {
 			blocks.put(block.pos, block);
 		}
