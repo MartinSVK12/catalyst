@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst.core.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.world.save.ISaveFormat;
 import net.minecraft.core.world.save.SaveHandlerServer;
 import net.minecraft.server.MinecraftServer;

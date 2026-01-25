@@ -1,1 +1,0 @@
-- Added a base implementation for an extra hearts effect. (by kheprep)

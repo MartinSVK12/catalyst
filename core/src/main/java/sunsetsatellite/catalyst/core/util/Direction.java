@@ -67,6 +67,16 @@ public enum Direction {
 		return world.getBlock(pos.x, pos.y, pos.z);
 	}
 
+	public int getBlockMetadata(WorldSource world, TileEntity tile) {
+		Vec3i pos = new Vec3i(tile.x + vec.x, tile.y + vec.y, tile.z + vec.z);
+		return world.getBlockMetadata(pos.x, pos.y, pos.z);
+	}
+
+	public int getBlockMetadata(WorldSource world, Vec3i baseVec) {
+		Vec3i pos = new Vec3i(baseVec.x + vec.x, baseVec.y + vec.y, baseVec.z + vec.z);
+		return world.getBlockMetadata(pos.x, pos.y, pos.z);
+	}
+
 	public TileEntity getTileEntity(WorldSource world, Vec3i baseVec) {
 		Vec3i pos = new Vec3i(baseVec.x + vec.x, baseVec.y + vec.y, baseVec.z + vec.z);
 		return world.getTileEntity(pos.x, pos.y, pos.z);
