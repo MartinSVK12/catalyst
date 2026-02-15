@@ -49,34 +49,28 @@ public class EffectStack {
 		this.timeLeft = tag.getInteger("timeLeft");
 	}
 
-	public <T> void start(EffectContainer<T> container) {
+	public <T> void start(EffectContainer<T> effectContainer) {
 		if (state == State.INACTIVE) {
 			state = State.ACTIVE;
 			timeLeft = duration;
-			effect.activated(this, container);
-
-			if (EnvironmentHelper.isServerEnvironment())
-				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
+			effect.activated(this, effectContainer);
+			syncEffectsStack(effectContainer);
 		}
 	}
 
-	public <T> void pause(EffectContainer<T> container) {
+	public <T> void pause(EffectContainer<T> effectContainer) {
 		if (state == State.ACTIVE) {
 			state = State.PAUSED;
-			effect.paused(this, container);
-
-			if (EnvironmentHelper.isServerEnvironment())
-				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
+			effect.paused(this, effectContainer);
+			syncEffectsStack(effectContainer);
 		}
 	}
 
-	public <T> void unpause(EffectContainer<T> container) {
+	public <T> void unpause(EffectContainer<T> effectContainer) {
 		if (state == State.PAUSED) {
 			state = State.ACTIVE;
-			effect.unpaused(this, container);
-
-			if (EnvironmentHelper.isServerEnvironment())
-				NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) container.getParent()));
+			effect.unpaused(this, effectContainer);
+			syncEffectsStack(effectContainer);
 		}
 	}
 
@@ -85,6 +79,16 @@ public class EffectStack {
 			timeLeft = 0;
 			state = State.FINISHED;
 			effect.expired(this, effectContainer);
+		}
+	}
+
+	public <T> void restart(int amount, EffectContainer<T> effectContainer) {
+		if (state == State.FINISHED) {
+			timeLeft = duration;
+			state = State.ACTIVE;
+			this.amount -= amount;
+			effect.stackSubtracted(this, effectContainer);
+			syncEffectsStack(effectContainer);
 		}
 	}
 
@@ -107,23 +111,32 @@ public class EffectStack {
 		this.amount += amount;
 		if (effect.getTimeType() == EffectTimeType.RESET) {
 			timeLeft = duration;
+			effect.stackRefreshed(this, effectContainer);
 		}
 		if (effect.getTimeType() == EffectTimeType.ADD) {
 			timeLeft += effect.getDurationIncrease();
 		}
 
-		effect.stackAdded(this, effectContainer);
+		if (amount > 0) {
+			effect.stackAdded(this, effectContainer);
+		}
 
-		if (EnvironmentHelper.isServerEnvironment())
-			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) effectContainer.getParent()));
+		syncEffectsStack(effectContainer);
 	}
 
 	public <T> void subtract(int amount, EffectContainer<T> effectContainer) {
 		this.amount -= amount;
-		effect.stackSubtracted(this, effectContainer);
 
-		if (EnvironmentHelper.isServerEnvironment())
+		if (amount > 0) {
+			effect.stackSubtracted(this, effectContainer);
+		}
+		syncEffectsStack(effectContainer);
+	}
+
+	private static <T> void syncEffectsStack(EffectContainer<T> effectContainer) {
+		if (EnvironmentHelper.isServerEnvironment()) {
 			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) effectContainer.getParent()));
+		}
 	}
 
 	public boolean isActive() {
