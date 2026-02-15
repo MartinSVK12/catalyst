@@ -150,8 +150,13 @@ public class Effect implements ITaggable<Effect> {
 
 	}
 
+	public <T> void stackRefreshed(EffectStack effectStack, EffectContainer<T> effectContainer) {
+
+	}
+
 	@Override
 	public boolean isIn(Tag tag) {
 		return tag.appliesTo(this);
 	}
+
 }
