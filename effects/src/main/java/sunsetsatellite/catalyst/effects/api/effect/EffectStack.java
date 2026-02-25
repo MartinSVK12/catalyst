@@ -76,19 +76,16 @@ public class EffectStack {
 
 	public <T> void finish(EffectContainer<T> effectContainer) {
 		if (state == State.ACTIVE) {
-			timeLeft = 0;
-			state = State.FINISHED;
-			effect.expired(this, effectContainer);
-		}
-	}
-
-	public <T> void restart(int amount, EffectContainer<T> effectContainer) {
-		if (state == State.FINISHED) {
-			timeLeft = duration;
-			state = State.ACTIVE;
-			this.amount -= amount;
-			effect.stackSubtracted(this, effectContainer);
-			syncEffectsStack(effectContainer);
+			if(effect.isStackSizeDecaying()){
+				timeLeft = duration;
+				amount -= effect.getDecayAmount();
+				effect.stackSubtracted(this, effectContainer);
+				syncEffectsStack(effectContainer);
+			}else {
+				timeLeft = 0;
+				state = State.FINISHED;
+				effect.expired(this, effectContainer);
+			}
 		}
 	}
 
