@@ -33,6 +33,11 @@ public class EffectContainer<T> {
 		return parent;
 	}
 
+	public void start(EffectStack stack){
+		stack.start(this);
+		this.add(stack);
+	}
+
 	public void add(EffectStack effectStack) {
 		if (!effectStack.getEffect().canApplyTo((Entity) parent)) return;
 

@@ -20,6 +20,8 @@ public class Effect implements ITaggable<Effect> {
 	private final int maxStack;
 	private boolean persistent = false;
 	private int priority = 0;
+	private boolean decayStackSize = false;
+	private int decayAmount = 0;
 
 	public Effect(String nameKey, String id, List<Modifier<?>> modifiers, EffectTimeType effectTimeType, int maxStack) {
 		this.nameKey = nameKey;
@@ -48,8 +50,22 @@ public class Effect implements ITaggable<Effect> {
 		return this;
 	}
 
+	public Effect setStackSizeDecaying(int shrinkAmount) {
+		this.decayStackSize = true;
+		this.decayAmount = shrinkAmount;
+		return this;
+	}
+
 	public boolean isPersistent() {
 		return persistent;
+	}
+
+	public boolean isStackSizeDecaying() {
+		return decayStackSize;
+	}
+
+	public int getDecayAmount() {
+		return decayAmount;
 	}
 
 	// amount of time that gets added when a new stack is applied
