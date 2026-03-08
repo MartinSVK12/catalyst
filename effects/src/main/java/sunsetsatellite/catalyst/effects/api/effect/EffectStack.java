@@ -47,7 +47,7 @@ public class EffectStack {
 		this.duration = tag.getInteger("duration");
 		this.amount = tag.getInteger("amount");
 		this.timeLeft = tag.getInteger("timeLeft");
-		this.timeLeft = tag.getInteger("tickCount");
+		this.tickCount = tag.getInteger("tickCount");
 		this.state = State.valueOf(tag.getString("state"));
 	}
 
