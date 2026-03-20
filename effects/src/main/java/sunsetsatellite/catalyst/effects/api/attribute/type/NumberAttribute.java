@@ -22,7 +22,7 @@ public abstract class NumberAttribute<T extends Number> extends Attribute<T> {
 
 	protected List<NumberModifier<? extends Number>> validateModifiers(List<Modifier<?>> modifiers) {
 		return modifiers.stream()
-			.filter((M) -> M.attribute.getClass().isAssignableFrom(this.getClass()))
+			.filter((M) -> M.attribute.getKey().equals(this.getKey()))
 			.map((M) -> {
 				if (M instanceof NumberModifier) {
 					return ((NumberModifier<? extends Number>) M);

@@ -15,6 +15,7 @@ public class EffectStack {
 	private int timeLeft;
 	private int amount;
 	private State state = State.INACTIVE;
+	private int tickCount = 0;
 
 	public enum State {
 		INACTIVE,
@@ -45,8 +46,9 @@ public class EffectStack {
 		this.effect = Effects.getInstance().getItem(tag.getString("id"));
 		this.duration = tag.getInteger("duration");
 		this.amount = tag.getInteger("amount");
-		this.state = State.valueOf(tag.getString("state"));
 		this.timeLeft = tag.getInteger("timeLeft");
+		this.tickCount = tag.getInteger("tickCount");
+		this.state = State.valueOf(tag.getString("state"));
 	}
 
 	public <T> void start(EffectContainer<T> effectContainer) {
@@ -91,6 +93,7 @@ public class EffectStack {
 
 	public <T> void tick(EffectContainer<T> effectContainer) {
 		if (state == State.ACTIVE) {
+			tickCount++;
 			if (effect.getTimeType() == EffectTimeType.PERMANENT) {
 				effect.tick(this, effectContainer);
 				return;
@@ -164,6 +167,10 @@ public class EffectStack {
 		return duration;
 	}
 
+	public int gettickCount() {
+		return tickCount;
+	}
+
 	public boolean hasAttribute(Attribute<?> attribute) {
 		for (Modifier<?> modifier : effect.getModifiers()) {
 			if (modifier.attribute.equals(attribute)) {
@@ -178,6 +185,7 @@ public class EffectStack {
 		tag.putInt("duration", duration);
 		tag.putInt("timeLeft", timeLeft);
 		tag.putInt("amount", amount);
+		tag.putInt("tickCount", tickCount);
 		tag.putString("state", state.name());
 	}
 
