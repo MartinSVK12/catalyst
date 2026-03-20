@@ -167,7 +167,7 @@ public class EffectStack {
 		return duration;
 	}
 
-	public int gettickCount() {
+	public int getTickCount() {
 		return tickCount;
 	}
 
