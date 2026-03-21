@@ -9,6 +9,7 @@ import net.minecraft.core.net.command.TextFormatting;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import sunsetsatellite.catalyst.CatalystEffectsClient;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 import sunsetsatellite.catalyst.effects.api.attribute.type.NumberAttribute;
 import sunsetsatellite.catalyst.effects.api.effect.*;
@@ -95,7 +96,7 @@ public class EffectRendererManager extends Gui {
 			}
 			x += 24;
 		}
-
+		if(Boolean.FALSE.equals(CatalystEffectsClient.keybinds.getRenderAttributeIcon().value)){return;}
 		for (Attribute<?> attribute : container.getAttributes()) {
 			if (!attribute.shouldDisplayIcon()) continue;
 			drawAttributeIcon(mc, attribute, container, x, y, mouseX, mouseY);

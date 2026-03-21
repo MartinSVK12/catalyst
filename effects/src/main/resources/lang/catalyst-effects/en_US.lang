@@ -13,6 +13,7 @@ options.catalyst-effects.displayEffectsIn=Display Effects In
 options.catalyst-effects.displayEffectsIn.inventory=Inventory
 options.catalyst-effects.displayEffectsIn.hud=HUD
 options.catalyst-effects.displayEffectsIn.both=Both
+options.catalyst-effects.renderAttributeIcon=Display Attribute Icons
 
 options.catalyst-effects.displayExtraHealthAs=Display Extra Health as
 options.catalyst-effects.displayExtraHealthAs.extra_bars=Extra Hearts
