@@ -1,8 +1,14 @@
 package sunsetsatellite.catalyst.effects.api.attribute;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.render.texture.stitcher.IconCoordinate;
+import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.entity.Entity;
 import net.minecraft.core.lang.I18n;
+import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.effects.api.effect.IHasEffects;
+import sunsetsatellite.catalyst.effects.api.effect.render.EffectRenderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,4 +80,26 @@ public abstract class Attribute<T> {
 	public abstract T calculate(IHasEffects<?> target);
 
 	public abstract T calculate(IHasEffects<?> target, T baseValue);
+
+	/// Redart15:
+	/// Right now there is not much point to have a separate renderer for Attributes, maybe if need arise than Ill move
+	/// these function into a seperate class
+	private String iconPath = null;
+
+	public boolean shouldDisplayIcon() {
+		return this.iconPath != null;
+	}
+
+	public Attribute<T> setIcon(String icon) {
+		this.iconPath = icon;
+		return this;
+	}
+
+	public void drawIcon(Minecraft mc, Gui gui, int x, int y) {
+		if (this.shouldDisplayIcon()) {
+			mc.textureManager.loadTexture("/assets/" + this.key.split("\\.")[1] + "/effects/icons/" + this.iconPath).bind();
+			GL11.glColor4f(1, 1, 1, 1);
+			gui.drawTexturedModalRect(x, y, 0, 0, 20, 20, 16, 1 / 16f);
+		}
+	}
 }

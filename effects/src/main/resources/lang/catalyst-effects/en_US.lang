@@ -1,7 +1,11 @@
 attribute.catalyst.effectDuration.name=Effect Duration
 attribute.catalyst.effectDuration.desc=Modifies overall duration of all effects.
 
+attribute.catalyst.extraHealth.name=Extra Health
+attribute.catalyst.extraHealth.desc=Modifies player overall health.
+
 effect.catalyst.durationBoost.name=Duration Boost
+effect.catalyst.durationBoost.name=Extra Health Boost
 
 gui.options.page.controls.category.catalyst-effects=
 gui.options.page.catalyst-effects=Catalyst: Effects
