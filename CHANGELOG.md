@@ -1,0 +1,3 @@
+- Many bugs in Effects fixed by Redart15, thank you!
+- Improvements to the structure system.
+- Other small fixes.
