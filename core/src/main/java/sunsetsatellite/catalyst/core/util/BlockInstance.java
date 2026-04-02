@@ -3,6 +3,7 @@ package sunsetsatellite.catalyst.core.util;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.world.World;
+import net.minecraft.core.world.WorldSource;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
@@ -28,6 +29,13 @@ public class BlockInstance {
 		this.pos = pos;
 		this.tile = tile;
 		this.meta = meta;
+	}
+
+	public BlockInstance(@NotNull Vec3i pos, @NotNull WorldSource world){
+		this.block = Objects.requireNonNull(world.getBlock(pos.x, pos.y, pos.z));
+		this.pos = pos;
+		this.tile = world.getTileEntity(pos.x, pos.y, pos.z);
+		this.meta = world.getBlockMetadata(pos.x, pos.y, pos.z);
 	}
 
 	public boolean exists(World world) {

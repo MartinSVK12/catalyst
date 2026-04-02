@@ -4,7 +4,9 @@ import com.mojang.nbt.NbtIo;
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,11 +16,12 @@ import java.util.UUID;
 
 public class StructureSaver {
 
-	public static CompoundTag serialize(@NotNull String name, @NotNull List<BlockInstance> blocks, boolean saveTileEntityData) {
+	public static CompoundTag serialize(@NotNull String name, @NotNull List<BlockInstance> blocks, boolean saveTileEntityData, @Nullable BlockInstance origin) {
 		CompoundTag structureData = new CompoundTag();
 		CompoundTag blocksTag = new CompoundTag();
 		CompoundTag tileEntitiesTag = new CompoundTag();
 		CompoundTag substitutionsTag = new CompoundTag();
+		CompoundTag originTag = new CompoundTag();
 
 		for (int i = 0; i < blocks.size(); i++) {
 			BlockInstance block = blocks.get(i);
@@ -26,7 +29,7 @@ public class StructureSaver {
 			CompoundTag posTag = new CompoundTag();
 			boolean isTile = block.block.isEntityTile;
 			block.pos.writeToNBT(posTag);
-			blockTag.putInt("id", block.block.id());
+			blockTag.putString("id", block.block.namespaceId().toString());
 			blockTag.putInt("meta", block.meta);
 			blockTag.putBoolean("tile", isTile);
 			blockTag.putCompound("pos", posTag);
@@ -45,6 +48,16 @@ public class StructureSaver {
 		structureData.putCompound("Blocks", blocksTag);
 		structureData.putCompound("TileEntities", tileEntitiesTag);
 		structureData.putCompound("Substitutions", substitutionsTag);
+		if(origin != null) {
+			CompoundTag posTag = new CompoundTag();
+			new Vec3i().writeToNBT(posTag);
+			boolean isTile = origin.block.isEntityTile;
+			originTag.putString("id", origin.block.namespaceId().toString());
+			originTag.putInt("meta", origin.meta);
+			originTag.putBoolean("tile", isTile);
+			originTag.putCompound("pos", posTag);
+			structureData.putCompound("Origin", originTag);
+		}
 
 		return structureData;
 	}
