@@ -64,7 +64,7 @@ public final class BooleanAttribute extends Attribute<Boolean> {
 
 	private List<BooleanModifier> validateModifiers(List<Modifier<?>> modifiers) {
 		return modifiers.stream()
-			.filter((M) -> M.attribute.getClass().isAssignableFrom(this.getClass()))
+			.filter((M) -> M.attribute.getKey().equals(this.getKey()))
 			.map((M) -> {
 				if (M instanceof BooleanModifier) {
 					return ((BooleanModifier) M);

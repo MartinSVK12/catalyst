@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.options.components.BooleanOptionComponent;
 import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.item.Items;
@@ -53,6 +54,7 @@ public class CatalystEffectsClient implements ClientStartEntrypoint {
 
 		CatalystClient.effectsCategory
 			.withComponent(new ToggleableOptionComponent<>(gameSettings.getEffectDisplayPlaceEnumOption()))
+			.withComponent(new BooleanOptionComponent(gameSettings.getRenderAttributeIcon()))
 			.withComponent(new ToggleableOptionComponent<>(gameSettings.getExtraHealthDisplayStyle()));
 	}
 }

@@ -9,10 +9,10 @@ import net.minecraft.core.net.command.TextFormatting;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import sunsetsatellite.catalyst.effects.api.effect.Effect;
-import sunsetsatellite.catalyst.effects.api.effect.EffectContainer;
-import sunsetsatellite.catalyst.effects.api.effect.EffectStack;
-import sunsetsatellite.catalyst.effects.api.effect.EffectTimeType;
+import sunsetsatellite.catalyst.CatalystEffectsClient;
+import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
+import sunsetsatellite.catalyst.effects.api.attribute.type.NumberAttribute;
+import sunsetsatellite.catalyst.effects.api.effect.*;
 import sunsetsatellite.catalyst.effects.api.effect.render.heartContainer.IHasCustomHeartContainer;
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.*;
@@ -94,8 +94,59 @@ public class EffectRendererManager extends Gui {
 			}
 			x += 24;
 		}
-
+		if(Boolean.FALSE.equals(CatalystEffectsClient.keybinds.getRenderAttributeIcon().value))
+		{
+			end();
+			return;
+		}
+		for (Attribute<?> attribute : container.getAttributes()) {
+			if (!attribute.shouldDisplayIcon()) continue;
+			drawAttributeIcon(mc, attribute, container, x, y, mouseX, mouseY);
+			if (mouseX > x && mouseX < x + 20 && mouseY > y && mouseY < y + 20) {
+				end();
+				drawAttributeTooltip(mc, attribute, container, mouseX, mouseY);
+				begin();
+			}
+			x += 24;
+		}
 		end();
+	}
+
+	private void drawAttributeTooltip(Minecraft mc, Attribute<?> attribute, EffectContainer<?> container, int mouseX, int mouseY) {
+		TooltipElement tooltip = new TooltipElement(mc);
+		StringBuilder sb = new StringBuilder()
+			.append(attribute.getName())
+			.append(" ")
+			.append("(")
+			.append(attribute.calculate(((IHasEffects<?>)container.getParent())))
+			.append(")\n");
+		if(attribute instanceof NumberAttribute){
+			Number number = (Number) attribute.calculate(((IHasEffects<?>) container.getParent()));
+			Number base = (Number) attribute.getBaseValue();
+			if (number.doubleValue() > base.doubleValue()) {
+				tooltip.render(sb.toString(), mouseX, mouseY, 4, 4);
+			}
+		}else{
+			tooltip.render(sb.toString(), mouseX, mouseY, 4, 4);
+		}
+	}
+
+	private void drawAttributeIcon(Minecraft mc, Attribute<?> attribute, EffectContainer<?> container, int x, int y, int mouseX, int mouseY) {
+		end();
+		Object value = attribute.calculate(((IHasEffects<?>) container.getParent()));
+		String stackSizeString = "x" + value;
+		if(attribute instanceof NumberAttribute){
+			Number number = (Number) value;
+			Number base = (Number) attribute.getBaseValue();
+			if (number.doubleValue() > base.doubleValue()) {
+				attribute.drawIcon(mc, this, x, y);
+				drawString(mc.font, stackSizeString, x + 1, y + 10, 0xFFFFFFFF);
+			}
+		}else{
+			attribute.drawIcon(mc, this, x, y);
+			drawString(mc.font, stackSizeString, x + 1, y + 10, 0xFFFFFFFF);
+		}
+		begin();
 	}
 
 	private void drawTooltip(Minecraft mc, EffectStack effect, int mouseX, int mouseY) {

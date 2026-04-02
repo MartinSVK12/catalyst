@@ -1,6 +1,8 @@
 package sunsetsatellite.catalyst.effects.mixin;
 
+import net.minecraft.client.gui.options.components.BooleanOptionComponent;
 import net.minecraft.client.option.GameSettings;
+import net.minecraft.client.option.OptionBoolean;
 import net.minecraft.client.option.OptionEnum;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -32,6 +34,17 @@ public class GameSettingsMixin
 		EffectExtraHealthDisplayStyle.EXTRA_BARS
 	);
 
+	@Unique
+	public OptionBoolean renderAttributeIcon = new OptionBoolean(
+		thisAs,
+		"catalyst-effects.renderAttributeIcon",
+		false
+	);
+
+	@Override
+	public OptionBoolean getRenderAttributeIcon(){
+		return renderAttributeIcon;
+	}
 
 	@Override
 	public OptionEnum<EffectDisplayPlace> getEffectDisplayPlaceEnumOption() {
