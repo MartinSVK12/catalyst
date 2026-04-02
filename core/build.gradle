@@ -30,7 +30,7 @@ loom {
 
 repositories {
 	mavenCentral()
-	maven { url = "https://jitpack.io" }
+
 	maven {
 		name = 'Babric'
 		url = 'https://maven.glass-launcher.net/babric'
@@ -50,7 +50,7 @@ repositories {
 	ivy {
 		url = "https://github.com/Better-than-Adventure"
 		patternLayout {
-			artifact "[organisation]/releases/download/v[revision]/[module].jar"
+			artifact "[organisation]/releases/download/[revision]/[module]-bta-[revision].jar"
 			m2compatible = true
 		}
 		metadataSources { artifact() }

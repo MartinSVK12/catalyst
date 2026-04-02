@@ -8,6 +8,8 @@ import com.mojang.nbt.tags.Tag;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.lang.I18n;
+import net.minecraft.core.util.HardIllegalArgumentException;
+import net.minecraft.core.util.collection.NamespaceID;
 import net.minecraft.core.util.collection.Pair;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.CatalystMultiblocks;
@@ -341,17 +343,27 @@ public class Structure {
 		if (nbt instanceof IntTag) {
 			return ((IntTag) nbt).getValue();
 		} else if (nbt instanceof StringTag) {
-			String[] args = ((StringTag) nbt).getValue().split(":");
-			try {
-				Class<?> clazz = Class.forName(args[0]);
-				Field field = clazz.getDeclaredField(args[1]);
-				Block<?> b = (Block<?>) field.get(null);
-				return b.id();
-			} catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException | ClassCastException e) {
-				e.printStackTrace();
-				return 0;
+			String s = ((StringTag) nbt).getValue();
+			if (s.contains(".")){
+				String[] args = s.split(":");
+				try {
+					Class<?> clazz = Class.forName(args[0]);
+					Field field = clazz.getDeclaredField(args[1]);
+					Block<?> b = (Block<?>) field.get(null);
+					return b.id();
+				} catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException | ClassCastException e) {
+					e.printStackTrace();
+					return 0;
+				}
+			} else {
+				try {
+					Block<?> blockByNamespaceId = Blocks.blockMap.get(NamespaceID.getTemp(s));
+					return blockByNamespaceId.id();
+				} catch (HardIllegalArgumentException e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
-
 		}
 		return 0;
 	}
