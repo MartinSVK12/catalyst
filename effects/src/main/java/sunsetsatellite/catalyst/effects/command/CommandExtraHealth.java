@@ -38,7 +38,7 @@ public class CommandExtraHealth implements CommandManager.CommandRegistry {
 			throw new RuntimeException(e);
 		}
 
-		int max_health_added = 0;
+		int max_health_added = amount;
 		for (Player player : entities) {
 			HealthHelper.addExtraHealth(player, amount);
 		}

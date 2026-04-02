@@ -23,7 +23,7 @@ public class Effects extends Registry<Effect> {
 		.setDefaultDuration(20 * 10);
 
 	public static final Effect EXTRA_HEALTH = new Effect(
-		"effect.catalyst.extra_health",
+		"effect.catalyst.extraHealth",
 		CatalystEffects.MOD_ID + ":extra_health",
 		Collections.singletonList(new IntModifier(Attributes.EXTRA_HEALTH, ModifierType.ADD, 1)),
 		EffectTimeType.PERMANENT,

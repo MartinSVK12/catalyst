@@ -17,8 +17,6 @@ import sunsetsatellite.catalyst.effects.api.effect.render.heartContainer.IHasCus
 import sunsetsatellite.catalyst.effects.api.modifier.Modifier;
 import sunsetsatellite.catalyst.effects.api.modifier.type.*;
 
-import java.awt.font.NumericShaper;
-
 @Environment(EnvType.CLIENT)
 public class EffectRendererManager extends Gui {
 	private static final EffectRendererDispatcher dispatcher = EffectRendererDispatcher.getInstance();
@@ -96,7 +94,11 @@ public class EffectRendererManager extends Gui {
 			}
 			x += 24;
 		}
-		if(Boolean.FALSE.equals(CatalystEffectsClient.keybinds.getRenderAttributeIcon().value)){return;}
+		if(Boolean.FALSE.equals(CatalystEffectsClient.keybinds.getRenderAttributeIcon().value))
+		{
+			end();
+			return;
+		}
 		for (Attribute<?> attribute : container.getAttributes()) {
 			if (!attribute.shouldDisplayIcon()) continue;
 			drawAttributeIcon(mc, attribute, container, x, y, mouseX, mouseY);

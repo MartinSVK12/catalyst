@@ -82,8 +82,8 @@ public abstract class Attribute<T> {
 	public abstract T calculate(IHasEffects<?> target, T baseValue);
 
 	/// Redart15:
-	/// Right now there is not much point to have a separate renderer for Attributes, maybe if need arise than Ill move
-	/// these function into a seperate class
+	/// Right now there is not much point to have a separate renderer for Attributes, maybe if need be, then I'll move
+	/// these functions into a separate class
 	private String iconPath = null;
 
 	public boolean shouldDisplayIcon() {
