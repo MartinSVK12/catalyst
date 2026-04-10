@@ -105,7 +105,7 @@ public class FluidInventoryWrapper implements IFluidStackList {
 			amount = Math.min(amount, stack.amount);
 			FluidStack splitStack = stack.splitStack(amount);
 			if (stack.amount <= 0) {
-				connected.setFluidInSlot(0, null);
+				connected.setFluidInSlot(slot, null);
 			}
 			inventoryChanged();
 			return splitStack;
