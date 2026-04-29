@@ -10,6 +10,10 @@ import org.lwjgl.opengl.GL11;
 import sunsetsatellite.catalyst.fluids.interfaces.mixin.FluidPickupController;
 import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static net.minecraft.client.option.enums.DescriptionPromptEnum.ALWAYS_SHOW;
 
 public class ScreenFluid extends ScreenContainerAbstract {
@@ -44,16 +48,19 @@ public class ScreenFluid extends ScreenContainerAbstract {
 			}
 		}
 
+		boolean debug = this.mc.gameSettings.showItemDebugInfo.value;
 		if (slot != null && slot.hasStack()) {
 			boolean showDescription = mc.gameSettings.itemDescriptions.value == ALWAYS_SHOW || mc.gameSettings.keyDescription.isPressed();
-			String str = tooltipElement.getTooltipText(slot.getFluidStack().toItemStack(), showDescription);
-			str += "\n" + TextFormatting.GRAY + slot.getFluidStack().amount + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
-			if (!str.isEmpty()) {
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				tooltipElement.render(str, mx - centerX, my - centerY, 8, -8);
+			List<String> list = Arrays.stream(tooltipElement.getTooltipText(slot.getFluidStack().toItemStack(), showDescription).split("\n")).collect(Collectors.toList());
+			if(debug){
+				list.add(1,TextFormatting.LIGHT_GRAY + "Slot ID: " + slot.slotIndex);
 			}
+			String str = String.join("\n", list);
+			str += "\n" + TextFormatting.GRAY + slot.getFluidStack().amount + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			tooltipElement.render(str, mx - centerX, my - centerY, 8, -8);
 		} else if (slot != null && !slot.hasStack()) {
-			String str = TextFormatting.WHITE + "Empty\n" + TextFormatting.GRAY + "0" + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
+			String str = TextFormatting.WHITE + "Empty\n" + (debug ? TextFormatting.LIGHT_GRAY+"Slot ID: "+slot.slotIndex+"\n" : "") + TextFormatting.GRAY + "0" + " / " + fluidSlots.fluidInventory.getFluidCapacityForSlot(slot.slotIndex) + TextFormatting.RESET;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			tooltipElement.render(str, mx - centerX, my - centerY, 8, -8);
 		}
