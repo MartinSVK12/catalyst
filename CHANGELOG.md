@@ -1,3 +1,4 @@
-- Many bugs in Effects fixed by Redart15, thank you!
+- Many improvements to the Effects module.
+- Show slot id in tooltip when extra item info is enabled.
 - Improvements to the structure system.
-- Other small fixes.
+- Optimize multiblock rendering a bit.
