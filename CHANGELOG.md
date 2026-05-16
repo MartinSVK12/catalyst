@@ -1,4 +1,0 @@
-- Many improvements to the Effects module.
-- Show slot id in tooltip when extra item info is enabled.
-- Improvements to the structure system.
-- Optimize multiblock rendering a bit.

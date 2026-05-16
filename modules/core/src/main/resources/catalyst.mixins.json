@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sunsetsatellite.catalyst.core.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ItemStackMixin",
+    "LevelDataMixin",
+    "PlayerMixin",
+    "TileEntityMixin",
+    "WorldMixin"
+  ],
+  "client": [
+    "MinecraftMixin",
+    "PlayerLocalMixin",
+    "RenderGlobalMixin",
+    "ScreenContainerAbstractMixin",
+    "ScreenPauseMixin",
+    "TooltipElementMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "server": [
+    "MinecraftServerMixin",
+    "PacketHandlerLoginMixin",
+    "PlayerListMixin",
+    "PlayerServerMixin"
+  ]
+}

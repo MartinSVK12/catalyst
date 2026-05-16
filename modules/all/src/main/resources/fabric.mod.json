@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "catalyst-all",
+  "version": "${version}",
+
+  "name": "Catalyst: All",
+  "description": "The full Catalyst package, includes all available modules.",
+	"icon": "icon.png",
+  "authors": [
+    "sunsetsatellite"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "https://github.com/MartinSVK12/catalyst"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+
+  "depends": {
+		"fabricloader": ">=${loader}",
+		"minecraft": "~8.0-beta.1",
+		"java": ">=${java}"
+	},
+  "suggests": {
+  },
+	"custom": {
+		"modmenu:api": true
+	}
+}
