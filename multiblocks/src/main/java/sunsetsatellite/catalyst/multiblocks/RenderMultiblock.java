@@ -32,6 +32,9 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 				return;
 			}
 			Multiblock multiblock = ((IMultiblock) tileEntity).getMultiblock().data;
+			if (((IMultiblock) tileEntity).getMultiblock().isValid()) {
+				return;
+			}
 			ArrayList<BlockInstance> blocks = multiblock.getBlocks(new Vec3i(i, j, k), dir);
 			ArrayList<BlockInstance> substitutions = multiblock.getSubstitutions(new Vec3i(i, j, k), dir);
 			blockRenderer = new RenderBlocks(new HologramWorld(blocks));
