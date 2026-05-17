@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sunsetsatellite.catalyst.multipart.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+
+  ],
+  "client": [
+
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

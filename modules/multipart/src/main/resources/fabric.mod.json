@@ -1,0 +1,62 @@
+{
+	"schemaVersion": 1,
+	"id": "catalyst-multipart",
+	"version": "${version}",
+	"name": "Catalyst: Multipart",
+	"description": "This module is being reworked, only a stub with no functionality is available for now.",
+	"icon": "icon.png",
+	"authors": [
+		"sunsetsatellite"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MartinSVK12/catalyst"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"sunsetsatellite.catalyst.CatalystMultipart"
+		],
+		"initModels": [
+
+		],
+		"afterBlockInit": [
+			"sunsetsatellite.catalyst.CatalystMultipart"
+		],
+		"afterItemInit": [
+			"sunsetsatellite.catalyst.CatalystMultipart"
+		],
+		"recipesReady": [
+			"sunsetsatellite.catalyst.CatalystMultipart"
+		],
+		"client": [
+			"sunsetsatellite.catalyst.CatalystMultipartClient"
+		],
+		"beforeClientStart": [
+			"sunsetsatellite.catalyst.CatalystMultipartClient"
+		],
+		"afterClientStart": [
+			"sunsetsatellite.catalyst.CatalystMultipartClient"
+		],
+		"server": [
+			"sunsetsatellite.catalyst.CatalystMultipartServer"
+		],
+		"gatherTMBPlugins": [
+
+		]
+	},
+	"mixins": [
+		"catalyst-multipart.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.5",
+		"catalyst-core": ">=2.0.0",
+		"minecraft": "~7.3"
+	},
+	"suggests": {
+	},
+	"custom": {
+		"modmenu:api": true
+	}
+}

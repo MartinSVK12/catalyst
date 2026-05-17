@@ -27,15 +27,6 @@ dependencies {
     minecraft("::${libs.versions.bta.get()}")
 	include(libs.commonsLang3)
 	implementation(project(":core"))
-	include(project(":core"))
-	implementation(project(":effects"))
-	include(project(":effects"))
-	implementation(project(":fluids"))
-	include(project(":fluids"))
-	implementation(project(":energy"))
-	include(project(":energy"))
-	implementation(project(":multipart"))
-	include(project(":multipart"))
 }
 
 tasks {
@@ -45,13 +36,15 @@ tasks {
 			"loader" to libs.versions.loader.get(),
 			"halplibe" to libs.versions.halplibe.get(),
 			"java" to libs.versions.java.get(),
-			"modmenu" to libs.versions.modMenu.get()
+			"modmenu" to libs.versions.modMenu.get(),
+			"core" to project(":core").properties["mod_version"] as String
 		)
 		inputs.properties(resourceMap)
 		filesMatching("fabric.mod.json") { expand(resourceMap) }
 		filesMatching("**/*.mixins.json") { expand(resourceMap.filterKeys { it == "java" }) }
 	}
 }
+
 // Removes LWJGL2 dependencies
 configurations.configureEach { exclude(group = "org.lwjgl.lwjgl") }
 
