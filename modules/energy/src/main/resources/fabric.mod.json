@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "catalyst-energy",
+	"version": "${version}",
+	"name": "Catalyst: Energy",
+	"description": "Energy module of Catalyst: Implements a simple energy API.",
+	"icon": "icon.png",
+	"authors": [
+		"sunsetsatellite"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MartinSVK12/catalyst"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"sunsetsatellite.catalyst.CatalystEnergy"
+		],
+		"afterGameStart": [
+			"sunsetsatellite.catalyst.CatalystEnergy"
+		]
+	},
+	"mixins": [
+		"catalyst-energy.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=${loader}",
+		"catalyst-core": ">=${core}",
+		"minecraft": "~8.0-beta.1"
+	},
+	"suggests": {
+	},
+	"custom": {
+		"modmenu:api": true
+	}
+}
