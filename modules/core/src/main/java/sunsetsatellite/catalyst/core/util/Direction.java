@@ -14,27 +14,27 @@ public enum Direction {
 	/**
 	 * EAST, 5, X
 	 */
-	X_POS(new Vec3i(1, 0, 0), 5, "EAST", Axis.X, (3 * Math.PI) / 2),
+	X_POS(new Vec3i(1, 0, 0), 5, "EAST", Axis.X, (3 * Math.PI) / 2, 1),
 	/**
 	 * WEST, 4, X
 	 */
-	X_NEG(new Vec3i(-1, 0, 0), 4, "WEST", Axis.X, Math.PI / 2),
+	X_NEG(new Vec3i(-1, 0, 0), 4, "WEST", Axis.X, Math.PI / 2, 3),
 	/**
 	 * UP, 1, Y
 	 */
-	Y_POS(new Vec3i(0, 1, 0), 1, "UP", Axis.Y, 0.0f),
+	Y_POS(new Vec3i(0, 1, 0), 1, "UP", Axis.Y, 0.0f, -1),
 	/**
 	 * DOWN, 0, Y
 	 */
-	Y_NEG(new Vec3i(0, -1, 0), 0, "DOWN", Axis.Y, 0.0f),
+	Y_NEG(new Vec3i(0, -1, 0), 0, "DOWN", Axis.Y, 0.0f, -1),
 	/**
 	 * SOUTH, 3, Z
 	 */
-	Z_POS(new Vec3i(0, 0, 1), 3, "SOUTH", Axis.Z, Math.PI),
+	Z_POS(new Vec3i(0, 0, 1), 3, "SOUTH", Axis.Z, Math.PI, 2),
 	/**
 	 * NORTH, 2, Z
 	 */
-	Z_NEG(new Vec3i(0, 0, -1), 2, "NORTH", Axis.Z, 0.0f);
+	Z_NEG(new Vec3i(0, 0, -1), 2, "NORTH", Axis.Z, 0.0f, 0);
 
 
 	private final Vec3i vec;
@@ -43,13 +43,15 @@ public enum Direction {
 	private final String name;
 	private final Axis axis;
 	private final double angle;
+	private final int horizontalIndex;
 
-	Direction(Vec3i vec3I, int side, String name, Axis axis, double angle) {
+	Direction(Vec3i vec3I, int side, String name, Axis axis, double angle, int horizontalIndex) {
 		this.vec = vec3I;
 		this.side = side;
 		this.name = name;
 		this.axis = axis;
 		this.angle = angle;
+		this.horizontalIndex = horizontalIndex;
 	}
 
 	public TileEntity getTileEntity(WorldSource world, TileEntity tile) {
@@ -105,6 +107,16 @@ public enum Direction {
 
 	public Axis getAxis() {
 		return axis;
+	}
+
+	public int getHorizontalIndex() {
+		return horizontalIndex;
+	}
+
+	public Direction rotate(int amount) {
+		if (this == Y_POS || this == Y_NEG) return this;
+		Direction[] horizontalDirections = {Z_NEG, X_POS, Z_POS, X_NEG};
+		return horizontalDirections[this.getHorizontalIndex() + amount & 3];
 	}
 
 	public static Direction getDirectionFromSide(int side) {

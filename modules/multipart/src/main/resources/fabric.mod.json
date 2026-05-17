@@ -50,9 +50,9 @@
 		"catalyst-multipart.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.5",
-		"catalyst-core": ">=2.0.0",
-		"minecraft": "~7.3"
+		"fabricloader": ">=${loader}",
+		"catalyst-core": ">=${core}",
+		"minecraft": "~8.0-beta.1"
 	},
 	"suggests": {
 	},

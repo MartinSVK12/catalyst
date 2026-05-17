@@ -8,6 +8,8 @@ import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.world.WorldSource;
 import net.minecraft.core.world.pos.TilePos;
 import net.minecraft.core.world.pos.TilePosc;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import sunsetsatellite.catalyst.core.util.Direction;
 
 public class Vec3i {
@@ -39,6 +41,13 @@ public class Vec3i {
 	}
 
 	public Vec3i(TilePosc pos) {
+		this.x = pos.x();
+		this.y = pos.y();
+		this.z = pos.z();
+		this.pos = new TilePos(pos);
+	}
+
+	public Vec3i(Vector3ic pos) {
 		this.x = pos.x();
 		this.y = pos.y();
 		this.z = pos.z();
@@ -259,6 +268,10 @@ public class Vec3i {
 		result = 31 * result + y;
 		result = 31 * result + z;
 		return result;
+	}
+
+	public Vector3ic joml(){
+		return new Vector3i(x, y, z);
 	}
 
 	public TileEntity getTileEntity(WorldSource worldSource) {
