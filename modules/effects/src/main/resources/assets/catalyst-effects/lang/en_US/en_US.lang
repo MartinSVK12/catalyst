@@ -1,0 +1,42 @@
+attribute.catalyst-effects.effectDuration.name=Effect Duration
+attribute.catalyst-effects.effectDuration.desc=Modifies overall duration of all effects.
+
+attribute.catalyst-effects.extraHealth.name=Extra Health
+attribute.catalyst-effects.extraHealth.desc=Modifies player overall health.
+
+effect.catalyst-effects.durationBoost.name=Duration Boost
+effect.catalyst-effects.extraHealth.name=Extra Health Boost
+
+gui.options.page.controls.category.catalyst-effects=
+gui.options.page.catalyst-effects=Catalyst: Effects
+options.catalyst-effects.displayEffectsIn=Display Effects In
+options.catalyst-effects.displayEffectsIn.inventory=Inventory
+options.catalyst-effects.displayEffectsIn.hud=HUD
+options.catalyst-effects.displayEffectsIn.both=Both
+options.catalyst-effects.renderAttributeIcon=Display Attribute Icons
+
+options.catalyst-effects.displayExtraHealthAs=Display Extra Health as
+options.catalyst-effects.displayExtraHealthAs.extra_bars=Extra Hearts
+options.catalyst-effects.displayExtraHealthAs.multiplier=Number
+
+error.catalyst-effects.invalidEffect=Invalid effect name provided!
+error.catalyst-effects.incompatibleEntity=Tried to add effects to an incompatible entity!
+
+command.catalyst-effects.add.extra_health.success_single_entity=Add %s extra health to %s
+command.catalyst-effects.set.extra_health.success_single_entity=Set %s extra health to %s
+command.catalyst-effects.get.extra_health.success_single_entity=%s extra health is %s
+
+# for @a
+command.catalyst-effects.add.extra_health.success_multiple_entities=Added %s extra health to players
+command.catalyst-effects.set.extra_health.success_multiple_entities=Set players extra health to %s
+command.catalyst-effects.get.extra_health.success_multiple_entities=Players collective extra health is %s
+
+command.catalyst-effects.effects.add.poison.success_single_entity=Add %s to %s.
+command.catalyst-effects.effects.add.poison.success_multiple_entity=Add %s to %s entities.
+
+command.catalyst-effects.effects.add.remedy.success_single_entity=Add %s to %s.
+command.catalyst-effects.effects.add.remedy.success_multiple_entity=Add %s to %s entities.
+
+command.catalyst-effects.effects.clear.success_single_entity=Clear all effects of %s.
+command.catalyst-effects.effects.clear.success_multiple_entity=Clear all effects of %s entities.
+

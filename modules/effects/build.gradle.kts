@@ -28,18 +28,18 @@ dependencies {
 	include(libs.commonsLang3)
 	implementation(project(":core"))
 	include(project(":core"))
-	implementation(project(":effects"))
-	include(project(":effects"))
 }
 
 tasks {
+	//println(project(":core").properties["mod_version"] as String)
 	processResources {
 		val resourceMap = mapOf(
 			"version" to modVersion,
 			"loader" to libs.versions.loader.get(),
 			"halplibe" to libs.versions.halplibe.get(),
 			"java" to libs.versions.java.get(),
-			"modmenu" to libs.versions.modMenu.get()
+			"modmenu" to libs.versions.modMenu.get(),
+			"core" to project(":core").properties["mod_version"] as String
 		)
 		inputs.properties(resourceMap)
 		filesMatching("fabric.mod.json") { expand(resourceMap) }

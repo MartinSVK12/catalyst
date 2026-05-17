@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "sunsetsatellite.catalyst.effects.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "EntityMixin",
+    "PlayerExtraHealthMixin",
+    "PlayerMixin"
+  ],
+  "client": [
+    "HudComponentHealthBarMixin",
+    "HudIngameMixin",
+    "MinecraftMixin",
+    "ScreenInventoryMixin"
+  ],
+  "server": [
+    "PlayerLoginMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

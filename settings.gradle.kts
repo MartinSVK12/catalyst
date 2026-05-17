@@ -64,7 +64,9 @@ plugins {
 }
 
 include(":core")
+include(":effects")
 include(":all")
 
 project(":core").projectDir = file("modules/core")
+project(":effects").projectDir = file("modules/effects")
 project(":all").projectDir = file("modules/all")

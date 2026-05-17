@@ -12,6 +12,7 @@ import net.minecraft.client.render.tessellator.Tessellator;
 import net.minecraft.client.world.WorldClient;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.world.pos.TilePosc;
+import org.joml.primitives.AABBd;
 import org.joml.primitives.AABBdc;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,6 +34,7 @@ public class RenderGlobalMixin {
 	@WrapOperation(method = "drawSelectionBox", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderGlobal;drawTileSelectionBoxRaw(Lnet/minecraft/client/render/camera/ICamera;Lnet/minecraft/core/world/pos/TilePosc;DDD)V"))
 	public void drawOutlinedSectionedBoundingBox(RenderGlobal instance, ICamera camera, TilePosc tilePos, double offsetX, double offsetY, double offsetZ, Operation<Void> original, @Local(name = "block") Block<?> block) {
 		AABBdc aabb = block.getSelectionAABB(world, tilePos);
+		aabb = aabb.translate(-offsetX, -offsetY, -offsetZ, new AABBd());
 		if (mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ISideInteractable && ((ISideInteractable) mc.thePlayer.getCurrentEquippedItem().getItem()).alwaysShowOutlineWhenHeld()) {
 			double minX = aabb.minX();
 			double minY = aabb.minY();
@@ -254,7 +256,8 @@ public class RenderGlobalMixin {
 			tessellator.addVertex(minX, maxY, maxZ);
 			tessellator.draw();
 		} else {
-			instance.drawOutlinedBoundingBox(aabb);
+			original.call(instance, camera, tilePos, offsetX, offsetY, offsetZ);
+			//instance.drawOutlinedBoundingBox(aabb);
 		}
 	}
 

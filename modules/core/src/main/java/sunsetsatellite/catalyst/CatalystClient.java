@@ -30,11 +30,6 @@ public class CatalystClient implements ClientStartEntrypoint, OptionsInitEntrypo
 
 	@Override
 	public void afterClientStart() {
-
-	}
-
-	@Override
-	public void initOptions(GameSettings settings) {
 		optionsPage = new OptionsPage("gui.options.page.catalyst", Items.DUST_REDSTONE.getDefaultStack());
 		coreCategory = new OptionsCategory("gui.options.page.catalyst.category.core");
 		//coreCategory.withComponent(new BooleanOptionComponent(gameSettings.getNetworkRenderOption()));
@@ -67,5 +62,10 @@ public class CatalystClient implements ClientStartEntrypoint, OptionsInitEntrypo
 		         IllegalAccessException ignored) {
 
 		}
+	}
+
+	@Override
+	public void initOptions() {
+
 	}
 }
