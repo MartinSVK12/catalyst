@@ -38,7 +38,7 @@
 		"catalyst-effects.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.5",
+		"fabricloader": ">=${loader}",
 		"catalyst-core": ">=${core}",
 		"minecraft": "~8.0-beta.1"
 	},

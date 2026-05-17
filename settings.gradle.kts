@@ -63,10 +63,12 @@ plugins {
 	id("org.gradle.toolchains.foojay-resolver-convention")
 }
 
+include(":all")
 include(":core")
 include(":effects")
-include(":all")
+include(":fluids")
 
+project(":all").projectDir = file("modules/all")
 project(":core").projectDir = file("modules/core")
 project(":effects").projectDir = file("modules/effects")
-project(":all").projectDir = file("modules/all")
+project(":fluids").projectDir = file("modules/fluids")

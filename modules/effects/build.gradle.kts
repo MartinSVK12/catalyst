@@ -27,7 +27,6 @@ dependencies {
     minecraft("::${libs.versions.bta.get()}")
 	include(libs.commonsLang3)
 	implementation(project(":core"))
-	include(project(":core"))
 }
 
 tasks {
