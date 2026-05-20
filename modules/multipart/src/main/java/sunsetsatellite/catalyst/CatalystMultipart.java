@@ -46,7 +46,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 	private static final int blockIdStart = 3256;
 	private static final int itemIdStart = 19640;
 
-	public static final TomlConfigHandler config;
+	public static final TomlConfigHandler config = null;
 
 	public static final Tag<Block<?>> CAN_BE_MULTIPART = Tag.of("can_be_multipart");
 	public static final HashMap<String, Tag<Block<?>>> TYPE_TAGS = new HashMap<>();
@@ -62,7 +62,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 	public static final Side[] sides = new Side[]{Side.BOTTOM, Side.TOP, Side.NORTH, Side.SOUTH, Side.WEST, Side.EAST};
 	public static String renderState = "gui";
 
-	static {
+	/*static {
 		List<Field> blockFields = Arrays.stream(CatalystMultipart.class.getDeclaredFields()).filter((F) -> Block.class.isAssignableFrom(F.getType())).collect(Collectors.toList());
 		List<Field> itemFields = Arrays.stream(CatalystMultipart.class.getDeclaredFields()).filter((F) -> Item.class.isAssignableFrom(F.getType())).collect(Collectors.toList());
 
@@ -123,7 +123,7 @@ public class CatalystMultipart implements ModInitializer, BlockInitEntrypoint, I
 				throw new RuntimeException("Failed to generate config!", e);
 			}
 		}
-	}
+	}*/
 
 	public static Tag<Block<?>>[] getAllMultipartTags() {
 		ArrayList<Tag<Block<?>>> list = new ArrayList<>(TYPE_TAGS.values());

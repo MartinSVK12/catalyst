@@ -1,0 +1,68 @@
+gui.options.page.general.button.edit_gui=Open GUI Editor...
+
+options.align=Align
+options.align.left=Left
+options.align.center=Center
+options.align.right=Right
+
+options.anchor=Anchor
+options.parentAnchor=Parent Anchor
+
+options.anchor.top_left=Top left
+options.anchor.top_center=Top center
+options.anchor.top_right=Top right
+options.anchor.center_left=Center left
+options.anchor.center=Center
+options.anchor.center_right=Center right
+options.anchor.bottom_left=Bottom left
+options.anchor.bottom_center=Bottom center
+options.anchor.bottom_right=Bottom right
+
+options.parentAnchor.top_left=Top left
+options.parentAnchor.top_center=Top center
+options.parentAnchor.top_right=Top right
+options.parentAnchor.center_left=Center left
+options.parentAnchor.center=Center
+options.parentAnchor.center_right=Center right
+options.parentAnchor.bottom_left=Bottom left
+options.parentAnchor.bottom_center=Bottom center
+options.parentAnchor.bottom_right=Bottom right
+
+options.gui.x=X
+options.gui.y=Y
+options.gui.u=U
+options.gui.v=V
+options.gui.uv=UV
+options.gui.offsetX=X Offset
+options.gui.offsetY=Y Offset
+options.gui.layout=Layout
+options.gui.zLevel=Z Level
+options.gui.id=ID
+options.gui.size=Size
+options.gui.width=Width
+options.gui.height=Height
+options.gui.image=Image
+options.gui.text=Text
+options.gui.hasShadow=Has Shadow
+options.gui.color=Color
+options.gui.save=Save
+options.gui.load=Load
+options.gui.components=Components
+options.gui.name=Name
+options.gui.add=Add
+options.gui.scene=Scene
+options.gui.parent=Parent
+options.gui.saved=Saved!
+options.gui.failedSave=Failed to save! Check the output log for errors.
+
+gui.component.text=Text
+gui.component.image=Image
+
+gui.options.guieditor.onboarding.welcome=Welcome to the GUI Editor!
+gui.options.guieditor.onboarding.exit=Press '%1$s' to leave the GUI Editor
+gui.options.guieditor.onboarding.reset=Press '%1$s' to remove every component
+gui.options.guieditor.onboarding.mainMenu=Press '%1$s' to open the main menu
+gui.options.gui.deleteAllLabel=Delete all?
+gui.options.gui.deleteAllMsg=Are you sure you want to delete every component?
+gui.options.gui.deleteAll=Delete All
+gui.options.gui.cancel=Cancel

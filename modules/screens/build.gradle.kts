@@ -16,6 +16,7 @@ version = modVersion
 
 loom {
 	customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
+	accessWidenerPath.set(file("src/main/resources/catalyst-screens.classtweaker"))
 }
 
 lwjgl {
@@ -27,29 +28,18 @@ dependencies {
     minecraft("::${libs.versions.bta.get()}")
 	include(libs.commonsLang3)
 	implementation(project(":core"))
-	include(project(":core"))
-	implementation(project(":effects"))
-	include(project(":effects"))
-	implementation(project(":fluids"))
-	include(project(":fluids"))
-	implementation(project(":energy"))
-	include(project(":energy"))
-	implementation(project(":multipart"))
-	include(project(":multipart"))
-	implementation(project(":multiblocks"))
-	include(project(":multiblocks"))
-	implementation(project(":screens"))
-	include(project(":screens"))
 }
 
 tasks {
+	//println(project(":core").properties["mod_version"] as String)
 	processResources {
 		val resourceMap = mapOf(
 			"version" to modVersion,
 			"loader" to libs.versions.loader.get(),
 			"halplibe" to libs.versions.halplibe.get(),
 			"java" to libs.versions.java.get(),
-			"modmenu" to libs.versions.modMenu.get()
+			"modmenu" to libs.versions.modMenu.get(),
+			"core" to project(":core").properties["mod_version"] as String
 		)
 		inputs.properties(resourceMap)
 		filesMatching("fabric.mod.json") { expand(resourceMap) }

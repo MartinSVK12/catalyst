@@ -283,4 +283,52 @@ public class Catalyst implements ModInitializer, GameStartEntrypoint {
 		((IMpGui) player).catalyst$displayCustomGUI(tileEntity, id, data);
 	}
 
+	public static int parseIntSafe(String string) {
+		try {
+			return Integer.parseInt(string);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	public static int parseIntSafe(String string, int radix) {
+		try {
+			return Integer.parseInt(string, radix);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	public static long parseLongSafe(String string) {
+		try {
+			return Long.parseLong(string);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	public static long parseLongSafe(String string, int radix) {
+		try {
+			return Long.parseLong(string, radix);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	public static double parseDoubleSafe(String string) {
+		try {
+			return Double.parseDouble(string);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+	public static float parseFloatSafe(String string) {
+		try {
+			return Float.parseFloat(string);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+
 }

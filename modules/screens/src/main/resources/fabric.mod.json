@@ -1,0 +1,48 @@
+{
+	"schemaVersion": 1,
+	"id": "catalyst-screens",
+	"version": "${version}",
+	"name": "Catalyst: Screens",
+	"description": "Screens module of Catalyst: In-game visual editor and API to make GUIs easier to create.",
+	"icon": "icon.png",
+	"authors": [
+		"sunsetsatellite"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": "https://github.com/MartinSVK12/catalyst"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"accessWidener": "catalyst-screens.classtweaker",
+	"entrypoints": {
+		"main": [
+			"sunsetsatellite.catalyst.CatalystScreens"
+		],
+		"client": [
+			"sunsetsatellite.catalyst.CatalystScreensClient"
+		],
+		"beforeClientStart": [
+			"sunsetsatellite.catalyst.CatalystScreensClient"
+		],
+		"afterClientStart": [
+			"sunsetsatellite.catalyst.CatalystScreensClient"
+		],
+		"initOptions": [
+			"sunsetsatellite.catalyst.CatalystScreensClient"
+		]
+	},
+	"mixins": [
+		"catalyst-screens.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=${loader}",
+		"catalyst-core": ">=${core}",
+		"minecraft": "~8.0-beta.1"
+	},
+	"suggests": {
+	},
+	"custom": {
+		"modmenu:api": true
+	}
+}

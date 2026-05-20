@@ -1,13 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "sunsetsatellite.catalyst.multipart.mixin",
+  "package": "sunsetsatellite.catalyst.screens.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-
   ],
   "client": [
-
+    "HudIngameMixin"
   ],
   "injectors": {
     "defaultRequire": 1
