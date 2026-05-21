@@ -7,46 +7,33 @@ import net.minecraft.client.gui.hud.component.HudComponent;
 import net.minecraft.client.render.renderer.GLRenderer;
 import org.jetbrains.annotations.Nullable;
 import sunsetsatellite.catalyst.CatalystScreens;
-import sunsetsatellite.catalyst.screens.component.GuiComponent;
+import sunsetsatellite.catalyst.CatalystScreensClient;
+import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ScreenComposed extends Screen {
 
-	public ScreenComposed(Map<String, HudComponent> components) {
+	public ScreenComposed(Map<String, GuiComponent> components) {
 		this(components, null);
 	}
 
-	public ScreenComposed(Map<String, HudComponent> components, @Nullable Screen parent) {
+	public ScreenComposed(Map<String, GuiComponent> components, @Nullable Screen parent) {
 		super(parent);
 		this.components.putAll(components);
 	}
 
 	public ScreenComposed(String scenePath, @Nullable Screen parent) {
 		super(parent);
-		load(CatalystScreens.loadScene(scenePath));
+		CatalystScreensClient.loadScene(CatalystScreens.loadSceneNbt(scenePath), components);
 	}
 
 	public ScreenComposed(String scenePath) {
 		this(scenePath, null);
 	}
 
-	public final Map<String, HudComponent> components = new HashMap<>();
-
-	public void load(CompoundTag tag){
-		if(tag == null) return;
-		for (Tag<?> value : tag.getValues()) {
-			components.put(value.getTagName(), GuiComponent.create(((CompoundTag) value)));
-		}
-		GuiComponent.incompleteLinks.forEach(((layout, name) -> {
-			if(components.get(name) == null){
-				CatalystScreens.LOGGER.error("Could not find component with id: {}", name);
-			}
-			layout.setParent(components.get(name));
-		}));
-		GuiComponent.incompleteLinks.clear();
-	}
+	public final Map<String, GuiComponent> components = new HashMap<>();
 
 	@Override
 	public void render(int mx, int my, float partialTick) {

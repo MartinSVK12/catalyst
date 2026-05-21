@@ -4,7 +4,6 @@ import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.Screen;
-import net.minecraft.client.gui.hud.HudIngame;
 import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
@@ -18,6 +17,7 @@ import net.minecraft.client.render.renderer.Shaders;
 import net.minecraft.client.render.renderer.State;
 import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.Catalyst;
+import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
 import sunsetsatellite.catalyst.screens.util.Colors;
 import sunsetsatellite.catalyst.screens.util.TextAlign;
@@ -31,13 +31,8 @@ public class TextComponent extends GuiComponent {
     public int lineHeight = 9;
     protected final int padding = 8;
     protected int offY = padding;
-    protected int posX = 0;
     protected float scale = 1f;
     public Minecraft minecraft = Minecraft.getMinecraft();
-    protected Gui gui;
-    protected int xScreenSize;
-    protected int yScreenSize;
-    private int posY = 0;
 
 	public OptionEnum<TextAlign> align = new OptionEnum<>("align",TextAlign.class,TextAlign.LEFT);
 	public String text = "This is a text component!";
@@ -59,28 +54,15 @@ public class TextComponent extends GuiComponent {
 	}
 
 	@Override
-    public void render(HudIngame HudIngame, int xScreenSize, int yScreenSize, float partialTick){
-
-    }
-
-	@Override
 	public void render(Screen screen, int xScreenSize, int yScreenSize, float partialTick) {
-		this.gui = screen;
-		this.xScreenSize = xScreenSize;
-		this.yScreenSize = yScreenSize;
-		posY = offY = generateOriginalPosY();
-		posX = generateOriginalPosX();
-		renderComponent(minecraft, screen, xScreenSize, yScreenSize, partialTick);
+		offY = realX();
+		super.render(screen, xScreenSize, yScreenSize, partialTick);
 	}
 
 	@Override
     public void renderPreview(Gui gui, Layout layout, int xScreenSize, int yScreenSize){
-        this.gui = gui;
-        this.xScreenSize = xScreenSize;
-        this.yScreenSize = yScreenSize;
-        posY = offY = generateOriginalPosY();
-        posX = generateOriginalPosX();
-        renderComponentPreview(minecraft, gui, layout, xScreenSize, yScreenSize);
+		offY = realX();
+		super.renderPreview(gui, layout, xScreenSize, yScreenSize);
     }
 
     public int getLineHeight(){
@@ -91,19 +73,15 @@ public class TextComponent extends GuiComponent {
     }
 
 	@Override
-	public void renderComponent(Minecraft mc, Screen screen, int xSize, int ySize, float partialTick) {
+	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		setOffY(0);
-		drawString(text, 0, color, hasShadow);
+		drawString(text, x,y, 0, color, hasShadow);
 	}
 
 	@Override
-	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int xSize, int ySize) {
-		drawString(text, 0, color, hasShadow);
-	}
-
-	@Override
-	public String getName() {
-		return getKey();
+	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize) {
+		setOffY(0);
+		drawString(text, x,y, 0, color, hasShadow);
 	}
 
 	@Override
@@ -136,20 +114,12 @@ public class TextComponent extends GuiComponent {
 		return true;
 	}
 
-	public int generateOriginalPosY() {
-        return getLayout().getComponentY(this, yScreenSize);
-    }
-
-    public int generateOriginalPosX() {
-        return getLayout().getComponentX(this, xScreenSize);
-    }
-
-    public void drawString(String text, int offX, int color, boolean shadow) {
+    public void drawString(String text, int x, int y, int offX, int color, boolean shadow) {
         int width = minecraft.font.stringWidth(text);
 		if(shadow){
-			minecraft.font.render(text, posX+offX + getStartingX(width), offY).setZ(0).setColor(color).setShadow().setZ(zLevel).call();
+			minecraft.font.render(text, x+offX + getStartingX(width), y+offY).setZ(0).setColor(color).setShadow().setZ(zLevel).call();
 		} else {
-			minecraft.font.render(text, posX+offX + getStartingX(width), offY).setZ(0).setColor(color).setZ(zLevel).call();
+			minecraft.font.render(text, x+offX + getStartingX(width), y+offY).setZ(0).setColor(color).setZ(zLevel).call();
 		}
         addOffY(getLineHeight());
     }
@@ -162,10 +132,10 @@ public class TextComponent extends GuiComponent {
 		};
     }
 
-    public void drawString(String text, int offX, boolean shadow) {
-        drawString(text, offX, Colors.WHITE, shadow);
+    public void drawString(String text, int x, int y, int offX, boolean shadow) {
+        drawString(text, x, y, offX, Colors.WHITE, shadow);
     }
-    public void drawStringJustified(String text, int offX, int maxWidth, int color, boolean shadow){
+    public void drawStringJustified(String text, int x, int y, int offX, int maxWidth, int color, boolean shadow){
         String[] words = text.split(" ");
         StringBuilder line = new StringBuilder();
         StringBuilder prevline;
@@ -176,19 +146,19 @@ public class TextComponent extends GuiComponent {
             wordCount++;
             if (minecraft.font.stringWidth(line.toString().trim()) > maxWidth){
                 if (wordCount <= 1){
-                    drawString(line.toString(), offX, color, shadow);
+                    drawString(line.toString(), x, y, offX, color, shadow);
                     line.setLength(0);
                     wordCount = 0;
                     continue;
                 }
-                drawString(prevline.toString(), offX, color, shadow);
+                drawString(prevline.toString(), x, y, offX, color, shadow);
                 line = new StringBuilder(word).append(" ");
                 wordCount = 0;
             }
         }
         String remainder = line.toString();
         if (!remainder.isEmpty()){
-            drawString(remainder, offX, color, shadow);
+            drawString(remainder, x, y, offX, color, shadow);
         }
     }
     public void drawStringCentered(String text){
@@ -208,36 +178,6 @@ public class TextComponent extends GuiComponent {
         tessellator.addVertexWithUV((x + width), (y + 0),      z, percent, 0);
         tessellator.addVertexWithUV((x + 0),     (y + 0),      z, 0,       0);
         tessellator.draw();
-    }
-
-    protected void drawRect(int minX, int minY, int maxX, int maxY, int argb) {
-        int temp;
-        if (minX < maxX) {
-            temp = minX;
-            minX = maxX;
-            maxX = temp;
-        }
-        if (minY < maxY) {
-            temp = minY;
-            minY = maxY;
-            maxY = temp;
-        }
-        float a = (float)(argb >> 24 & 0xFF) / 255.0f;
-        float r = (float)(argb >> 16 & 0xFF) / 255.0f;
-        float g = (float)(argb >> 8 & 0xFF) / 255.0f;
-        float b = (float)(argb & 0xFF) / 255.0f;
-        TessellatorGeneral tessellator = GLRenderer.getTessellator();
-        GLRenderer.enableState(State.BLEND);
-        GLRenderer.setShader(Shaders.COLOR);
-        GLRenderer.setBlendFunc(BlendFactor.SRC_ALPHA, BlendFactor.ONE_MINUS_SRC_ALPHA);
-        GLRenderer.setColor4f(r, g, b, a);
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(minX, maxY, 0.0);
-        tessellator.addVertex(maxX, maxY, 0.0);
-        tessellator.addVertex(maxX, minY, 0.0);
-        tessellator.addVertex(minX, minY, 0.0);
-        tessellator.draw();
-        GLRenderer.disableState(State.BLEND);
     }
 
 	@Override

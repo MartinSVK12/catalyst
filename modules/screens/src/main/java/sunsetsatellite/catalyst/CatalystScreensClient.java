@@ -1,31 +1,32 @@
 package sunsetsatellite.catalyst;
 
-import com.mojang.nbt.NbtIo;
 import com.mojang.nbt.tags.CompoundTag;
+import com.mojang.nbt.tags.Tag;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.hud.component.HudComponent;
+import net.minecraft.client.gui.options.components.KeyBindingComponent;
 import net.minecraft.client.gui.options.components.OptionsCategory;
+import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.components.ShortcutComponent;
 import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.input.InputDevice;
 import net.minecraft.client.option.GameSettings;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.core.Global;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.client.option.Option;
 import org.lwjgl.input.Keyboard;
-import sunsetsatellite.catalyst.screens.component.ComponentPicker;
 import sunsetsatellite.catalyst.screens.component.ImageComponent;
+import sunsetsatellite.catalyst.screens.component.SubsceneComponent;
 import sunsetsatellite.catalyst.screens.component.TextComponent;
+import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 import sunsetsatellite.catalyst.screens.util.GuiComponents;
+import sunsetsatellite.catalyst.screens.util.Options;
 import turniplabs.halplibe.util.ClientStartEntrypoint;
 import turniplabs.halplibe.util.OptionsInitEntrypoint;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.util.Map;
 
 public class CatalystScreensClient implements ClientModInitializer, ClientStartEntrypoint, OptionsInitEntrypoint {
 	@Override
@@ -42,8 +43,36 @@ public class CatalystScreensClient implements ClientModInitializer, ClientStartE
 	public void afterClientStart() {
 		GuiComponents.register(TextComponent.ID, TextComponent.class);
 		GuiComponents.register(ImageComponent.ID, ImageComponent.class);
+		GuiComponents.register(SubsceneComponent.ID, SubsceneComponent.class);
 		Minecraft mc = Minecraft.getMinecraft();
 		((OptionsCategory) OptionsPages.GENERAL.getComponents().get(1)).withComponent(new ShortcutComponent("gui.options.page.general.button.edit_gui", () -> mc.displayScreen(new ScreenGuiEditor(mc.currentScreen))));
+		OptionsCategory guiEditorCategory = new OptionsCategory("gui.options.page.controls.category.gui_editor")
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_SELECT))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_OPEN_MAIN))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_OPEN_CONTEXT))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_NUDGE_UP))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_NUDGE_DOWN))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_NUDGE_LEFT))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_NUDGE_RIGHT))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_NUDGE_FAST))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_RESET))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_EXIT))
+			.withComponent(new KeyBindingComponent(Options.KEY_GUI_EDITOR_ONBOARDING));
+		OptionsPages.CONTROLS.withComponent(guiEditorCategory);
+	}
+
+	public static void loadScene(CompoundTag tag, Map<String, GuiComponent> components){
+		if(tag == null) return;
+		for (Tag<?> value : tag.getValues()) {
+			components.put(value.getTagName(), GuiComponent.create(((CompoundTag) value)));
+		}
+		GuiComponent.incompleteLinks.forEach(((layout, name) -> {
+			if(components.get(name) == null){
+				CatalystScreens.LOGGER.error("Could not find component with id: {}", name);
+			}
+			layout.setParent(components.get(name));
+		}));
+		GuiComponent.incompleteLinks.clear();
 	}
 
 	public static void addSettingsPage() {

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sunsetsatellite.catalyst.screens.component.ComponentPicker;
+import sunsetsatellite.catalyst.screens.component.base.ComponentPicker;
 import turniplabs.halplibe.HalpLibe;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class CatalystScreens implements ModInitializer {
 		return "options.gui."+key;
 	}
 
-	public static @Nullable CompoundTag loadScene(final @NotNull String id) {
+	public static @Nullable CompoundTag loadSceneNbt(final @NotNull String id) {
 		String[] split = id.split(":");
 		@Nullable InputStream stream = null;
 		if(split.length == 2){

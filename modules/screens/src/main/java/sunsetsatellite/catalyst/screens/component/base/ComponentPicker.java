@@ -1,4 +1,4 @@
-package sunsetsatellite.catalyst.screens.component;
+package sunsetsatellite.catalyst.screens.component.base;
 
 import com.mojang.nbt.NbtIo;
 import com.mojang.nbt.tags.CompoundTag;
@@ -9,14 +9,17 @@ import net.minecraft.client.gui.hud.component.HudComponent;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.options.components.OptionsCategory;
+import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.popup.PopupBuilder;
 import net.minecraft.client.gui.popup.PopupScreen;
 import net.minecraft.core.Global;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.CatalystScreens;
+import sunsetsatellite.catalyst.CatalystScreensClient;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
 import sunsetsatellite.catalyst.screens.component.option.ButtonWithLabelComponent;
 import sunsetsatellite.catalyst.screens.component.option.ClickableButtonComponent;
+import sunsetsatellite.catalyst.screens.component.option.SceneComponentInstanceComponent;
 import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 import sunsetsatellite.catalyst.screens.util.GuiComponents;
 
@@ -24,6 +27,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 import static sunsetsatellite.catalyst.CatalystScreens.lang;
 
@@ -52,6 +58,30 @@ public class ComponentPicker extends HudComponent {
 	}
 
 	@Override
+	public List<Supplier<OptionsComponent>> getOptionSuppliers() {
+		addDefaultOptionSuppliers();
+		List<Supplier<OptionsComponent>> list = new ArrayList<>(super.getOptionSuppliers());
+		super.getOptionSuppliers().clear();
+
+		OptionsCategory sceneComponents = new OptionsCategory(lang("components"));
+		//sceneComponents.collapsed = true;
+
+		editor.components.forEach((name, component) -> {
+			sceneComponents.withComponent(new SceneComponentInstanceComponent(name, component,null, lang("open")) {
+				@Override
+				protected void buttonClicked(int mouseButton, int x, int y, int width, int height, int relativeMouseX, int relativeMouseY) {
+					editor.selectedComponent = this.component;
+					editor.openContextMenu(this.component, x, y);
+				}
+			});
+		});
+
+		list.add(()->sceneComponents);
+
+		return list;
+	}
+
+	@Override
 	protected void addDefaultOptionSuppliers() {
 		OptionsCategory components = new OptionsCategory(lang("components"));
 		for (String s : GuiComponents.getComponents().keySet()) {
@@ -70,7 +100,7 @@ public class ComponentPicker extends HudComponent {
 				protected void buttonClicked(int mouseButton, int x, int y, int width, int height, int relativeMouseX, int relativeMouseY) {
 					try {
 						String name = String.valueOf(System.currentTimeMillis());
-						editor.components.put(name, (HudComponent) GuiComponents.getComponent(s).getDeclaredConstructor(String.class, float.class, float.class).newInstance(name,0.5f,0.5f));
+						editor.components.put(name, GuiComponents.getComponent(s).getDeclaredConstructor(String.class, float.class, float.class).newInstance(name,0.5f,0.5f));
 					} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
 					         NoSuchMethodException e) {
 						throw new RuntimeException(e);
@@ -78,10 +108,12 @@ public class ComponentPicker extends HudComponent {
 				}
 			});
 		}
-		getOptionSuppliers().add(()-> components);
+		addOptionComponentSupplier(()-> components);
 		OptionsCategory scene = new OptionsCategory(lang("scene"));
 		OptionsCategory save = new OptionsCategory(lang("save"));
 		OptionsCategory load = new OptionsCategory(lang("load"));
+		scene.withComponent(save);
+		scene.withComponent(load);
 		BasicTextFieldComponent nameField = new BasicTextFieldComponent(lang("name"), "", "scene", (t) -> {});
 		save.withComponent(nameField);
 		save.withComponent(new ClickableButtonComponent(lang("save"),()->{
@@ -111,12 +143,12 @@ public class ComponentPicker extends HudComponent {
 		BasicTextFieldComponent fileField = new BasicTextFieldComponent(lang("id"), "", "scene", (t) -> {});
 		load.withComponent(fileField);
 		load.withComponent(new ClickableButtonComponent(lang("load"),()->{
-			CompoundTag loaded = CatalystScreens.loadScene(fileField.getText());
-			editor.load(loaded);
+			CompoundTag loaded = CatalystScreens.loadSceneNbt(fileField.getText());
+			if(loaded != null){
+				CatalystScreensClient.loadScene(loaded, editor.components);
+			}
 		}));
-		scene.withComponent(save);
-		scene.withComponent(load);
-		getOptionSuppliers().add(()-> scene);
+		addOptionComponentSupplier(()->scene);
 	}
 
 	public static boolean saveScene(final @NotNull CompoundTag tag, final @NotNull String id) {

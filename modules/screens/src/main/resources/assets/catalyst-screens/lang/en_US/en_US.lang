@@ -52,12 +52,17 @@ options.gui.name=Name
 options.gui.add=Add
 options.gui.scene=Scene
 options.gui.parent=Parent
+options.gui.type=Type
+options.gui.open=Open
+options.gui.unpack=Unpack
 options.gui.saved=Saved!
 options.gui.failedSave=Failed to save! Check the output log for errors.
 
 gui.component.text=Text
 gui.component.image=Image
+gui.component.subscene=Subscene
 
+gui.options.page.controls.category.gui_editor=GUI Editor
 gui.options.guieditor.onboarding.welcome=Welcome to the GUI Editor!
 gui.options.guieditor.onboarding.exit=Press '%1$s' to leave the GUI Editor
 gui.options.guieditor.onboarding.reset=Press '%1$s' to remove every component
@@ -66,3 +71,15 @@ gui.options.gui.deleteAllLabel=Delete all?
 gui.options.gui.deleteAllMsg=Are you sure you want to delete every component?
 gui.options.gui.deleteAll=Delete All
 gui.options.gui.cancel=Cancel
+
+key.guiEditorSelect=Select GUI Component
+key.guiEditorOpenMain=Open Main Context Menu
+key.guiEditorOpenContext=Open Component Context Menu
+key.guiEditorExit=Exit GUI Editor
+key.guiEditorReset=Reset GUI to Default
+key.guiEditorNudgeUp=Nudge Up Selected Component
+key.guiEditorNudgeDown=Nudge Down Selected Component
+key.guiEditorNudgeLeft=Nudge Left Selected Component
+key.guiEditorNudgeRight=Nudge Right Selected Component
+key.guiEditorNudgeFast=Nudge Selected Component Faster
+key.guiEditorOnboarding=Show GUI Editor Onboarding Screen

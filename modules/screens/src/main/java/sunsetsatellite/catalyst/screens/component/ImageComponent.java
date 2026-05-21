@@ -12,6 +12,7 @@ import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.render.renderer.GLRenderer;
 import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.Catalyst;
+import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
 import sunsetsatellite.catalyst.screens.util.Colors;
 
@@ -21,11 +22,6 @@ public class ImageComponent extends GuiComponent {
 
 	public static final String ID = "image";
 
-	public Gui gui;
-	public int xScreenSize;
-	public int yScreenSize;
-	public int posX = 0;
-	public int posY = 0;
 	public int u = 0;
 	public int v = 0;
 	public String imageId = "/assets/minecraft/textures/gui/container/container.png";
@@ -34,55 +30,22 @@ public class ImageComponent extends GuiComponent {
 		super(name, 176, 221, new LayoutAbsolute(x,y, ComponentAnchor.CENTER));
 	}
 
-	public int generateOriginalPosY() {
-		return getLayout().getComponentY(this, yScreenSize);
-	}
-
-	public int generateOriginalPosX() {
-		return getLayout().getComponentX(this, xScreenSize);
-	}
-
 	@Override
 	public boolean isVisible() {
 		return true;
 	}
 
 	@Override
-	public void render(HudIngame hudIngame, int xScreenSize, int yScreenSize, float partialTick) {
-
-	}
-
-	@Override
-	public void renderPreview(Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
-		this.gui = gui;
-		this.xScreenSize = xScreenSize;
-		this.yScreenSize = yScreenSize;
-		posY  = generateOriginalPosY();
-		posX = generateOriginalPosX();
-		renderComponentPreview(mc, gui, layout, xScreenSize, yScreenSize);
-	}
-
-	@Override
-	public void render(Screen screen, int xScreenSize, int yScreenSize, float partialTick) {
-		this.gui = screen;
-		this.xScreenSize = xScreenSize;
-		this.yScreenSize = yScreenSize;
-		posY = generateOriginalPosY();
-		posX = generateOriginalPosX();
-		renderComponent(mc, screen, xScreenSize, yScreenSize, partialTick);
-	}
-
-	@Override
-	public void renderComponent(Minecraft mc, Screen screen, int xSize, int ySize, float partialTick) {
+	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		if(imageId != null && !imageId.isEmpty()) {
-			drawIcon(posX, posY, this.xSize, this.ySize, this.u, this.v, imageId, Colors.WHITE);
+			drawIcon(x, y, this.xSize, this.ySize, this.u, this.v, imageId, Colors.WHITE);
 		}
 	}
 
 	@Override
-	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int xSize, int ySize) {
+	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize) {
 		if(imageId != null && !imageId.isEmpty()) {
-			drawIcon(posX, posY, this.xSize, this.ySize, this.u, this.v, imageId, Colors.WHITE);
+			drawIcon(x,y,this.xSize, this.ySize, this.u, this.v, imageId, Colors.WHITE);
 		}
 	}
 
@@ -105,11 +68,6 @@ public class ImageComponent extends GuiComponent {
 		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (float)(u + 0) * uScale, (float)(v + 0) * vScale);
 		tessellator.draw();
 		GLRenderer.popFrame();
-	}
-
-	@Override
-	public String getName() {
-		return getKey();
 	}
 
 	public void changeImage(String id) {

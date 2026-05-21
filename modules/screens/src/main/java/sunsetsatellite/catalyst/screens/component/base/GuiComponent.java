@@ -1,9 +1,11 @@
-package sunsetsatellite.catalyst.screens.component;
+package sunsetsatellite.catalyst.screens.component.base;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.hud.HudIngame;
 import net.minecraft.client.gui.hud.component.ComponentAnchor;
+import net.minecraft.client.gui.hud.component.HudComponent;
 import net.minecraft.client.gui.hud.component.HudComponentMovable;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
@@ -12,7 +14,11 @@ import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.option.OptionEnum;
+import net.minecraft.client.render.renderer.BlendFactor;
 import net.minecraft.client.render.renderer.GLRenderer;
+import net.minecraft.client.render.renderer.Shaders;
+import net.minecraft.client.render.renderer.State;
+import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
 import sunsetsatellite.catalyst.screens.util.GuiComponents;
@@ -29,9 +35,57 @@ import static sunsetsatellite.catalyst.CatalystScreens.lang;
 public abstract class GuiComponent extends HudComponentMovable implements IGuiComponent {
 
 	public int zLevel = 0;
+	public Gui gui;
+	public int xScreenSize;
+	public int yScreenSize;
+	public int posX = 0;
+	public int posY = 0;
 
 	public GuiComponent(String key, int xSize, int ySize, Layout layout) {
 		super(key, xSize, ySize, layout);
+	}
+
+	@Override
+	public HudComponent hud() {
+		return this;
+	}
+
+	@Override
+	public void render(HudIngame hudIngame, int i, int i1, float v) {
+		throw new UnsupportedOperationException();
+	}
+
+	public int realX() {
+		return getLayout().getComponentY(this, yScreenSize);
+	}
+
+	public int realY() {
+		return getLayout().getComponentX(this, xScreenSize);
+	}
+
+	@Override
+	public void renderPreview(Gui gui, Layout layout, int xScreenSize, int yScreenSize) {
+		this.gui = gui;
+		this.xScreenSize = xScreenSize;
+		this.yScreenSize = yScreenSize;
+		posY = realX();
+		posX = realY();
+		renderComponentPreview(mc, gui, layout, posX, posY, xScreenSize, yScreenSize);
+	}
+
+	@Override
+	public void render(Screen screen, int xScreenSize, int yScreenSize, float partialTick) {
+		this.gui = screen;
+		this.xScreenSize = xScreenSize;
+		this.yScreenSize = yScreenSize;
+		posY = realX();
+		posX = realY();
+		renderComponent(mc, screen, posX, posY, xScreenSize, yScreenSize, partialTick);
+	}
+
+	@Override
+	public String getName() {
+		return getKey();
 	}
 
 	public static GuiComponent create(CompoundTag tag){
@@ -99,7 +153,7 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 			int x = this.layout.getComponentX(this, xSizeScreen);
 			int y = this.layout.getComponentY(this, ySizeScreen);
 			GLRenderer.modelM4f().translate(x, y, 0.0f);
-			renderComponent(mc, screen, xSizeScreen, ySizeScreen, partialTick);
+			renderComponent(mc, screen, posX, posY, xSizeScreen, ySizeScreen, partialTick);
 			return;
 		}
 		int x = this.layout.getComponentX(this, xSizeScreen);
@@ -107,13 +161,13 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		GLRenderer.modelM4f().translate(x, y, 0.0f);
 		GLRenderer.modelM4f().scale(scale, scale, 1.0f);
 		GLRenderer.modelM4f().translate(-x, -y, 0.0f);
-		renderComponent(mc, screen, xSizeScreen, ySizeScreen, partialTick);
+		renderComponent(mc, screen, posX, posY, xSizeScreen, ySizeScreen, partialTick);
 	}
 
 	public final void renderComponentPreviewScaled(Gui gui, Layout layout, int xSizeScreen, int ySizeScreen) {
 		float scale = getScale();
 		if (scale == 1.0f) {
-			renderComponentPreview(mc, gui, layout, xSizeScreen, ySizeScreen);
+			renderComponentPreview(mc, gui, layout, posX, posY, xSizeScreen, ySizeScreen);
 			return;
 		}
 		int x = layout.getComponentX(this, xSizeScreen);
@@ -121,7 +175,37 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		GLRenderer.modelM4f().translate(x, y, 0.0f);
 		GLRenderer.modelM4f().scale(scale, scale, 1.0f);
 		GLRenderer.modelM4f().translate(-x, -y, 0.0f);
-		renderComponentPreview(mc, gui, layout, xSizeScreen, ySizeScreen);
+		renderComponentPreview(mc, gui, layout, posX, posY, xSizeScreen, ySizeScreen);
+	}
+
+	public void drawRect(int minX, int minY, int maxX, int maxY, int argb) {
+		int temp;
+		if (minX < maxX) {
+			temp = minX;
+			minX = maxX;
+			maxX = temp;
+		}
+		if (minY < maxY) {
+			temp = minY;
+			minY = maxY;
+			maxY = temp;
+		}
+		float a = (float)(argb >> 24 & 0xFF) / 255.0f;
+		float r = (float)(argb >> 16 & 0xFF) / 255.0f;
+		float g = (float)(argb >> 8 & 0xFF) / 255.0f;
+		float b = (float)(argb & 0xFF) / 255.0f;
+		TessellatorGeneral tessellator = GLRenderer.getTessellator();
+		GLRenderer.enableState(State.BLEND);
+		GLRenderer.setShader(Shaders.COLOR);
+		GLRenderer.setBlendFunc(BlendFactor.SRC_ALPHA, BlendFactor.ONE_MINUS_SRC_ALPHA);
+		GLRenderer.setColor4f(r, g, b, a);
+		tessellator.startDrawingQuads();
+		tessellator.addVertex(minX, maxY, 0.0);
+		tessellator.addVertex(maxX, maxY, 0.0);
+		tessellator.addVertex(maxX, minY, 0.0);
+		tessellator.addVertex(minX, minY, 0.0);
+		tessellator.draw();
+		GLRenderer.disableState(State.BLEND);
 	}
 
 	@Override
@@ -188,6 +272,7 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 
 	@Override
 	protected void addDefaultOptionSuppliers() {
+		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("type"), null, getId()).lock());
 		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("id"),null, key,
 			()->{},
 			(t)-> key = t.getText()
@@ -195,12 +280,12 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		OptionsCategory sizeCategory = new OptionsCategory(lang("size"));
 		sizeCategory.withComponent(new BasicTextFieldComponent(lang("width"), null,
 			String.valueOf(xSize),
-			()-> xSize = 152,
+			()-> xSize = 32,
 			(t) -> xSize = Catalyst.parseIntSafe(t.getText())
 		));
 		sizeCategory.withComponent(new BasicTextFieldComponent(lang("height"), null,
 			String.valueOf(ySize),
-			()-> ySize = 20,
+			()-> ySize = 32,
 			(t) -> ySize = Catalyst.parseIntSafe(t.getText())
 		));
 		addOptionComponentSupplier(()->sizeCategory);

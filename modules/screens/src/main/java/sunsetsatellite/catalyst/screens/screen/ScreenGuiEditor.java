@@ -28,9 +28,10 @@ import net.minecraft.core.sound.SoundCategory;
 import net.minecraft.core.util.helper.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import sunsetsatellite.catalyst.screens.component.ComponentPicker;
-import sunsetsatellite.catalyst.screens.component.GuiComponent;
+import sunsetsatellite.catalyst.screens.component.base.ComponentPicker;
+import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.util.Colors;
+import sunsetsatellite.catalyst.screens.util.Options;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,9 +43,9 @@ import static sunsetsatellite.catalyst.CatalystScreens.lang;
 
 public class ScreenGuiEditor extends Screen {
 	private final List<HudComponent> componentsUnderMouse = new ArrayList<>();
-	public final Map<String, HudComponent> components = new HashMap<>();
+	public final Map<String, GuiComponent> components = new HashMap<>();
 
-	private HudComponent selectedComponent = null;
+	public HudComponent selectedComponent = null;
 	private boolean isDragging = false;
 	private int clickMouseX = 0;
 	private int clickMouseY = 0;
@@ -110,16 +111,6 @@ public class ScreenGuiEditor extends Screen {
 		}
 	}
 
-	public void load(CompoundTag tag){
-		for (Tag<?> value : tag.getValues()) {
-			components.put(value.getTagName(), GuiComponent.create(((CompoundTag) value)));
-		}
-		GuiComponent.incompleteLinks.forEach(((layout, name) -> {
-			layout.setParent(components.get(name));
-		}));
-		GuiComponent.incompleteLinks.clear();
-	}
-
 	@Override
 	public void removed() {
 		super.removed();
@@ -135,7 +126,7 @@ public class ScreenGuiEditor extends Screen {
 
 	private void nudge(HudComponentMovable movable, int dx, int dy) {
 		// Hold Shift to nudge faster
-		if (Keyboard.isKeyDown(GameSettings.KEY_HUD_EDITOR_NUDGE_FAST.getKeyCode())) {
+		if (Keyboard.isKeyDown(Options.KEY_GUI_EDITOR_NUDGE_FAST.getKeyCode())) {
 			dx *= 10;
 			dy *= 10;
 		}
@@ -189,16 +180,23 @@ public class ScreenGuiEditor extends Screen {
 			return;
 		}
 
-		if (eventKey == GameSettings.KEY_HUD_EDITOR_EXIT.getKeyCode()) {
+		if (eventKey == Options.KEY_GUI_EDITOR_EXIT.getKeyCode()) {
 			this.mc.displayScreen(getParentScreen());
 			this.mc.sndManager.playSound("random.click", SoundCategory.GUI_SOUNDS, 1.0F, 1.0F);
 			return;
 		}
 
-		if (eventKey == GameSettings.KEY_HUD_EDITOR_ONBOARDING.getKeyCode()) {
+		if (eventKey == Options.KEY_GUI_EDITOR_ONBOARDING.getKeyCode()) {
 			this.showOnboarding = true;
 			this.mc.sndManager.playSound("random.click", SoundCategory.GUI_SOUNDS, 1.0F, 1.0F);
 			return;
+		}
+
+		if(eventKey == Options.KEY_GUI_EDITOR_OPEN_MAIN.getKeyCode()){
+			ComponentPicker picker = new ComponentPicker(this);
+			this.selectedComponent = picker;
+			openContextMenu(picker, mx, my);
+			this.mc.sndManager.playSound("random.click", SoundCategory.GUI_SOUNDS, 1.0F, 1.0F);
 		}
 
 		if(eventKey == Keyboard.KEY_DELETE){
@@ -208,7 +206,7 @@ public class ScreenGuiEditor extends Screen {
 			}
 		}
 
-		if (eventKey == GameSettings.KEY_HUD_EDITOR_RESET.getKeyCode()) {
+		if (eventKey == Options.KEY_GUI_EDITOR_RESET.getKeyCode()) {
 			PopupScreen popup = new PopupBuilder(this, 256)
 				.withLabel("gui."+lang("deleteAllLabel"))
 				.withMessageBox("msgBox", 64, I18n.getInstance().translateKey("gui."+lang("deleteAllMsg")), 48)
@@ -235,10 +233,10 @@ public class ScreenGuiEditor extends Screen {
 			int dx = 0;
 			int dy = 0;
 
-			if (eventKey == GameSettings.KEY_HUD_EDITOR_NUDGE_UP.getKeyCode()) dy = -1;
-			else if (eventKey == GameSettings.KEY_HUD_EDITOR_NUDGE_DOWN.getKeyCode()) dy = 1;
-			else if (eventKey == GameSettings.KEY_HUD_EDITOR_NUDGE_LEFT.getKeyCode()) dx = -1;
-			else if (eventKey == GameSettings.KEY_HUD_EDITOR_NUDGE_RIGHT.getKeyCode()) dx = 1;
+			if (eventKey == Options.KEY_GUI_EDITOR_NUDGE_UP.getKeyCode()) dy = -1;
+			else if (eventKey == Options.KEY_GUI_EDITOR_NUDGE_DOWN.getKeyCode()) dy = 1;
+			else if (eventKey == Options.KEY_GUI_EDITOR_NUDGE_LEFT.getKeyCode()) dx = -1;
+			else if (eventKey == Options.KEY_GUI_EDITOR_NUDGE_RIGHT.getKeyCode()) dx = 1;
 
 			if (dx != 0 || dy != 0) {
 				nudge(movable, dx, dy);
@@ -300,7 +298,7 @@ public class ScreenGuiEditor extends Screen {
 		boolean clickedComponent = false;
 
 		// Selection and Dragging
-		if (buttonNum == GameSettings.KEY_HUD_EDITOR_SELECT.getKeyCode()) {
+		if (buttonNum == Options.KEY_GUI_EDITOR_SELECT.getKeyCode()) {
 			if (!this.componentsUnderMouse.isEmpty()) {
 				HudComponent componentUnderMouse = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
 				this.selectedComponent = componentUnderMouse;
@@ -325,7 +323,7 @@ public class ScreenGuiEditor extends Screen {
 		}
 
 		// Open Context Menu
-		if (buttonNum == GameSettings.KEY_HUD_EDITOR_OPEN_CONTEXT.getKeyCode()) {
+		if (buttonNum == Options.KEY_GUI_EDITOR_OPEN_CONTEXT.getKeyCode()) {
 			if (!this.componentsUnderMouse.isEmpty()) {
 				HudComponent componentUnderMouse = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
 				this.selectedComponent = componentUnderMouse;
@@ -358,7 +356,7 @@ public class ScreenGuiEditor extends Screen {
 		}
 	}
 
-	private void openContextMenu(HudComponent component, int mx, int my) {
+	public void openContextMenu(HudComponent component, int mx, int my) {
 		this.activeContextComponents.clear();
 		contextOptionsScreen.optionsScrollAmount = 0;
 
@@ -414,7 +412,7 @@ public class ScreenGuiEditor extends Screen {
 		if (hasContent) {
 			this.contextMenuWidth = sidePadding + maxTextWidth + textControlSpacing + controlWidth;
 		} else {
-			this.contextMenuWidth = 200;
+			this.contextMenuWidth = 250;
 		}
 
 		// Height Calculation
@@ -567,16 +565,16 @@ public class ScreenGuiEditor extends Screen {
 		int startY = boxY + 45;
 		int lineSpacing = 16;
 
-		String select     = GameSettings.KEY_HUD_EDITOR_SELECT.getKeyName();
-		String context    = GameSettings.KEY_HUD_EDITOR_OPEN_CONTEXT.getKeyName();
-		String nudgeUp    = GameSettings.KEY_HUD_EDITOR_NUDGE_UP.getKeyName();
-		String nudgeDown  = GameSettings.KEY_HUD_EDITOR_NUDGE_DOWN.getKeyName();
-		String nudgeLeft  = GameSettings.KEY_HUD_EDITOR_NUDGE_LEFT.getKeyName();
-		String nudgeRight = GameSettings.KEY_HUD_EDITOR_NUDGE_RIGHT.getKeyName();
-		String fast       = GameSettings.KEY_HUD_EDITOR_NUDGE_FAST.getKeyName();
-		String reset      = GameSettings.KEY_HUD_EDITOR_RESET.getKeyName();
-		String onboarding = GameSettings.KEY_HUD_EDITOR_ONBOARDING.getKeyName();
-		String exit       = GameSettings.KEY_HUD_EDITOR_EXIT.getKeyName();
+		String select     = Options.KEY_GUI_EDITOR_SELECT.getKeyName();
+		String context    = Options.KEY_GUI_EDITOR_OPEN_CONTEXT.getKeyName();
+		String nudgeUp    = Options.KEY_GUI_EDITOR_NUDGE_UP.getKeyName();
+		String nudgeDown  = Options.KEY_GUI_EDITOR_NUDGE_DOWN.getKeyName();
+		String nudgeLeft  = Options.KEY_GUI_EDITOR_NUDGE_LEFT.getKeyName();
+		String nudgeRight = Options.KEY_GUI_EDITOR_NUDGE_RIGHT.getKeyName();
+		String fast       = Options.KEY_GUI_EDITOR_NUDGE_FAST.getKeyName();
+		String reset      = Options.KEY_GUI_EDITOR_RESET.getKeyName();
+		String onboarding = Options.KEY_GUI_EDITOR_ONBOARDING.getKeyName();
+		String exit       = Options.KEY_GUI_EDITOR_EXIT.getKeyName();
 
 		String arrowKeys = nudgeUp + "/" + nudgeDown + "/" + nudgeLeft + "/" + nudgeRight;
 

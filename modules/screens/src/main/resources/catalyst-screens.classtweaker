@@ -13,3 +13,5 @@ mutable field net/minecraft/client/gui/hud/component/HudComponent key Ljava/lang
 accessible method net/minecraft/client/gui/options/ScreenOptions scrollOptions (F)V
 accessible field net/minecraft/client/gui/options/ScreenOptions selectedPage Lnet/minecraft/client/gui/options/data/OptionsPage;
 accessible field net/minecraft/client/gui/options/ScreenOptions optionsScrollAmount F
+accessible field net/minecraft/client/gui/options/components/OptionsCategory collapsed Z
+accessible field net/minecraft/client/gui/options/components/OptionsCategory translationKey Ljava/lang/String;
