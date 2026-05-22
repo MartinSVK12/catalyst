@@ -50,6 +50,8 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 	public boolean hovering = false;
 	public record Clicked(GuiComponent component, int mx, int my, int button){};
 	public final Signal<Clicked> onClick = new Signal<>("on_click");
+	public record SizeChanged(int xSize, int ySize){};
+	public final Signal<SizeChanged> onSizeChanged = new Signal<>("on_size_changed");
 
 	public GuiComponent(String key, int xSize, int ySize, Layout layout) {
 		super(key, xSize, ySize, layout);
@@ -268,12 +270,18 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		sizeCategory.withComponent(new BasicTextFieldComponent(lang("width"), null,
 			String.valueOf(xSize),
 			()-> xSize = 32,
-			(t) -> xSize = Catalyst.parseIntSafe(t.getText())
+			(t) -> {
+				xSize = Catalyst.parseIntSafe(t.getText());
+				onSizeChanged.emit(new SizeChanged(xSize,ySize));
+			}
 		));
 		sizeCategory.withComponent(new BasicTextFieldComponent(lang("height"), null,
 			String.valueOf(ySize),
 			()-> ySize = 32,
-			(t) -> ySize = Catalyst.parseIntSafe(t.getText())
+			(t) -> {
+				ySize = Catalyst.parseIntSafe(t.getText());
+				onSizeChanged.emit(new SizeChanged(xSize,ySize));
+			}
 		));
 		addOptionComponentSupplier(()->sizeCategory);
 		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("zLevel"),null, String.valueOf(zLevel),

@@ -9,6 +9,10 @@ options.slotType=Type
 options.slotType.player=Player
 options.slotType.inventory=Inventory
 
+options.progressBarType=Type
+options.progressBarType.horizontal=Horizontal
+options.progressBarType.vertical=Vertical
+
 options.anchor=Anchor
 options.parentAnchor=Parent Anchor
 
