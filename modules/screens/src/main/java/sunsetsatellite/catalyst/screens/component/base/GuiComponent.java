@@ -80,6 +80,7 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		this.yScreenSize = yScreenSize;
 		posX = realX();
 		posY = realY();
+		//drawRect(posX, posY, posX+xSize, posY+ySize, 0xFFFFFF00);
 		renderComponentPreview(mc, gui, layout, posX, posY, xScreenSize, yScreenSize);
 	}
 
@@ -97,8 +98,8 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		component.gui = gui;
 		component.xScreenSize = xSize;
 		component.yScreenSize = ySize;
-		component.posX = x + realX() + component.realX();
-		component.posY = y + realY() + component.realY();
+		component.posX = /*x +*/ x + component.realX();
+		component.posY = /*y +*/ y + component.realY();
 		if(resize){
 			component.xSize = xSize;
 			component.ySize = ySize;

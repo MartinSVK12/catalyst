@@ -67,7 +67,7 @@ public class SubsceneComponent extends GuiComponent {
 			component.yScreenSize = yScreenSize;
 			component.posX = realX() + component.realX();
 			component.posY = realY() + component.realY();
-			component.renderComponentPreview(mc, gui, layout, component.posX, component.posY, xScreenSize, yScreenSize);
+			component.renderComponentPreview(mc, gui, layout, posX, posY, xScreenSize, yScreenSize);
 		}
 		//Scissor.disable();
 		GLRenderer.popFrame();
@@ -79,16 +79,16 @@ public class SubsceneComponent extends GuiComponent {
 			drawRect(x,y,x+xSize, y+ySize, 0xFFFF00FF);
 		}
 		GLRenderer.pushFrame();
-		Scissor.enable(x,y, xSize, ySize);
+		//Scissor.enable(x,y, xSize, ySize);
 		for (GuiComponent component : components.values()) {
 			component.gui = gui;
 			component.xScreenSize = xScreenSize;
 			component.yScreenSize = yScreenSize;
-			component.posX = realX() + component.realX();
-			component.posY = realY() + component.realY();
+			component.posX = x + component.realX();
+			component.posY = y + component.realY();
 			component.renderComponentPreview(mc, gui, layout, component.posX, component.posY, xScreenSize, yScreenSize);
 		}
-		Scissor.disable();
+		//Scissor.disable();
 		GLRenderer.popFrame();
 	}
 

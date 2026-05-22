@@ -56,9 +56,9 @@ public class InventoryComponent extends GuiComponent implements HasServerCompone
 			component.gui = gui;
 			component.xScreenSize = xSize;
 			component.yScreenSize = ySize;
-			component.posX = realX() + component.realX();
-			component.posY = realY() + component.realY();
-			component.renderComponent(mc, screen, posX, posY, xScreenSize, yScreenSize, partialTick);
+			component.posX = x + component.realX();
+			component.posY = y + component.realY();
+			component.renderComponent(mc, screen, component.posX, component.posY, xScreenSize, yScreenSize, partialTick);
 		}
 	}
 
@@ -68,9 +68,9 @@ public class InventoryComponent extends GuiComponent implements HasServerCompone
 			component.gui = gui;
 			component.xScreenSize = xSize;
 			component.yScreenSize = ySize;
-			component.posX = realX() + component.realX();
-			component.posY = realY() + component.realY();
-			component.renderComponentPreview(mc, gui, layout, posX, posY, xScreenSize, yScreenSize);
+			component.posX = x + component.realX();
+			component.posY = y + component.realY();
+			component.renderComponentPreview(mc, gui, layout, component.posX, component.posY, xScreenSize, yScreenSize);
 		}
 	}
 

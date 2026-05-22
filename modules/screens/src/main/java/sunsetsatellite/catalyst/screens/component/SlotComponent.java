@@ -43,13 +43,13 @@ public class SlotComponent extends GuiComponent implements HasServerComponent {
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		setSubComponentRenderProperties(gui, image, x,y,true);
-		image.renderComponentPreview(mc, gui, layout, image.posX, image.posY, xScreenSize, yScreenSize);
+		image.renderComponentPreview(mc, gui, layout, posX,posY, xScreenSize, yScreenSize);
 	}
 
 	@Override
 	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize) {
 		setSubComponentRenderProperties(gui, image, x,y,true);
-		image.renderComponentPreview(mc, gui, layout, image.posX, image.posY, xScreenSize, yScreenSize);
+		image.renderComponentPreview(mc, gui, layout, posX,posY, xScreenSize, yScreenSize);
 	}
 
 	@Override

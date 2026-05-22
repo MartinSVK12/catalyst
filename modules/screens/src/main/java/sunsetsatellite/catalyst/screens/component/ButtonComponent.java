@@ -59,7 +59,7 @@ public class ButtonComponent extends GuiComponent {
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		text.offY = (ySize / 2) - 4;
 		for (GuiComponent component : components) {
-			setSubComponentRenderProperties(gui, component, 0,0,true);
+			setSubComponentRenderProperties(gui, component, x, y,true);
 			component.renderComponent(mc, screen, component.posX, component.posY, xScreenSize, yScreenSize, partialTick);
 		}
 	}
@@ -68,7 +68,7 @@ public class ButtonComponent extends GuiComponent {
 	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize) {
 		text.offY = (ySize / 2) - 4;
 		for (GuiComponent component : components) {
-			setSubComponentRenderProperties(gui, component, 0,0,true);
+			setSubComponentRenderProperties(gui, component, x, y,true);
 			component.renderComponentPreview(mc, gui, layout, component.posX, component.posY, xScreenSize, yScreenSize);
 		}
 	}

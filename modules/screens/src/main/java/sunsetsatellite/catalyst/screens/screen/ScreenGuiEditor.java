@@ -495,7 +495,7 @@ public class ScreenGuiEditor extends Screen {
 		}
 
 		renderTexturedBackground();
-		drawStringShadow(mc.font, String.format("X: %d | Y: %d",mx,my), 4, this.mc.resolution.getScaledHeightScreenCoords() - 22, Colors.WHITE);
+		drawStringShadow(mc.font, String.format("MX: %d | MY: %d",mx,my), 4, this.mc.resolution.getScaledHeightScreenCoords() - 22, Colors.WHITE);
 		drawStringShadow(mc.font, "Components: "+components.size(), 4,this.mc.resolution.getScaledHeightScreenCoords() - 12, Colors.WHITE);
 		drawHudComponents(mx, my);
 
@@ -565,6 +565,7 @@ public class ScreenGuiEditor extends Screen {
 		int lineSpacing = 16;
 
 		String select     = Options.KEY_GUI_EDITOR_SELECT.getKeyName();
+		String main    = Options.KEY_GUI_EDITOR_OPEN_MAIN.getKeyName();
 		String context    = Options.KEY_GUI_EDITOR_OPEN_CONTEXT.getKeyName();
 		String nudgeUp    = Options.KEY_GUI_EDITOR_NUDGE_UP.getKeyName();
 		String nudgeDown  = Options.KEY_GUI_EDITOR_NUDGE_DOWN.getKeyName();
@@ -579,7 +580,7 @@ public class ScreenGuiEditor extends Screen {
 
 		drawStringCenteredShadow(this.fontRenderer, white + String.format(i18n.translateKey("gui.options.hudeditor.onboarding.select"), yellow + select + white), centerX, startY, 0xFFFFFF);
 		drawStringCenteredShadow(this.fontRenderer, white + String.format(i18n.translateKey("gui.options.hudeditor.onboarding.drag"), yellow + select + white), centerX, startY + lineSpacing, 0xFFFFFF);
-		drawStringCenteredShadow(this.fontRenderer, white + String.format(i18n.translateKey("gui.options.guieditor.onboarding.mainMenu"), yellow + context + white), centerX, startY + (lineSpacing * 2), 0xFFFFFF);
+		drawStringCenteredShadow(this.fontRenderer, white + String.format(i18n.translateKey("gui.options.guieditor.onboarding.mainMenu"), yellow + main + white), centerX, startY + (lineSpacing * 2), 0xFFFFFF);
 		drawStringCenteredShadow(this.fontRenderer, white + String.format(i18n.translateKey("gui.options.hudeditor.onboarding.context"), yellow + context + white), centerX, startY + (lineSpacing * 3), 0xFFFFFF);
 		drawStringCenteredShadow(this.fontRenderer, white + String.format(i18n.translateKey("gui.options.hudeditor.onboarding.nudge"), yellow + arrowKeys + white), centerX, startY + (lineSpacing * 4), 0xFFFFFF);
 		drawStringCenteredShadow(this.fontRenderer, white + String.format(i18n.translateKey("gui.options.hudeditor.onboarding.nudge_fast"), yellow + fast + white), centerX, startY + (lineSpacing * 5), 0xFFFFFF);
