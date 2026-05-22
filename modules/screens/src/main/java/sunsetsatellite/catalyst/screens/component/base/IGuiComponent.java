@@ -6,6 +6,11 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.hud.component.HudComponent;
 import net.minecraft.client.gui.hud.component.layout.Layout;
+import net.minecraft.client.gui.options.components.OptionsComponent;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public interface IGuiComponent {
 	void render(Screen screen, int xScreenSize, int yScreenSize, float partialTick);
@@ -13,6 +18,9 @@ public interface IGuiComponent {
 	void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick);
 
 	void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize);
+
+	Map<String, OptionsComponent> getProperties();
+	void addOptions();
 
 	String getName();
 	String getId();

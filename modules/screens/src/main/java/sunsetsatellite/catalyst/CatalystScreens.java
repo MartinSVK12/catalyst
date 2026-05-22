@@ -9,7 +9,9 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sunsetsatellite.catalyst.screens.component.base.ComponentPicker;
+import sunsetsatellite.catalyst.screens.packet.NetworkMessageSendServerData;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +24,9 @@ public class CatalystScreens implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+
+		NetworkHandler.registerNetworkMessage(NetworkMessageSendServerData::new);
+
 		LOGGER.info("Catalyst: Screens initialized.");
 	}
 

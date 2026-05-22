@@ -9,6 +9,7 @@ import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.options.components.BooleanToggleComponent;
 import net.minecraft.client.gui.options.components.OptionsCategory;
+import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.option.OptionEnum;
 import net.minecraft.client.render.renderer.BlendFactor;
@@ -19,10 +20,17 @@ import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
+import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
 import sunsetsatellite.catalyst.screens.util.Colors;
 import sunsetsatellite.catalyst.screens.util.TextAlign;
 
-import static sunsetsatellite.catalyst.CatalystScreens.lang;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+
 
 public class TextComponent extends GuiComponent {
 
@@ -38,9 +46,10 @@ public class TextComponent extends GuiComponent {
 	public String text = "This is a text component!";
 	public boolean hasShadow = true;
 	public int color = Colors.WHITE;
+	public boolean centered = false;
 
     public TextComponent(String name, float x, float y) {
-        super(name, 152, 20, new LayoutAbsolute(x,y, ComponentAnchor.CENTER));
+        super(name, 152, 20, new LayoutAbsolute(x,y, ComponentAnchor.TOP_LEFT));
     }
 
 	@Override
@@ -55,13 +64,11 @@ public class TextComponent extends GuiComponent {
 
 	@Override
 	public void render(Screen screen, int xScreenSize, int yScreenSize, float partialTick) {
-		offY = realX();
 		super.render(screen, xScreenSize, yScreenSize, partialTick);
 	}
 
 	@Override
     public void renderPreview(Gui gui, Layout layout, int xScreenSize, int yScreenSize){
-		offY = realX();
 		super.renderPreview(gui, layout, xScreenSize, yScreenSize);
     }
 
@@ -74,13 +81,19 @@ public class TextComponent extends GuiComponent {
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
-		setOffY(0);
+		if(centered) {
+			drawStringCentered(text, x,y, color, hasShadow);
+			return;
+		}
 		drawString(text, x,y, 0, color, hasShadow);
 	}
 
 	@Override
 	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize) {
-		setOffY(0);
+		if(centered) {
+			drawStringCentered(text, x,y, color, hasShadow);
+			return;
+		}
 		drawString(text, x,y, 0, color, hasShadow);
 	}
 
@@ -121,7 +134,6 @@ public class TextComponent extends GuiComponent {
 		} else {
 			minecraft.font.render(text, x+offX + getStartingX(width), y+offY).setZ(0).setColor(color).setZ(zLevel).call();
 		}
-        addOffY(getLineHeight());
     }
     public int getStartingX(int width){
         int diff = getBaseXSize() - width;
@@ -161,12 +173,13 @@ public class TextComponent extends GuiComponent {
             drawString(remainder, x, y, offX, color, shadow);
         }
     }
-    public void drawStringCentered(String text){
-        drawStringCentered(text, Colors.WHITE);
-    }
-    public void drawStringCentered(String text, int color){
-        minecraft.font.renderCentered(text, posX + (xSize /2), offY).setColor(color).setShadow().call();
-        addOffY(getLineHeight());
+
+    public void drawStringCentered(String text, int x, int y, int color, boolean shadow){
+		if(shadow){
+			minecraft.font.renderCentered(text, x + (xSize /2), y+offY).setColor(color).setShadow().setZ(zLevel).call();
+		} else {
+			minecraft.font.renderCentered(text, x + (xSize /2), y+offY).setColor(color).setZ(zLevel).call();
+		}
     }
 
     public void drawTexturedModalRect(double x, double y, double width, double height, float percent) {
@@ -181,22 +194,29 @@ public class TextComponent extends GuiComponent {
     }
 
 	@Override
-	protected void addDefaultOptionSuppliers() {
-		super.addDefaultOptionSuppliers();
-		addOptionComponentSupplier(()->{
-			OptionsCategory textCategory = new OptionsCategory(lang("text"));
-			textCategory.withComponent(new BasicTextFieldComponent(lang("text"), null, text,
-				(t)-> text = t.getText()));
-			textCategory.withComponent(new ToggleableOptionComponent<>(align));
-			textCategory.withComponent(new BooleanToggleComponent(lang("hasShadow"),hasShadow,
-				()-> hasShadow,
-				(b)-> hasShadow = b)
-			);
-			textCategory.withComponent(new BasicTextFieldComponent(lang("color"), null, String.format("%X",color),
-				()-> color = Colors.WHITE,
-				(t)-> color = Catalyst.parseIntSafe(t.getText(),16)));
-			return textCategory;
-		});
+	public Map<String, OptionsComponent> getProperties() {
+		Map<String, OptionsComponent> map = new HashMap<>();
+		PropertyCategory textCategory = new PropertyCategory(lang("text"));
+		textCategory.withComponent("text",new BasicTextFieldComponent(lang("text"), null, text,
+			(t)-> text = t.getText()));
+		textCategory.withComponent("align",new ToggleableOptionComponent<>(align));
+		textCategory.withComponent("hasShadow",new BooleanToggleComponent(lang("hasShadow"),hasShadow,
+			()-> hasShadow,
+			(b)-> hasShadow = b)
+		);
+		textCategory.withComponent("color",new BasicTextFieldComponent(lang("color"), null, String.format("%X",color),
+			()-> color = Colors.WHITE,
+			(t)-> color = Catalyst.parseIntSafe(t.getText(),16)));
+		map.put("textCategory",textCategory);
+		return map;
+	}
+
+	@Override
+	public void addOptions() {
+		super.addOptions();
+		for (OptionsComponent property : getProperties().values()) {
+			addOptionComponentSupplier(()->property);
+		}
 	}
 
 	@Override

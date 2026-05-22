@@ -1,17 +1,15 @@
 package sunsetsatellite.catalyst.screens.component;
 
+import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
+import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.render.Scissor;
-import net.minecraft.client.render.renderer.BlendFactor;
 import net.minecraft.client.render.renderer.GLRenderer;
-import net.minecraft.client.render.renderer.Shaders;
-import net.minecraft.client.render.renderer.State;
-import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.CatalystScreens;
 import sunsetsatellite.catalyst.CatalystScreensClient;
 import sunsetsatellite.catalyst.core.util.vector.Vec2i;
@@ -22,8 +20,9 @@ import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
-import static sunsetsatellite.catalyst.CatalystScreens.lang;
+
 
 public class SubsceneComponent extends GuiComponent {
 
@@ -33,7 +32,21 @@ public class SubsceneComponent extends GuiComponent {
 	public final Map<String, GuiComponent> components = new HashMap<>();
 
 	public SubsceneComponent(String name, float x, float y) {
-		super(name, 32, 32, new LayoutAbsolute(x,y, ComponentAnchor.CENTER));
+		super(name, 32, 32, new LayoutAbsolute(x,y, ComponentAnchor.TOP_LEFT));
+		onHover.connect((s, t)->{
+			for (GuiComponent component : components.values()) {
+				if(isHoveringOverComponent(component, t.mx(), t.my())){
+					component.onHover.emit(new Hovered(component, t.mx(), t.my()));
+				}
+			}
+		});
+		onClick.connect((s, t)->{
+			for (GuiComponent component : components.values()) {
+				if(isHoveringOverComponent(component, t.mx(), t.my())){
+					component.onClick.emit(new Clicked(component, t.mx(), t.my(), t.button()));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -43,7 +56,21 @@ public class SubsceneComponent extends GuiComponent {
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
-		//todo
+		if(components.isEmpty()){
+			drawRect(x,y,x+xSize, y+ySize, 0xFFFF00FF);
+		}
+		GLRenderer.pushFrame();
+		//Scissor.enable(x,y, xSize, ySize);
+		for (GuiComponent component : components.values()) {
+			component.gui = gui;
+			component.xScreenSize = xScreenSize;
+			component.yScreenSize = yScreenSize;
+			component.posX = realX() + component.realX();
+			component.posY = realY() + component.realY();
+			component.renderComponentPreview(mc, gui, layout, component.posX, component.posY, xScreenSize, yScreenSize);
+		}
+		//Scissor.disable();
+		GLRenderer.popFrame();
 	}
 
 	@Override
@@ -57,8 +84,8 @@ public class SubsceneComponent extends GuiComponent {
 			component.gui = gui;
 			component.xScreenSize = xScreenSize;
 			component.yScreenSize = yScreenSize;
-			component.posX = realY() + component.realY();
-			component.posY = realX() + component.realX();
+			component.posX = realX() + component.realX();
+			component.posY = realY() + component.realY();
 			component.renderComponentPreview(mc, gui, layout, component.posX, component.posY, xScreenSize, yScreenSize);
 		}
 		Scissor.disable();
@@ -66,18 +93,16 @@ public class SubsceneComponent extends GuiComponent {
 	}
 
 	@Override
-	protected void addDefaultOptionSuppliers() {
-		super.addDefaultOptionSuppliers();
-		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("scene"), null, scene,
+	public Map<String, OptionsComponent> getProperties() {
+		Map<String, OptionsComponent> map = new HashMap<>();
+		map.put("scene",new BasicTextFieldComponent(lang("scene"), null, scene,
 			components::clear,
 			(t)->{
 				scene = t.getText();
-				components.clear();
-				CatalystScreensClient.loadScene(CatalystScreens.loadSceneNbt(scene), components);
-				setSubsceneSize();
+				setScene(scene);
 			}
 		));
-		addOptionComponentSupplier(()->new ClickableButtonComponent(lang("unpack"),
+		map.put("unpack",new ClickableButtonComponent(lang("unpack"),
 			()->{
 				if(gui instanceof ScreenGuiEditor editor){
 					editor.components.putAll(components);
@@ -85,13 +110,28 @@ public class SubsceneComponent extends GuiComponent {
 				}
 			}
 		));
+		return map;
+	}
+
+	@Override
+	public void addOptions() {
+		super.addOptions();
+		for (OptionsComponent property : getProperties().values()) {
+			addOptionComponentSupplier(()->property);
+		}
+	}
+
+	public void setScene(String scene){
+		components.clear();
+		CatalystScreensClient.loadScene(CatalystScreens.loadSceneNbt(scene), components);
+		setSubsceneSize();
 	}
 
 	private void setSubsceneSize() {
 		Vec2i gMin = new Vec2i();
 		Vec2i gMax = new Vec2i();
 		for (GuiComponent component : components.values()) {
-			Vec2i min = new Vec2i(component.realY(), component.realX());
+			Vec2i min = new Vec2i(component.realX(), component.realY());
 			Vec2i max = min.copy().add(new Vec2i(component.xSize, component.ySize));
 			if(min.x < gMin.x) gMin.x = min.x;
 			if(min.y < gMin.y) gMin.y = min.y;
@@ -105,5 +145,18 @@ public class SubsceneComponent extends GuiComponent {
 	@Override
 	public String getId() {
 		return ID;
+	}
+
+	@Override
+	public void writeToNbt(CompoundTag tag) {
+		super.writeToNbt(tag);
+		tag.putString("scene", scene);
+	}
+
+	@Override
+	public void readFromNbt(CompoundTag tag) {
+		super.readFromNbt(tag);
+		this.scene = tag.getString("scene");
+		setScene(scene);
 	}
 }

@@ -5,6 +5,10 @@ options.align.left=Left
 options.align.center=Center
 options.align.right=Right
 
+options.slotType=Type
+options.slotType.player=Player
+options.slotType.inventory=Inventory
+
 options.anchor=Anchor
 options.parentAnchor=Parent Anchor
 
@@ -55,12 +59,19 @@ options.gui.parent=Parent
 options.gui.type=Type
 options.gui.open=Open
 options.gui.unpack=Unpack
+options.gui.icon=Icon
+options.gui.disabled=Disabled
+options.gui.index=Index
 options.gui.saved=Saved!
 options.gui.failedSave=Failed to save! Check the output log for errors.
 
 gui.component.text=Text
 gui.component.image=Image
 gui.component.subscene=Subscene
+gui.component.icon=Icon
+gui.component.button=Button
+gui.component.slot=Slot
+gui.component.inventory=Inventory
 
 gui.options.page.controls.category.gui_editor=GUI Editor
 gui.options.guieditor.onboarding.welcome=Welcome to the GUI Editor!

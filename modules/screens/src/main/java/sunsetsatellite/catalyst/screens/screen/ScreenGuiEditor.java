@@ -28,21 +28,20 @@ import net.minecraft.core.sound.SoundCategory;
 import net.minecraft.core.util.helper.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import sunsetsatellite.catalyst.CatalystScreens;
 import sunsetsatellite.catalyst.screens.component.base.ComponentPicker;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.util.Colors;
 import sunsetsatellite.catalyst.screens.util.Options;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static sunsetsatellite.catalyst.CatalystScreens.lang;
 
+
 public class ScreenGuiEditor extends Screen {
-	private final List<HudComponent> componentsUnderMouse = new ArrayList<>();
+	private final List<GuiComponent> componentsUnderMouse = new ArrayList<>();
 	public final Map<String, GuiComponent> components = new HashMap<>();
 
 	public HudComponent selectedComponent = null;
@@ -208,7 +207,7 @@ public class ScreenGuiEditor extends Screen {
 
 		if (eventKey == Options.KEY_GUI_EDITOR_RESET.getKeyCode()) {
 			PopupScreen popup = new PopupBuilder(this, 256)
-				.withLabel("gui."+lang("deleteAllLabel"))
+				.withLabel("gui."+ lang("deleteAllLabel"))
 				.withMessageBox("msgBox", 64, I18n.getInstance().translateKey("gui."+lang("deleteAllMsg")), 48)
 				.withButtonGroup("btnGroup", new String[]{"gui."+lang("deleteAll"), "gui."+lang("cancel")}, new int[]{1, 0})
 				.withOnCloseListener((id, map) -> {
@@ -325,16 +324,16 @@ public class ScreenGuiEditor extends Screen {
 		// Open Context Menu
 		if (buttonNum == Options.KEY_GUI_EDITOR_OPEN_CONTEXT.getKeyCode()) {
 			if (!this.componentsUnderMouse.isEmpty()) {
-				HudComponent componentUnderMouse = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
+				GuiComponent componentUnderMouse = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
 				this.selectedComponent = componentUnderMouse;
 
+				componentUnderMouse.getOptionSuppliers().clear();
+				componentUnderMouse.addOptions();
 				List<Supplier<OptionsComponent>> optionSuppliers = componentUnderMouse.getOptionSuppliers();
-				List<Supplier<KeyBindingComponent>> keyBindingSuppliers = componentUnderMouse.getKeyBindingSuppliers();
 
 				boolean hasOptions = optionSuppliers != null && !optionSuppliers.isEmpty();
-				boolean hasKeyBindings = keyBindingSuppliers != null && !keyBindingSuppliers.isEmpty();
 
-				if (hasOptions || hasKeyBindings) {
+				if (hasOptions) {
 					openContextMenu(componentUnderMouse, mx, my);
 					clickedComponent = true;
 
@@ -496,9 +495,9 @@ public class ScreenGuiEditor extends Screen {
 		}
 
 		renderTexturedBackground();
+		drawStringShadow(mc.font, String.format("X: %d | Y: %d",mx,my), 4, this.mc.resolution.getScaledHeightScreenCoords() - 22, Colors.WHITE);
+		drawStringShadow(mc.font, "Components: "+components.size(), 4,this.mc.resolution.getScaledHeightScreenCoords() - 12, Colors.WHITE);
 		drawHudComponents(mx, my);
-
-		drawStringShadow(mc.font, "Components: "+components.size(), 4,4, Colors.WHITE);
 
 		if (this.heldComponent != null && this.isDragging) {
 			int padding = (int) GameSettings.SCREEN_PADDING.value.floatValue();
@@ -792,6 +791,7 @@ public class ScreenGuiEditor extends Screen {
 	private void drawHudComponents(int mouseX, int mouseY) {
 		HudComponent lastComponent = null;
 		if (!this.componentsUnderMouse.isEmpty()) {
+			this.componentsUnderMouse.sort(Comparator.comparingInt((c)->c.zLevel));
 			lastComponent = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
 		}
 		for (HudComponent component : components.values()) {
@@ -914,7 +914,7 @@ public class ScreenGuiEditor extends Screen {
 
 	private void updateComponentsUnderMouse(int mouseX, int mouseY) {
 		this.componentsUnderMouse.clear();
-		for (HudComponent component : components.values()) {
+		for (GuiComponent component : components.values()) {
 			if (!component.isEnabled()) continue;
 			Layout layout = component.getLayout();
 			int cx = layout.getComponentX(component, this.width);

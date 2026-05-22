@@ -10,8 +10,8 @@ import net.minecraft.client.gui.hud.component.HudComponentMovable;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.hud.component.layout.LayoutSnap;
+import net.minecraft.client.gui.options.components.KeyBindingComponent;
 import net.minecraft.client.gui.options.components.OptionsCategory;
-import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.option.OptionEnum;
 import net.minecraft.client.render.renderer.BlendFactor;
@@ -20,17 +20,19 @@ import net.minecraft.client.render.renderer.Shaders;
 import net.minecraft.client.render.renderer.State;
 import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.Catalyst;
+import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
+import sunsetsatellite.catalyst.screens.component.server.ServerComponent;
+import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
 import sunsetsatellite.catalyst.screens.util.GuiComponents;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static sunsetsatellite.catalyst.CatalystScreens.lang;
+
 
 public abstract class GuiComponent extends HudComponentMovable implements IGuiComponent {
 
@@ -40,6 +42,14 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 	public int yScreenSize;
 	public int posX = 0;
 	public int posY = 0;
+
+	public record Hovered(GuiComponent component, int mx, int my){};
+	public final Signal<Hovered> onHover = new Signal<>("on_hover");
+	public final Signal<Hovered> onHoverStart = new Signal<>("on_hover_start");
+	public final Signal<Hovered> onHoverEnd = new Signal<>("on_hover_end");
+	public boolean hovering = false;
+	public record Clicked(GuiComponent component, int mx, int my, int button){};
+	public final Signal<Clicked> onClick = new Signal<>("on_click");
 
 	public GuiComponent(String key, int xSize, int ySize, Layout layout) {
 		super(key, xSize, ySize, layout);
@@ -56,11 +66,11 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 	}
 
 	public int realX() {
-		return getLayout().getComponentY(this, yScreenSize);
+		return getLayout().getComponentX(this, xScreenSize);
 	}
 
 	public int realY() {
-		return getLayout().getComponentX(this, xScreenSize);
+		return getLayout().getComponentY(this, yScreenSize);
 	}
 
 	@Override
@@ -68,8 +78,8 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		this.gui = gui;
 		this.xScreenSize = xScreenSize;
 		this.yScreenSize = yScreenSize;
-		posY = realX();
-		posX = realY();
+		posX = realX();
+		posY = realY();
 		renderComponentPreview(mc, gui, layout, posX, posY, xScreenSize, yScreenSize);
 	}
 
@@ -78,9 +88,25 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		this.gui = screen;
 		this.xScreenSize = xScreenSize;
 		this.yScreenSize = yScreenSize;
-		posY = realX();
-		posX = realY();
+		posX = realX();
+		posY = realY();
 		renderComponent(mc, screen, posX, posY, xScreenSize, yScreenSize, partialTick);
+	}
+
+	public void setSubComponentRenderProperties(Gui gui, GuiComponent component, int x, int y, boolean resize) {
+		component.gui = gui;
+		component.xScreenSize = xSize;
+		component.yScreenSize = ySize;
+		component.posX = x + realX() + component.realX();
+		component.posY = y + realY() + component.realY();
+		if(resize){
+			component.xSize = xSize;
+			component.ySize = ySize;
+		}
+	}
+
+	public static String lang(String key){
+		return "options.gui."+key;
 	}
 
 	@Override
@@ -148,10 +174,13 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 	}
 
 	public final void renderComponentScaled(Screen screen, int xSizeScreen, int ySizeScreen, float partialTick) {
-		float scale = getScale();
+		render(screen, xSizeScreen, ySizeScreen, partialTick);
+		/*float scale = getScale();
 		if (scale == 1.0f) {
 			int x = this.layout.getComponentX(this, xSizeScreen);
 			int y = this.layout.getComponentY(this, ySizeScreen);
+			this.xScreenSize = xSizeScreen;
+			this.yScreenSize = ySizeScreen;
 			GLRenderer.modelM4f().translate(x, y, 0.0f);
 			renderComponent(mc, screen, posX, posY, xSizeScreen, ySizeScreen, partialTick);
 			return;
@@ -161,21 +190,28 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		GLRenderer.modelM4f().translate(x, y, 0.0f);
 		GLRenderer.modelM4f().scale(scale, scale, 1.0f);
 		GLRenderer.modelM4f().translate(-x, -y, 0.0f);
-		renderComponent(mc, screen, posX, posY, xSizeScreen, ySizeScreen, partialTick);
+		renderComponent(mc, screen, posX, posY, xSizeScreen, ySizeScreen, partialTick);*/
 	}
 
-	public final void renderComponentPreviewScaled(Gui gui, Layout layout, int xSizeScreen, int ySizeScreen) {
-		float scale = getScale();
-		if (scale == 1.0f) {
-			renderComponentPreview(mc, gui, layout, posX, posY, xSizeScreen, ySizeScreen);
-			return;
-		}
-		int x = layout.getComponentX(this, xSizeScreen);
-		int y = layout.getComponentY(this, ySizeScreen);
-		GLRenderer.modelM4f().translate(x, y, 0.0f);
-		GLRenderer.modelM4f().scale(scale, scale, 1.0f);
-		GLRenderer.modelM4f().translate(-x, -y, 0.0f);
-		renderComponentPreview(mc, gui, layout, posX, posY, xSizeScreen, ySizeScreen);
+	public void drawIcon(double x, double y, double w, double h, double u, double v, String path, int color){
+		float uScale = 0.00390625F;
+		float vScale = 0.00390625F;
+		GLRenderer.pushFrame();
+		float r = (float)(color >> 16 & 0xFF) / 255.0f;
+		float g = (float)(color >> 8 & 0xFF) / 255.0f;
+		float b = (float)(color & 0xFF) / 255.0f;
+		GLRenderer.setColor4f(r, g, b, 1f);
+
+		mc.textureManager.loadTexture(path).bind();
+
+		TessellatorGeneral tessellator = GLRenderer.getTessellator();
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(x + 0, y + h, zLevel, (float)(u + 0) * uScale, (float)(v + h) * vScale);
+		tessellator.addVertexWithUV(x + w, y + h, zLevel, (float)(u + w) * uScale, (float)(v + h) * vScale);
+		tessellator.addVertexWithUV(x + w, y + 0, zLevel, (float)(u + w) * uScale, (float)(v + 0) * vScale);
+		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (float)(u + 0) * uScale, (float)(v + 0) * vScale);
+		tessellator.draw();
+		GLRenderer.popFrame();
 	}
 
 	public void drawRect(int minX, int minY, int maxX, int maxY, int argb) {
@@ -208,11 +244,41 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		GLRenderer.disableState(State.BLEND);
 	}
 
+	public static boolean isHoveringOverComponent(GuiComponent component, int mx, int my){
+		return mx >= component.realX() && my >= component.realY() && mx <= component.realX() + component.xSize && my <= component.realY() + component.ySize;
+	}
+
 	@Override
-	public List<Supplier<OptionsComponent>> getOptionSuppliers() {
-		addDefaultOptionSuppliers();
-		List<Supplier<OptionsComponent>> list = new ArrayList<>(super.getOptionSuppliers());
-		super.getOptionSuppliers().clear();
+	protected final void addDefaultOptionSuppliers() {}
+
+	@Override
+	public final List<Supplier<KeyBindingComponent>> getKeyBindingSuppliers() {
+		return List.of();
+	}
+
+	@Override
+	public void addOptions() {
+		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("type"), null, getId()).lock());
+		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("id"),null, key,
+			()->{},
+			(t)-> key = t.getText()
+		));
+		OptionsCategory sizeCategory = new OptionsCategory(lang("size"));
+		sizeCategory.withComponent(new BasicTextFieldComponent(lang("width"), null,
+			String.valueOf(xSize),
+			()-> xSize = 32,
+			(t) -> xSize = Catalyst.parseIntSafe(t.getText())
+		));
+		sizeCategory.withComponent(new BasicTextFieldComponent(lang("height"), null,
+			String.valueOf(ySize),
+			()-> ySize = 32,
+			(t) -> ySize = Catalyst.parseIntSafe(t.getText())
+		));
+		addOptionComponentSupplier(()->sizeCategory);
+		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("zLevel"),null, String.valueOf(zLevel),
+			()-> zLevel = 0,
+			(t)-> zLevel = Catalyst.parseIntSafe(t.getText())
+		));
 		OptionsCategory layoutCategory = new OptionsCategory(lang("layout"));
 		if(layout instanceof LayoutAbsolute abs){
 			layoutCategory.withComponent(new BasicTextFieldComponent(lang("x"), null,
@@ -266,33 +332,7 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 				}
 			});
 		}
-		list.add(()->layoutCategory);
-		return list;
-	}
-
-	@Override
-	protected void addDefaultOptionSuppliers() {
-		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("type"), null, getId()).lock());
-		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("id"),null, key,
-			()->{},
-			(t)-> key = t.getText()
-		));
-		OptionsCategory sizeCategory = new OptionsCategory(lang("size"));
-		sizeCategory.withComponent(new BasicTextFieldComponent(lang("width"), null,
-			String.valueOf(xSize),
-			()-> xSize = 32,
-			(t) -> xSize = Catalyst.parseIntSafe(t.getText())
-		));
-		sizeCategory.withComponent(new BasicTextFieldComponent(lang("height"), null,
-			String.valueOf(ySize),
-			()-> ySize = 32,
-			(t) -> ySize = Catalyst.parseIntSafe(t.getText())
-		));
-		addOptionComponentSupplier(()->sizeCategory);
-		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("zLevel"),null, String.valueOf(zLevel),
-			()-> zLevel = 0,
-			(t)-> zLevel = Catalyst.parseIntSafe(t.getText())
-		));
+		addOptionComponentSupplier(()->layoutCategory);
 	}
 
 	@Override

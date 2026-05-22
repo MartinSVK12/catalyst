@@ -15,9 +15,7 @@ import net.minecraft.client.option.GameSettings;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.Option;
 import org.lwjgl.input.Keyboard;
-import sunsetsatellite.catalyst.screens.component.ImageComponent;
-import sunsetsatellite.catalyst.screens.component.SubsceneComponent;
-import sunsetsatellite.catalyst.screens.component.TextComponent;
+import sunsetsatellite.catalyst.screens.component.*;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 import sunsetsatellite.catalyst.screens.util.GuiComponents;
@@ -41,9 +39,6 @@ public class CatalystScreensClient implements ClientModInitializer, ClientStartE
 
 	@Override
 	public void afterClientStart() {
-		GuiComponents.register(TextComponent.ID, TextComponent.class);
-		GuiComponents.register(ImageComponent.ID, ImageComponent.class);
-		GuiComponents.register(SubsceneComponent.ID, SubsceneComponent.class);
 		Minecraft mc = Minecraft.getMinecraft();
 		((OptionsCategory) OptionsPages.GENERAL.getComponents().get(1)).withComponent(new ShortcutComponent("gui.options.page.general.button.edit_gui", () -> mc.displayScreen(new ScreenGuiEditor(mc.currentScreen))));
 		OptionsCategory guiEditorCategory = new OptionsCategory("gui.options.page.controls.category.gui_editor")

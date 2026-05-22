@@ -33,6 +33,7 @@ import java.util.function.Supplier;
 
 import static sunsetsatellite.catalyst.CatalystScreens.lang;
 
+
 public class ComponentPicker extends HudComponent {
 
 	public ScreenGuiEditor editor;

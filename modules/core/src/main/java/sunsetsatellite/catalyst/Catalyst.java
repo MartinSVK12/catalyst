@@ -39,13 +39,13 @@ public class Catalyst implements ModInitializer, GameStartEntrypoint {
 
 	public static final Registry<MpGuiEntry> GUIS = new Registry<>();
 
-	public static final Signal<BlockChangeInfo> TILE_ENTITY_BLOCK_CHANGED_SIGNAL = new Signal<>();
-	public static final Signal<BlockChangeInfo> ANY_BLOCK_CHANGED_SIGNAL = new Signal<>();
-	public static final Signal<LevelStorage> WORLD_LOAD_SIGNAL = new Signal<>();
-	public static final Signal<World> WORLD_QUIT_SIGNAL = new Signal<>();
-	public static final Signal<World> DISCONNECT_SIGNAL = new Signal<>();
-	public static final Signal<World> DIMENSION_LOAD_SIGNAL = new Signal<>();
-	public static final Signal<World> DIMENSION_SAVE_SIGNAL = new Signal<>();
+	public static final Signal<BlockChangeInfo> TILE_ENTITY_BLOCK_CHANGED_SIGNAL = new Signal<>("tile_ebtuty_block_changed");
+	public static final Signal<BlockChangeInfo> ANY_BLOCK_CHANGED_SIGNAL = new Signal<>("any_block_changed");
+	public static final Signal<LevelStorage> WORLD_LOAD_SIGNAL = new Signal<>("world_load");
+	public static final Signal<World> WORLD_QUIT_SIGNAL = new Signal<>("world_quit");
+	public static final Signal<World> DISCONNECT_SIGNAL = new Signal<>("disconnect");
+	public static final Signal<World> DIMENSION_LOAD_SIGNAL = new Signal<>("dimension_load");
+	public static final Signal<World> DIMENSION_SAVE_SIGNAL = new Signal<>("dimension_save");
 
 	@Override
 	public void onInitialize() {
