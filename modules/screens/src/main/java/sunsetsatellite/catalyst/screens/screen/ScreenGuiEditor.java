@@ -495,8 +495,12 @@ public class ScreenGuiEditor extends Screen {
 		}
 
 		renderTexturedBackground();
-		drawStringShadow(mc.font, String.format("MX: %d | MY: %d",mx,my), 4, this.mc.resolution.getScaledHeightScreenCoords() - 22, Colors.WHITE);
-		drawStringShadow(mc.font, "Components: "+components.size(), 4,this.mc.resolution.getScaledHeightScreenCoords() - 12, Colors.WHITE);
+		if(!componentsUnderMouse.isEmpty()){
+			GuiComponent c = componentsUnderMouse.get(0);
+			drawStringShadow(mc.font, String.format("%s (%s) | X: %d | Y: %d | W: %d | H: %d",c.getName(),c.getId(),c.realX(),c.realY(),c.xSize,c.ySize), 4, this.mc.resolution.getScaledHeightScreenCoords() - 32, Colors.YELLOW);
+		}
+		drawStringShadow(mc.font, String.format("MX: %d | MY: %d",mx,my), 4, this.mc.resolution.getScaledHeightScreenCoords() - 22, Colors.YELLOW);
+		drawStringShadow(mc.font, "Components: "+components.size(), 4,this.mc.resolution.getScaledHeightScreenCoords() - 12, Colors.YELLOW);
 		drawHudComponents(mx, my);
 
 		if (this.heldComponent != null && this.isDragging) {
