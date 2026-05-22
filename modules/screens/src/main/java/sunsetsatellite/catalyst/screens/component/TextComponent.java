@@ -24,10 +24,7 @@ import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
 import sunsetsatellite.catalyst.screens.util.Colors;
 import sunsetsatellite.catalyst.screens.util.TextAlign;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 
@@ -195,7 +192,7 @@ public class TextComponent extends GuiComponent {
 
 	@Override
 	public Map<String, OptionsComponent> getProperties() {
-		Map<String, OptionsComponent> map = new HashMap<>();
+		Map<String, OptionsComponent> map = new TreeMap<>();
 		PropertyCategory textCategory = new PropertyCategory(lang("text"));
 		textCategory.withComponent("text",new BasicTextFieldComponent(lang("text"), null, text,
 			(t)-> text = t.getText()));

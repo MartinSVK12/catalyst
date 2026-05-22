@@ -8,16 +8,21 @@ import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.options.components.OptionsComponent;
+import net.minecraft.client.render.Scissor;
+import net.minecraft.client.render.renderer.GLRenderer;
+import net.minecraft.client.render.renderer.State;
 import net.minecraft.client.render.texture.stitcher.IconCoordinate;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
+import org.lwjgl.opengl.GL41;
 import sunsetsatellite.catalyst.CatalystScreens;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 
 
@@ -42,19 +47,23 @@ public class IconComponent extends GuiComponent {
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		if(icon == null) return;
 		draw.zLevel = zLevel;
+		Scissor.enable(x,y,xSize,ySize);
 		draw.drawGuiIcon(x,y,xSize,ySize,icon);
+		Scissor.disable();
 	}
 
 	@Override
 	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize) {
 		if(icon == null) return;
 		draw.zLevel = zLevel;
+		Scissor.enable(x,y,xSize,ySize);
 		draw.drawGuiIcon(x,y,xSize,ySize,icon);
+		Scissor.disable();
 	}
 
 	@Override
 	public Map<String, OptionsComponent> getProperties() {
-		Map<String, OptionsComponent> map = new HashMap<>();
+		Map<String, OptionsComponent> map = new TreeMap<>();
 		map.put("icon",new BasicTextFieldComponent(lang("icon"),null,iconId,
 			(t)-> setIcon(t.getText())
 		));

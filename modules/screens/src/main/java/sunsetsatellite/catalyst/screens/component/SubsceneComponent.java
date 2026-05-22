@@ -20,6 +20,7 @@ import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Supplier;
 
 
@@ -94,7 +95,7 @@ public class SubsceneComponent extends GuiComponent {
 
 	@Override
 	public Map<String, OptionsComponent> getProperties() {
-		Map<String, OptionsComponent> map = new HashMap<>();
+		Map<String, OptionsComponent> map = new TreeMap<>();
 		map.put("scene",new BasicTextFieldComponent(lang("scene"), null, scene,
 			components::clear,
 			(t)->{

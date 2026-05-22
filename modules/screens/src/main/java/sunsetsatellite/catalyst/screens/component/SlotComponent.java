@@ -19,6 +19,7 @@ import sunsetsatellite.catalyst.screens.util.SlotType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class SlotComponent extends GuiComponent implements HasServerComponent {
 
@@ -54,7 +55,7 @@ public class SlotComponent extends GuiComponent implements HasServerComponent {
 
 	@Override
 	public Map<String, OptionsComponent> getProperties() {
-		Map<String, OptionsComponent> map = new HashMap<>();
+		Map<String, OptionsComponent> map = new TreeMap<>();
 		map.put("index", new BasicTextFieldComponent(lang("index"), null, String.valueOf(index),
 			()->{
 				index = 0;

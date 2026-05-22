@@ -16,6 +16,7 @@ import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ButtonComponent extends GuiComponent {
 
@@ -75,7 +76,7 @@ public class ButtonComponent extends GuiComponent {
 
 	@Override
 	public Map<String, OptionsComponent> getProperties() {
-		Map<String, OptionsComponent> map = new HashMap<>();
+		Map<String, OptionsComponent> map = new TreeMap<>();
 		map.put("disabled",new BooleanToggleComponent(lang("disabled"),disabled,
 			()-> disabled,
 			(b)-> {

@@ -98,8 +98,8 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		component.gui = gui;
 		component.xScreenSize = xSize;
 		component.yScreenSize = ySize;
-		component.posX = /*x +*/ x + component.realX();
-		component.posY = /*y +*/ y + component.realY();
+		component.posX = x + component.realX();
+		component.posY = y + component.realY();
 		if(resize){
 			component.xSize = xSize;
 			component.ySize = ySize;
@@ -194,9 +194,9 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		renderComponent(mc, screen, posX, posY, xSizeScreen, ySizeScreen, partialTick);*/
 	}
 
-	public void drawIcon(double x, double y, double w, double h, double u, double v, String path, int color){
-		float uScale = 0.00390625F;
-		float vScale = 0.00390625F;
+	public void drawIcon(double x, double y, double w, double h, double u, double v, double uScale, double vScale, String path, int color){
+		double us = 1f/uScale;
+		double vs = 1f/vScale;
 		GLRenderer.pushFrame();
 		float r = (float)(color >> 16 & 0xFF) / 255.0f;
 		float g = (float)(color >> 8 & 0xFF) / 255.0f;
@@ -207,10 +207,10 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 
 		TessellatorGeneral tessellator = GLRenderer.getTessellator();
 		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x + 0, y + h, zLevel, (float)(u + 0) * uScale, (float)(v + h) * vScale);
-		tessellator.addVertexWithUV(x + w, y + h, zLevel, (float)(u + w) * uScale, (float)(v + h) * vScale);
-		tessellator.addVertexWithUV(x + w, y + 0, zLevel, (float)(u + w) * uScale, (float)(v + 0) * vScale);
-		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (float)(u + 0) * uScale, (float)(v + 0) * vScale);
+		tessellator.addVertexWithUV(x + 0, y + h, zLevel, (u + 0) * us, (v + h) * vs);
+		tessellator.addVertexWithUV(x + w, y + h, zLevel, (u + w) * us, (v + h) * vs);
+		tessellator.addVertexWithUV(x + w, y + 0, zLevel, (u + w) * us, (v + 0) * vs);
+		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (u + 0) * us, (v + 0) * vs);
 		tessellator.draw();
 		GLRenderer.popFrame();
 	}
