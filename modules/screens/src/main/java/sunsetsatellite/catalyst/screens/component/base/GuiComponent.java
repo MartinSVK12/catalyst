@@ -24,6 +24,7 @@ import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
 import sunsetsatellite.catalyst.screens.component.server.ServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
+import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 import sunsetsatellite.catalyst.screens.util.GuiComponents;
 
 import java.lang.reflect.InvocationTargetException;
@@ -207,12 +208,13 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 
 		mc.textureManager.loadTexture(path).bind();
 
+		double z = 0;
 		TessellatorGeneral tessellator = GLRenderer.getTessellator();
 		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(x + 0, y + h, zLevel, (u + 0) * us, (v + h) * vs);
-		tessellator.addVertexWithUV(x + w, y + h, zLevel, (u + w) * us, (v + h) * vs);
-		tessellator.addVertexWithUV(x + w, y + 0, zLevel, (u + w) * us, (v + 0) * vs);
-		tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (u + 0) * us, (v + 0) * vs);
+		tessellator.addVertexWithUV(x + 0, y + h, z, (u + 0) * us, (v + h) * vs);
+		tessellator.addVertexWithUV(x + w, y + h, z, (u + w) * us, (v + h) * vs);
+		tessellator.addVertexWithUV(x + w, y + 0, z, (u + w) * us, (v + 0) * vs);
+		tessellator.addVertexWithUV(x + 0, y + 0, z, (u + 0) * us, (v + 0) * vs);
 		tessellator.draw();
 		GLRenderer.popFrame();
 	}
@@ -286,7 +288,9 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		addOptionComponentSupplier(()->sizeCategory);
 		addOptionComponentSupplier(()->new BasicTextFieldComponent(lang("zLevel"),null, String.valueOf(zLevel),
 			()-> zLevel = 0,
-			(t)-> zLevel = Catalyst.parseIntSafe(t.getText())
+			(t)-> {
+				zLevel = Catalyst.parseIntSafe(t.getText());
+			}
 		));
 		OptionsCategory layoutCategory = new OptionsCategory(lang("layout"));
 		if(layout instanceof LayoutAbsolute abs){

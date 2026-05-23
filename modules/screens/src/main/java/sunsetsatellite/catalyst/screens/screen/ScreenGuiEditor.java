@@ -25,6 +25,7 @@ import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import net.minecraft.core.lang.I18n;
 import net.minecraft.core.net.command.TextFormatting;
 import net.minecraft.core.sound.SoundCategory;
+import net.minecraft.core.util.debug.Debug;
 import net.minecraft.core.util.helper.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -42,7 +43,7 @@ import static sunsetsatellite.catalyst.CatalystScreens.lang;
 
 public class ScreenGuiEditor extends Screen {
 	private final List<GuiComponent> componentsUnderMouse = new ArrayList<>();
-	public final Map<String, GuiComponent> components = new HashMap<>();
+	public final Map<String, GuiComponent> components = new TreeMap<>();
 
 	public HudComponent selectedComponent = null;
 	private boolean isDragging = false;
@@ -499,7 +500,7 @@ public class ScreenGuiEditor extends Screen {
 			GuiComponent c = componentsUnderMouse.get(0);
 			drawStringShadow(mc.font, String.format("%s (%s) | X: %d | Y: %d | W: %d | H: %d",c.getName(),c.getId(),c.realX(),c.realY(),c.xSize,c.ySize), 4, this.mc.resolution.getScaledHeightScreenCoords() - 32, Colors.YELLOW);
 		}
-		drawStringShadow(mc.font, String.format("MX: %d | MY: %d",mx,my), 4, this.mc.resolution.getScaledHeightScreenCoords() - 22, Colors.YELLOW);
+		drawStringShadow(mc.font, String.format("FPS: %d | MX: %d | MY: %d", Debug.getFps(),mx,my), 4, this.mc.resolution.getScaledHeightScreenCoords() - 22, Colors.YELLOW);
 		drawStringShadow(mc.font, "Components: "+components.size(), 4,this.mc.resolution.getScaledHeightScreenCoords() - 12, Colors.YELLOW);
 		drawHudComponents(mx, my);
 
@@ -617,8 +618,8 @@ public class ScreenGuiEditor extends Screen {
 		GLRenderer.pushFrame();
 		GLRenderer.disableState(State.DEPTH_TEST);
 
-		drawRect(minX, minY, maxX, maxY, 0xFF222222);
-		drawRect(minX + 2, minY + 2, maxX - 2, maxY - 2, 0xFF333333);
+		drawRect(minX, minY, maxX, maxY, 0xAA222222);
+		drawRect(minX + 2, minY + 2, maxX - 2, maxY - 2, 0xAA333333);
 
 		int currentY = (int) (this.contextMenuY + 4 + contextOptionsScreen.optionsScrollAmount);
 		int left = this.contextMenuX + 4;
@@ -799,7 +800,11 @@ public class ScreenGuiEditor extends Screen {
 			this.componentsUnderMouse.sort(Comparator.comparingInt((c)->c.zLevel));
 			lastComponent = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
 		}
-		for (HudComponent component : components.values()) {
+
+		List<GuiComponent> values = new ArrayList<>(components.values());
+		values.sort(Comparator.comparingInt((c)->c.zLevel));
+
+		for (HudComponent component : values) {
 			if (component == this.heldComponent && this.isDragging) continue;
 			if (!component.isEnabled()) continue;
 			Layout layout = component.getLayout();

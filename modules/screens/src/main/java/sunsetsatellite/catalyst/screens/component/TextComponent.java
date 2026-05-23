@@ -127,9 +127,9 @@ public class TextComponent extends GuiComponent {
     public void drawString(String text, int x, int y, int offX, int color, boolean shadow) {
         int width = minecraft.font.stringWidth(text);
 		if(shadow){
-			minecraft.font.render(text, x+offX + getStartingX(width), y+offY).setZ(0).setColor(color).setShadow().setZ(zLevel).call();
+			minecraft.font.render(text, x+offX + getStartingX(width), y+offY).setZ(0).setColor(color).setShadow()/*.setZ(zLevel)*/.call();
 		} else {
-			minecraft.font.render(text, x+offX + getStartingX(width), y+offY).setZ(0).setColor(color).setZ(zLevel).call();
+			minecraft.font.render(text, x+offX + getStartingX(width), y+offY).setZ(0).setColor(color)/*.setZ(zLevel)*/.call();
 		}
     }
     public int getStartingX(int width){
@@ -173,9 +173,9 @@ public class TextComponent extends GuiComponent {
 
     public void drawStringCentered(String text, int x, int y, int color, boolean shadow){
 		if(shadow){
-			minecraft.font.renderCentered(text, x + (xSize /2), y+offY).setColor(color).setShadow().setZ(zLevel).call();
+			minecraft.font.renderCentered(text, x + (xSize /2), y+offY).setColor(color).setShadow()/*.setZ(zLevel)*/.call();
 		} else {
-			minecraft.font.renderCentered(text, x + (xSize /2), y+offY).setColor(color).setZ(zLevel).call();
+			minecraft.font.renderCentered(text, x + (xSize /2), y+offY).setColor(color)/*.setZ(zLevel)*/.call();
 		}
     }
 
