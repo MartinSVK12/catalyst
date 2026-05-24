@@ -27,6 +27,7 @@ dependencies {
     minecraft("::${libs.versions.bta.get()}")
 	include(libs.commonsLang3)
 	implementation(project(":catalyst-core"))
+	implementation(project(":tmb"))
 }
 
 tasks {

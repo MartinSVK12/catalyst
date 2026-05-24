@@ -8,6 +8,7 @@ import net.minecraft.core.block.BlockLogic;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.data.registry.Registry;
+import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.player.inventory.container.Container;
@@ -32,6 +33,7 @@ import turniplabs.halplibe.util.GameStartEntrypoint;
 
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 public class Catalyst implements ModInitializer, GameStartEntrypoint {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-core");
@@ -207,6 +209,25 @@ public class Catalyst implements ModInitializer, GameStartEntrypoint {
 		tag.setValue(value);
 		tag.setName(name);
 		return tag;
+	}
+
+	public static boolean hasItems(List<RecipeSymbol> symbols, List<ItemStack> available) {
+		symbols.removeIf(Objects::isNull);
+		List<ItemStack> copy = available.stream().map(ItemStack::copy).toList();
+		int s = 0;
+		int sReq = (int) symbols.stream().filter(Objects::nonNull).count();
+		label:
+		for (RecipeSymbol symbol : symbols) {
+			for (ItemStack stack : copy) {
+				if (symbol.matches(stack)) {
+					if (stack == null || stack.stackSize <= 0) continue;
+					stack.stackSize--;
+					s++;
+					continue label;
+				}
+			}
+		}
+		return s == sReq;
 	}
 
 	/**
