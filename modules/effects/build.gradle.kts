@@ -26,11 +26,11 @@ lwjgl {
 dependencies {
     minecraft("::${libs.versions.bta.get()}")
 	include(libs.commonsLang3)
-	implementation(project(":core"))
+	implementation(project(":catalyst-core"))
 }
 
 tasks {
-	//println(project(":core").properties["mod_version"] as String)
+	//println(project(":catalyst-core").properties["mod_version"] as String)
 	processResources {
 		val resourceMap = mapOf(
 			"version" to modVersion,
@@ -38,7 +38,7 @@ tasks {
 			"halplibe" to libs.versions.halplibe.get(),
 			"java" to libs.versions.java.get(),
 			"modmenu" to libs.versions.modMenu.get(),
-			"core" to project(":core").properties["mod_version"] as String
+			"core" to project(":catalyst-core").properties["mod_version"] as String
 		)
 		inputs.properties(resourceMap)
 		filesMatching("fabric.mod.json") { expand(resourceMap) }
