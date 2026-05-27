@@ -10,6 +10,7 @@ import net.minecraft.client.gui.hud.component.HudComponentMovable;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.hud.component.layout.LayoutSnap;
+import net.minecraft.client.gui.options.components.BooleanToggleComponent;
 import net.minecraft.client.gui.options.components.KeyBindingComponent;
 import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
@@ -43,6 +44,8 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 	public int yScreenSize;
 	public int posX = 0;
 	public int posY = 0;
+	public boolean visible = true;
+	public boolean locked = false;
 
 	public record Hovered(GuiComponent component, int mx, int my){};
 	public final Signal<Hovered> onHover = new Signal<>("on_hover");
@@ -61,6 +64,11 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 	@Override
 	public HudComponent hud() {
 		return this;
+	}
+
+	@Override
+	public boolean isVisible() {
+		return visible;
 	}
 
 	@Override
@@ -268,6 +276,14 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 			()->{},
 			(t)-> key = t.getText()
 		));
+		addOptionComponentSupplier(()->new BooleanToggleComponent(lang("visible"),visible,
+			()-> visible,
+			(b)-> visible = b)
+		);
+		addOptionComponentSupplier(()->new BooleanToggleComponent(lang("locked"),locked,
+			()-> locked,
+			(b)-> locked = b)
+		);
 		OptionsCategory sizeCategory = new OptionsCategory(lang("size"));
 		sizeCategory.withComponent(new BasicTextFieldComponent(lang("width"), null,
 			String.valueOf(xSize),
@@ -357,6 +373,11 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		CompoundTag layout = tag.getCompound("layout");
 		setLayout(createLayout(layout));
 		zLevel = tag.getInteger("zLevel");
+		visible = tag.getBoolean("visible");
+		if(!tag.containsKey("visible")){
+			visible = true;
+		}
+		locked = tag.getBoolean("locked");
 	}
 
 	@Override
@@ -371,5 +392,7 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 		tag.put("size", size);
 		tag.put("layout", layout);
 		tag.putInt("zLevel", zLevel);
+		tag.putBoolean("visible", visible);
+		tag.putBoolean("locked", locked);
 	}
 }

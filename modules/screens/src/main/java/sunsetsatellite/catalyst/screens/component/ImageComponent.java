@@ -35,10 +35,7 @@ public class ImageComponent extends GuiComponent {
 		super(name, 176, 221, new LayoutAbsolute(x,y, ComponentAnchor.TOP_LEFT));
 	}
 
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
+
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {

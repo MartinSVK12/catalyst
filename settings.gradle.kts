@@ -80,3 +80,6 @@ project(":catalyst-energy").projectDir = file("modules/energy")
 project(":catalyst-multiblocks").projectDir = file("modules/multiblocks")
 project(":catalyst-multipart").projectDir = file("modules/multipart")
 project(":catalyst-screens").projectDir = file("modules/screens")
+
+include(":tmb")
+project(":tmb").projectDir = file("../tmb")

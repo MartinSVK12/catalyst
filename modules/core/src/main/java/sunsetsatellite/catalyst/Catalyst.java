@@ -11,6 +11,7 @@ import net.minecraft.core.data.registry.Registry;
 import net.minecraft.core.data.registry.recipe.RecipeSymbol;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
+import net.minecraft.core.lang.I18n;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.util.collection.Pair;
 import net.minecraft.core.util.helper.MathHelper;
@@ -302,6 +303,14 @@ public class Catalyst implements ModInitializer, GameStartEntrypoint {
 
 	public static void displayGui(Player player, TileEntity tileEntity, String id, CompoundTag data) {
 		((IMpGui) player).catalyst$displayCustomGUI(tileEntity, id, data);
+	}
+
+	public static String translateNameKey(String s){
+		return I18n.getInstance().translateKey(s+".name");
+	}
+
+	public static String translateDescKey(String s){
+		return I18n.getInstance().translateKey(s+".name");
 	}
 
 	public static int parseIntSafe(String string) {

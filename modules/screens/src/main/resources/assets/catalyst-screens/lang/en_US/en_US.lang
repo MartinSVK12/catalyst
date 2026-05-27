@@ -8,6 +8,7 @@ options.align.right=Right
 options.slotType=Type
 options.slotType.player=Player
 options.slotType.inventory=Inventory
+options.slotType.fluid_inventory=Fluid Inventory
 
 options.progressBarType=Type
 options.progressBarType.horizontal=Horizontal
@@ -72,6 +73,8 @@ options.gui.uScale=U Scale (1/X)
 options.gui.vScale=V Scale (1/X)
 options.gui.max=Max
 options.gui.progress=Progress
+options.gui.visible=Visible
+options.gui.locked=Locked
 options.gui.saved=Saved!
 options.gui.failedSave=Failed to save! Check the output log for errors.
 

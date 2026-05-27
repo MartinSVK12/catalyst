@@ -201,8 +201,10 @@ public class ScreenGuiEditor extends Screen {
 
 		if(eventKey == Keyboard.KEY_DELETE){
 			if(!componentsUnderMouse.isEmpty()){
-				HudComponent component = componentsUnderMouse.get(0);
-				components.remove(component.key);
+				GuiComponent component = componentsUnderMouse.get(componentsUnderMouse.size()-1);
+				if(!component.locked){
+					components.remove(component.key);
+				}
 			}
 		}
 
@@ -300,10 +302,11 @@ public class ScreenGuiEditor extends Screen {
 		// Selection and Dragging
 		if (buttonNum == Options.KEY_GUI_EDITOR_SELECT.getKeyCode()) {
 			if (!this.componentsUnderMouse.isEmpty()) {
-				HudComponent componentUnderMouse = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
+				this.componentsUnderMouse.sort(Comparator.comparingInt((c)->c.zLevel));
+				GuiComponent componentUnderMouse = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
 				this.selectedComponent = componentUnderMouse;
 
-				if (componentUnderMouse instanceof HudComponentMovable) {
+				if (componentUnderMouse != null && !componentUnderMouse.locked) {
 					this.heldComponent = componentUnderMouse;
 					this.clickMouseX = mx;
 					this.clickMouseY = my;
@@ -325,6 +328,7 @@ public class ScreenGuiEditor extends Screen {
 		// Open Context Menu
 		if (buttonNum == Options.KEY_GUI_EDITOR_OPEN_CONTEXT.getKeyCode()) {
 			if (!this.componentsUnderMouse.isEmpty()) {
+				this.componentsUnderMouse.sort(Comparator.comparingInt((c)->c.zLevel));
 				GuiComponent componentUnderMouse = this.componentsUnderMouse.get(this.componentsUnderMouse.size() - 1);
 				this.selectedComponent = componentUnderMouse;
 

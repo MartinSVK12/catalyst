@@ -3,6 +3,8 @@ package sunsetsatellite.catalyst.core.util.vector;
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.MathHelper;
+import net.minecraft.core.world.pos.TilePos;
+import net.minecraft.core.world.pos.TilePosc;
 
 public class Vec3f {
 	public double x;
@@ -27,7 +29,13 @@ public class Vec3f {
 		readFromNBT(tag);
 	}
 
-	public double distanceTo(Vec3f vec3f) {
+	public Vec3f(TilePosc tilePos) {
+		this.x = tilePos.x();
+		this.y = tilePos.y();
+		this.z = tilePos.z();
+	}
+
+    public double distanceTo(Vec3f vec3f) {
 		double d = vec3f.x - this.x;
 		double d1 = vec3f.y - this.y;
 		double d2 = vec3f.z - this.z;

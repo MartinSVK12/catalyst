@@ -34,17 +34,18 @@ public class SlotComponent extends GuiComponent implements HasServerComponent {
 		image.xSize = 18;
 		image.ySize = 18;
 		image.setIcon("catalyst-screens:gui/slot");
+		onSizeChanged.connect((s, t)->{
+			image.xSize = t.xSize();
+			image.ySize = t.ySize();
+		});
 	}
 
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
+
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		setSubComponentRenderProperties(gui, image, x,y,true);
-		image.renderComponentPreview(mc, gui, layout, posX,posY, xScreenSize, yScreenSize);
+		image.renderComponent(mc, screen, posX, posY, xScreenSize, yScreenSize, partialTick);
 	}
 
 	@Override
@@ -56,6 +57,7 @@ public class SlotComponent extends GuiComponent implements HasServerComponent {
 	@Override
 	public Map<String, OptionsComponent> getProperties() {
 		Map<String, OptionsComponent> map = new TreeMap<>();
+		map.put("icon",	image.getProperties().get("icon"));
 		map.put("index", new BasicTextFieldComponent(lang("index"), null, String.valueOf(index),
 			()->{
 				index = 0;
@@ -85,7 +87,7 @@ public class SlotComponent extends GuiComponent implements HasServerComponent {
 	public SlotServerComponent toServer(){
 		int x = realX() + 1;
 		int y = realY() + 1;
-		return new SlotServerComponent(index, x, y, type);
+		return new SlotServerComponent(index, x, y, xSize, ySize, type);
 	}
 
 	@Override
@@ -98,6 +100,7 @@ public class SlotComponent extends GuiComponent implements HasServerComponent {
 		super.writeToNbt(tag);
 		tag.putInt("index", index);
 		tag.putInt("type", type.ordinal());
+		tag.putString("icon", image.iconId);
 	}
 
 	@Override
@@ -105,5 +108,6 @@ public class SlotComponent extends GuiComponent implements HasServerComponent {
 		super.readFromNbt(tag);
 		this.index = tag.getInteger("index");
 		this.type = SlotType.values()[tag.getInteger("type")];
+		image.setIcon(tag.getString("icon"));
 	}
 }

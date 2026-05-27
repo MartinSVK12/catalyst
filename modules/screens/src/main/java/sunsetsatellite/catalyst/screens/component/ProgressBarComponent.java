@@ -64,10 +64,7 @@ public class ProgressBarComponent extends GuiComponent {
 		return this.progress * length / max;
 	}
 
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
+
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
@@ -101,7 +98,7 @@ public class ProgressBarComponent extends GuiComponent {
 		foreground.ySize = ySize;
 		if(type == Type.HORIZONTAL){
 			int counter = getProgressScaled(xSize);
-			foreground.xSize = counter+1;
+			foreground.xSize = counter;
 		} else if (type == Type.VERTICAL) {
 			int counter = getProgressScaled(ySize);
 			((LayoutAbsolute) foreground.layout).setYOffset(ySize - counter);

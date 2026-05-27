@@ -13,12 +13,13 @@ import org.jspecify.annotations.NonNull;
 import sunsetsatellite.catalyst.core.util.Connection;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.io.IItemIO;
+import sunsetsatellite.catalyst.fluids.util.FluidItemContainer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class TileEntityFluidItemContainer extends TileEntityFluidContainer
-	implements Container, IItemIO {
+	implements FluidItemContainer, IItemIO {
 
 	public ItemStack[] itemContents = new ItemStack[1];
 

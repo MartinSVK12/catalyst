@@ -119,10 +119,7 @@ public class TextComponent extends GuiComponent {
     protected void setScale(float scale) { this.scale = scale; }
     public  float getScale() { return scale; }
 
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
+
 
     public void drawString(String text, int x, int y, int offX, int color, boolean shadow) {
         int width = minecraft.font.stringWidth(text);

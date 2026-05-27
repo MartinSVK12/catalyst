@@ -52,11 +52,6 @@ public class ButtonComponent extends GuiComponent {
 	}
 
 	@Override
-	public boolean isVisible() {
-		return true;
-	}
-
-	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		text.offY = (ySize / 2) - 4;
 		for (GuiComponent component : components) {

@@ -38,18 +38,15 @@ public class IconComponent extends GuiComponent {
 	public IconComponent(String name, float x, float y) {
 		super(name, 64, 64, new LayoutAbsolute(x,y, ComponentAnchor.TOP_LEFT));
 	}
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
+
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		if(icon == null) return;
 		//draw.zLevel = zLevel;
-		Scissor.enable(x,y,xSize,ySize);
+		//Scissor.enable(x,y,xSize,ySize);
 		draw.drawGuiIcon(x,y,xSize,ySize,icon);
-		Scissor.disable();
+		//Scissor.disable();
 	}
 
 	@Override

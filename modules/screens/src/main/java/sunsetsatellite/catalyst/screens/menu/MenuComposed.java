@@ -11,20 +11,24 @@ import net.minecraft.core.player.inventory.container.ContainerInventory;
 import net.minecraft.core.player.inventory.menu.MenuAbstract;
 import net.minecraft.core.player.inventory.slot.Slot;
 import org.jetbrains.annotations.NotNull;
+import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
+import sunsetsatellite.catalyst.fluids.util.FluidItemContainer;
+import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 import sunsetsatellite.catalyst.screens.component.SlotComponent;
 import sunsetsatellite.catalyst.screens.component.server.InventoryServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
 
 import java.util.List;
 
-public class MenuComposed extends MenuAbstract {
+public class MenuComposed extends MenuFluid {
 
 	public ContainerInventory playerInventory;
 	public Container inventory;
 
 	public boolean initialized = false;
 
-	public MenuComposed(ContainerInventory playerInventory, Container inventory) {
+	public MenuComposed(ContainerInventory playerInventory, FluidItemContainer inventory) {
+		super(inventory);
 		this.playerInventory = playerInventory;
 		this.inventory = inventory;
 	}
@@ -47,13 +51,17 @@ public class MenuComposed extends MenuAbstract {
 			}
 		}
 
+		final int size = 18;
 		for (SlotServerComponent slot : slotComponents) {
 			switch (slot.type()) {
 				case PLAYER -> {
-					addSlot(new Slot(playerInventory, slot.index(), slot.x(), slot.y()));
+					addSlot(new Slot(playerInventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
 				}
 				case INVENTORY -> {
-					addSlot(new Slot(inventory, slot.index(), slot.x(), slot.y()));
+					addSlot(new Slot(inventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
+				}
+				case FLUID_INVENTORY -> {
+					addFluidSlot(new SlotFluid(fluidInventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
 				}
 			}
 

@@ -12,12 +12,16 @@ public final class SlotServerComponent extends ServerComponent {
 	private int index;
 	private int x;
 	private int y;
+	private int xSize;
+	private int ySize;
 	private SlotType type;
 
-	public SlotServerComponent(int index, int x, int y, SlotType type) {
+	public SlotServerComponent(int index, int x, int y, int xSize, int ySize, SlotType type) {
 		this.index = index;
 		this.x = x;
 		this.y = y;
+		this.xSize = xSize;
+		this.ySize = ySize;
 		this.type = type;
 	}
 
@@ -37,33 +41,17 @@ public final class SlotServerComponent extends ServerComponent {
 		return y;
 	}
 
+	public int xSize() {
+		return xSize;
+	}
+
+	public int ySize() {
+		return ySize;
+	}
+
+
 	public SlotType type() {
 		return type;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) return true;
-		if (obj == null || obj.getClass() != this.getClass()) return false;
-		var that = (SlotServerComponent) obj;
-		return this.index == that.index &&
-			this.x == that.x &&
-			this.y == that.y &&
-			Objects.equals(this.type, that.type);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(index, x, y, type);
-	}
-
-	@Override
-	public String toString() {
-		return "ServerSlotComponent[" +
-			"index=" + index + ", " +
-			"x=" + x + ", " +
-			"y=" + y + ", " +
-			"type=" + type + ']';
 	}
 
 	public static List<SlotServerComponent> fromNbt(CompoundTag tag) {
@@ -84,6 +72,8 @@ public final class SlotServerComponent extends ServerComponent {
 		tag.putInt("index", index);
 		tag.putInt("x", x);
 		tag.putInt("y", y);
+		tag.putInt("xSize", xSize);
+		tag.putInt("ySize", ySize);
 		tag.putInt("type", type.ordinal());
 	}
 
@@ -92,6 +82,8 @@ public final class SlotServerComponent extends ServerComponent {
 		index = tag.getInteger("index");
 		x = tag.getInteger("x");
 		y = tag.getInteger("y");
+		xSize = tag.getInteger("xSize");
+		ySize = tag.getInteger("ySize");
 		type = SlotType.values()[tag.getInteger("type")];
 	}
 }

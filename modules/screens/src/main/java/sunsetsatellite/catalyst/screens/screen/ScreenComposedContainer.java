@@ -8,6 +8,8 @@ import net.minecraft.core.player.inventory.container.ContainerInventory;
 import sunsetsatellite.catalyst.CatalystScreens;
 import sunsetsatellite.catalyst.CatalystScreensClient;
 import sunsetsatellite.catalyst.core.util.vector.Vec2i;
+import sunsetsatellite.catalyst.fluids.impl.ScreenFluid;
+import sunsetsatellite.catalyst.fluids.util.FluidItemContainer;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.component.base.HasServerComponent;
 import sunsetsatellite.catalyst.screens.menu.MenuComposed;
@@ -15,7 +17,7 @@ import sunsetsatellite.catalyst.screens.menu.MenuComposed;
 import java.util.*;
 import java.util.List;
 
-public class ScreenComposedContainer extends ScreenContainerAbstract {
+public class ScreenComposedContainer extends ScreenFluid {
 
 	public int lastMx = 0;
 	public int lastMy = 0;
@@ -23,15 +25,21 @@ public class ScreenComposedContainer extends ScreenContainerAbstract {
 
 	public final Map<String, GuiComponent> components = new HashMap<>();
 
-	public ScreenComposedContainer(Map<String, GuiComponent> components, ContainerInventory playerInv, Container inv) {
+	public ScreenComposedContainer(Map<String, GuiComponent> components, ContainerInventory playerInv, FluidItemContainer inv) {
 		super(new MenuComposed(playerInv, inv));
 		this.components.putAll(components);
 		setSize();
 	}
 
-	public ScreenComposedContainer(String scenePath, ContainerInventory playerInv, Container inv) {
+	public ScreenComposedContainer(ContainerInventory playerInv, FluidItemContainer inv, CompoundTag tag) {
 		super(new MenuComposed(playerInv, inv));
-		CatalystScreensClient.loadScene(CatalystScreens.loadSceneNbt(scenePath), components);
+		CatalystScreensClient.loadScene(CatalystScreens.loadSceneNbt(tag.getString("scene")), components);
+		setSize();
+	}
+
+	public ScreenComposedContainer(MenuComposed menuComposed, CompoundTag tag) {
+		super(menuComposed);
+		CatalystScreensClient.loadScene(CatalystScreens.loadSceneNbt(tag.getString("scene")), components);
 		setSize();
 	}
 
