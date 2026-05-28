@@ -13,6 +13,8 @@ options.slotType.fluid_inventory=Fluid Inventory
 options.progressBarType=Type
 options.progressBarType.horizontal=Horizontal
 options.progressBarType.vertical=Vertical
+options.progressBarType.horizontal_inverted=Horizontal (Inv.)
+options.progressBarType.vertical_inverted=Vertical (Inv.)
 
 options.anchor=Anchor
 options.parentAnchor=Parent Anchor

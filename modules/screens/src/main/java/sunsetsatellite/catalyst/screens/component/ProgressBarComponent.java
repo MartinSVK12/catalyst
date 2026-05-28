@@ -32,7 +32,8 @@ public class ProgressBarComponent extends GuiComponent {
 	public final List<GuiComponent> components = List.of(background, foreground);
 
 	public enum Type {
-		HORIZONTAL, VERTICAL
+		HORIZONTAL, VERTICAL,
+		HORIZONTAL_INVERTED
 	}
 
 	public ProgressBarComponent(String name, float x, float y) {
@@ -93,17 +94,27 @@ public class ProgressBarComponent extends GuiComponent {
 	public void setProgress(int value) {
 		this.progress = Math.min(max,value);
 		((LayoutAbsolute) foreground.layout).setYOffset(0);
+		((LayoutAbsolute) foreground.layout).setXOffset(0);
 		foreground.v = 0;
+		foreground.u = 0;
 		foreground.xSize = xSize;
 		foreground.ySize = ySize;
-		if(type == Type.HORIZONTAL){
-			int counter = getProgressScaled(xSize);
-			foreground.xSize = counter;
-		} else if (type == Type.VERTICAL) {
-			int counter = getProgressScaled(ySize);
-			((LayoutAbsolute) foreground.layout).setYOffset(ySize - counter);
-			foreground.v = ySize - counter;
-			foreground.ySize = counter;
+		switch (type) {
+			case HORIZONTAL -> {
+				foreground.xSize = getProgressScaled(xSize);
+			}
+			case HORIZONTAL_INVERTED -> {
+				int counter = getProgressScaled(xSize);
+				((LayoutAbsolute) foreground.layout).setXOffset(xSize - counter);
+				foreground.u = xSize - counter;
+				foreground.xSize = counter;
+			}
+			case VERTICAL -> {
+				int counter = getProgressScaled(ySize);
+				((LayoutAbsolute) foreground.layout).setYOffset(ySize - counter);
+				foreground.v = ySize - counter;
+				foreground.ySize = counter;
+			}
 		}
 	}
 
