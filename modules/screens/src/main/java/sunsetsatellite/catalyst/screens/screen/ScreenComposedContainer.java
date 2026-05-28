@@ -82,7 +82,11 @@ public class ScreenComposedContainer extends ScreenFluid {
 	}
 
 	public boolean isHoveringOverComponent(GuiComponent component, int mx, int my){
-		return mx >= component.realX() && my >= component.realY() && mx <= component.realX() + component.xSize && my <= component.realY() + component.ySize;
+		int originX = (this.width - this.xSize) / 2;
+		int originY = (this.height - this.ySize) / 2;
+		int x = originX + component.realX();
+		int y = originY + component.realY();
+		return mx >= x && my >= y && mx <= x + component.xSize && my <= y + component.ySize;
 	}
 
 	public List<GuiComponent> sortedValues(){
@@ -92,7 +96,7 @@ public class ScreenComposedContainer extends ScreenFluid {
 	@Override
 	public void mouseClicked(int mx, int my, int buttonNum) {
 		super.mouseClicked(mx, my, buttonNum);
-		for (final GuiComponent c :sortedValues()) {
+		for (final GuiComponent c : sortedValues()) {
 			if (c.isVisible()) {
 				if(isHoveringOverComponent(c, mx, my)){
 					c.onClick.emit(new GuiComponent.Clicked(c, mx, my, buttonNum));

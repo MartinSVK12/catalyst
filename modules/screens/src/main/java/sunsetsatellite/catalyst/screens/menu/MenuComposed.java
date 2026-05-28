@@ -34,6 +34,7 @@ public class MenuComposed extends MenuFluid {
 	}
 
 	public void init(CompoundTag tag) {
+		if(initialized) return;
 		initialized = true;
 
 		List<SlotServerComponent> slotComponents = SlotServerComponent.fromNbt(tag);

@@ -46,6 +46,8 @@ public abstract class GuiComponent extends HudComponentMovable implements IGuiCo
 	public int posY = 0;
 	public boolean visible = true;
 	public boolean locked = false;
+	public int mx = 0;
+	public int my = 0;
 
 	public record Hovered(GuiComponent component, int mx, int my){};
 	public final Signal<Hovered> onHover = new Signal<>("on_hover");
