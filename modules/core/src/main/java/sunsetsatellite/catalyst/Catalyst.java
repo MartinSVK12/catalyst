@@ -34,13 +34,12 @@ import turniplabs.halplibe.util.GameStartEntrypoint;
 
 import java.util.*;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 
 public class Catalyst implements ModInitializer, GameStartEntrypoint {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-core");
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	public static final Registry<MpGuiEntry> GUIS = new Registry<>();
+	public static final Registry<GuiEntry> GUIS = new Registry<>();
 
 	public static final Signal<BlockChangeInfo> TILE_ENTITY_BLOCK_CHANGED_SIGNAL = new Signal<>("tile_ebtuty_block_changed");
 	public static final Signal<BlockChangeInfo> ANY_BLOCK_CHANGED_SIGNAL = new Signal<>("any_block_changed");

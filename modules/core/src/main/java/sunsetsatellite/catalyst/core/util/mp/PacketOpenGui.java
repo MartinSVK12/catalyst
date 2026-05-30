@@ -2,14 +2,16 @@ package sunsetsatellite.catalyst.core.util.mp;
 
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Screen;
 import net.minecraft.core.block.entity.TileEntity;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.Catalyst;
+import sunsetsatellite.catalyst.core.util.mp.entry.GuiEntryClient;
+import sunsetsatellite.catalyst.core.util.mp.entry.ItemGuiEntry;
+import sunsetsatellite.catalyst.core.util.mp.entry.TileDataGuiEntry;
+import sunsetsatellite.catalyst.core.util.mp.entry.TileGuiEntry;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 public class PacketOpenGui implements NetworkMessage {
@@ -89,35 +91,36 @@ public class PacketOpenGui implements NetworkMessage {
 	}
 
 	@Override
-	public void handle(NetworkContext context) {
+	public void handleClientEnv(NetworkContext context) {
+		Minecraft mc = Minecraft.getMinecraft();
 		if (Objects.equals(type, "tile")) {
-			TileEntity tile = null;
+			TileEntity tile;
 			tile = context.player.world.getTileEntity(blockX, blockY, blockZ);
 			if (tile != null) {
 				if (data == null) {
-					try {
-						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory, tile));
-					} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-						throw new RuntimeException(e);
+					TileGuiEntry<? super TileEntity, ?> entry = (TileGuiEntry<? super TileEntity, ?>) Catalyst.GUIS.getItem(windowTitle);
+					if(entry == null){
+						throw new NullPointerException("No entry defined for '"+windowTitle+"'!");
 					}
+					mc.displayScreen(entry.guiFactory.create(mc.thePlayer.inventory, tile));
 				} else {
-					try {
-						Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory, tile, data));
-					} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-						throw new RuntimeException(e);
+					TileDataGuiEntry<? super TileEntity, ?> entry = (TileDataGuiEntry<? super TileEntity, ?>) Catalyst.GUIS.getItem(windowTitle);
+					if(entry == null){
+						throw new NullPointerException("No entry defined for '"+windowTitle+"'!");
 					}
+					mc.displayScreen(entry.guiFactory.create(mc.thePlayer.inventory, tile, data));
 				}
 
 			}
 			context.player.containerMenu.containerId = windowId;
 		} else if (Objects.equals(type, "item")) {
-			try {
-				Minecraft.getMinecraft().displayScreen((Screen) ((MpGuiEntryClient) Catalyst.GUIS.getItem(windowTitle)).guiClass.getDeclaredConstructors()[0].newInstance(context.player.inventory, stackIndex, isArmor));
-			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-				throw new RuntimeException(e);
+			ItemGuiEntry<?,?> entry = (ItemGuiEntry<?,?>) Catalyst.GUIS.getItem(windowTitle);
+			if(entry == null){
+				throw new NullPointerException("No entry defined for '"+windowTitle+"'!");
 			}
+			mc.displayScreen(entry.guiFactory.create(mc.thePlayer.inventory, stackIndex, isArmor));
 			context.player.containerMenu.containerId = windowId;
 		}
-		//((INetGuiHandler)packetHandler).catalyst$handleOpenGui(this);
 	}
+
 }

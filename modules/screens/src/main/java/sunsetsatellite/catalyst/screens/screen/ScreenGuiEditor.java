@@ -201,7 +201,7 @@ public class ScreenGuiEditor extends Screen {
 				.build();
 			mc.displayScreen(popup);
 			return;
-		} else if (selectedComponent != null) {
+		} else if (eventKey == Options.KEY_GUI_EDITOR_EXIT.getKeyCode() && selectedComponent != null) {
 			selectedComponent = null;
 			isDragging = false;
 		}

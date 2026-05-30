@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.mp.IMpGui;
-import sunsetsatellite.catalyst.core.util.mp.MpGuiEntry;
+import sunsetsatellite.catalyst.core.util.mp.GuiEntry;
 import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 
@@ -43,7 +43,7 @@ public abstract class PlayerServerMixin extends Player implements IMpGui {
 	@Override
 	public void catalyst$displayCustomGUI(Container inventory, int slotIndex, boolean isArmor, String id) {
 		this.getNextWindowId();
-		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
+		GuiEntry<?,?> entry = Catalyst.GUIS.getItem(id);
 		NetworkHandler.sendToPlayer(thisAs, new PacketOpenGui(this.currentWindowId, id, slotIndex, isArmor));
 		if (entry.containerClass != null) {
 			try {
@@ -60,7 +60,7 @@ public abstract class PlayerServerMixin extends Player implements IMpGui {
 	@Override
 	public void catalyst$displayCustomGUI(TileEntity tileEntity, String id) {
 		this.getNextWindowId();
-		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
+		GuiEntry<?,?> entry = Catalyst.GUIS.getItem(id);
 		NetworkHandler.sendToPlayer(thisAs, new PacketOpenGui(this.currentWindowId, id, tileEntity.tilePos.x, tileEntity.tilePos.y, tileEntity.tilePos.z));
 		if (entry.containerClass != null) {
 			try {
@@ -76,7 +76,7 @@ public abstract class PlayerServerMixin extends Player implements IMpGui {
 	@Override
 	public void catalyst$displayCustomGUI(TileEntity tileEntity, String id, CompoundTag data) {
 		this.getNextWindowId();
-		MpGuiEntry entry = Catalyst.GUIS.getItem(id);
+		GuiEntry<?,?> entry = Catalyst.GUIS.getItem(id);
 		NetworkHandler.sendToPlayer(thisAs, new PacketOpenGui(this.currentWindowId, id, tileEntity.tilePos.x, tileEntity.tilePos.y, tileEntity.tilePos.z, data));
 		if (entry.containerClass != null) {
 			try {
