@@ -1,7 +1,5 @@
 package sunsetsatellite.catalyst.screens.screen;
 
-import com.mojang.nbt.tags.CompoundTag;
-import com.mojang.nbt.tags.Tag;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.HudComponent;
@@ -11,6 +9,7 @@ import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.hud.component.layout.LayoutSnap;
 import net.minecraft.client.gui.options.ScreenOptions;
 import net.minecraft.client.gui.options.components.KeyBindingComponent;
+import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.data.OptionsPage;
 import net.minecraft.client.gui.popup.PopupBuilder;
@@ -29,9 +28,10 @@ import net.minecraft.core.util.debug.Debug;
 import net.minecraft.core.util.helper.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import sunsetsatellite.catalyst.CatalystScreens;
 import sunsetsatellite.catalyst.screens.component.base.ComponentPicker;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
+import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
+import sunsetsatellite.catalyst.screens.component.option.TextFieldComponent;
 import sunsetsatellite.catalyst.screens.util.Colors;
 import sunsetsatellite.catalyst.screens.util.Options;
 
@@ -64,6 +64,8 @@ public class ScreenGuiEditor extends Screen {
 
 	private boolean showOnboarding = false;
 
+	public boolean closing = false;
+
 	public ScreenGuiEditor(Screen parent) {
 		super(parent);
 	}
@@ -84,6 +86,11 @@ public class ScreenGuiEditor extends Screen {
 
 	@Override
 	public void tick() {
+		if(closing){
+			mc.displayScreen(getParentScreen());
+			closing = false;
+			return;
+		}
 		super.tick();
 		for (OptionsComponent optionsComponent : this.activeContextComponents) {
 			optionsComponent.tick();
@@ -180,10 +187,23 @@ public class ScreenGuiEditor extends Screen {
 			return;
 		}
 
-		if (eventKey == Options.KEY_GUI_EDITOR_EXIT.getKeyCode()) {
-			this.mc.displayScreen(getParentScreen());
-			this.mc.sndManager.playSound("random.click", SoundCategory.GUI_SOUNDS, 1.0F, 1.0F);
+		if (eventKey == Options.KEY_GUI_EDITOR_EXIT.getKeyCode() && selectedComponent == null) {
+			PopupScreen popup = new PopupBuilder(this, 256)
+				.withLabel("gui."+ lang("closeLabel"))
+				.withMessageBox("msgBox", 64, I18n.getInstance().translateKey("gui."+lang("closeMsg")), 44)
+				.withButtonGroup("btnGroup", new String[]{"gui."+lang("close"), "gui."+lang("cancel")}, new int[]{1, 0})
+				.withOnCloseListener((id, map) -> {
+					if (id == 1 && !closing) {
+						closing = true;
+						this.mc.sndManager.playSound("random.click", SoundCategory.GUI_SOUNDS, 1.0F, 1.0F);
+					}
+				})
+				.build();
+			mc.displayScreen(popup);
 			return;
+		} else if (selectedComponent != null) {
+			selectedComponent = null;
+			isDragging = false;
 		}
 
 		if (eventKey == Options.KEY_GUI_EDITOR_ONBOARDING.getKeyCode()) {
@@ -246,7 +266,6 @@ public class ScreenGuiEditor extends Screen {
 				return;
 			}
 		}
-		super.keyPressed(eventCharacter, eventKey, mx, my);
 	}
 
 	@Override
@@ -614,9 +633,9 @@ public class ScreenGuiEditor extends Screen {
 		int maxY = this.contextMenuY + this.contextMenuHeight;
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
-			contextOptionsScreen.scrollOptions(Mouse.getDWheel() / -0.01f);
+			contextOptionsScreen.scrollOptions(Mouse.getDWheel() / 0.01f);
 		} else {
-			contextOptionsScreen.scrollOptions(Mouse.getDWheel() / -0.05f);
+			contextOptionsScreen.scrollOptions(Mouse.getDWheel() / 0.05f);
 		}
 
 		GLRenderer.pushFrame();
@@ -808,7 +827,9 @@ public class ScreenGuiEditor extends Screen {
 		List<GuiComponent> values = new ArrayList<>(components.values());
 		values.sort(Comparator.comparingInt((c)->c.zLevel));
 
-		for (HudComponent component : values) {
+		for (GuiComponent component : values) {
+			component.mx = mouseX;
+			component.my = mouseY;
 			if (component == this.heldComponent && this.isDragging) continue;
 			if (!component.isEnabled()) continue;
 			Layout layout = component.getLayout();

@@ -6,7 +6,8 @@ import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.Side;
 import net.minecraft.core.world.WorldSource;
 import net.minecraft.core.world.pos.TilePos;
-import org.lwjgl.util.vector.Vector3f;
+import org.joml.Vector3fc;
+import org.joml.Vector3f;
 import sunsetsatellite.catalyst.core.util.vector.Vec3f;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
@@ -55,33 +56,32 @@ public enum Direction {
 	}
 
 	public TileEntity getTileEntity(WorldSource world, TileEntity tile) {
-		TilePos pos = tile.tilePos.add(vec.x, vec.y, vec.z);
-		//Vec3i pos = new Vec3i(tile.x + vec.x, tile.y + vec.y, tile.z + vec.z);
+		TilePos pos = new Vec3i(tile.tilePos).add(vec).tilePos();
 		return world.getTileEntity(pos);
 	}
 
 	public Block<?> getBlock(WorldSource world, TileEntity tile) {
-		TilePos pos = tile.tilePos.add(vec.x, vec.y, vec.z);
+		TilePos pos = new Vec3i(tile.tilePos).add(vec).tilePos();
 		return world.getBlockType(pos);
 	}
 
 	public Block<?> getBlock(WorldSource world, Vec3i baseVec) {
-		TilePos pos = baseVec.pos.add(vec.x, vec.y, vec.z);
+		TilePos pos = baseVec.copy().add(vec).tilePos();
 		return world.getBlockType(pos);
 	}
 
 	public int getBlockMetadata(WorldSource world, TileEntity tile) {
-		TilePos pos = tile.tilePos.add(vec.x, vec.y, vec.z);
+		TilePos pos = new Vec3i(tile.tilePos).add(vec).tilePos();
 		return world.getBlockData(pos);
 	}
 
 	public int getBlockMetadata(WorldSource world, Vec3i baseVec) {
-		TilePos pos = baseVec.pos.add(vec.x, vec.y, vec.z);
+		TilePos pos = baseVec.copy().add(vec).tilePos();
 		return world.getBlockData(pos);
 	}
 
 	public TileEntity getTileEntity(WorldSource world, Vec3i baseVec) {
-		TilePos pos = baseVec.pos.add(vec.x, vec.y, vec.z);
+		TilePos pos = baseVec.copy().add(vec).tilePos();
 		return world.getTileEntity(pos);
 	}
 
@@ -174,54 +174,54 @@ public enum Direction {
 		};
 	}
 
-	public static Vector3f[] getVerticesForSide(Direction dir) {
+	public static Vec3f[] getVerticesForSide(Direction dir) {
 		float min = -0.5f; // Centered at 0,0,0
 		float max = 0.5f;
 
 		return switch (dir) {
 			case Y_POS -> // TOP
-				new Vector3f[]{
-					new Vector3f(min, max, min),
-					new Vector3f(min, max, max),
-					new Vector3f(max, max, max),
-					new Vector3f(max, max, min)
+				new Vec3f[]{
+					new Vec3f(min, max, min),
+					new Vec3f(min, max, max),
+					new Vec3f(max, max, max),
+					new Vec3f(max, max, min)
 				};
 			case Y_NEG -> // BOTTOM
-				new Vector3f[]{
-					new Vector3f(min, min, min),
-					new Vector3f(max, min, min),
-					new Vector3f(max, min, max),
-					new Vector3f(min, min, max)
+				new Vec3f[]{
+					new Vec3f(min, min, min),
+					new Vec3f(max, min, min),
+					new Vec3f(max, min, max),
+					new Vec3f(min, min, max)
 				};
 			case Z_NEG -> // NORTH
-				new Vector3f[]{
-					new Vector3f(min, min, min),
-					new Vector3f(min, max, min),
-					new Vector3f(max, max, min),
-					new Vector3f(max, min, min)
+				new Vec3f[]{
+					new Vec3f(min, min, min),
+					new Vec3f(min, max, min),
+					new Vec3f(max, max, min),
+					new Vec3f(max, min, min)
 				};
 			case Z_POS -> // SOUTH
-				new Vector3f[]{
-					new Vector3f(min, min, max),
-					new Vector3f(max, min, max),
-					new Vector3f(max, max, max),
-					new Vector3f(min, max, max)
+				new Vec3f[]{
+					new Vec3f(min, min, max),
+					new Vec3f(max, min, max),
+					new Vec3f(max, max, max),
+					new Vec3f(min, max, max)
 				};
 			case X_NEG -> // WEST
-				new Vector3f[]{
-					new Vector3f(min, min, min),
-					new Vector3f(min, min, max),
-					new Vector3f(min, max, max),
-					new Vector3f(min, max, min)
+				new Vec3f[]{
+					new Vec3f(min, min, min),
+					new Vec3f(min, min, max),
+					new Vec3f(min, max, max),
+					new Vec3f(min, max, min)
 				};
 			case X_POS -> // EAST
-				new Vector3f[]{
-					new Vector3f(max, min, min),
-					new Vector3f(max, max, min),
-					new Vector3f(max, max, max),
-					new Vector3f(max, min, max)
+				new Vec3f[]{
+					new Vec3f(max, min, min),
+					new Vec3f(max, max, min),
+					new Vec3f(max, max, max),
+					new Vec3f(max, min, max)
 				};
-			default -> new Vector3f[0];
+			default -> new Vec3f[0];
 		};
 	}
 

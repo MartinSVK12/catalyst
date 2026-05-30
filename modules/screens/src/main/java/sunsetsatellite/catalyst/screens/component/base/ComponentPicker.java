@@ -37,6 +37,7 @@ import static sunsetsatellite.catalyst.CatalystScreens.lang;
 public class ComponentPicker extends HudComponent {
 
 	public ScreenGuiEditor editor;
+	public static int componentSpawned = 0;
 
 	public ComponentPicker(ScreenGuiEditor editor) {
 		super("component_picker", 0, 0, new LayoutAbsolute(0,0, ComponentAnchor.CENTER));
@@ -100,8 +101,9 @@ public class ComponentPicker extends HudComponent {
 				@Override
 				protected void buttonClicked(int mouseButton, int x, int y, int width, int height, int relativeMouseX, int relativeMouseY) {
 					try {
-						String name = String.valueOf(System.currentTimeMillis());
+						String name = s+componentSpawned;
 						editor.components.put(name, GuiComponents.getComponent(s).getDeclaredConstructor(String.class, float.class, float.class).newInstance(name,0.5f,0.5f));
+						componentSpawned++;
 					} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
 					         NoSuchMethodException e) {
 						throw new RuntimeException(e);

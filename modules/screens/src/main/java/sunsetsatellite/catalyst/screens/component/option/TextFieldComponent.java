@@ -52,7 +52,6 @@ public abstract class TextFieldComponent extends ButtonComponent implements Text
 
 	@Override
 	public void onMouseClick(int mouseButton, int x, int y, int width, int relativeMouseX, int relativeMouseY) {
-		textField.setFocused(false);
 		super.onMouseClick(mouseButton, x, y, width, relativeMouseX, relativeMouseY);
 	}
 
@@ -66,6 +65,11 @@ public abstract class TextFieldComponent extends ButtonComponent implements Text
 			}
 			this.textField.setFocused(false);
 		}
+	}
+
+	public TextFieldComponent setFocused(boolean focused){
+		this.textField.setFocused(focused);
+		return this;
 	}
 
 	public TextFieldComponent lock(){

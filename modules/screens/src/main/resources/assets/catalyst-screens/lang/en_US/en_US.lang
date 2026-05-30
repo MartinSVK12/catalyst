@@ -97,6 +97,9 @@ gui.options.guieditor.onboarding.mainMenu=Press '%1$s' to open the main menu
 gui.options.gui.deleteAllLabel=Delete all?
 gui.options.gui.deleteAllMsg=Are you sure you want to delete every component?
 gui.options.gui.deleteAll=Delete All
+gui.options.gui.closeLabel=Close?
+gui.options.gui.closeMsg=Are you sure you want to close the GUI editor? You might have unsaved work!
+gui.options.gui.close=Close
 gui.options.gui.cancel=Cancel
 
 key.guiEditorSelect=Select GUI Component

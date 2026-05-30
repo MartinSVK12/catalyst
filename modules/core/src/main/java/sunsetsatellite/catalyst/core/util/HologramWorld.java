@@ -5,10 +5,10 @@ import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.block.material.Material;
 import net.minecraft.core.enums.LightLayer;
+import net.minecraft.core.util.helper.LightIndexHelper;
 import net.minecraft.core.world.Dimension;
 import net.minecraft.core.world.WorldSource;
 import net.minecraft.core.world.biome.Biome;
-import net.minecraft.core.world.biome.Biomes;
 import net.minecraft.core.world.pos.TilePosc;
 import net.minecraft.core.world.season.SeasonManager;
 import net.minecraft.core.world.type.WorldType;
@@ -18,14 +18,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class HologramWorld implements WorldSource {
 
 	private final HashMap<Vec3i, BlockInstance> blocks = new HashMap<>();
 
-	public HologramWorld(ArrayList<BlockInstance> structure) {
+	public HologramWorld(List<BlockInstance> structure) {
 		for (BlockInstance block : structure) {
 			blocks.put(block.pos, block);
 		}
@@ -58,7 +58,7 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public byte getLightIndex(@NotNull TilePosc tilePos, int lightEmission) {
-		return LightLayer.DEFAULT_LIGHT_INDEX;
+		return LightIndexHelper.lightIndex2f(15,15);
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class HologramWorld implements WorldSource {
 
 	@Override
 	public byte getSavedLightIndex(@NotNull TilePosc tilePos) {
-		return LightLayer.DEFAULT_LIGHT_INDEX;
+		return LightIndexHelper.lightIndex2f(15,15);
 	}
 
 	@Override

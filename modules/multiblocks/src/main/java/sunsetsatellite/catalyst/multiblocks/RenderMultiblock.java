@@ -49,7 +49,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 							Lighting.disable();
 							GLRenderer.modelM4f().translate((float) d + 0.5f, (float) e + 0.5f, (float) f + 0.5f);
 							BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(block.block);
-							if (world.getBlockType(block.pos.pos).id() != 0) {
+							if (world.getBlockType(block.pos.tilePos()).id() != 0) {
 								GLRenderer.setColor4f(1,0,0,0.90f);
 								GLRenderer.modelM4f().scale(1.1f,1.1f,1.1f);
 							} else {
@@ -58,7 +58,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 							}
 							drawBlock(tessellator,
 								model,
-								block.pos.pos);
+								block.pos.tilePos());
 							Lighting.enableLight();
 							GLRenderer.popFrame();
 							GLRenderer.setColor4f(1,1,1,1);

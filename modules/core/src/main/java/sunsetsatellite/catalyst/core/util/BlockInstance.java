@@ -53,8 +53,8 @@ public class BlockInstance {
 
 	public boolean place(World world) {
 		if (pos.getBlock(world).id() == 0) {
-			world.setBlockTypeNotify(pos.pos, block);
-			world.setBlockData(pos.pos, meta);
+			world.setBlockTypeNotify(pos.tilePos(), block);
+			world.setBlockData(pos.tilePos(), meta);
 			return true;
 		}
 		return false;

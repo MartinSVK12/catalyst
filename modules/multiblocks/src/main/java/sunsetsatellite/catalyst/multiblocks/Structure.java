@@ -70,12 +70,12 @@ public class Structure {
 		ArrayList<BlockInstance> blocks = getBlocks(origin);
 		blocks.add(getOrigin(origin));
 		for (BlockInstance block : blocks) {
-			if (!replaceBlocks && world.getBlockType(block.pos.pos).id() != 0) {
+			if (!replaceBlocks && world.getBlockType(block.pos.tilePos()).id() != 0) {
 				return false;
 			}
 		}
 		for (BlockInstance block : blocks) {
-			world.setBlockTypeDataNotify(block.pos.pos, block.block, block.meta);
+			world.setBlockTypeDataNotify(block.pos.tilePos(), block.block, block.meta);
 		}
 		return true;
 	}
@@ -87,12 +87,12 @@ public class Structure {
 		ArrayList<BlockInstance> blocks = getBlocks(origin, dir);
 		blocks.add(getOrigin(origin));
 		for (BlockInstance block : blocks) {
-			if (!replaceBlocks && world.getBlockType(block.pos.pos).id() != 0) {
+			if (!replaceBlocks && world.getBlockType(block.pos.tilePos()).id() != 0) {
 				return false;
 			}
 		}
 		for (BlockInstance block : blocks) {
-			world.setBlockTypeDataNotify(block.pos.pos, block.block, block.meta == -1 ? 0 : block.meta);
+			world.setBlockTypeDataNotify(block.pos.tilePos(), block.block, block.meta == -1 ? 0 : block.meta);
 		}
 		return true;
 	}

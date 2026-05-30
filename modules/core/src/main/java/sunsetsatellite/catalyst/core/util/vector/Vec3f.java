@@ -5,6 +5,9 @@ import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.MathHelper;
 import net.minecraft.core.world.pos.TilePos;
 import net.minecraft.core.world.pos.TilePosc;
+import org.joml.*;
+
+import java.lang.Math;
 
 public class Vec3f {
 	public double x;
@@ -194,6 +197,9 @@ public class Vec3f {
 		};
 	}
 
+	public Vector3dc joml(){
+		return new Vector3d(x, y, z);
+	}
 
 	//creates a vec2f from any 2 non-null values of this vec3f
 	public Vec2f toVec2f() {

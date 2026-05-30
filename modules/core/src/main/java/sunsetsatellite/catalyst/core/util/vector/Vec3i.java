@@ -16,7 +16,7 @@ public class Vec3i {
 	public int x;
 	public int y;
 	public int z;
-	public final TilePos pos;
+	private TilePos pos;
 
 	public Vec3i(int x, int y, int z) {
 		this.x = x;
@@ -272,6 +272,13 @@ public class Vec3i {
 
 	public Vector3ic joml(){
 		return new Vector3i(x, y, z);
+	}
+
+	public TilePos tilePos() {
+		if(x != pos.x || y != pos.y || z != pos.z){
+			pos = new TilePos(x,y,z);
+		}
+		return pos;
 	}
 
 	public TileEntity getTileEntity(WorldSource worldSource) {

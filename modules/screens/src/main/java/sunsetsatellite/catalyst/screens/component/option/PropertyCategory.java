@@ -24,7 +24,7 @@ public class PropertyCategory implements OptionsComponent {
 	private static final int COMPONENT_LEFT_MARGIN = 16;
 
 	private final String translationKey;
-	private final Map<String, OptionsComponent> components = new HashMap<>();
+	public final Map<String, OptionsComponent> components = new HashMap<>();
 	private OptionsComponent clickedComponent = null;
 	private int clickedComponentY = 0;
 
