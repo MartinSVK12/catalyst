@@ -51,6 +51,7 @@ public class CatalystScreens implements ModInitializer {
 			}
 		}
 		if(stream == null){
+			LOGGER.error("Could not find any scene with id: {}", id);
 			return null;
 		}
 		try {
