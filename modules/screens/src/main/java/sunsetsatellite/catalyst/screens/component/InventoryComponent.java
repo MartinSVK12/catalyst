@@ -49,6 +49,7 @@ public class InventoryComponent extends GuiComponent implements HasServerCompone
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
+		if(!visible) return;
 		for (GuiComponent component : slots) {
 			component.gui = gui;
 			component.xScreenSize = xSize;

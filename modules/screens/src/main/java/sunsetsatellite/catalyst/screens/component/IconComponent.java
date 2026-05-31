@@ -42,6 +42,7 @@ public class IconComponent extends GuiComponent {
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
+		if(!visible) return;
 		if(icon == null) return;
 		//draw.zLevel = zLevel;
 		//Scissor.enable(x,y,xSize,ySize);

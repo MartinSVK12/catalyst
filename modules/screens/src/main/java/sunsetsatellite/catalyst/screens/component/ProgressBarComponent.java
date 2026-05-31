@@ -69,6 +69,7 @@ public class ProgressBarComponent extends GuiComponent {
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
+		if(!visible) return;
 		for (GuiComponent component : components) {
 			setSubComponentRenderProperties(gui, component, x, y,false);
 			component.renderComponent(mc, screen, component.posX, component.posY, xScreenSize, yScreenSize, partialTick);

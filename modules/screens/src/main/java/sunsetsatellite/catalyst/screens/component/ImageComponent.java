@@ -39,6 +39,7 @@ public class ImageComponent extends GuiComponent {
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
+		if(!visible) return;
 		if(imageId != null && !imageId.isEmpty()) {
 			drawIcon(x, y, this.xSize, this.ySize, this.u, this.v, this.uScale, this.vScale, imageId, Colors.WHITE);
 		}

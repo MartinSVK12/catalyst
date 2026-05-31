@@ -43,6 +43,10 @@ public class ScreenComposedContainer extends ScreenFluid {
 		setSize();
 	}
 
+	public <T extends GuiComponent> T get(String name) {
+		return ((T) components.get(name));
+	}
+
 	public CompoundTag makeServerData(){
 		CompoundTag tag = new CompoundTag();
 		for (GuiComponent c : components.values()) {

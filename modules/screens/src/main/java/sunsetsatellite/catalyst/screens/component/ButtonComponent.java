@@ -38,21 +38,23 @@ public class ButtonComponent extends GuiComponent {
 		text.color = 0xE0E0E0;
 		image.setIcon("minecraft:gui/widgets/button/button");
 		onClick.connect((s, t)->{
+			if(disabled || !visible) return;
 			s.consume();
 			buttonClicked.emit(new Clicked(this, t.mx(), t.my(), t.button()));
 		});
 		onHoverStart.connect((s, t)->{
-			if(disabled) return;
+			if(disabled || !visible) return;
 			image.setIcon("minecraft:gui/widgets/button/button_highlighted");
 		});
 		onHoverEnd.connect((s, t)->{
-			if(disabled) return;
+			if(disabled || !visible) return;
 			image.setIcon("minecraft:gui/widgets/button/button");
 		});
 	}
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
+		if(!visible) return;
 		text.offY = (ySize / 2) - 4;
 		for (GuiComponent component : components) {
 			setSubComponentRenderProperties(gui, component, x, y,true);

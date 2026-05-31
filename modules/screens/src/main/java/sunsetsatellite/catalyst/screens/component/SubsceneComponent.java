@@ -54,6 +54,7 @@ public class SubsceneComponent extends GuiComponent {
 
 	@Override
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
+		if(!visible) return;
 		if(components.isEmpty()){
 			drawRect(x,y,x+xSize, y+ySize, 0xFFFF00FF);
 		}
