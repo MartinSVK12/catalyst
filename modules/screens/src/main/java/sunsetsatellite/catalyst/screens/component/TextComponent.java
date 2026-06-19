@@ -46,7 +46,7 @@ public class TextComponent extends GuiComponent {
 	public boolean centered = false;
 
     public TextComponent(String name, float x, float y) {
-        super(name, 152, 20, new LayoutAbsolute(x,y, ComponentAnchor.TOP_LEFT));
+        super(name, 176, 20, new LayoutAbsolute(x,y, ComponentAnchor.TOP_LEFT));
     }
 
 	@Override

@@ -11,6 +11,7 @@ import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.util.helper.LightIndexHelper;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.pos.TilePosc;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
@@ -47,18 +48,21 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 						if (!Objects.equals(world.getLevelData().getWorldName(), "modelviewer")) {
 							GLRenderer.pushFrame();
 							Lighting.disable();
-							GLRenderer.modelM4f().translate((float) d + 0.5f, (float) e + 0.5f, (float) f + 0.5f);
+							GLRenderer.modelM4f().translate((float) d + (block.pos.x - i) + 0.5f, (float) e + (block.pos.y - j) + 0.5f, (float) f + (block.pos.z - k) + 0.5f);
 							BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(block.block);
+							float alpha = 1;
 							if (world.getBlockType(block.pos.tilePos()).id() != 0) {
 								GLRenderer.setColor4f(1,0,0,0.90f);
+								alpha = 0.9f;
 								GLRenderer.modelM4f().scale(1.1f,1.1f,1.1f);
 							} else {
 								GLRenderer.setColor4f(1,1,1,0.75f);
+								alpha = 0.75f;
 								GLRenderer.modelM4f().scale(0.9f, 0.9f, 0.9f);
 							}
-							drawBlock(tessellator,
+							drawBlock(GLRenderer.getTessellator(),
 								model,
-								block.pos.tilePos());
+								block.meta, alpha);
 							Lighting.enableLight();
 							GLRenderer.popFrame();
 							GLRenderer.setColor4f(1,1,1,1);
@@ -70,13 +74,15 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 
 	}
 
-	public void drawBlock(TessellatorGeneral tessellator, BlockModel<?> model, TilePosc pos) {
+	public void drawBlock(TessellatorGeneral t, BlockModel<?> model, int meta, float alpha) {
 		TextureRegistry.worldAtlas.bind();
-		GLRenderer.setShader(Shaders.TERRAIN);
 		GLRenderer.pushFrame();
+		GLRenderer.setShader(Shaders.WORLD);
 		GLRenderer.enableState(State.BLEND);
 		GLRenderer.setBlendFunc(BlendFactor.SRC_ALPHA, BlendFactor.ONE_MINUS_SRC_ALPHA);
-		model.render(tessellator, hologram, pos);
+		GLRenderer.setColor4f(1,1,1,alpha);
+		model.renderStandalone(t, meta, LightIndexHelper.lightIndex2i(15,15));
+		GLRenderer.setColor4f(1,1,1,1);
 		GLRenderer.disableState(State.BLEND);
 		GLRenderer.popFrame();
 		GLRenderer.enableState(State.CULL_FACE);

@@ -47,7 +47,10 @@ public class ButtonComponent extends GuiComponent {
 			image.setIcon("minecraft:gui/widgets/button/button_highlighted");
 		});
 		onHoverEnd.connect((s, t)->{
-			if(disabled || !visible) return;
+			if(disabled || !visible) {
+				if(disabled) image.setIcon("minecraft:gui/widgets/button/button_disabled");
+				return;
+			}
 			image.setIcon("minecraft:gui/widgets/button/button");
 		});
 	}
@@ -120,6 +123,7 @@ public class ButtonComponent extends GuiComponent {
 	public void readFromNbt(CompoundTag tag) {
 		super.readFromNbt(tag);
 		disabled = tag.getBoolean("disabled");
+		if(disabled) image.setIcon("minecraft:gui/widgets/button/button_disabled");
 		CompoundTag textTag = tag.getCompound("text");
 		text.readFromNbt(textTag);
 	}

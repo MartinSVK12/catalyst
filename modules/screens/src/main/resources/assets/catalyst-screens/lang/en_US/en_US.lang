@@ -77,6 +77,8 @@ options.gui.max=Max
 options.gui.progress=Progress
 options.gui.visible=Visible
 options.gui.locked=Locked
+options.gui.rows=Rows
+options.gui.columns=Columns
 options.gui.saved=Saved!
 options.gui.failedSave=Failed to save! Check the output log for errors.
 
@@ -88,6 +90,7 @@ gui.component.button=Button
 gui.component.slot=Slot
 gui.component.inventory=Inventory
 gui.component.progressBar=Progress Bar
+gui.component.slotGrid=Slot Grid
 
 gui.options.page.controls.category.gui_editor=GUI Editor
 gui.options.guieditor.onboarding.welcome=Welcome to the GUI Editor!

@@ -37,6 +37,7 @@ public class GuiComponents {
 		register(SlotComponent.ID, SlotComponent.class);
 		register(InventoryComponent.ID, InventoryComponent.class);
 		register(ProgressBarComponent.ID, ProgressBarComponent.class);
+		register(SlotGridComponent.ID, SlotGridComponent.class);
 	}
 
 }

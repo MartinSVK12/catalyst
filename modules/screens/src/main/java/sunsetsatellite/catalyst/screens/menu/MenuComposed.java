@@ -16,6 +16,7 @@ import sunsetsatellite.catalyst.fluids.util.FluidItemContainer;
 import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 import sunsetsatellite.catalyst.screens.component.SlotComponent;
 import sunsetsatellite.catalyst.screens.component.server.InventoryServerComponent;
+import sunsetsatellite.catalyst.screens.component.server.SlotGridServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class MenuComposed extends MenuFluid {
 
 		List<SlotServerComponent> slotComponents = SlotServerComponent.fromNbt(tag);
 		List<InventoryServerComponent> invComponents = InventoryServerComponent.fromNbt(tag);
+		List<SlotGridServerComponent> gridComponents = SlotGridServerComponent.fromNbt(tag);
 
 		for (InventoryServerComponent invComponent : invComponents) {
 			for (int j = 0; j < 3; j++) {
@@ -49,6 +51,32 @@ public class MenuComposed extends MenuFluid {
 
 			for (int k = 0; k < 9; k++) {
 				addSlot(new Slot(playerInventory, k, invComponent.x() + 18 * k, invComponent.y() + (3 * 18) + 4));
+			}
+		}
+
+		for (SlotGridServerComponent gridComponent : gridComponents) {
+			switch (gridComponent.type()){
+				case PLAYER -> {
+					for (int j = 0; j < gridComponent.rows(); j++) {
+						for (int i = 0; i < gridComponent.columns(); i++) {
+							addSlot(new Slot(playerInventory, i + j * gridComponent.columns(), gridComponent.x() + 18 * i, gridComponent.y() + j * 18));
+						}
+					}
+				}
+				case INVENTORY -> {
+					for (int j = 0; j < gridComponent.rows(); j++) {
+						for (int i = 0; i < gridComponent.columns(); i++) {
+							addSlot(new Slot(inventory, i + j * gridComponent.columns(), gridComponent.x() + 18 * i, gridComponent.y() + j * 18));
+						}
+					}
+				}
+				case FLUID_INVENTORY -> {
+					for (int j = 0; j < gridComponent.rows(); j++) {
+						for (int i = 0; i < gridComponent.columns(); i++) {
+							addFluidSlot(new SlotFluid(fluidInventory, i + j * gridComponent.columns(), gridComponent.x() + 18 * i, gridComponent.y() + j * 18));
+						}
+					}
+				}
 			}
 		}
 
