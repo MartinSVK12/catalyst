@@ -77,12 +77,14 @@ public class Vec3i {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.pos.set(x,y,z);
 	}
 
 	public Vec3i add(int value) {
 		this.x += value;
 		this.y += value;
 		this.z += value;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -90,6 +92,7 @@ public class Vec3i {
 		this.x -= value;
 		this.y -= value;
 		this.z -= value;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -97,6 +100,7 @@ public class Vec3i {
 		this.x /= value;
 		this.y /= value;
 		this.z /= value;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -104,6 +108,7 @@ public class Vec3i {
 		this.x *= value;
 		this.y *= value;
 		this.z *= value;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -111,6 +116,7 @@ public class Vec3i {
 		this.x += value.x;
 		this.y += value.y;
 		this.z += value.z;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -118,6 +124,7 @@ public class Vec3i {
 		this.x -= value.x;
 		this.y -= value.y;
 		this.z -= value.z;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -125,6 +132,7 @@ public class Vec3i {
 		this.x /= value.x;
 		this.y /= value.y;
 		this.z /= value.z;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -132,44 +140,31 @@ public class Vec3i {
 		this.x *= value.x;
 		this.y *= value.y;
 		this.z *= value.z;
+		this.pos.set(x,y,z);
 		return this;
 	}
 
 	public Vec3i rotate(Vec3i origin, Direction direction) {
 		Vec3i pos = this;
-		switch (direction) {
-			case Z_POS:
-				pos = new Vec3i(this.z + origin.x, this.y + origin.y, this.x + origin.z);
-				break;
-			case Z_NEG:
-				pos = new Vec3i(-this.z + origin.x, this.y + origin.y, -this.x + origin.z);
-				break;
-			case X_NEG:
-				pos = new Vec3i(-this.x + origin.x, this.y + origin.y, -this.z + origin.z);
-				break;
-			case X_POS:
-				pos = new Vec3i(this.x + origin.x, this.y + origin.y, this.z + origin.z);
-				break;
-		}
+		pos = switch (direction) {
+			case Z_POS -> new Vec3i(this.z + origin.x, this.y + origin.y, this.x + origin.z);
+			case Z_NEG -> new Vec3i(-this.z + origin.x, this.y + origin.y, -this.x + origin.z);
+			case X_NEG -> new Vec3i(-this.x + origin.x, this.y + origin.y, -this.z + origin.z);
+			case X_POS -> new Vec3i(this.x + origin.x, this.y + origin.y, this.z + origin.z);
+			default -> pos;
+		};
 		return pos;
 	}
 
 	public Vec3i rotate(Direction direction) {
 		Vec3i pos = this;
-		switch (direction) {
-			case Z_POS:
-				pos = new Vec3i(this.z, this.y, this.x);
-				break;
-			case Z_NEG:
-				pos = new Vec3i(-this.z, this.y, -this.x);
-				break;
-			case X_NEG:
-				pos = new Vec3i(-this.x, this.y, -this.z);
-				break;
-			case X_POS:
-				pos = new Vec3i(this.x, this.y, this.z);
-				break;
-		}
+		pos = switch (direction) {
+			case Z_POS -> new Vec3i(this.z, this.y, this.x);
+			case Z_NEG -> new Vec3i(-this.z, this.y, -this.x);
+			case X_NEG -> new Vec3i(-this.x, this.y, -this.z);
+			case X_POS -> new Vec3i(this.x, this.y, this.z);
+			default -> pos;
+		};
 		return pos;
 	}
 
@@ -178,6 +173,7 @@ public class Vec3i {
 		float sine = MathHelper.sin((float) angle);
 		y = (int) Math.round(y * (double) cosine + z * (double) sine);
 		z = (int) Math.round(z * (double) cosine - y * (double) sine);
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -186,6 +182,7 @@ public class Vec3i {
 		float sine = MathHelper.sin((float) angle);
 		x = (int) Math.round(x * (double) cosine + z * (double) sine);
 		z = (int) Math.round(z * (double) cosine - x * (double) sine);
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -195,6 +192,7 @@ public class Vec3i {
 		float sine = MathHelper.sin((float) angle);
 		y = (int) Math.round(y * (double) cosine + z * (double) sine);
 		z = (int) Math.round(z * (double) cosine - y * (double) sine);
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -204,6 +202,7 @@ public class Vec3i {
 		x = (int) Math.round(x * (double) cosine + z * (double) sine);
 		z = (int) Math.round(z * (double) cosine - x * (double) sine);
 		this.add(origin);
+		this.pos.set(x,y,z);
 		return this;
 	}
 
@@ -211,14 +210,17 @@ public class Vec3i {
 		return switch (axis) {
 			case X -> {
 				this.x = value;
+				this.pos.set(x,y,z);
 				yield this;
 			}
 			case Y -> {
 				this.y = value;
+				this.pos.set(x,y,z);
 				yield this;
 			}
 			case Z -> {
 				this.z = value;
+				this.pos.set(x,y,z);
 				yield this;
 			}
 			default -> this;
@@ -244,6 +246,7 @@ public class Vec3i {
 		this.x = tag.getInteger("x");
 		this.y = tag.getInteger("y");
 		this.z = tag.getInteger("z");
+		if(pos != null) this.pos.set(x,y,z);
 	}
 
 	public Vec3i copy() {

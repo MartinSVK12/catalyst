@@ -2,23 +2,21 @@ package sunsetsatellite.catalyst.screens.menu;
 
 import com.mojang.nbt.tags.CompoundTag;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.core.InventoryAction;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.player.inventory.container.ContainerInventory;
-import net.minecraft.core.player.inventory.menu.MenuAbstract;
 import net.minecraft.core.player.inventory.slot.Slot;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.fluids.impl.MenuFluid;
 import sunsetsatellite.catalyst.fluids.util.FluidItemContainer;
 import sunsetsatellite.catalyst.fluids.util.SlotFluid;
-import sunsetsatellite.catalyst.screens.component.SlotComponent;
 import sunsetsatellite.catalyst.screens.component.server.InventoryServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotGridServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class MenuComposed extends MenuFluid {
@@ -39,6 +37,7 @@ public class MenuComposed extends MenuFluid {
 		initialized = true;
 
 		List<SlotServerComponent> slotComponents = SlotServerComponent.fromNbt(tag);
+		slotComponents.sort(Comparator.comparingInt(SlotServerComponent::index));
 		List<InventoryServerComponent> invComponents = InventoryServerComponent.fromNbt(tag);
 		List<SlotGridServerComponent> gridComponents = SlotGridServerComponent.fromNbt(tag);
 

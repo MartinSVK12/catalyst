@@ -1,10 +1,19 @@
 package sunsetsatellite.catalyst.core.util;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class NumberUtil {
 	public static String[] shortSuffixes = new String[]{"k", "M", "B", "T", "qd", "Qn"};
 	public static String[] shortMetricSuffixes = new String[]{"k", "M", "G", "T", "P", "E"};
 	public static String[] longSuffixes = new String[]{"thousand", "million", "billion", "trillion", "quadrillion", "quintillion"};
 	public static String[] longMetricSuffixes = new String[]{"kilo", "Mega", "Giga", "Tera", "Peta", "Exa"};
+
+	public static DecimalFormat df = new DecimalFormat(".0");
+
+	static {
+		df.setRoundingMode(RoundingMode.DOWN);
+	}
 
 	public static String format(double value) {
 		if (Double.isInfinite(value)) {
@@ -14,7 +23,7 @@ public class NumberUtil {
 			if (value >= 1000) {
 				value /= 1000;
 				if (value < 1000) {
-					return String.format("%.1f%s", value, shortSuffix);
+					return String.format("%s%s", df.format(value), shortSuffix);
 				}
 			} else {
 				return String.valueOf((long) value);

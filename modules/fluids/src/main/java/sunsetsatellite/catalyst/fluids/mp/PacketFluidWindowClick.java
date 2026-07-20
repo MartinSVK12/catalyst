@@ -14,7 +14,7 @@ public class PacketFluidWindowClick implements NetworkMessage {
 	public int windowId;
 	public int inventorySlot;
 	public int mouseClick;
-	public short action;
+	public int stateId;
 	public FluidStack fluidStack;
 	public boolean shift;
 	public boolean control;
@@ -22,12 +22,12 @@ public class PacketFluidWindowClick implements NetworkMessage {
 	public PacketFluidWindowClick() {
 	}
 
-	public PacketFluidWindowClick(int i, int j, int k, boolean shift, boolean control, FluidStack fluidStack, short word0) {
+	public PacketFluidWindowClick(int i, int j, int k, boolean shift, boolean control, FluidStack fluidStack, int stateId) {
 		this.windowId = i;
 		this.inventorySlot = j;
 		this.mouseClick = k;
 		this.fluidStack = fluidStack;
-		this.action = word0;
+		this.stateId = stateId;
 		this.shift = shift;
 		this.control = control;
 	}
@@ -37,7 +37,7 @@ public class PacketFluidWindowClick implements NetworkMessage {
 		packet.writeByte(this.windowId);
 		packet.writeInt(this.inventorySlot);
 		packet.writeByte(this.mouseClick);
-		packet.writeShort(this.action);
+		packet.writeInt(this.stateId);
 		packet.writeBoolean(this.shift);
 		packet.writeBoolean(this.control);
 		if (this.fluidStack == null) {
@@ -54,7 +54,7 @@ public class PacketFluidWindowClick implements NetworkMessage {
 		this.windowId = packet.readByte();
 		this.inventorySlot = packet.readInt();
 		this.mouseClick = packet.readByte();
-		this.action = packet.readShort();
+		this.stateId = packet.readInt();
 		this.shift = packet.readBoolean();
 		this.control = packet.readBoolean();
 		String fluidId = packet.readString();

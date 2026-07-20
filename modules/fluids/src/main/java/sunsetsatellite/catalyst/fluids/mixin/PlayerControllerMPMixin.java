@@ -26,14 +26,14 @@ public class PlayerControllerMPMixin extends PlayerController implements FluidPi
 
 	@Override
 	public FluidStack catalyst$fluidPickUpFromInventory(int i, int slotID, int button, boolean shift, boolean control, Player player) {
-		short word0 = player.containerMenu.backup(player.inventory);
+		int stateId = player.containerMenu.incrementStateId();
 		FluidStack fluidStack = null;
 		if (player.containerMenu instanceof MenuFluid) {
 			fluidStack = ((MenuFluid) player.containerMenu).clickFluidSlot(slotID, button, shift, control, player);
 		} /*else if (player.craftingInventory instanceof ContainerItemFluid) {
 			fluidStack = ((ContainerItemFluid)player.craftingInventory).clickFluidSlot(slotID, button, shift, control, player);
 		}*/
-		NetworkHandler.sendToServer(new PacketFluidWindowClick(i, slotID, button, shift, control, fluidStack, word0));
+		NetworkHandler.sendToServer(new PacketFluidWindowClick(i, slotID, button, shift, control, fluidStack, stateId));
 		return fluidStack;
 	}
 }

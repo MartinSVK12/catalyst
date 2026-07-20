@@ -16,7 +16,8 @@
     "RenderGlobalMixin",
     "ScreenContainerAbstractMixin",
     "ScreenPauseMixin",
-    "TooltipElementMixin"
+    "TooltipElementMixin",
+    "WorldClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

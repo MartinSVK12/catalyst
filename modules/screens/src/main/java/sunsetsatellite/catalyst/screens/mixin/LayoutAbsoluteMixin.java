@@ -32,6 +32,7 @@ public abstract class LayoutAbsoluteMixin extends Layout {
 
 	@WrapMethod(method = "getComponentX")
 	public int getComponentX(HudComponent component, int xSizeScreen, Operation<Integer> original) {
+		if(component == null) return 0;
 		if(component instanceof GuiComponent){
 			return (int)(this.xPosition * (float)(xSizeScreen)) - component.getTrueAnchorX(this.anchor) + this.xOffset;
 		}
@@ -40,6 +41,7 @@ public abstract class LayoutAbsoluteMixin extends Layout {
 
 	@WrapMethod(method = "getComponentY")
 	public int getComponentY(HudComponent component, int ySizeScreen, Operation<Integer> original) {
+		if(component == null) return 0;
 		if(component instanceof GuiComponent){
 			return (int)(this.yPosition * (float)(ySizeScreen)) - component.getTrueAnchorY(this.anchor) + this.yOffset;
 		}

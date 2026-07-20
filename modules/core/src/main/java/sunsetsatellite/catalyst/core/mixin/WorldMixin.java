@@ -113,7 +113,7 @@ public abstract class WorldMixin implements IAbsoluteWorldTime {
 		}
 	}
 
-	@Inject(method = "updateEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/entity/TileEntity;tick()V", shift = At.Shift.BEFORE))
+	@Inject(method = "updateTileEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/block/entity/TileEntity;tick()V", shift = At.Shift.BEFORE))
 	public void initTE2(CallbackInfo ci, @Local(name = "tileEntity") TileEntity tileEntity) {
 		if (tileEntity != null && getBlockType(tileEntity.tilePos).id() == 0) {
 			tileEntity.invalidate();
