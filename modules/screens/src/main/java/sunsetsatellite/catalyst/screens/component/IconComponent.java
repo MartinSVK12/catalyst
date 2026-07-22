@@ -44,16 +44,12 @@ public class IconComponent extends GuiComponent {
 	public void renderComponent(Minecraft mc, Screen screen, int x, int y, int xScreenSize, int yScreenSize, float partialTick) {
 		if(!visible) return;
 		if(icon == null) return;
-		//draw.zLevel = zLevel;
-		//Scissor.enable(x,y,xSize,ySize);
 		draw.drawGuiIcon(x,y,xSize,ySize,icon);
-		//Scissor.disable();
 	}
 
 	@Override
 	public void renderComponentPreview(Minecraft mc, Gui gui, Layout layout, int x, int y, int xScreenSize, int yScreenSize) {
 		if(icon == null) return;
-		//draw.zLevel = zLevel;
 		Scissor.enable(x,y,xSize,ySize);
 		draw.drawGuiIcon(x,y,xSize,ySize,icon);
 		Scissor.disable();
