@@ -41,31 +41,20 @@ public enum BlockSection {
 
 	public Direction toDirection(Direction blockSide, Side playerFacing) {
 		if (blockSide.getAxis().isVertical()) {
-			switch (this) {
-				case TOP_RIGHT:
-				case BOTTOM_LEFT:
-				case BOTTOM_RIGHT:
-				case TOP_LEFT:
-					return blockSide.getOpposite();
-				case CENTER_LEFT:
-					return Direction.X_NEG;
-				case CENTER_RIGHT:
-					return Direction.X_POS;
-				case UPPER_CENTER:
-					return Direction.Z_POS;
-				case LOWER_CENTER:
-					return Direction.Z_NEG;
-				case CENTER:
-					return blockSide;
-			}
+			return switch (this) {
+				case TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT -> blockSide.getOpposite();
+				case CENTER_LEFT -> Direction.X_NEG;
+				case CENTER_RIGHT -> Direction.X_POS;
+				case UPPER_CENTER -> Direction.Z_POS;
+				case LOWER_CENTER -> Direction.Z_NEG;
+				case CENTER -> blockSide;
+			};
 		} else {
 			switch (this) {
-				case TOP_RIGHT:
-				case BOTTOM_LEFT:
-				case BOTTOM_RIGHT:
-				case TOP_LEFT:
+				case TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT -> {
 					return blockSide.getOpposite();
-				case CENTER_LEFT:
+				}
+				case CENTER_LEFT -> {
 					switch (playerFacing) {
 						case NORTH:
 							return Direction.X_NEG;
@@ -76,8 +65,8 @@ public enum BlockSection {
 						case WEST:
 							return Direction.Z_POS;
 					}
-					break;
-				case CENTER_RIGHT:
+				}
+				case CENTER_RIGHT -> {
 					switch (playerFacing) {
 						case NORTH:
 							return Direction.X_POS;
@@ -88,13 +77,16 @@ public enum BlockSection {
 						case WEST:
 							return Direction.Z_NEG;
 					}
-					break;
-				case UPPER_CENTER:
+				}
+				case UPPER_CENTER -> {
 					return Direction.Y_POS;
-				case LOWER_CENTER:
+				}
+				case LOWER_CENTER -> {
 					return Direction.Y_NEG;
-				case CENTER:
+				}
+				case CENTER -> {
 					return blockSide;
+				}
 			}
 		}
 		return null;

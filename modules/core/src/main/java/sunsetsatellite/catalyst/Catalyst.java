@@ -30,16 +30,15 @@ import sunsetsatellite.catalyst.core.util.section.BlockSection;
 import sunsetsatellite.catalyst.core.util.vector.Vec2f;
 import turniplabs.halplibe.HalpLibe;
 import turniplabs.halplibe.helper.network.NetworkHandler;
-import turniplabs.halplibe.util.GameStartEntrypoint;
 
 import java.util.*;
 import java.util.function.BiFunction;
 
-public class Catalyst implements ModInitializer, GameStartEntrypoint {
+public class Catalyst implements ModInitializer {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-core");
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	public static final Registry<GuiEntry> GUIS = new Registry<>();
+	public static final Registry<GuiEntry<?,?>> GUIS = new Registry<>();
 
 	public static final Signal<BlockChangeInfo> TILE_ENTITY_BLOCK_CHANGED_SIGNAL = new Signal<>("tile_ebtuty_block_changed");
 	public static final Signal<BlockChangeInfo> ANY_BLOCK_CHANGED_SIGNAL = new Signal<>("any_block_changed");
@@ -65,16 +64,6 @@ public class Catalyst implements ModInitializer, GameStartEntrypoint {
 		TILE_ENTITY_BLOCK_CHANGED_SIGNAL.connect(NetworkManager.BlockChangeListener.INSTANCE);
 		DIMENSION_LOAD_SIGNAL.connect(NetworkManager.LoadSaveListener.INSTANCE);
 		DIMENSION_SAVE_SIGNAL.connect(NetworkManager.LoadSaveListener.INSTANCE);
-	}
-
-	@Override
-	public void beforeGameStart() {
-
-	}
-
-	@Override
-	public void afterGameStart() {
-
 	}
 
 	@SafeVarargs
