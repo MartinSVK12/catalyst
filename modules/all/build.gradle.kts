@@ -1,8 +1,15 @@
 import com.smushytaco.lwjgl_gradle.Preset
+import groovy.namespace.QName
+import groovy.util.Node
+import groovy.xml.XmlParser
+import java.io.FileNotFoundException
+import java.net.URL
+
 plugins {
 	alias(libs.plugins.loom)
 	alias(libs.plugins.lwjgl)
     java
+	`maven-publish`
 }
 val modVersion: String = project.properties["mod_version"] as String
 val modGroup: String = project.properties["mod_group"] as String
@@ -34,8 +41,8 @@ dependencies {
 	include(project(":catalyst-fluids"))
 	implementation(project(":catalyst-energy"))
 	include(project(":catalyst-energy"))
-	implementation(project(":catalyst-multipart"))
-	include(project(":catalyst-multipart"))
+	//implementation(project(":catalyst-multipart"))
+	//include(project(":catalyst-multipart"))
 	implementation(project(":catalyst-multiblocks"))
 	include(project(":catalyst-multiblocks"))
 	implementation(project(":catalyst-screens"))
@@ -75,5 +82,47 @@ tasks {
 		sourceCompatibility = javaVersion.get().toString()
 		targetCompatibility = javaVersion.get().toString()
 		if (javaVersion.get() > 8) options.release = javaVersion
+	}
+}
+
+publishing {
+	if(checkVersion(modGroup, modName, modVersion)){
+		repositories {
+			maven {
+				name = "signalumMaven"
+				url = uri("https://maven.thesignalumproject.net/releases")
+				credentials(PasswordCredentials::class)
+				authentication {
+					create<BasicAuthentication>("basic")
+				}
+			}
+
+			publications {
+				create<MavenPublication>("maven") {
+					groupId = modGroup
+					artifactId = modName
+					version = modVersion
+					from(components["java"])
+				}
+			}
+		}
+	}
+}
+
+fun checkVersion(group: String, name: String, version: String): Boolean {
+	return try {
+		val xml = URL("https://maven.thesignalumproject.net/releases/$group/$name/maven-metadata.xml").readText()
+		val metadata = XmlParser().parseText(xml)
+
+		val versions = metadata.getAt(QName("versioning")).getAt("versions").getAt("version").map { (it as Node).text() }
+
+		if (version in versions) {
+			System.err.println("Version $version of $group.$name already exists!")
+			false
+		} else {
+			true
+		}
+	} catch (ignored: FileNotFoundException) {
+		true
 	}
 }

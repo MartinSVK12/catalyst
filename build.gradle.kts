@@ -1,3 +1,9 @@
+import groovy.namespace.QName
+import groovy.util.Node
+import groovy.xml.XmlParser
+import java.io.FileNotFoundException
+import java.net.URL
+
 plugins {
 	java
 }

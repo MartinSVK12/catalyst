@@ -3,6 +3,7 @@ plugins {
 	alias(libs.plugins.loom)
 	alias(libs.plugins.lwjgl)
     java
+	`maven-publish`
 }
 val modVersion: String = project.properties["mod_version"] as String
 val modGroup: String = project.properties["mod_group"] as String
