@@ -28,5 +28,7 @@ Available modules:
   - Adds support for multiblock structures/machines.
 - Effects
   - API for custom attributes and stackable effects.
-- Multipart
-  - API and implementation for multiple block parts in one block.
+- ~~Multipart~~
+  - ~~API and implementation for multiple block parts in one block.~~ Unavailable in BTA! 8.0.
+- Screens (since BTA! 8.0)
+  - In-game visual editor and API for making GUIs easier to create.
