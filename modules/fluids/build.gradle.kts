@@ -33,8 +33,13 @@ lwjgl {
 dependencies {
     minecraft("::${libs.versions.bta.get()}")
 	include(libs.commonsLang3)
+	if (findProject(":tmb") != null) {
+		implementation(project(":tmb"))
+	} else {
+		implementation(files("libs/tmb-3.0.0.jar"))
+	}
 	implementation(project(":catalyst-core"))
-	implementation(project(":tmb"))
+	//implementation()
 }
 
 tasks {
