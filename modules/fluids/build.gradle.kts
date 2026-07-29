@@ -36,7 +36,7 @@ dependencies {
 	if (findProject(":tmb") != null) {
 		implementation(project(":tmb"))
 	} else {
-		implementation(files("libs/tmb-3.0.0.jar"))
+		implementation(files("../../libs/tmb-3.0.0.jar"))
 	}
 	implementation(project(":catalyst-core"))
 	//implementation()
