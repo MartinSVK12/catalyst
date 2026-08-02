@@ -44,6 +44,12 @@ public class Vec3f {
 		this.z = vec.z();
 	}
 
+	public Vec3f(Vec3i vec){
+		this.x = vec.x;
+		this.y = vec.y;
+		this.z = vec.z;
+	}
+
     public double distanceTo(Vec3f vec3f) {
 		double d = vec3f.x - this.x;
 		double d1 = vec3f.y - this.y;
