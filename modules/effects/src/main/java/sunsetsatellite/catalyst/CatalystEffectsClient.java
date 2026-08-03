@@ -1,5 +1,6 @@
 package sunsetsatellite.catalyst;
 
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.options.components.BooleanOptionComponent;
@@ -17,20 +18,28 @@ import sunsetsatellite.catalyst.effects.api.effect.render.TintEffectRender;
 import sunsetsatellite.catalyst.effects.command.CommandAttributes;
 import sunsetsatellite.catalyst.effects.command.CommandEffects;
 import sunsetsatellite.catalyst.effects.command.CommandExtraHealth;
-import turniplabs.halplibe.util.ClientStartEntrypoint;
-import turniplabs.halplibe.util.OptionsInitEntrypoint;
+import turniplabs.halplibe.event.defs.ClientEvents;
+import turniplabs.halplibe.util.dependency.Key;
 
 @Environment(EnvType.CLIENT)
-public class CatalystEffectsClient implements ClientStartEntrypoint, OptionsInitEntrypoint {
+public class CatalystEffectsClient implements ClientModInitializer {
 
 	@Override
+	public void onInitializeClient() {
+		GameSettings.register(Options.effectDisplayPlaceEnumOption);
+		GameSettings.register(Options.effectExtraHealthDisplayStyleEnumOption);
+		GameSettings.register(Options.renderAttributeIcon);
+
+		ClientEvents.BEFORE_CLIENT_START.listen(Key.of(Catalyst.MOD_ID),this::beforeClientStart);
+		ClientEvents.AFTER_CLIENT_START.listen(Key.of(Catalyst.MOD_ID),this::afterClientStart);
+	}
+
 	public void beforeClientStart() {
 		CommandManager.registerCommand(new CommandEffects());
 		CommandManager.registerCommand(new CommandAttributes());
 		CommandManager.registerCommand(new CommandExtraHealth());
 	}
 
-	@Override
 	public void afterClientStart() {
 		EffectRendererDispatcher.getInstance().addDispatch(
 			Effects.DURATION_BOOST,
@@ -55,12 +64,5 @@ public class CatalystEffectsClient implements ClientStartEntrypoint, OptionsInit
 		CatalystClient.effectsCategory
 			.withComponent(new ToggleableOptionComponent<>(Options.effectExtraHealthDisplayStyleEnumOption))
 			.withComponent(new BooleanOptionComponent(Options.renderAttributeIcon));
-	}
-
-	@Override
-	public void initOptions() {
-		GameSettings.register(Options.effectDisplayPlaceEnumOption);
-		GameSettings.register(Options.effectExtraHealthDisplayStyleEnumOption);
-		GameSettings.register(Options.renderAttributeIcon);
 	}
 }

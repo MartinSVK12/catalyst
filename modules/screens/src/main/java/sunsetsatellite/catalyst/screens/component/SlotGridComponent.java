@@ -14,7 +14,6 @@ import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.component.base.HasServerComponent;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
-import sunsetsatellite.catalyst.screens.component.server.InventoryServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.ServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotGridServerComponent;
 import sunsetsatellite.catalyst.screens.util.SlotType;

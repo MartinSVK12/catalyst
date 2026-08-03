@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import sunsetsatellite.catalyst.Catalyst;
-import sunsetsatellite.catalyst.core.util.mp.IMpGui;
 import sunsetsatellite.catalyst.core.util.mp.GuiEntry;
+import sunsetsatellite.catalyst.core.util.mp.IMpGui;
 import sunsetsatellite.catalyst.core.util.mp.PacketOpenGui;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 

@@ -37,7 +37,7 @@ public class PacketBlockNetworkData implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if (EnvironmentHelper.isClientWorld()) {
+		if (EnvironmentHelper.isMultiplayerClient()) {
 			if (context.player.world.dimension.id == dimension) {
 				NetworkManager.clearNets(context.player.dimension);
 				NetworkManager.netsFromTag(context.player.world, networks);

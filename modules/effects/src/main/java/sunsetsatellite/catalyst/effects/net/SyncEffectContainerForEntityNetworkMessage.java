@@ -44,7 +44,7 @@ public class SyncEffectContainerForEntityNetworkMessage implements NetworkMessag
 
 	@Override
 	public void handle(NetworkContext context) {
-		if (EnvironmentHelper.isServerEnvironment()) return;
+		if (EnvironmentHelper.isMultiplayerServer()) return;
 
 		World world = context.player.world;
 

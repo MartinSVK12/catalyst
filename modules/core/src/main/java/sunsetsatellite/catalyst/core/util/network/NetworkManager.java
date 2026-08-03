@@ -4,7 +4,6 @@ import com.mojang.nbt.NbtIo;
 import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.ListTag;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.block.Blocks;
 import net.minecraft.core.world.World;
 import net.minecraft.core.world.WorldSource;
 import sunsetsatellite.catalyst.Catalyst;
@@ -35,8 +34,8 @@ public class NetworkManager {
 	private NetworkManager() {
 	}
 
-	public static int getNetID(World world, int x, int y, int z) {
-		Network net = getNet(world, x, y, z);
+	public static int getNetID(World world, Vec3i pos) {
+		Network net = getNet(world, pos);
 		return net == null ? -1 : net.hashCode();
 	}
 
@@ -96,9 +95,7 @@ public class NetworkManager {
 
 
 	public static void addBlock(BlockChangeInfo blockChanged) {
-		int x = blockChanged.pos.x;
-		int y = blockChanged.pos.y;
-		int z = blockChanged.pos.z;
+		Vec3i pos = blockChanged.pos.copy();
 		World world = blockChanged.world;
 
 		if (!canBeNet(blockChanged.block)) {
@@ -112,10 +109,8 @@ public class NetworkManager {
 		Set<Network> sideNets = new HashSet<>();
 		for (Network net : nets) {
 			for (Vec3i offset : Direction.getVecs()) {
-				int px = x + offset.x;
-				int py = y + offset.y;
-				int pz = z + offset.z;
-				if (net.existsOnPos(px, py, pz)) {
+				Vec3i point = pos.copy().add(offset);
+				if (net.existsOnPos(point)) {
 					sideNets.add(net);
 				}
 			}
@@ -126,13 +121,11 @@ public class NetworkManager {
 		//no nets around, create one
 		if (size == 0) {
 			net = new Network(world, component.getType());
-			net.addBlock(x, y, z);
+			net.addBlock(pos);
 			for (Vec3i offset : Direction.getVecs()) {
-				int px = x + offset.x;
-				int py = y + offset.y;
-				int pz = z + offset.z;
-				if (canBeNet(world, px, py, pz)) {
-					net.addBlock(px, py, pz);
+				Vec3i point = pos.copy().add(offset);
+				if (canBeNet(world, point)) {
+					net.addBlock(point);
 				}
 			}
 			if (net.getSize() > 1) {
@@ -141,7 +134,7 @@ public class NetworkManager {
 		} else if (size == 1) {
 			Network potentialNet = sideNets.stream().findAny().get();
 			if (potentialNet.isOfSameType(component)) {
-				potentialNet.addBlock(x, y, z);
+				potentialNet.addBlock(pos);
 				net = potentialNet;
 			}
 		} else { //multiple nets around
@@ -150,7 +143,7 @@ public class NetworkManager {
 			for (Network network : netsArray) {
 				if (network.isOfSameType(component)) {
 					main = network;
-					main.addBlock(x, y, z);
+					main.addBlock(pos);
 					for (Network otherNet : netsArray) {
 						if (otherNet == main) {
 							continue;
@@ -166,15 +159,13 @@ public class NetworkManager {
 			}
 		}
 
-		if (net == null && getNet(world, x, y, z) == null) {
+		if (net == null && getNet(world, pos) == null) {
 			net = new Network(world, component.getType());
-			net.addBlock(x, y, z);
+			net.addBlock(pos);
 			for (Vec3i offset : Direction.getVecs()) {
-				int px = x + offset.x;
-				int py = y + offset.y;
-				int pz = z + offset.z;
-				if (canBeNet(world, px, py, pz)) {
-					net.addBlock(px, py, pz);
+				Vec3i point = pos.copy().add(offset);
+				if (canBeNet(world, pos)) {
+					net.addBlock(pos);
 				}
 			}
 			if (net.getSize() > 1) {
@@ -184,22 +175,18 @@ public class NetworkManager {
 
 		//add surrounding blocks to net if type matches
 		for (Vec3i offset : Direction.getVecs()) {
-			int px = x + offset.x;
-			int py = y + offset.y;
-			int pz = z + offset.z;
-			if (canBeNet(world, px, py, pz) && getNet(world, px, py, pz) == null && net != null) {
-				NetworkComponent sideComponent = Catalyst.blockLogic(world.getBlock(px, py, pz), NetworkComponent.class);
+			Vec3i point = pos.copy().add(offset);
+			if (canBeNet(world, point) && getNet(world, point) == null && net != null) {
+				NetworkComponent sideComponent = Catalyst.blockLogic(point.getBlock(world), NetworkComponent.class);
 				if (net.isOfSameType(sideComponent)) {
-					net.addBlock(px, py, pz);
+					net.addBlock(point);
 				}
 			}
 		}
 	}
 
 	public static void removeBlock(BlockChangeInfo blockChanged) {
-		int x = blockChanged.pos.x;
-		int y = blockChanged.pos.y;
-		int z = blockChanged.pos.z;
+		Vec3i pos = blockChanged.pos.copy();
 		World world = blockChanged.world;
 
 		Set<Network> nets = NETS.get(world.dimension.id);
@@ -210,14 +197,14 @@ public class NetworkManager {
 
 		Network target = null;
 		for (Network net : nets) {
-			if (net.existsOnPos(x, y, z)) {
+			if (net.existsOnPos(pos)) {
 				target = net;
 				break;
 			}
 		}
 
 		if (target != null) {
-			List<? extends Network> sideNets = target.removeBlock(x, y, z);
+			List<? extends Network> sideNets = target.removeBlock(pos);
 			if (sideNets != null) {
 				nets.remove(target);
 				nets.addAll(sideNets);
@@ -267,8 +254,8 @@ public class NetworkManager {
 		}
 	}
 
-	public static boolean canBeNet(WorldSource world, int x, int y, int z) {
-		Block<?> block = Blocks.blocksList[world.getBlockId(x, y, z)];
+	public static boolean canBeNet(WorldSource world, Vec3i pos) {
+		Block<?> block = pos.getBlock(world);
 		return canBeNet(block);
 	}
 
@@ -276,11 +263,11 @@ public class NetworkManager {
 		return Block.hasLogicClass(block, NetworkComponent.class);
 	}
 
-	public static Network getNet(World world, int x, int y, int z) {
+	public static Network getNet(World world, Vec3i pos) {
 		Set<Network> nets = NETS.get(world.dimension.id);
 		if (nets != null) {
 			for (Network net : nets) {
-				if (net.existsOnPos(x, y, z)) {
+				if (net.existsOnPos(pos)) {
 					return net;
 				}
 			}

@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.core.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.block.Block;
-import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.world.Dimension;
 import net.minecraft.core.world.World;
@@ -74,6 +73,14 @@ public abstract class WorldMixin implements IAbsoluteWorldTime {
 
 	@Inject(method = "setBlockTypeData", at = @At("RETURN"))
 	public void setBlockAndMetadata(@NotNull TilePosc tilePos, @NotNull Block<?> block, int data, CallbackInfoReturnable<Boolean> cir) {
+		Catalyst.ANY_BLOCK_CHANGED_SIGNAL.emit(new BlockChangeInfo(thisAs, new Vec3i(tilePos), block, data));
+		if (getTileEntity(tilePos) != null || block.id() == 0) {
+			Catalyst.TILE_ENTITY_BLOCK_CHANGED_SIGNAL.emit(new BlockChangeInfo(thisAs, new Vec3i(tilePos), block, getBlockData(tilePos)));
+		}
+	}
+
+	@Inject(method = "setBlockTypeDataRaw", at = @At("RETURN"))
+	public void setBlockTypeDataRaw(@NotNull TilePosc tilePos, @NotNull Block<?> block, int data, CallbackInfoReturnable<Boolean> cir) {
 		Catalyst.ANY_BLOCK_CHANGED_SIGNAL.emit(new BlockChangeInfo(thisAs, new Vec3i(tilePos), block, data));
 		if (getTileEntity(tilePos) != null || block.id() == 0) {
 			Catalyst.TILE_ENTITY_BLOCK_CHANGED_SIGNAL.emit(new BlockChangeInfo(thisAs, new Vec3i(tilePos), block, getBlockData(tilePos)));

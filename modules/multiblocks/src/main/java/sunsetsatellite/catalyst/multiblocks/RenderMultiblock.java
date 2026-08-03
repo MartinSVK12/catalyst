@@ -13,7 +13,6 @@ import net.minecraft.client.render.tileentity.TileEntityRenderer;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.util.helper.LightIndexHelper;
 import net.minecraft.core.world.World;
-import net.minecraft.core.world.pos.TilePosc;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.HologramWorld;

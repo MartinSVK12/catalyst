@@ -3,7 +3,6 @@ package sunsetsatellite.catalyst.screens.component.option;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ItemElement;
 import net.minecraft.client.gui.options.ScreenOptions;
-import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.core.item.ItemStack;
 import net.minecraft.core.lang.I18n;
@@ -11,9 +10,7 @@ import net.minecraft.core.sound.SoundCategory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PropertyCategory implements OptionsComponent {

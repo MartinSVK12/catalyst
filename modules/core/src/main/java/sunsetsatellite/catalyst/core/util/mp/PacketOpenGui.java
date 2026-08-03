@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.entity.TileEntity;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.Catalyst;
-import sunsetsatellite.catalyst.core.util.mp.entry.GuiEntryClient;
 import sunsetsatellite.catalyst.core.util.mp.entry.ItemGuiEntry;
 import sunsetsatellite.catalyst.core.util.mp.entry.TileDataGuiEntry;
 import sunsetsatellite.catalyst.core.util.mp.entry.TileGuiEntry;

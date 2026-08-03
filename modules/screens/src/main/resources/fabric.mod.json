@@ -21,15 +21,6 @@
 		],
 		"client": [
 			"sunsetsatellite.catalyst.CatalystScreensClient"
-		],
-		"beforeClientStart": [
-			"sunsetsatellite.catalyst.CatalystScreensClient"
-		],
-		"afterClientStart": [
-			"sunsetsatellite.catalyst.CatalystScreensClient"
-		],
-		"initOptions": [
-			"sunsetsatellite.catalyst.CatalystScreensClient"
 		]
 	},
 	"mixins": [
@@ -38,7 +29,7 @@
 	"depends": {
 		"fabricloader": ">=${loader}",
 		"catalyst-core": ">=${core}",
-		"minecraft": "~8.0-beta.1"
+		"minecraft": "~8.0"
 	},
 	"suggests": {
 	},

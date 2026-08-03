@@ -18,8 +18,8 @@ public class PlayerControllerMixin implements FluidPickupController {
 	public FluidStack catalyst$fluidPickUpFromInventory(int i, int j, int k, boolean flag, boolean control, Player player) {
 		if (player.containerMenu instanceof MenuFluid) {
 			return ((MenuFluid) player.containerMenu).clickFluidSlot(j, k, flag, control, player);
-		} /*else if (player.craftingInventory instanceof ContainerItemFluid) {
-            return ((ContainerItemFluid) entityplayer.craftingInventory).clickFluidSlot(j, k, flag, control, entityplayer);
+		} /*else if (player.containerMenu instanceof ContainerItemFluid) {
+            return ((ContainerItemFluid) entityplayer.containerMenu).clickFluidSlot(j, k, flag, control, entityplayer);
         }*/
 		return null;
 	}

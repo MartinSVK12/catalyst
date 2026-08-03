@@ -11,36 +11,31 @@ import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
 import sunsetsatellite.catalyst.fluids.util.Fluids;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.event.defs.CommonEvents;
 import turniplabs.halplibe.helper.network.NetworkHandler;
-import turniplabs.halplibe.util.BlockInitEntrypoint;
-import turniplabs.halplibe.util.GameStartEntrypoint;
+import turniplabs.halplibe.util.dependency.Key;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CatalystFluids implements ModInitializer, GameStartEntrypoint, BlockInitEntrypoint {
+public class CatalystFluids implements ModInitializer {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-fluids", true);
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
 	public void onInitialize() {
+		CommonEvents.AFTER_BLOCK_INIT.listen(Key.of(MOD_ID), this::afterBlockInit);
+		CommonEvents.AFTER_GAME_START.listen(Key.of(MOD_ID), this::afterGameStart);
 		NetworkHandler.registerNetworkMessage(PacketFluidWindowClick::new);
 		NetworkHandler.registerNetworkMessage(PacketSetFluidSlot::new);
 	}
 
-	@Override
-	public void beforeGameStart() {
-
-	}
-
-	@Override
 	public void afterGameStart() {
 		LOGGER.info("{} fluid types registered.", Fluid.fluidMap.size());
 		LOGGER.info("Catalyst: Fluids initialized.");
 	}
 
-	@Override
 	public void afterBlockInit() {
 		Fluids.init();
 	}

@@ -8,14 +8,10 @@ import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.options.components.BooleanToggleComponent;
-import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.components.ToggleableOptionComponent;
 import net.minecraft.client.option.OptionEnum;
-import net.minecraft.client.render.renderer.BlendFactor;
 import net.minecraft.client.render.renderer.GLRenderer;
-import net.minecraft.client.render.renderer.Shaders;
-import net.minecraft.client.render.renderer.State;
 import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
@@ -24,9 +20,8 @@ import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
 import sunsetsatellite.catalyst.screens.util.Colors;
 import sunsetsatellite.catalyst.screens.util.TextAlign;
 
-import java.util.*;
-import java.util.function.Supplier;
-
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class TextComponent extends GuiComponent {

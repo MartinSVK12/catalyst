@@ -4,22 +4,37 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.render.Lighting;
 import net.minecraft.client.render.RenderGlobal;
+import net.minecraft.client.render.block.model.BlockModel;
+import net.minecraft.client.render.block.model.BlockModelDispatcher;
 import net.minecraft.client.render.camera.ICamera;
-import net.minecraft.client.render.renderer.DrawMode;
-import net.minecraft.client.render.renderer.GLRenderer;
+import net.minecraft.client.render.renderer.*;
 import net.minecraft.client.render.tessellator.Tessellator;
+import net.minecraft.client.render.tessellator.TessellatorGeneral;
+import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.client.world.WorldClient;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
+import net.minecraft.core.util.helper.LightIndexHelper;
 import net.minecraft.core.world.pos.TilePosc;
 import org.joml.primitives.AABBd;
 import org.joml.primitives.AABBdc;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.Catalyst;
+import sunsetsatellite.catalyst.CatalystClient;
+import sunsetsatellite.catalyst.core.util.network.Network;
+import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.section.ISideInteractable;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
+
+import java.util.Set;
 
 @Mixin(value = RenderGlobal.class, remap = false)
 public class RenderGlobalMixin {
@@ -261,61 +276,43 @@ public class RenderGlobalMixin {
 		}
 	}
 
-	/*@Unique
-	private RenderBlocks blockRenderer;
-
 	@Inject(method = "renderEntities", at = @At("TAIL"))
 	public void renderWorld(ICamera camera, float partialTick, CallbackInfo ci) {
-		if (((IKeybinds) mc.gameSettings).getNetworkRenderOption().value) {
-			double x = camera.getX(partialTick);
-			double y = camera.getY(partialTick);
-			double z = camera.getZ(partialTick);
-			Set<Network> nets = NetworkManager.getNetsForDimension(worldObj.dimension.id);
-			ArrayList<BlockInstance> list = new ArrayList<>();
+		double x = camera.getX(partialTick);
+		double y = camera.getY(partialTick);
+		double z = camera.getZ(partialTick);
+		if(CatalystClient.networkRenderOption.value){
+			Set<Network> nets = NetworkManager.getNetsForDimension(world.dimension.id);
 			for (Network net : nets) {
 				for (Vec3i position : net.getPositions()) {
-					list.add(new BlockInstance(Blocks.SAND, position, null));
-				}
-			}
-			blockRenderer = new RenderBlocks(new HologramWorld(list));
-			for (Network net : nets) {
-				for (Vec3i position : net.getPositions()) {
-					GL11.glPushMatrix();
-					GL11.glDisable(GL11.GL_LIGHTING);
-					//GL11.glDisable(GL11.GL_DEPTH_TEST);
 					BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(Blocks.SAND);
-					GL11.glTranslated(position.x - x + 0.5f, position.y - y + 0.5f, position.z - z + 0.5f);
-					((IFullbright) model).enableFullbright();
-					((IColorOverride) model).enableColorOverride();
-					((IColorOverride) model).overrideColor(net.getColor().getRed() / 255f, net.getColor().getGreen() / 255f, net.getColor().getBlue() / 255f, 0.5f);
-					GL11.glScalef(1.01f, 1.01f, 1.01f);
-					drawBlock(Tessellator.instance,
-						model
-					);
-					((IColorOverride) model).disableColorOverride();
-					((IFullbright) model).disableFullbright();
-					GL11.glEnable(GL11.GL_LIGHTING);
-					//GL11.glEnable(GL11.GL_DEPTH_TEST);
-					GL11.glPopMatrix();
-
+					GLRenderer.pushFrame();
+					GLRenderer.setColor1i(net.color.value);
+					Lighting.disable();
+					GLRenderer.modelM4f().translate((float) (position.x - x + 0.5f), (float) (position.y - y + 0.5f), (float) (position.z - z + 0.5f));
+					GLRenderer.modelM4f().scale(1.1f, 1.1f, 1.1f);
+					drawBlock(GLRenderer.getTessellator(),
+						model,
+						0, 1);
+					Lighting.enableLight();
+					GLRenderer.popFrame();
 				}
 			}
 		}
 	}
 
 	@Unique
-	private void drawBlock(Tessellator tessellator, BlockModel<?> model) {
-		TextureRegistry.blockAtlas.bind();
-		GL11.glPushMatrix();
-		RenderBlocks renderBlocks = BlockModel.renderBlocks;
-		BlockModel.setRenderBlocks(blockRenderer);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		model.renderBlockOnInventory(tessellator, 0, 1, null);
-		BlockModel.setRenderBlocks(renderBlocks);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_CULL_FACE);
-	}*/
+	public void drawBlock(TessellatorGeneral t, BlockModel<?> model, int meta, float alpha) {
+		TextureRegistry.worldAtlas.bind();
+		GLRenderer.pushFrame();
+		GLRenderer.setShader(Shaders.WORLD);
+		GLRenderer.enableState(State.BLEND);
+		GLRenderer.setBlendFunc(BlendFactor.SRC_ALPHA, BlendFactor.ONE_MINUS_SRC_ALPHA);
+		model.renderStandalone(t, meta, LightIndexHelper.lightIndex2i(15,15));
+		GLRenderer.setColor4f(1,1,1,1);
+		GLRenderer.disableState(State.BLEND);
+		GLRenderer.popFrame();
+		GLRenderer.enableState(State.CULL_FACE);
+	}
 
 }

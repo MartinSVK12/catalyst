@@ -6,7 +6,6 @@ import sunsetsatellite.catalyst.screens.util.SlotType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public final class SlotServerComponent extends ServerComponent {
 	private int index;

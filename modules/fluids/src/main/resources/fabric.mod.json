@@ -18,14 +18,8 @@
 		"main": [
 			"sunsetsatellite.catalyst.CatalystFluids"
 		],
-		"afterGameStart": [
-			"sunsetsatellite.catalyst.CatalystFluids"
-		],
 		"gatherTMBPlugins": [
 			"sunsetsatellite.catalyst.fluids.api.impl.tmb.TMBFluidPlugin"
-		],
-		"afterBlockInit": [
-			"sunsetsatellite.catalyst.CatalystFluids"
 		]
 	},
 	"mixins": [
@@ -34,7 +28,7 @@
 	"depends": {
 		"fabricloader": ">=${loader}",
 		"catalyst-core": ">=${core}",
-		"minecraft": "~8.0-beta.1"
+		"minecraft": "~8.0"
 	},
 	"suggests": {
 	},

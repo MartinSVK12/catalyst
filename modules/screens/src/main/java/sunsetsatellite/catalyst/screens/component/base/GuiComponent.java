@@ -23,9 +23,6 @@ import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent;
-import sunsetsatellite.catalyst.screens.component.server.ServerComponent;
-import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
-import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 import sunsetsatellite.catalyst.screens.util.GuiComponents;
 
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
 
 
 public abstract class GuiComponent extends HudComponentMovable implements IGuiComponent {

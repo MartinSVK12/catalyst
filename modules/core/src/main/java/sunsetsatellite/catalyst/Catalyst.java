@@ -40,7 +40,7 @@ public class Catalyst implements ModInitializer {
 
 	public static final Registry<GuiEntry<?,?>> GUIS = new Registry<>();
 
-	public static final Signal<BlockChangeInfo> TILE_ENTITY_BLOCK_CHANGED_SIGNAL = new Signal<>("tile_ebtuty_block_changed");
+	public static final Signal<BlockChangeInfo> TILE_ENTITY_BLOCK_CHANGED_SIGNAL = new Signal<>("tile_entity_block_changed");
 	public static final Signal<BlockChangeInfo> ANY_BLOCK_CHANGED_SIGNAL = new Signal<>("any_block_changed");
 	public static final Signal<LevelStorage> WORLD_LOAD_SIGNAL = new Signal<>("world_load");
 	public static final Signal<World> WORLD_QUIT_SIGNAL = new Signal<>("world_quit");

@@ -11,7 +11,6 @@ import net.minecraft.client.render.renderer.State;
 import net.minecraft.core.net.command.TextFormatting;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.input.Keyboard;
-import sunsetsatellite.catalyst.CatalystEffectsClient;
 import sunsetsatellite.catalyst.effects.Options;
 import sunsetsatellite.catalyst.effects.api.attribute.Attribute;
 import sunsetsatellite.catalyst.effects.api.attribute.type.NumberAttribute;

@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.effects;
 
 import net.minecraft.client.option.OptionBoolean;
 import net.minecraft.client.option.OptionEnum;
-import org.spongepowered.asm.mixin.Unique;
 import sunsetsatellite.catalyst.effects.api.effect.options.EffectDisplayPlace;
 import sunsetsatellite.catalyst.effects.api.effect.options.EffectExtraHealthDisplayStyle;
 

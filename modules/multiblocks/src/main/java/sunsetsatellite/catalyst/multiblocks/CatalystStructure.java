@@ -9,7 +9,7 @@ import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import sunsetsatellite.catalyst.core.util.BlockInstance;
 
-import java.util.*;
+import java.util.Optional;
 
 /**
  * Wrapper for vanilla BTA! structure format.

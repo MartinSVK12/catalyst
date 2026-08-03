@@ -5,7 +5,6 @@ import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.Nullable;
 import sunsetsatellite.catalyst.screens.component.*;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
-import sunsetsatellite.catalyst.screens.component.base.IGuiComponent;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -20,7 +20,7 @@
 
   "depends": {
 		"fabricloader": ">=${loader}",
-		"minecraft": "~8.0-beta.1",
+		"minecraft": "~8.0",
 		"java": ">=${java}"
 	},
   "suggests": {

@@ -3,7 +3,6 @@ package sunsetsatellite.catalyst.fluids.mixin;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.item.ItemBucket;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.item.Items;
 import net.minecraft.core.util.collection.NamespaceID;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;

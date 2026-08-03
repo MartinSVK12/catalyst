@@ -132,7 +132,7 @@ public class EffectContainer<T> {
 	}
 
 	private void syncEffectContainer() {
-		if (EnvironmentHelper.isServerEnvironment()) {
+		if (EnvironmentHelper.isMultiplayerServer()) {
 			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) this.getParent()));
 		}
 	}

@@ -134,7 +134,7 @@ public class EffectStack {
 	}
 
 	private static <T> void syncEffectsStack(EffectContainer<T> effectContainer) {
-		if (EnvironmentHelper.isServerEnvironment()) {
+		if (EnvironmentHelper.isMultiplayerServer()) {
 			NetworkHandler.sendToAllPlayers(new SyncEffectContainerForEntityNetworkMessage((Entity) effectContainer.getParent()));
 		}
 	}

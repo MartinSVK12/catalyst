@@ -2,10 +2,8 @@ package sunsetsatellite.catalyst.screens.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.hud.HudIngame;
-import net.minecraft.client.gui.popup.PopupBuilder;
 import net.minecraft.core.entity.player.Player;
 import net.minecraft.core.item.ItemStack;
-import net.minecraft.core.player.inventory.container.Container;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +16,6 @@ import sunsetsatellite.catalyst.CatalystScreensClient;
 import sunsetsatellite.catalyst.fluids.util.Fluid;
 import sunsetsatellite.catalyst.fluids.util.FluidItemContainer;
 import sunsetsatellite.catalyst.fluids.util.FluidStack;
-import sunsetsatellite.catalyst.screens.screen.ScreenComposed;
 import sunsetsatellite.catalyst.screens.screen.ScreenComposedContainer;
 
 import java.util.ArrayList;

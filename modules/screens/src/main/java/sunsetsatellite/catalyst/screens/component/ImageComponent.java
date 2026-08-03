@@ -14,11 +14,8 @@ import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent
 import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
 import sunsetsatellite.catalyst.screens.util.Colors;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Supplier;
-
 
 
 public class ImageComponent extends GuiComponent {

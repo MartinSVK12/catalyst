@@ -1,9 +1,7 @@
 package sunsetsatellite.catalyst.screens.screen;
 
 import com.mojang.nbt.tags.CompoundTag;
-import net.minecraft.client.gui.container.ScreenContainerAbstract;
 import net.minecraft.client.render.renderer.GLRenderer;
-import net.minecraft.core.player.inventory.container.Container;
 import net.minecraft.core.player.inventory.container.ContainerInventory;
 import sunsetsatellite.catalyst.CatalystScreens;
 import sunsetsatellite.catalyst.CatalystScreensClient;
@@ -15,7 +13,6 @@ import sunsetsatellite.catalyst.screens.component.base.HasServerComponent;
 import sunsetsatellite.catalyst.screens.menu.MenuComposed;
 
 import java.util.*;
-import java.util.List;
 
 public class ScreenComposedContainer extends ScreenFluid {
 

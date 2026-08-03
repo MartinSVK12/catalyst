@@ -9,12 +9,13 @@ import sunsetsatellite.catalyst.effects.api.effect.EffectTags;
 import sunsetsatellite.catalyst.effects.api.effect.Effects;
 import sunsetsatellite.catalyst.effects.net.SyncEffectContainerForEntityNetworkMessage;
 import turniplabs.halplibe.HalpLibe;
+import turniplabs.halplibe.event.defs.CommonEvents;
 import turniplabs.halplibe.helper.network.NetworkHandler;
-import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
+import turniplabs.halplibe.util.dependency.Key;
 import turniplabs.halplibe.util.toml.Toml;
 
-public class CatalystEffects implements ModInitializer, GameStartEntrypoint {
+public class CatalystEffects implements ModInitializer {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-effects");
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final TomlConfigHandler config;
@@ -26,16 +27,11 @@ public class CatalystEffects implements ModInitializer, GameStartEntrypoint {
 
 	@Override
 	public void onInitialize() {
+		CommonEvents.AFTER_GAME_START.listen(Key.of(MOD_ID),this::afterGameStart);
 		NetworkHandler.registerNetworkMessage(SyncEffectContainerForEntityNetworkMessage::new);
 		EffectTags.assignTags();
 	}
 
-	@Override
-	public void beforeGameStart() {
-
-	}
-
-	@Override
 	public void afterGameStart() {
 		Registries.getInstance().register("catalyst:effects", Effects.getInstance());
 		Registries.getInstance().register("catalyst:attributes", Attributes.getInstance());

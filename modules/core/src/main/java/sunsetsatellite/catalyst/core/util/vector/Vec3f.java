@@ -3,11 +3,9 @@ package sunsetsatellite.catalyst.core.util.vector;
 import com.mojang.nbt.tags.CompoundTag;
 import net.minecraft.core.util.helper.Axis;
 import net.minecraft.core.util.helper.MathHelper;
-import net.minecraft.core.world.pos.TilePos;
 import net.minecraft.core.world.pos.TilePosc;
-import org.joml.*;
-
-import java.lang.Math;
+import org.joml.Vector3d;
+import org.joml.Vector3dc;
 
 public class Vec3f {
 	public double x;

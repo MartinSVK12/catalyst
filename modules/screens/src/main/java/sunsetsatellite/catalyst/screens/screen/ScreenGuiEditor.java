@@ -9,7 +9,6 @@ import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.hud.component.layout.LayoutSnap;
 import net.minecraft.client.gui.options.ScreenOptions;
 import net.minecraft.client.gui.options.components.KeyBindingComponent;
-import net.minecraft.client.gui.options.components.OptionsCategory;
 import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.data.OptionsPage;
 import net.minecraft.client.gui.popup.PopupBuilder;
@@ -30,8 +29,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import sunsetsatellite.catalyst.screens.component.base.ComponentPicker;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
-import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
-import sunsetsatellite.catalyst.screens.component.option.TextFieldComponent;
 import sunsetsatellite.catalyst.screens.util.Colors;
 import sunsetsatellite.catalyst.screens.util.Options;
 

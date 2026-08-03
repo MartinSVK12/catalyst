@@ -18,20 +18,11 @@
 		"main": [
 			"sunsetsatellite.catalyst.CatalystEffects"
 		],
-		"afterGameStart": [
-			"sunsetsatellite.catalyst.CatalystEffects"
-		],
-		"beforeClientStart": [
-			"sunsetsatellite.catalyst.CatalystEffectsClient"
-		],
-		"afterClientStart": [
+		"client": [
 			"sunsetsatellite.catalyst.CatalystEffectsClient"
 		],
 		"server": [
 			"sunsetsatellite.catalyst.CatalystEffectsServer"
-		],
-		"initOptions": [
-			"sunsetsatellite.catalyst.CatalystEffectsClient"
 		]
 	},
 	"mixins": [
@@ -40,7 +31,7 @@
 	"depends": {
 		"fabricloader": ">=${loader}",
 		"catalyst-core": ">=${core}",
-		"minecraft": "~8.0-beta.1"
+		"minecraft": "~8.0"
 	},
 	"suggests": {
 	},

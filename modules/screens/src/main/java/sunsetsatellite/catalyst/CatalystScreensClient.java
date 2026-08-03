@@ -4,40 +4,29 @@ import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.Tag;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.hud.component.HudComponent;
 import net.minecraft.client.gui.options.components.KeyBindingComponent;
 import net.minecraft.client.gui.options.components.OptionsCategory;
-import net.minecraft.client.gui.options.components.OptionsComponent;
 import net.minecraft.client.gui.options.components.ShortcutComponent;
 import net.minecraft.client.gui.options.data.OptionsPages;
 import net.minecraft.client.input.InputDevice;
 import net.minecraft.client.option.GameSettings;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.option.Option;
 import org.lwjgl.input.Keyboard;
-import sunsetsatellite.catalyst.screens.component.*;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
-import sunsetsatellite.catalyst.screens.util.GuiComponents;
 import sunsetsatellite.catalyst.screens.util.Options;
-import turniplabs.halplibe.util.ClientStartEntrypoint;
-import turniplabs.halplibe.util.OptionsInitEntrypoint;
+import turniplabs.halplibe.event.defs.ClientEvents;
+import turniplabs.halplibe.util.dependency.Key;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
-public class CatalystScreensClient implements ClientModInitializer, ClientStartEntrypoint, OptionsInitEntrypoint {
+public class CatalystScreensClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-
+		GameSettings.register(testKey);
+		ClientEvents.AFTER_CLIENT_START.listen(Key.of(CatalystScreens.MOD_ID), this::afterClientStart);
 	}
 
-	@Override
-	public void beforeClientStart() {
-
-	}
-
-	@Override
 	public void afterClientStart() {
 		Minecraft mc = Minecraft.getMinecraft();
 		((OptionsCategory) OptionsPages.GENERAL.getComponents().get(1)).withComponent(new ShortcutComponent("gui.options.page.general.button.edit_gui", () -> mc.displayScreen(new ScreenGuiEditor(mc.currentScreen))));
@@ -75,9 +64,4 @@ public class CatalystScreensClient implements ClientModInitializer, ClientStartE
 	}
 
 	public static KeyBinding testKey = new KeyBinding(CatalystScreens.MOD_ID+".key.test").bind(InputDevice.keyboard, Keyboard.KEY_NUMPAD1).setDefault(InputDevice.keyboard, Keyboard.KEY_NUMPAD1);
-
-	@Override
-	public void initOptions() {
-		GameSettings.register(testKey);
-	}
 }

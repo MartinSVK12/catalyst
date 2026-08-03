@@ -13,7 +13,6 @@ import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.screens.component.base.GuiComponent;
 import sunsetsatellite.catalyst.screens.component.option.PropertyCategory;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;

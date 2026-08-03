@@ -7,12 +7,11 @@ import net.minecraft.core.data.tag.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import turniplabs.halplibe.HalpLibe;
-import turniplabs.halplibe.util.GameStartEntrypoint;
 import turniplabs.halplibe.util.TomlConfigHandler;
 import turniplabs.halplibe.util.toml.Toml;
 
 
-public class CatalystEnergy implements ModInitializer, GameStartEntrypoint {
+public class CatalystEnergy implements ModInitializer {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-energy", true);
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final TomlConfigHandler config;
@@ -32,20 +31,9 @@ public class CatalystEnergy implements ModInitializer, GameStartEntrypoint {
 
 	@Override
 	public void onInitialize() {
-
 		BlockTags.TAG_LIST.add(ENERGY_CONDUITS_CONNECT);
 		BlockTags.TAG_LIST.add(WIRES_CONNECT);
 
 		LOGGER.info("Catalyst: Energy initialized.");
-	}
-
-	@Override
-	public void beforeGameStart() {
-
-	}
-
-	@Override
-	public void afterGameStart() {
-
 	}
 }

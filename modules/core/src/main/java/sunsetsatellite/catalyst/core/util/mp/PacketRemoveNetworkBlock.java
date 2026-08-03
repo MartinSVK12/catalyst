@@ -45,13 +45,14 @@ public class PacketRemoveNetworkBlock implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if (EnvironmentHelper.isClientWorld()) {
+		if (EnvironmentHelper.isMultiplayerClient()) {
 			if (context.player.world.dimension.id == dim) {
-				Network net = NetworkManager.getNet(context.player.world, x, y, z);
+				Vec3i v = new Vec3i(x, y, z);
+				Network net = NetworkManager.getNet(context.player.world, v);
 				if (net != null) {
 					net.update();
 				}
-				NetworkManager.removeBlock(new BlockChangeInfo(context.player.world, new Vec3i(x, y, z), Blocks.AIR, 0));
+				NetworkManager.removeBlock(new BlockChangeInfo(context.player.world, v, Blocks.AIR, 0));
 			}
 		}
 	}

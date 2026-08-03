@@ -50,7 +50,7 @@ public class PacketScreenAction implements NetworkMessage {
 
 	@Override
 	public void handle(NetworkContext context) {
-		if (EnvironmentHelper.isServerEnvironment()) {
+		if (EnvironmentHelper.isMultiplayerServer()) {
 			TileEntity tileEntity = context.player.world.getTileEntity(pos.x, pos.y, pos.z);
 			if (tileEntity instanceof IScreenActionListener && tileEntity.worldObj != null) {
 				((IScreenActionListener) tileEntity).buttonClicked(id, button, channel);

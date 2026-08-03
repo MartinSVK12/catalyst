@@ -8,7 +8,6 @@ import net.minecraft.client.gui.hud.component.ComponentAnchor;
 import net.minecraft.client.gui.hud.component.layout.Layout;
 import net.minecraft.client.gui.hud.component.layout.LayoutAbsolute;
 import net.minecraft.client.gui.options.components.OptionsComponent;
-import net.minecraft.client.render.Scissor;
 import net.minecraft.client.render.renderer.GLRenderer;
 import sunsetsatellite.catalyst.CatalystScreens;
 import sunsetsatellite.catalyst.CatalystScreensClient;
@@ -21,8 +20,6 @@ import sunsetsatellite.catalyst.screens.screen.ScreenGuiEditor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.function.Supplier;
-
 
 
 public class SubsceneComponent extends GuiComponent {

@@ -17,7 +17,6 @@ import sunsetsatellite.catalyst.screens.component.option.BasicTextFieldComponent
 import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
 import sunsetsatellite.catalyst.screens.util.SlotType;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 

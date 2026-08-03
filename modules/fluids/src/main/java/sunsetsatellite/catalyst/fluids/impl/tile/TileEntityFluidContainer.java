@@ -301,7 +301,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 	}
 
 	public void moveFluids(Direction dir, TileEntityFluidPipe tile) {
-		if (EnvironmentHelper.isClientWorld()) return;
+		if (EnvironmentHelper.isMultiplayerClient()) return;
 		int activeSlot = activeFluidSlots.get(dir);
 		if (activeSlot == -1) return;
 		if (fluidConnections.get(dir) == Connection.BOTH || fluidConnections.get(dir) == Connection.OUTPUT) {
@@ -316,7 +316,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 	}
 
 	public void extractFluids() {
-		if (EnvironmentHelper.isClientWorld()) return;
+		if (EnvironmentHelper.isMultiplayerClient()) return;
 		for (Map.Entry<Direction, Connection> e : fluidConnections.entrySet()) {
 			Direction dir = e.getKey();
 			TileEntity tile = dir.getTileEntity(worldObj, this);
