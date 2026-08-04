@@ -49,10 +49,8 @@ public class NetworkManager {
 				return;
 			}
 			if (blockChanged.block.id() == 0) {
-				NetworkHandler.sendToAllPlayers(new PacketRemoveNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.world.dimension.id));
 				removeBlock(blockChanged);
 			} else {
-				NetworkHandler.sendToAllPlayers(new PacketAddNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.block.id(), blockChanged.meta, blockChanged.world.dimension.id));
 				addBlock(blockChanged);
 			}
 		}
@@ -183,6 +181,8 @@ public class NetworkManager {
 				}
 			}
 		}
+
+		NetworkHandler.sendToAllPlayers(new PacketAddNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.block.id(), blockChanged.meta, blockChanged.world.dimension.id));
 	}
 
 	public static void removeBlock(BlockChangeInfo blockChanged) {
@@ -205,6 +205,7 @@ public class NetworkManager {
 
 		if (target != null) {
 			List<? extends Network> sideNets = target.removeBlock(pos);
+			NetworkHandler.sendToAllPlayers(new PacketRemoveNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.world.dimension.id));
 			if (sideNets != null) {
 				nets.remove(target);
 				nets.addAll(sideNets);

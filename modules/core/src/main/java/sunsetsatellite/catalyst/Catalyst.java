@@ -298,7 +298,7 @@ public class Catalyst implements ModInitializer {
 	}
 
 	public static String translateDescKey(String s){
-		return I18n.getInstance().translateKey(s+".name");
+		return I18n.getInstance().translateKey(s+".desc");
 	}
 
 	public static int parseIntSafe(String string) {

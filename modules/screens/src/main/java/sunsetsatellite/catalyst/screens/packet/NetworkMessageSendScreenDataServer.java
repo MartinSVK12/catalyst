@@ -6,15 +6,15 @@ import sunsetsatellite.catalyst.screens.menu.MenuComposed;
 import turniplabs.halplibe.helper.network.NetworkMessage;
 import turniplabs.halplibe.helper.network.UniversalPacket;
 
-public class NetworkMessageSendServerData implements NetworkMessage {
+public class NetworkMessageSendScreenDataServer implements NetworkMessage {
 
 	public CompoundTag tag;
 
-	public NetworkMessageSendServerData(CompoundTag tag) {
+	public NetworkMessageSendScreenDataServer(CompoundTag tag) {
 		this.tag = tag;
 	}
 
-	public NetworkMessageSendServerData() {
+	public NetworkMessageSendScreenDataServer() {
 	}
 
 	@Override

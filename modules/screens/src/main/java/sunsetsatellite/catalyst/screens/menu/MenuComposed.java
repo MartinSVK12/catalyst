@@ -15,6 +15,9 @@ import sunsetsatellite.catalyst.fluids.util.SlotFluid;
 import sunsetsatellite.catalyst.screens.component.server.InventoryServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotGridServerComponent;
 import sunsetsatellite.catalyst.screens.component.server.SlotServerComponent;
+import sunsetsatellite.catalyst.screens.packet.NetworkMessageSendScreenDataServer;
+import turniplabs.halplibe.helper.EnvironmentHelper;
+import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.util.Comparator;
 import java.util.List;
@@ -92,7 +95,10 @@ public class MenuComposed extends MenuFluid {
 					addFluidSlot(new SlotFluid(fluidInventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
 				}
 			}
+		}
 
+		if(EnvironmentHelper.isMultiplayerClient()){
+			NetworkHandler.sendToServer(new NetworkMessageSendScreenDataServer(tag));
 		}
 	}
 
