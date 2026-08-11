@@ -97,7 +97,7 @@ subprojects {
 				}
 			}
 			destinationDirectory.set(file("$rootDir/jars"))
-			archiveVersion.set(archiveVersion.get()+"-${lib.findVersion("bta").get()}")
+			archiveVersion.set(archiveVersion.get()+"+${lib.findVersion("bta").get().toString().replace("v","")}")
 		}
 	}
 }
