@@ -1,6 +1,7 @@
 package sunsetsatellite.catalyst;
 
 import com.mojang.nbt.tags.CompoundTag;
+import com.mojang.nbt.tags.ListTag;
 import com.mojang.nbt.tags.Tag;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.block.Block;
@@ -184,6 +185,19 @@ public class Catalyst implements ModInitializer {
 					.map(pair -> tagOf(pair.getLeft(), pair.getRight()))
 					.toArray(Tag[]::new))
 		);
+		return tag;
+	}
+
+	@SafeVarargs
+	public static <T> ListTag listTagOf(T... elements){
+		ListTag tag = new ListTag();
+		Arrays.stream(elements).map(Catalyst::tagOf).forEach(tag::addTag);
+		return tag;
+	}
+
+	public static <T> ListTag listTagOf(List<T> elements){
+		ListTag tag = new ListTag();
+		elements.stream().map(Catalyst::tagOf).forEach(tag::addTag);
 		return tag;
 	}
 
