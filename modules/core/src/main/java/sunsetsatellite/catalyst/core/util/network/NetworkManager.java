@@ -13,6 +13,7 @@ import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.core.util.mp.PacketAddNetworkBlock;
 import sunsetsatellite.catalyst.core.util.mp.PacketRemoveNetworkBlock;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
+import turniplabs.halplibe.helper.EnvironmentHelper;
 import turniplabs.halplibe.helper.network.NetworkHandler;
 
 import java.io.File;
@@ -182,7 +183,9 @@ public class NetworkManager {
 			}
 		}
 
-		NetworkHandler.sendToAllPlayers(new PacketAddNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.block.id(), blockChanged.meta, blockChanged.world.dimension.id));
+		if(EnvironmentHelper.isMultiplayerServer()){
+			NetworkHandler.sendToAllPlayers(new PacketAddNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.block.id(), blockChanged.meta, blockChanged.world.dimension.id));
+		}
 	}
 
 	public static void removeBlock(BlockChangeInfo blockChanged) {
@@ -205,7 +208,9 @@ public class NetworkManager {
 
 		if (target != null) {
 			List<? extends Network> sideNets = target.removeBlock(pos);
-			NetworkHandler.sendToAllPlayers(new PacketRemoveNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.world.dimension.id));
+			if(EnvironmentHelper.isMultiplayerServer()){
+				NetworkHandler.sendToAllPlayers(new PacketRemoveNetworkBlock(blockChanged.pos.x, blockChanged.pos.y, blockChanged.pos.z, blockChanged.world.dimension.id));
+			}
 			if (sideNets != null) {
 				nets.remove(target);
 				nets.addAll(sideNets);
