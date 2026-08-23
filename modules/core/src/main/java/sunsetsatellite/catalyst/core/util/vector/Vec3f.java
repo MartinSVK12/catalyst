@@ -180,6 +180,13 @@ public class Vec3f {
 		return z == vec3I.z;
 	}
 
+	public Vec3f set(double x, double y, double z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		return this;
+	}
+
 	public Vec3f set(Axis axis, double value) {
 		return switch (axis) {
 			case X -> {

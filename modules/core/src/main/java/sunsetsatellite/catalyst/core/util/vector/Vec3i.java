@@ -73,11 +73,17 @@ public class Vec3i {
 		return MathHelper.sqrt(d * d + d1 * d1 + d2 * d2);
 	}
 
-	public void set(int x, int y, int z) {
+	public Vec3i set(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.pos.set(x,y,z);
+		return this;
+	}
+
+	public Vec3i set(TilePosc pos){
+		this.set(pos.x(), pos.y(), pos.z());
+		return this;
 	}
 
 	public Vec3i add(int value) {
