@@ -108,10 +108,12 @@ fun checkVersion(group: String, name: String, version: String): Boolean {
 			System.err.println("Version $version of $group.$name already exists!")
 			false
 		} else {
+			System.out.println("Version $version of $group.$name ready to release!")
 			true
 		}
 	} catch (e: IOException) {
-		System.err.println(e.message)
+		System.err.println("Failed to check version for $group.$name!")
+		e.printStackTrace()
 		true
 	}
 }

@@ -112,7 +112,8 @@ fun checkVersion(group: String, name: String, version: String): Boolean {
 			true
 		}
 	} catch (e: IOException) {
-		System.err.println(e.message)
+		System.err.println("Failed to check version for $group.$name!")
+		e.printStackTrace()
 		true
 	}
 }

@@ -5,6 +5,8 @@
 loom = "1.15-SNAPSHOT"
 # Check this on https://plugins.gradle.org/plugin/com.smushytaco.lwjgl3/
 lwjglPlugin = "1.0.2"
+# Check this on https://plugins.gradle.org/plugin/com.modrinth.minotaur/
+minotaur = "2.9.0"
 ##########################################################################
 # Java Configuration
 # The Java version the JDK will be for compiling and running code.
@@ -60,3 +62,4 @@ clientJar = { group = "objects", name = "client", version = "43db9b498cb67058d2e
 [plugins]
 loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }
 lwjgl = { id = "com.smushytaco.lwjgl3", version.ref = "lwjglPlugin" }
+minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
