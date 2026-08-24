@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class Structure {
@@ -33,6 +34,8 @@ public class Structure {
 	public boolean replaceBlocks;
 
 	public static HashMap<String, Structure> internalStructures = new HashMap<>();
+
+	public static Map<String, Class<?>> classMap = new HashMap<>();
 
 	public Structure(String modId, String translateKey, CompoundTag data, boolean placeAir, boolean replaceBlocks) {
 		this.modId = modId;
@@ -342,7 +345,13 @@ public class Structure {
 			if (s.contains(".")){
 				String[] args = s.split(":");
 				try {
-					Class<?> clazz = Class.forName(args[0]);
+					Class<?> clazz;
+					if(classMap.containsKey( args[0] ) ){
+						clazz = classMap.get( args[0] );
+					} else {
+						clazz = Class.forName(args[0]);
+						classMap.put( args[0], clazz );
+					}
 					Field field = clazz.getDeclaredField(args[1]);
 					Block<?> b = (Block<?>) field.get(null);
 					return b.id();

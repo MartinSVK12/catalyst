@@ -2,7 +2,6 @@ package sunsetsatellite.catalyst.multiblocks;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Global;
-import net.minecraft.core.block.Block;
 import net.minecraft.core.block.entity.TileEntity;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.BlockChangeInfo;
@@ -11,11 +10,20 @@ import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.Signal;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MultiblockInstance implements Signal.Listener<BlockChangeInfo> {
 
 	private boolean valid = false;
 	public final TileEntity origin;
 	public final Multiblock data;
+
+	public List<BlockInstance> cachedSubstitutions = new ArrayList<>();
+	public List<BlockInstance> cachedBlocks = new ArrayList<>();
+	public List<BlockInstance> cachedTEs = new ArrayList<>();
+	public Direction cachedDirection;
+	public Vec3i cachedPosition;
 
 	public MultiblockInstance(TileEntity origin, Multiblock data) {
 		this.origin = origin;
@@ -50,8 +58,16 @@ public class MultiblockInstance implements Signal.Listener<BlockChangeInfo> {
 
 	public boolean verifyIntegrity() {
 		if (origin.worldObj != null) {
-			Block<?> block = origin.getBlock();
-			return data.isValidAtSilent(origin.worldObj, new BlockInstance(block, new Vec3i(origin.tilePos), origin), Direction.getDirectionFromSide(origin.worldObj.getBlockData(origin.tilePos)));
+			Vec3i pos = new Vec3i(origin.tilePos);
+			Direction dir = Direction.getDirectionFromSide(origin.worldObj.getBlockData(origin.tilePos));
+			if(dir != cachedDirection || !pos.equals(cachedPosition)){
+				cachedSubstitutions = data.getSubstitutions(pos, dir);
+				cachedBlocks = data.getBlocks(pos, dir);
+				cachedTEs = data.getTileEntities(origin.worldObj, pos, dir);
+				cachedDirection = dir;
+				cachedPosition = pos;
+			}
+			return data.isValidAtSilent(origin.worldObj, cachedBlocks, cachedSubstitutions);
 		} else {
 			return false;
 		}

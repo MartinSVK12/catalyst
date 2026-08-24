@@ -8,6 +8,7 @@ import sunsetsatellite.catalyst.core.util.Direction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Multiblock extends Structure {
 
@@ -41,6 +42,18 @@ public class Multiblock extends Structure {
 	public boolean isValidAtSilent(World world, BlockInstance origin, Direction dir) {
 		ArrayList<BlockInstance> blocks = getBlocks(origin.pos, dir);
 		ArrayList<BlockInstance> substitutions = getSubstitutions(origin.pos, dir);
+		for (BlockInstance block : blocks) {
+			if (!block.exists(world)) {
+				boolean foundSub = substitutions.stream().anyMatch((BI) -> BI.pos.equals(block.pos) && BI.exists(world));
+				if (!foundSub) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean isValidAtSilent(World world, List<BlockInstance> blocks, List<BlockInstance> substitutions) {
 		for (BlockInstance block : blocks) {
 			if (!block.exists(world)) {
 				boolean foundSub = substitutions.stream().anyMatch((BI) -> BI.pos.equals(block.pos) && BI.exists(world));
