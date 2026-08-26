@@ -172,7 +172,7 @@ public class NetworkWalker<T extends NetworkComponentTile> {
 	protected void checkNeighbour(T conduit, Vec3i pos, Direction dirToNeighbour, TileEntity neighbour) {
 		if (conduit != conduits[conduits.length - 1])
 			throw new IllegalStateException("Current conduit is not the last one added, you dun goofed.");
-		if (!(neighbour instanceof IConduitTile) && neighbour.getBlock() != null && neighbour.getBlock().getLogic() instanceof NetworkComponent) {
+		if (!(neighbour instanceof IConduitTile) && neighbour.getBlock() != Blocks.AIR && neighbour.getBlock().getLogic() instanceof NetworkComponent) {
 			NetworkComponentTile[] path = new NetworkComponentTile[conduits.length + 1];
 			System.arraycopy(conduits, 0, path, 0, conduits.length);
 			path[path.length - 1] = (NetworkComponentTile) neighbour;
