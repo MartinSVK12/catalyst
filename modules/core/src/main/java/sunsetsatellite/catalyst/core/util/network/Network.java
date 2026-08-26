@@ -1,6 +1,5 @@
 package sunsetsatellite.catalyst.core.util.network;
 
-import com.google.common.collect.Maps;
 import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.ListTag;
 import net.minecraft.core.block.Block;
@@ -23,8 +22,8 @@ import java.util.*;
  */
 public class Network {
 
-	protected final Map<Vec3i, NetworkComponent> networkBlocks = Maps.newHashMap();
-	protected final Map<Vec3i, BlockEntry> blocks = Maps.newHashMap();
+	protected final Map<Vec3i, NetworkComponent> networkBlocks = new HashMap<>();
+	protected final Map<Vec3i, BlockEntry> blocks = new HashMap<>();
 	protected final World world;
 	protected final int id;
 	protected final NetworkPathMap NET_PATH_DATA = new NetworkPathMap();
