@@ -61,6 +61,7 @@ pluginManagement {
 }
 plugins {
 	id("org.gradle.toolchains.foojay-resolver-convention")
+	id("net.fabricmc.fabric-loom") version "1.15-SNAPSHOT" apply false
 }
 
 include(":catalyst-all")
