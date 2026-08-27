@@ -3,8 +3,8 @@ import com.smushytaco.lwjgl_gradle.Preset
 import groovy.namespace.QName
 import groovy.util.Node
 import groovy.xml.XmlParser
-import org.kohsuke.github.GHReleaseBuilder
-import org.kohsuke.github.GitHub
+//import org.kohsuke.github.GHReleaseBuilder
+//import org.kohsuke.github.GitHub
 
 import java.io.IOException
 import java.net.URL
@@ -18,7 +18,7 @@ plugins {
 	`maven-publish`
 }
 
-buildscript {
+/*buildscript {
 	repositories {
 		mavenCentral()
 	}
@@ -26,7 +26,7 @@ buildscript {
 	dependencies {
 		classpath("org.kohsuke:github-api:1.135")
 	}
-}
+}*/
 
 val modVersion: String = project.properties["mod_version"] as String
 val modGroup: String = project.properties["mod_group"] as String
@@ -168,7 +168,7 @@ fun checkVersion(group: String, name: String, version: String): Boolean {
 	}
 }
 
-if(githubToken.isPresent){
+/*if(githubToken.isPresent){
 	tasks.register("github") {
 		description = "Publishes mod to GitHub"
 		doLast {
@@ -209,4 +209,4 @@ if(githubToken.isPresent){
 			}
 		}
 	}
-}
+}*/
