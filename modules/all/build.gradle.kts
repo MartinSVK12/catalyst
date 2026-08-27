@@ -10,6 +10,14 @@ import java.io.IOException
 import java.net.URL
 import java.nio.file.Files
 
+plugins {
+	alias(libs.plugins.loom)
+	alias(libs.plugins.lwjgl)
+	alias(libs.plugins.minotaur)
+    java
+	`maven-publish`
+}
+
 buildscript {
 	repositories {
 		mavenCentral()
@@ -20,13 +28,6 @@ buildscript {
 	}
 }
 
-plugins {
-	alias(libs.plugins.loom)
-	alias(libs.plugins.lwjgl)
-	alias(libs.plugins.minotaur)
-    java
-	`maven-publish`
-}
 val modVersion: String = project.properties["mod_version"] as String
 val modGroup: String = project.properties["mod_group"] as String
 val modName: String = project.properties["mod_name"] as String
