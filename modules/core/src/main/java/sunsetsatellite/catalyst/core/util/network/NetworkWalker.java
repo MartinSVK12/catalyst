@@ -2,6 +2,7 @@ package sunsetsatellite.catalyst.core.util.network;
 
 import com.llamalad7.mixinextras.lib.apache.commons.ArrayUtils;
 import net.minecraft.core.block.Block;
+import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntity;
 import net.minecraft.core.world.World;
 import sunsetsatellite.catalyst.Catalyst;
