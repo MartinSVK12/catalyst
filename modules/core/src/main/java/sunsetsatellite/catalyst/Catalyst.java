@@ -35,7 +35,6 @@ import turniplabs.halplibe.helper.network.NetworkHandler;
 import java.util.*;
 import java.util.function.BiFunction;
 
-import static net.minecraft.client.gui.hud.HudIngame.directions;
 
 public class Catalyst implements ModInitializer {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-core");
@@ -155,6 +154,7 @@ public class Catalyst implements ModInitializer {
 	}
 
 	public static Side calculatePlayerFacing(double yRot) {
+		net.minecraft.core.util.helper.Direction[] directions = new net.minecraft.core.util.helper.Direction[]{net.minecraft.core.util.helper.Direction.NORTH, net.minecraft.core.util.helper.Direction.EAST, net.minecraft.core.util.helper.Direction.SOUTH, net.minecraft.core.util.helper.Direction.WEST};
 		return directions[(MathHelper.floor((yRot * 4.0F / 360.0F) + (double)0.5F) + 2) & 3].side();
 	}
 
