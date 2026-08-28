@@ -371,7 +371,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 			if (i < getFluidInventorySize() - 1) {
 				activeFluidSlots.replace(dir, i + 1);
 			} else {
-				activeFluidSlots.replace(dir, 0);
+				activeFluidSlots.replace(dir, -1);
 			}
 		} else {
 			if (i > -1) {
