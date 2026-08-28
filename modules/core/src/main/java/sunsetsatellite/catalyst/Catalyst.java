@@ -35,6 +35,8 @@ import turniplabs.halplibe.helper.network.NetworkHandler;
 import java.util.*;
 import java.util.function.BiFunction;
 
+import static net.minecraft.client.gui.hud.HudIngame.directions;
+
 public class Catalyst implements ModInitializer {
 	public static final String MOD_ID = HalpLibe.registerMod("catalyst-core");
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -152,8 +154,8 @@ public class Catalyst implements ModInitializer {
 		return Pair.of(dir, BlockSection.getClosestBlockSection(clickPosition));
 	}
 
-	public static Side calculatePlayerFacing(float rotation) {
-		return Side.values()[(2 + ((MathHelper.floor((double) ((rotation * 4F) / 360F) + 0.5D) + 2) & 3))];
+	public static Side calculatePlayerFacing(double yRot) {
+		return directions[(MathHelper.floor((yRot * 4.0F / 360.0F) + (double)0.5F) + 2) & 3].side();
 	}
 
 	public static <T> T blockLogic(Block<? extends BlockLogic> block, Class<T> clazz) {

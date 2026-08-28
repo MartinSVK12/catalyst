@@ -44,6 +44,9 @@ public class MinecraftMixin {
 		if(hitResult instanceof HitResult.Tile hit) {
 			Vec3f vec3f = new Vec3f(hit.location);
 			Vec2f clickPosition = vec3f.subtract(vec3f.copy().floor()).abs().set(hit.side.axis(), 0).toVec2f();
+			if(clickPosition == null){
+				return original.call(instance, player, world, itemStack, tilePos, side, xPlaced, yPlaced);
+			}
 			switch (hit.side) {
 				case NORTH -> clickPosition.x = 1 - clickPosition.x;
 				case EAST -> {

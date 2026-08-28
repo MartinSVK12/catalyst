@@ -63,5 +63,5 @@ public class CatalystScreensClient implements ClientModInitializer {
 
 	}
 
-	public static KeyBinding testKey = new KeyBinding(CatalystScreens.MOD_ID+".key.test").bind(InputDevice.keyboard, Keyboard.KEY_NUMPAD1).setDefault(InputDevice.keyboard, Keyboard.KEY_NUMPAD1);
+	public static KeyBinding testKey = new KeyBinding(CatalystScreens.MOD_ID+".key.test");
 }
