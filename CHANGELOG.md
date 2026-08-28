@@ -1,1 +1,5 @@
 - Performance improvements.
+- Fixed network classes using dependencies they shouldn't for no reason.
+- Fixed player facing method.
+- Fixed crash bug.
+- Fixed not being able to set I/O to use any available slot.
