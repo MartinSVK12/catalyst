@@ -5,6 +5,7 @@ import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.conduit.ConduitCapability;
 import sunsetsatellite.catalyst.core.util.conduit.IConduitTile;
 import sunsetsatellite.catalyst.core.util.network.Network;
+import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.network.NetworkType;
 import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 import sunsetsatellite.catalyst.energy.simple.api.IEnergyContainer;
@@ -31,6 +32,12 @@ public abstract class TileEntityEnergyConductor extends TileEntity implements IC
 	@Override
 	public boolean isConnected(Direction direction) {
 		return direction.getTileEntity(worldObj, this) instanceof TileEntityEnergyConductor || direction.getTileEntity(worldObj, this) instanceof IEnergyContainer;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		energyNet = NetworkManager.getNet(worldObj, new Vec3i(tilePos));
 	}
 
 	@Override

@@ -5,7 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.Catalyst;
 import sunsetsatellite.catalyst.core.util.Direction;
 import sunsetsatellite.catalyst.core.util.network.NetworkComponentTile;
+import sunsetsatellite.catalyst.core.util.network.NetworkManager;
 import sunsetsatellite.catalyst.core.util.network.NetworkPath;
+import sunsetsatellite.catalyst.core.util.vector.Vec3i;
 import sunsetsatellite.catalyst.energy.simple.api.IEnergyContainer;
 
 public abstract class TileEntityEnergyDevice extends TileEntityEnergyBase implements NetworkComponentTile {

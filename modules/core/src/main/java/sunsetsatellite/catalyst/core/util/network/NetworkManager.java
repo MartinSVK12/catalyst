@@ -270,6 +270,7 @@ public class NetworkManager {
 	}
 
 	public static Network getNet(World world, Vec3i pos) {
+		if(world == null) return null;
 		Set<Network> nets = NETS.get(world.dimension.id);
 		if (nets != null) {
 			for (Network net : nets) {
