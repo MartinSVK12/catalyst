@@ -285,9 +285,9 @@ public class RenderGlobalMixin {
 			Set<Network> nets = NetworkManager.getNetsForDimension(world.dimension.id);
 			for (Network net : nets) {
 				for (Vec3i position : net.getPositions()) {
-					BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(Blocks.SAND);
+					BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(Blocks.GLASS);
 					GLRenderer.pushFrame();
-					GLRenderer.setColor1i(net.color.value);
+					GLRenderer.setColor1i(net.color.getARGB());
 					Lighting.disable();
 					GLRenderer.modelM4f().translate((float) (position.x - x + 0.5f), (float) (position.y - y + 0.5f), (float) (position.z - z + 0.5f));
 					GLRenderer.modelM4f().scale(1.1f, 1.1f, 1.1f);

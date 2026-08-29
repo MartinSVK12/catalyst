@@ -103,6 +103,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 			if (tile instanceof IFluidInventory fluidInv && tile instanceof IFluidIO fluidIO) {
 				if (fluidIO.getFluidIOForSide(dir.getOpposite()) == Connection.INPUT || fluidIO.getFluidIOForSide(dir.getOpposite()) == Connection.BOTH) {
 					int maxFlow = Math.min(transferSpeed, fluidInv.getTransferSpeed());
+					//if(fluidInv.getRemainingCapacity(slot) <= 0) return;
                     /*if(tile instanceof IMassFluidInventory){
                         IMassFluidInventory massFluidInv = (IMassFluidInventory) tile;
                         if(fluidStack.isFluidEqual(massFluidInv.getFilter(dir.getOpposite())) || massFluidInv.getFilter(dir.getOpposite()) == null){
@@ -117,6 +118,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 					if (otherSlot == -1) return;
 					if (fluidInv.getAllowedFluidsForSlot(otherSlot).contains(fluidStack.fluid)) {
 						int maxAmount = Math.min(fluidStack.amount, maxFlow);
+						maxAmount = Math.min(maxAmount, fluidInv.getRemainingCapacity(otherSlot));
 						if (fluidInv.canInsertFluid(otherSlot, new FluidStack(fluidStack.fluid, maxAmount))) {
 							FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
 							fluidInv.insertFluid(otherSlot, transferablePortion);
@@ -213,7 +215,9 @@ public abstract class TileEntityFluidContainer extends TileEntity
 
 	@Override
 	public void tick() {
-		extractFluids();
+		if(!(this instanceof TileEntityFluidPipe)){
+			extractFluids();
+		}
 		super.tick();
 	}
 

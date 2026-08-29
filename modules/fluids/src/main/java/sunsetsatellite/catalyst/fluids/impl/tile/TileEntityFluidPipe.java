@@ -40,30 +40,16 @@ public abstract class TileEntityFluidPipe extends TileEntityFluidContainer {
 		for (Direction dir : Direction.values()) {
 			neighbors.put(dir, dir.getTileEntity(worldObj, this));
 		}
-		neighbors.forEach((side, tile) -> {
-			if (tile instanceof TileEntityFluidPipe && !tile.equals(last)) {
-				TileEntityFluidPipe inv = (TileEntityFluidPipe) tile;
-				Integer activeSlot = inv.activeFluidSlots.get(side.getOpposite());
-				FluidStack intFluid = getFluidInSlot(0);
-				FluidStack extFluid = inv.getFluidInSlot(activeSlot);
-				if (intFluid != null && extFluid == null) {
-					last = (TileEntityFluidPipe) tile;
-					((TileEntityFluidPipe) tile).last = this;
-					give(side);
-				} else if (intFluid == null && extFluid != null) {
-					last = (TileEntityFluidPipe) tile;
-					((TileEntityFluidPipe) tile).last = this;
-					take(extFluid, side);
-				} else if (intFluid != null) { //if both internal and external aren't null
-					last = (TileEntityFluidPipe) tile;
-					((TileEntityFluidPipe) tile).last = this;
-					if (intFluid.amount < extFluid.amount) {
-						take(extFluid, side);
-					} else {
+		FluidStack intFluid = getFluidInSlot(0);
+		if(intFluid != null){
+			float fill = Math.min((float) intFluid.amount / getFluidCapacityForSlot(0), 1);
+			if(fill >= 1){
+				neighbors.forEach((side, tile) -> {
+					if (tile instanceof TileEntityFluidPipe otherPipe){
 						give(side);
 					}
-				}
+				});
 			}
-		});
+		}
 	}
 }
