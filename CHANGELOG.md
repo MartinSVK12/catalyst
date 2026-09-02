@@ -1,2 +1,1 @@
-- Fix energy nets breaking when world is reloaded.
-- Reworked fluid pipe logic.
+- Fix crash with fluid pipe logic.
