@@ -41,6 +41,8 @@ dependencies {
 		implementation(files("../../libs/tmb-3.0.0.jar"))
 	}
 	implementation(project(":catalyst-core"))
+	compileOnly("org.luaj:luaj-jse:3.0.1")
+	implementation(files("../../libs/btatweaker-1.2.0+8.0.1.jar"))
 	//implementation()
 }
 
