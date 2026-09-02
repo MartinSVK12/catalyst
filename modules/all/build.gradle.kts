@@ -66,6 +66,8 @@ dependencies {
 	include(project(":catalyst-screens"))
 }
 
+println("@Mod Updates **Catalyst updated to ${version}!**\n\n${Files.readString(project.projectDir.toPath().resolve("../../CHANGELOG.md"))}\n\n:modrinth:https://modrinth.com/mod/catalyst/version/${version}\n:github:<https://github.com/MartinSVK12/catalyst/releases/tag/${version}>")
+
 tasks {
 	processResources {
 		val resourceMap = mapOf(

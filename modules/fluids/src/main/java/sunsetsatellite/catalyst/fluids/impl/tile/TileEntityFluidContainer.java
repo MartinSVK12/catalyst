@@ -99,6 +99,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 		int slot = getActiveFluidSlotForSide(dir);
 		if (slot == -1) return;
 		FluidStack fluidStack = getFluidInSlot(slot);
+		if(fluidStack == null) return;
 		if (getFluidIOForSide(dir) == Connection.OUTPUT || getFluidIOForSide(dir) == Connection.BOTH) {
 			TileEntity tile = dir.getTileEntity(worldObj, this);
 			if (tile instanceof IFluidInventory fluidInv && tile instanceof IFluidIO fluidIO) {
@@ -124,6 +125,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 	public void give(Direction dir, int slot, int otherSlot) {
 		if (slot == -1) return;
 		FluidStack fluidStack = getFluidInSlot(slot);
+		if(fluidStack == null) return;
 		if (getFluidIOForSide(dir) == Connection.OUTPUT || getFluidIOForSide(dir) == Connection.BOTH) {
 			TileEntity tile = dir.getTileEntity(worldObj, this);
 			if (tile instanceof IFluidInventory fluidInv && tile instanceof IFluidIO fluidIO) {
