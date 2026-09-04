@@ -46,18 +46,15 @@ public abstract class TileEntityFluidPipe extends TileEntityFluidContainer {
 		for (Direction dir : Direction.values()) {
 			neighbors.put(dir, dir.getTileEntity(worldObj, this));
 		}
-		/*FluidStack intFluid = getFluidInSlot(0);
+		FluidStack intFluid = getFluidInSlot(0);
 		if(intFluid != null){
-			float fill = Math.min((float) intFluid.amount / getFluidCapacityForSlot(0), 1);
-			if(fill >= 1){
-				neighbors.forEach((side, tile) -> {
-					if (tile instanceof TileEntityFluidPipe otherPipe){
-						give(side);
-					}
-				});
-			}
-		}*/
-		neighbors.forEach((side, tile) -> {
+			neighbors.forEach((side, tile) -> {
+				if (tile instanceof TileEntityFluidPipe otherPipe){
+					give(side);
+				}
+			});
+		}
+		/*neighbors.forEach((side, tile) -> {
 			if (tile instanceof TileEntityFluidPipe inv && !tile.equals(last)) {
 				Integer activeSlot = inv.activeFluidSlots.get(side.getOpposite());
 				FluidStack intFluid = getFluidInSlot(0);
@@ -80,6 +77,6 @@ public abstract class TileEntityFluidPipe extends TileEntityFluidContainer {
 					}
 				}
 			}
-		});
+		});*/
 	}
 }
