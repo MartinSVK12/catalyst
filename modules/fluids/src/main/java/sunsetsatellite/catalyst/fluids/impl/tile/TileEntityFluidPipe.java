@@ -36,6 +36,8 @@ public abstract class TileEntityFluidPipe extends TileEntityFluidContainer {
 		super.tick();
 		if(getFluidInSlot(0) != null){
 			averageFlow.set(worldObj, getFluidInSlot(0).amount);
+		} else {
+			averageFlow.set(worldObj, 0);
 		}
 		rememberTicks++;
 		if (rememberTicks >= maxRememberTicks) {
