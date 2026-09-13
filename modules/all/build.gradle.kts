@@ -58,8 +58,8 @@ dependencies {
 	include(project(":catalyst-fluids"))
 	implementation(project(":catalyst-energy"))
 	include(project(":catalyst-energy"))
-	//implementation(project(":catalyst-multipart"))
-	//include(project(":catalyst-multipart"))
+	implementation(project(":catalyst-multipart"))
+	include(project(":catalyst-multipart"))
 	implementation(project(":catalyst-multiblocks"))
 	include(project(":catalyst-multiblocks"))
 	implementation(project(":catalyst-screens"))
@@ -181,7 +181,8 @@ if(githubToken.isPresent){
 				":catalyst-fluids",
 				":catalyst-energy",
 				":catalyst-multiblocks",
-				":catalyst-screens"
+				":catalyst-screens",
+				":catalyst-multipart"
 			)
 
 			val github = GitHub.connectUsingOAuth(githubToken.get())

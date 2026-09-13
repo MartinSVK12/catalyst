@@ -13,27 +13,27 @@ public enum Direction {
 	/**
 	 * EAST, 5, X
 	 */
-	X_POS(new Vec3i(1, 0, 0), 5, "EAST", Axis.X, (3 * Math.PI) / 2, 1),
+	X_POS("EAST", new Vec3i(1, 0, 0), 5, Axis.X, (3 * Math.PI) / 2, 1),
 	/**
 	 * WEST, 4, X
 	 */
-	X_NEG(new Vec3i(-1, 0, 0), 4, "WEST", Axis.X, Math.PI / 2, 3),
+	X_NEG("WEST", new Vec3i(-1, 0, 0), 4, Axis.X, Math.PI / 2, 3),
 	/**
 	 * UP, 1, Y
 	 */
-	Y_POS(new Vec3i(0, 1, 0), 1, "UP", Axis.Y, 0.0f, -1),
+	Y_POS("UP", new Vec3i(0, 1, 0), 1, Axis.Y, 0.0f, -1),
 	/**
 	 * DOWN, 0, Y
 	 */
-	Y_NEG(new Vec3i(0, -1, 0), 0, "DOWN", Axis.Y, 0.0f, -1),
+	Y_NEG("DOWN", new Vec3i(0, -1, 0), 0, Axis.Y, 0.0f, -1),
 	/**
 	 * SOUTH, 3, Z
 	 */
-	Z_POS(new Vec3i(0, 0, 1), 3, "SOUTH", Axis.Z, Math.PI, 2),
+	Z_POS("SOUTH", new Vec3i(0, 0, 1), 3, Axis.Z, Math.PI, 2),
 	/**
 	 * NORTH, 2, Z
 	 */
-	Z_NEG(new Vec3i(0, 0, -1), 2, "NORTH", Axis.Z, 0.0f, 0);
+	Z_NEG("NORTH", new Vec3i(0, 0, -1), 2, Axis.Z, 0.0f, 0);
 
 
 	private final Vec3i vec;
@@ -44,7 +44,7 @@ public enum Direction {
 	private final double angle;
 	private final int horizontalIndex;
 
-	Direction(Vec3i vec3I, int side, String name, Axis axis, double angle, int horizontalIndex) {
+	Direction(String name, Vec3i vec3I, int side, Axis axis, double angle, int horizontalIndex) {
 		this.vec = vec3I;
 		this.side = side;
 		this.name = name;

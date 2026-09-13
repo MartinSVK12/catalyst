@@ -48,9 +48,15 @@ public abstract class TileEntityFluidContainer extends TileEntity
 	public void take(@NotNull FluidStack fluidStack, Direction dir) {
 		if (getFluidIOForSide(dir) == Connection.INPUT || getFluidIOForSide(dir) == Connection.BOTH) {
 			TileEntity tile = dir.getTileEntity(worldObj, this);
-			if (tile instanceof IFluidInventory fluidInv && tile instanceof IFluidIO fluidIO) {
+			if (tile instanceof IFluidIO fluidIO) {
 				if (fluidIO.getFluidIOForSide(dir.getOpposite()) == Connection.OUTPUT || fluidIO.getFluidIOForSide(dir.getOpposite()) == Connection.BOTH) {
-					int maxFlow = Math.min(transferSpeed, fluidInv.getTransferSpeed());
+					int otherTransferSpeed = 0;
+					if(tile instanceof IFluidInventory fluidInv){
+						otherTransferSpeed = fluidInv.getTransferSpeed();
+					} else if(tile instanceof TileEntityFluidPipe pipe){
+						otherTransferSpeed = pipe.flowRate;
+					}
+					int maxFlow = Math.min(transferSpeed, otherTransferSpeed);
 					int slot = getActiveFluidSlotForSide(dir);
 					if (slot == -1) return;
 					if (getAllowedFluidsForSlot(slot).contains(fluidStack.fluid)) {
@@ -139,11 +145,35 @@ public abstract class TileEntityFluidContainer extends TileEntity
 							fluidInv.insertFluid(otherSlot, transferablePortion);
 						}
 					}
-					//}
 				}
 			}
 		}
 	}
+
+	/*public FluidStack give(FluidStack fluidStack, Direction dir) {
+		int slot = getActiveFluidSlotForSide(dir);
+		if (slot == -1) return fluidStack;
+		if(fluidStack == null) return fluidStack;
+		if (getFluidIOForSide(dir) == Connection.OUTPUT || getFluidIOForSide(dir) == Connection.BOTH) {
+			TileEntity tile = dir.getTileEntity(worldObj, this);
+			if (tile instanceof IFluidInventory fluidInv && tile instanceof IFluidIO fluidIO) {
+				if (fluidIO.getFluidIOForSide(dir.getOpposite()) == Connection.INPUT || fluidIO.getFluidIOForSide(dir.getOpposite()) == Connection.BOTH) {
+					int maxFlow = Math.min(transferSpeed, fluidInv.getTransferSpeed());
+					int otherSlot = fluidIO.getActiveFluidSlotForSide(dir.getOpposite());
+					if (otherSlot == -1) return fluidStack;
+					if (fluidInv.getAllowedFluidsForSlot(otherSlot).contains(fluidStack.fluid)) {
+						int maxAmount = Math.min(fluidStack.amount, maxFlow);
+						maxAmount = Math.min(maxAmount, fluidInv.getRemainingCapacity(otherSlot));
+						if (fluidInv.canInsertFluid(otherSlot, new FluidStack(fluidStack.fluid, maxAmount))) {
+							FluidStack transferablePortion = fluidStack.splitStack(maxAmount);
+							fluidInv.insertFluid(otherSlot, transferablePortion);
+						}
+					}
+				}
+			}
+		}
+		return fluidStack;
+	}*/
 
 	@Override
 	public FluidStack insertFluid(int slot, FluidStack fluidStack) {
@@ -197,14 +227,11 @@ public abstract class TileEntityFluidContainer extends TileEntity
 
 	@Override
 	public void tick() {
-		if(!(this instanceof TileEntityFluidPipe)){
-			extractFluids();
-		}
+		moveFluids();
 		super.tick();
 	}
 
 	public void writeAdditionalData(@NonNull CompoundTag tag) {
-		ListTag nBTTagList2 = new ListTag();
 		ListTag nbtTagList = new ListTag();
 		CompoundTag connectionsTag = new CompoundTag();
 		CompoundTag activeFluidSlotsTag = new CompoundTag();
@@ -228,7 +255,6 @@ public abstract class TileEntityFluidContainer extends TileEntity
 		tag.putCompound("fluidConnections", connectionsTag);
 		tag.putCompound("fluidActiveSlots", activeFluidSlotsTag);
 		tag.put("Fluids", nbtTagList);
-		tag.put("Items", nBTTagList2);
 	}
 
 	@Override
@@ -286,6 +312,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 		return transferSpeed;
 	}
 
+	/*@Deprecated
 	public void moveFluids(Direction dir, TileEntityFluidPipe tile) {
 		if (EnvironmentHelper.isMultiplayerClient()) return;
 		int activeSlot = activeFluidSlots.get(dir);
@@ -299,17 +326,31 @@ public abstract class TileEntityFluidContainer extends TileEntity
 				take(tile.getFluidInSlot(0), dir);
 			}
 		}
-	}
+	}*/
 
-	public void extractFluids() {
+	@Deprecated
+	public void moveFluids() {
 		if (EnvironmentHelper.isMultiplayerClient()) return;
+
 		for (Map.Entry<Direction, Connection> e : fluidConnections.entrySet()) {
 			Direction dir = e.getKey();
+			Connection c = e.getValue();
 			TileEntity tile = dir.getTileEntity(worldObj, this);
-			if (tile instanceof TileEntityFluidPipe) {
+			if(tile instanceof TileEntityFluidPipe pipe) {
+				if(c == Connection.BOTH || c == Connection.OUTPUT){
+					FluidStack stack = getFluidInSlot(activeFluidSlots.get(dir));
+					if(stack == null) continue;
+					FluidStack result = pipe.insertFluid(stack, dir.getOpposite());
+					stack.amount = result != null ? result.amount : 0;
+				}
+			}
+			/*if (tile instanceof TileEntityFluidPipe) {
 				moveFluids(dir, (TileEntityFluidPipe) tile);
 				((TileEntityFluidPipe) tile).rememberTicks = 100;
 			}
+			if(tile instanceof TileEntityFluidContainer fluidInv){
+				fluidInv.take();
+			}*/
 		}
 	}
 
