@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class Multipart {
 
 	public final MultipartType type;
-	public final HashMap<Side, String> textures = (HashMap<Side, String>) Catalyst.mapOf(Side.values(), Catalyst.arrayFill(new String[Side.values().length], "minecraft:block/texture_unassigned"));
+	//public final HashMap<Side, String> textures = (HashMap<Side, String>) Catalyst.mapOf(Side.values(), Catalyst.arrayFill(new String[Side.values().length], "minecraft:block/texture_unassigned"));
 	public final Block<?> block;
 	public final int meta;
 	public final Side side; //side of the texture that will be used, not the actual side this multipart is attached to
@@ -26,14 +26,14 @@ public class Multipart {
 		this.meta = meta;
 		this.side = side;
 		this.specifiedSideOnly = true;
-		for (Side _side : Side.values()) {
-			if (_side == Side.NONE) continue;
-			NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
-			/*if (!EnvironmentHelper.isMultiplayerServer()) {
-				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
-			}*/
-			this.textures.put(_side, id.namespace() + ":block/" + id.value());
-		}
+//		for (Side _side : Side.values()) {
+//			if (_side == Side.NONE) continue;
+//			NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
+//			/*if (!EnvironmentHelper.isMultiplayerServer()) {
+//				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
+//			}*/
+//			this.textures.put(_side, id.namespace() + ":block/" + id.value());
+//		}
 	}
 
 	public Multipart(MultipartType type, Block<?> block, int meta) {
@@ -42,14 +42,14 @@ public class Multipart {
 		this.meta = meta;
 		this.side = null;
 		this.specifiedSideOnly = false;
-		for (Side sside : Side.values()) {
-			if (sside == Side.NONE) continue;
-			NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
-			/*if (!EnvironmentHelper.isMultiplayerServer()) {
-				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside, meta).namespaceId;
-			}*/
-			this.textures.put(sside, id.namespace() + ":block/" + id.value());
-		}
+//		for (Side sside : Side.values()) {
+//			if (sside == Side.NONE) continue;
+//			NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
+//			/*if (!EnvironmentHelper.isMultiplayerServer()) {
+//				id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside, meta).namespaceId;
+//			}*/
+//			this.textures.put(sside, id.namespace() + ":block/" + id.value());
+//		}
 	}
 
 	public Multipart(CompoundTag partNbt) {
@@ -65,25 +65,25 @@ public class Multipart {
 			sideOnly = false;
 		}
 		this.specifiedSideOnly = sideOnly;
-		if (specifiedSideOnly) {
-			for (Side _side : Side.values()) {
-				if (_side == Side.NONE) continue;
-				NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
-				/*if (!EnvironmentHelper.isMultiplayerServer()) {
-					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
-				}*/
-				this.textures.put(_side, id.namespace() + ":block/" + id.value());
-			}
-		} else {
-			for (Side sside : Side.values()) {
-				if (sside == Side.NONE) continue;
-				NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
-				/*if (!EnvironmentHelper.isMultiplayerServer()) {
-					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside, meta).namespaceId;
-				}*/
-				this.textures.put(sside, id.namespace() + ":block/" + id.value());
-			}
-		}
+//		if (specifiedSideOnly) {
+//			for (Side _side : Side.values()) {
+//				if (_side == Side.NONE) continue;
+//				NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
+//				/*if (!EnvironmentHelper.isMultiplayerServer()) {
+//					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(this.side, meta).namespaceId;
+//				}*/
+//				this.textures.put(_side, id.namespace() + ":block/" + id.value());
+//			}
+//		} else {
+//			for (Side sside : Side.values()) {
+//				if (sside == Side.NONE) continue;
+//				NamespaceID id = NamespaceID.fromPool("minecraft", "bedrock");
+//				/*if (!EnvironmentHelper.isMultiplayerServer()) {
+//					id = BlockModelDispatcher.getInstance().getDispatch(block).getBlockTextureFromSideAndMetadata(sside, meta).namespaceId;
+//				}*/
+//				this.textures.put(sside, id.namespace() + ":block/" + id.value());
+//			}
+//		}
 	}
 
 	public void writeToNbt(CompoundTag partNbt) {

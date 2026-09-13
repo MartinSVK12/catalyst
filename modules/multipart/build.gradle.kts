@@ -3,6 +3,7 @@ import groovy.namespace.QName
 import groovy.util.Node
 import groovy.xml.XmlParser
 import java.io.FileNotFoundException
+import java.io.IOException
 import java.net.URL
 
 plugins {
@@ -22,6 +23,7 @@ group = modGroup
 version = modVersion
 
 loom {
+	accessWidenerPath.set(file("src/main/resources/catalyst-multipart.classtweaker"))
 	customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
 }
 

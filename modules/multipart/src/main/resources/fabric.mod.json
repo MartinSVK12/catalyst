@@ -14,36 +14,16 @@
 	},
 	"license": "MIT",
 	"environment": "*",
+	"accessWidener": "catalyst-multipart.classtweaker",
 	"entrypoints": {
 		"main": [
-			"sunsetsatellite.catalyst.CatalystMultipart"
-		],
-		"initModels": [
-
-		],
-		"afterBlockInit": [
-			"sunsetsatellite.catalyst.CatalystMultipart"
-		],
-		"afterItemInit": [
-			"sunsetsatellite.catalyst.CatalystMultipart"
-		],
-		"recipesReady": [
 			"sunsetsatellite.catalyst.CatalystMultipart"
 		],
 		"client": [
 			"sunsetsatellite.catalyst.CatalystMultipartClient"
 		],
-		"beforeClientStart": [
-			"sunsetsatellite.catalyst.CatalystMultipartClient"
-		],
-		"afterClientStart": [
-			"sunsetsatellite.catalyst.CatalystMultipartClient"
-		],
 		"server": [
 			"sunsetsatellite.catalyst.CatalystMultipartServer"
-		],
-		"gatherTMBPlugins": [
-
 		]
 	},
 	"mixins": [
