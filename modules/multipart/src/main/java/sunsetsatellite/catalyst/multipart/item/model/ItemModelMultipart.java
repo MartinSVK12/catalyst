@@ -30,11 +30,13 @@ import org.useless.dragonfly.models.block.StaticBlockModel;
 import org.useless.dragonfly.models.block.mojang.StaticBlockModelMojang;
 import sunsetsatellite.catalyst.CatalystMultipart;
 import sunsetsatellite.catalyst.multipart.api.Multipart;
+import sunsetsatellite.catalyst.multipart.block.model.BlockModelMultipart;
 import sunsetsatellite.catalyst.multipart.item.ItemMultipart;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static sunsetsatellite.catalyst.multipart.block.model.BlockModelMultipart.getTexturesForMultipart;
 import static sunsetsatellite.catalyst.multipart.block.model.BlockModelMultipart.orientationLookUpVertical;
 
 public class ItemModelMultipart extends ItemModelStandard {
@@ -90,64 +92,12 @@ public class ItemModelMultipart extends ItemModelStandard {
 	public @NotNull StaticBlockModel getModel(@NotNull TessellatorGeneral tessellator, @NotNull ItemStack itemStack){
 		ItemMultipart item = (ItemMultipart) itemStack.getItem();
 		Multipart part = item.getMultipart(itemStack);
-
+		String id = "catalyst-multipart:block/" + part.type.model + "_" + part.block.namespaceId().namespace() + "_" + part.block.namespaceId().value().split("/")[1];
 		Map<Direction, String> textures = new HashMap<>();
-		for (Direction dir : Direction.values()) {
 
-			int data = Direction.NORTH.id;
-			if (part.specifiedSideOnly) {
-				data = part.side.id;
-			}
-			boolean isVertical = data == 0 || data == 1;
-			int index;
-			if (isVertical) {
-				index = orientationLookUpVertical[6 * data + dir.id];
-			} else {
-				index = Sides.orientationLookUpHorizontal[6 * java.lang.Math.min(data, 5) + dir.id];
-			}
-			if (index >= Sides.orientationLookUpHorizontal.length) continue;
-			Side side = Side.fromId(index);
+		getTexturesForMultipart(Direction.NORTH, part, textures);
 
-			textures.put(dir, "minecraft:block/missing");
-			if(part.block != null){
-				BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(part.block);
-				if(model instanceof BlockModelStandard<?> standard){
-					IconCoordinate texture = standard.getBlockTextureFromSideAndMetadata(side, part.meta);
-					if(texture != null) {
-						textures.put(dir, texture.namespaceId.toString());
-					}
-				} else if (model instanceof BlockModelGeneric<?> generic) {
-					if(generic.getModelFromData(part.meta) instanceof StaticBlockModelMojang mojang){
-						IconCoordinate texture = mojang.compiled.textures.get("#"+side.direction.name().toLowerCase());
-						if(texture != null){
-							textures.put(dir, texture.namespaceId.toString());
-						} else {
-							texture = mojang.compiled.textures.get("#cross");
-							if(texture != null){
-								textures.put(dir, texture.namespaceId.toString());
-							}
-						}
-					}
-				}
-			}
-		}
-
-		BlockModelMojangData model = new BlockModelMojangData.Builder()
-			.setParent("catalyst-multipart:block/"+part.type.model)
-			.setTexture("north", textures.get(Direction.NORTH))
-			.setTexture("east", textures.get(Direction.EAST))
-			.setTexture("south", textures.get(Direction.SOUTH))
-			.setTexture("west", textures.get(Direction.WEST))
-			.setTexture("up", textures.get(Direction.UP))
-			.setTexture("down", textures.get(Direction.DOWN))
-			.setTexture("particle_north", textures.get(Direction.NORTH))
-			.setTexture("particle_east", textures.get(Direction.EAST))
-			.setTexture("particle_south", textures.get(Direction.SOUTH))
-			.setTexture("particle_west", textures.get(Direction.WEST))
-			.setTexture("particle_up", textures.get(Direction.UP))
-			.setTexture("particle_down", textures.get(Direction.DOWN))
-			.setTexture("overlay", textures.get(Direction.NORTH))
-			.build(Minecraft.getMinecraft().texturePackList, "catalyst-multipart:block/"+part.type.model+"_"+part.block.namespaceId().namespace()+"_"+part.block.namespaceId().value().split("/")[1]);
+		BlockModelMojangData model = BlockModelMultipart.getMultipartModel(id, Direction.NORTH, part, textures);
 
 		this.model = model.asModel();
 

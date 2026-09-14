@@ -34,6 +34,8 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 		3, 2, 1, 0, 5, 4 //up
 	};
 
+	public static final Map<String, BlockModelMojangData> MULTIPART_CACHE = new HashMap<>();
+
 	public static final BlockModelMojangData EMPTY = new BlockModelMojangData.Builder()
 		.addElement(new Element.Builder(0, 0, 0, 16, 16, 16)
 			.addFace(Direction.UP, new Face.Builder("#empty"))
@@ -59,63 +61,9 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 				Direction direction = e.getKey().getSide().direction();
 				Multipart part = e.getValue();
 				if(part == null) continue;
+				String id = "catalyst-multipart:block/" + part.type.model + "_" + part.block.namespaceId().namespace() + "_" + part.block.namespaceId().value().split("/")[1];
 				Map<Direction, String> textures = new HashMap<>();
-				for (Direction dir : Direction.values()) {
-
-					int data = direction.id;
-					if (part.specifiedSideOnly) {
-						data = part.side.id;
-					}
-					boolean isVertical = data == 0 || data == 1;
-					int index;
-					if (isVertical) {
-						index = orientationLookUpVertical[6 * data + dir.id];
-					} else {
-						index = Sides.orientationLookUpHorizontal[6 * Math.min(data, 5) + dir.id];
-					}
-					if (index >= Sides.orientationLookUpHorizontal.length) continue;
-					Side side = Side.fromId(index);
-
-					textures.put(dir, "minecraft:block/missing");
-					if(part.block != null){
-						BlockModel<?> model = BlockModelDispatcher.getInstance().getDispatch(part.block);
-						if(model instanceof BlockModelStandard<?> standard){
-							IconCoordinate texture = standard.getBlockTextureFromSideAndMetadata(side, part.meta);
-							if(texture != null) {
-								textures.put(dir, texture.namespaceId.toString());
-							}
-						} else if (model instanceof BlockModelGeneric<?> generic) {
-							if(generic.getModelFromData(part.meta) instanceof StaticBlockModelMojang mojang){
-								IconCoordinate texture = mojang.compiled.textures.get("#"+side.direction.name().toLowerCase());
-								if(texture != null){
-									textures.put(dir, texture.namespaceId.toString());
-								} else {
-									texture = mojang.compiled.textures.get("#cross");
-									if(texture != null){
-										textures.put(dir, texture.namespaceId.toString());
-									}
-								}
-							}
-						}
-					}
-				}
-				BlockModelMojangData model = new BlockModelMojangData.Builder()
-					.setParent("catalyst-multipart:block/"+part.type.model)
-					.setTexture("north", textures.get(Direction.NORTH))
-					.setTexture("east", textures.get(Direction.EAST))
-					.setTexture("south", textures.get(Direction.SOUTH))
-					.setTexture("west", textures.get(Direction.WEST))
-					.setTexture("up", textures.get(Direction.UP))
-					.setTexture("down", textures.get(Direction.DOWN))
-					.setTexture("particle_north", textures.get(Direction.NORTH))
-					.setTexture("particle_east", textures.get(Direction.EAST))
-					.setTexture("particle_south", textures.get(Direction.SOUTH))
-					.setTexture("particle_west", textures.get(Direction.WEST))
-					.setTexture("particle_up", textures.get(Direction.UP))
-					.setTexture("particle_down", textures.get(Direction.DOWN))
-					.setTexture("overlay", textures.get(Direction.NORTH))
-					.build(Minecraft.getMinecraft().texturePackList, "catalyst-multipart:block/"+part.type.model+"_"+part.block.namespaceId().namespace()+"_"+part.block.namespaceId().value().split("/")[1]);
-
+				BlockModelMojangData model = getMultipartModel(id, direction, part, textures);
 				switch (direction) {
 					case UP -> {
 						model.asModel().renderAttached(this, tessellator, worldSource, tilePos, 1, 0, 0, 0, 0, 0, false, cullFaces, overrideTexture);
@@ -140,6 +88,74 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 
 		}
 		return super.renderAttached(tessellator, worldSource, tilePos, cullFaces, overrideTexture);
+	}
+
+	public static BlockModelMojangData getMultipartModel(String id, Direction direction, Multipart part, Map<Direction, String> textures) {
+		BlockModelMojangData model;
+		if(MULTIPART_CACHE.containsKey(id)) {
+			model = MULTIPART_CACHE.get(id);
+		} else {
+			getTexturesForMultipart(direction, part, textures);
+			model = new BlockModelMojangData.Builder()
+				.setParent("catalyst-multipart:block/"+ part.type.model)
+				.setTexture("north", textures.get(Direction.NORTH))
+				.setTexture("east", textures.get(Direction.EAST))
+				.setTexture("south", textures.get(Direction.SOUTH))
+				.setTexture("west", textures.get(Direction.WEST))
+				.setTexture("up", textures.get(Direction.UP))
+				.setTexture("down", textures.get(Direction.DOWN))
+				.setTexture("particle_north", textures.get(Direction.NORTH))
+				.setTexture("particle_east", textures.get(Direction.EAST))
+				.setTexture("particle_south", textures.get(Direction.SOUTH))
+				.setTexture("particle_west", textures.get(Direction.WEST))
+				.setTexture("particle_up", textures.get(Direction.UP))
+				.setTexture("particle_down", textures.get(Direction.DOWN))
+				.setTexture("overlay", textures.get(Direction.NORTH))
+				.build(Minecraft.getMinecraft().texturePackList, id);
+			MULTIPART_CACHE.put(id, model);
+		}
+		return model;
+	}
+
+	public static void getTexturesForMultipart(Direction direction, Multipart part, Map<Direction, String> textures) {
+		for (Direction dir : Direction.values()) {
+			int data = direction.id;
+			if (part.specifiedSideOnly) {
+				data = part.side.id;
+			}
+			boolean isVertical = data == 0 || data == 1;
+			int index;
+			if (isVertical) {
+				index = orientationLookUpVertical[6 * data + dir.id];
+			} else {
+				index = Sides.orientationLookUpHorizontal[6 * Math.min(data, 5) + dir.id];
+			}
+			if (index >= Sides.orientationLookUpHorizontal.length) continue;
+			Side side = Side.fromId(index);
+
+			textures.put(dir, "minecraft:block/missing");
+			if(part.block != null){
+				BlockModel<?> blockModel = BlockModelDispatcher.getInstance().getDispatch(part.block);
+				if(blockModel instanceof BlockModelStandard<?> standard){
+					IconCoordinate texture = standard.getBlockTextureFromSideAndMetadata(side, part.meta);
+					if(texture != null) {
+						textures.put(dir, texture.namespaceId.toString());
+					}
+				} else if (blockModel instanceof BlockModelGeneric<?> generic) {
+					if(generic.getModelFromData(part.meta) instanceof StaticBlockModelMojang mojang){
+						IconCoordinate texture = mojang.compiled.textures.get("#"+side.direction.name().toLowerCase());
+						if(texture != null){
+							textures.put(dir, texture.namespaceId.toString());
+						} else {
+							texture = mojang.compiled.textures.get("#cross");
+							if(texture != null){
+								textures.put(dir, texture.namespaceId.toString());
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 }
