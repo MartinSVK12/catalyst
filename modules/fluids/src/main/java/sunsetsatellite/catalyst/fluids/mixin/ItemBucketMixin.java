@@ -72,7 +72,7 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 
 	@Override
 	public boolean canFill(ItemStack stack) {
-		return getState(stack) == STATE_EMPTY;
+		return getState(stack) == STATE_EMPTY || getCharges(stack) < maxCharges;
 	}
 
 	@Override
@@ -91,9 +91,9 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 	public void setCurrentFluid(FluidStack fluidStack, ItemStack stack) {
 		if(fluidStack.fluid.stateId == STATE_EMPTY) return;
 		if(fluidStack.amount < 1000) return;
-		int charges = Math.min(fluidStack.amount / 1000, maxCharges);
+		int charges = Math.min(fluidStack.amount / 1000, maxCharges - getCharges(stack));
 		setState(stack, fluidStack.fluid.stateId);
-		setCharges(stack, charges);
+		setCharges(stack, getCharges(stack) + charges);
 		fluidStack.amount -= charges * 1000;
 	}
 
@@ -132,10 +132,10 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 		if (stack.stackSize != 1) return;
 		if (tile.getRemainingCapacity(slot) >= 1000) {
 			if (getCurrentFluid(stack).isFluidEqual(tile.getFluidInSlot(slot))) {
-				FluidStack drained = drain(stack, getFluidAmount(stack));
+				FluidStack drained = drain(stack, Math.min(tile.getRemainingCapacity(slot), getFluidAmount(stack)));
 				tile.getFluidInSlot(slot).amount += drained.amount;
 			} else if (tile.getFluidInSlot(slot) == null) {
-				FluidStack drained = drain(stack, getFluidAmount(stack));
+				FluidStack drained = drain(stack, Math.min(tile.getRemainingCapacity(slot), getFluidAmount(stack)));
 				tile.setFluidInSlot(slot, drained);
 			}
 		}
@@ -147,10 +147,10 @@ public class ItemBucketMixin extends Item implements IItemFluidContainer {
 		if (stack.stackSize != 1) return;
 		if (inv.getRemainingCapacity(stack) >= 1000) {
 			if (getCurrentFluid(stack).isFluidEqual(inv.getCurrentFluid(stack))) {
-				FluidStack drained = drain(stack, getFluidAmount(stack));
+				FluidStack drained = drain(stack, Math.min(inv.getRemainingCapacity(stack), getFluidAmount(stack)));
 				inv.getCurrentFluid(stack).amount += drained.amount;
 			} else if (inv.getCurrentFluid(other) == null) {
-				FluidStack drained = drain(stack, getFluidAmount(stack));
+				FluidStack drained = drain(stack, Math.min(inv.getRemainingCapacity(stack), getFluidAmount(stack)));
 				inv.setCurrentFluid(drained, other);
 			}
 		}
