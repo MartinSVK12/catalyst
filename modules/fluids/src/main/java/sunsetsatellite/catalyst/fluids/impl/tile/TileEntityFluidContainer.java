@@ -338,7 +338,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 			TileEntity tile = dir.getTileEntity(worldObj, this);
 			if(tile instanceof TileEntityFluidPipe pipe) {
 				if(c == Connection.BOTH || c == Connection.OUTPUT){
-					FluidStack stack = getFluidInSlot(activeFluidSlots.get(dir));
+					FluidStack stack = getFluidInSlot(getActiveFluidSlotForSide(dir));
 					if(stack == null) continue;
 					FluidStack result = pipe.insertFluid(stack, dir.getOpposite());
 					stack.amount = result != null ? result.amount : 0;
@@ -356,6 +356,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 
 	@Override
 	public int getActiveFluidSlotForSide(Direction dir) {
+		if(activeFluidSlots.get(dir) == -1) return 0;
 		return activeFluidSlots.get(dir);
 	}
 
@@ -398,7 +399,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 			if (i < getFluidInventorySize() - 1) {
 				activeFluidSlots.replace(dir, i + 1);
 			} else {
-				activeFluidSlots.replace(dir, -1);
+				activeFluidSlots.replace(dir, 0);
 			}
 		} else {
 			if (i > -1) {
