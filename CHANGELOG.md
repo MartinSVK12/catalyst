@@ -1,1 +1,3 @@
-- Fix crash with fluid pipe logic.
+- **Reimplemented the Multipart module!**
+- **New implementation of the fluid pipe logic!**
+- Fixed bucket fluid inventory integration.
