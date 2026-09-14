@@ -1,4 +1,0 @@
-classTweaker v1 official
-
-transitive-accessible method org/useless/dragonfly/data/block/mojang/BlockModelMojangData$Builder build (Lnet/minecraft/client/render/texturepack/TexturePackList;Ljava/lang/String;)Lorg/useless/dragonfly/data/block/mojang/BlockModelMojangData;
-transitive-accessible field org/useless/dragonfly/models/block/mojang/StaticBlockModelMojang compiled Lorg/useless/dragonfly/data/block/mojang/CompiledBlockModelMojangData;

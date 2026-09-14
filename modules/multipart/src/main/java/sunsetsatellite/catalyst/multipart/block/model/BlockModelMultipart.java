@@ -23,6 +23,8 @@ import org.useless.dragonfly.models.block.mojang.StaticBlockModelMojang;
 import sunsetsatellite.catalyst.multipart.api.ISupportsMultiparts;
 import sunsetsatellite.catalyst.multipart.api.Multipart;
 import sunsetsatellite.catalyst.multipart.block.logic.BlockLogicMultipart;
+import sunsetsatellite.catalyst.multipart.mixin.BlockModelMojangDataBuilderInvoker;
+import sunsetsatellite.catalyst.multipart.mixin.StaticBlockModelMojangAccessor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +38,7 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 
 	public static final Map<String, BlockModelMojangData> MULTIPART_CACHE = new HashMap<>();
 
-	public static final BlockModelMojangData EMPTY = new BlockModelMojangData.Builder()
+	public static final BlockModelMojangData EMPTY = ((BlockModelMojangDataBuilderInvoker) new BlockModelMojangData.Builder()
 		.addElement(new Element.Builder(0, 0, 0, 16, 16, 16)
 			.addFace(Direction.UP, new Face.Builder("#empty"))
 			.addFace(Direction.DOWN, new Face.Builder("#empty"))
@@ -46,8 +48,8 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 			.addFace(Direction.EAST, new Face.Builder("#empty"))
 		)
 		.setTexture("empty","catalyst-multipart:block/empty")
-		.setAO(false)
-		.build(Minecraft.getMinecraft().texturePackList, "catalyst-multipart:block/empty");
+		.setAO(false))
+		.callBuild(Minecraft.getMinecraft().texturePackList, "catalyst-multipart:block/empty");
 
 	public BlockModelMultipart(Block<BlockLogicMultipart> block) {
 		super(block, EMPTY);
@@ -96,7 +98,7 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 			model = MULTIPART_CACHE.get(id);
 		} else {
 			getTexturesForMultipart(direction, part, textures);
-			model = new BlockModelMojangData.Builder()
+			model = ((BlockModelMojangDataBuilderInvoker) new BlockModelMojangData.Builder()
 				.setParent("catalyst-multipart:block/"+ part.type.model)
 				.setTexture("north", textures.get(Direction.NORTH))
 				.setTexture("east", textures.get(Direction.EAST))
@@ -110,8 +112,8 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 				.setTexture("particle_west", textures.get(Direction.WEST))
 				.setTexture("particle_up", textures.get(Direction.UP))
 				.setTexture("particle_down", textures.get(Direction.DOWN))
-				.setTexture("overlay", textures.get(Direction.NORTH))
-				.build(Minecraft.getMinecraft().texturePackList, id);
+				.setTexture("overlay", textures.get(Direction.NORTH)))
+				.callBuild(Minecraft.getMinecraft().texturePackList, id);
 			MULTIPART_CACHE.put(id, model);
 		}
 		return model;
@@ -143,11 +145,11 @@ public class BlockModelMultipart extends BlockModelGeneric<BlockLogicMultipart> 
 					}
 				} else if (blockModel instanceof BlockModelGeneric<?> generic) {
 					if(generic.getModelFromData(part.meta) instanceof StaticBlockModelMojang mojang){
-						IconCoordinate texture = mojang.compiled.textures.get("#"+side.direction.name().toLowerCase());
+						IconCoordinate texture = ((StaticBlockModelMojangAccessor)mojang).getCompiled().textures.get("#"+side.direction.name().toLowerCase());
 						if(texture != null){
 							textures.put(dir, texture.namespaceId.toString());
 						} else {
-							texture = mojang.compiled.textures.get("#cross");
+							texture = ((StaticBlockModelMojangAccessor)mojang).getCompiled().textures.get("#cross");
 							if(texture != null){
 								textures.put(dir, texture.namespaceId.toString());
 							}

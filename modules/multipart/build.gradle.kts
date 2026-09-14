@@ -23,7 +23,6 @@ group = modGroup
 version = modVersion
 
 loom {
-	accessWidenerPath.set(file("src/main/resources/catalyst-multipart.classtweaker"))
 	customMinecraftMetadata.set("https://downloads.betterthanadventure.net/bta-client/${libs.versions.btaChannel.get()}/${libs.versions.bta.get()}/manifest.json")
 }
 
