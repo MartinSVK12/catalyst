@@ -29,6 +29,7 @@ public class RenderMultiblock extends TileEntityRenderer<TileEntity> {
 		int k = tileEntity.tilePos.z;
 		Direction dir = Direction.getDirectionFromSide(tileEntity.getBlockMeta());
 		World world = this.renderDispatcher.textureManager.mc.currentWorld;
+		if(!Options.renderMultiblockPreview.value) return;
 		if (tileEntity instanceof IMultiblock) {
 			if (((IMultiblock) tileEntity).getMultiblock() == null) {
 				return;

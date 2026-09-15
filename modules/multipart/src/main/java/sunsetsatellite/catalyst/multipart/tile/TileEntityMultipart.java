@@ -4,6 +4,8 @@ import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.Tag;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.block.entity.TileEntity;
+import net.minecraft.core.net.packet.Packet;
+import net.minecraft.core.net.packet.PacketTileEntityData;
 import net.minecraft.core.util.helper.Side;
 import org.jetbrains.annotations.NotNull;
 import sunsetsatellite.catalyst.Catalyst;
@@ -51,5 +53,10 @@ public class TileEntityMultipart extends TileEntity implements ISupportsMultipar
 	@Override
 	public HashMap<Direction, Multipart> getParts() {
 		return parts;
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return new PacketTileEntityData(this);
 	}
 }

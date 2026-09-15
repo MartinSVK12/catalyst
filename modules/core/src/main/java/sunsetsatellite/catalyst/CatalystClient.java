@@ -62,6 +62,14 @@ public class CatalystClient implements ClientModInitializer {
 		}
 
 		try {
+			Class<?> catalystMultiblocks = Class.forName("sunsetsatellite.catalyst.CatalystMultiblocksClient");
+			catalystMultiblocks.getMethod("addSettingsPage").invoke(null);
+		} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+				 IllegalAccessException ignored) {
+
+		}
+
+		try {
 			Class<?> catalystMultipart = Class.forName("sunsetsatellite.catalyst.CatalystEffectsClient");
 			catalystMultipart.getMethod("addSettingsPage").invoke(null);
 		} catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |

@@ -402,7 +402,7 @@ public abstract class TileEntityFluidContainer extends TileEntity
 				activeFluidSlots.replace(dir, 0);
 			}
 		} else {
-			if (i > -1) {
+			if (i > 0) {
 				activeFluidSlots.replace(dir, i - 1);
 			} else {
 				activeFluidSlots.replace(dir, getFluidInventorySize() - 1);

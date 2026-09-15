@@ -3,10 +3,11 @@ package sunsetsatellite.catalyst;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import turniplabs.halplibe.HalpLibe;
 
 
 public class CatalystMultiblocks implements ModInitializer {
-	public static final String MOD_ID = "catalyst-multiblocks";
+	public static final String MOD_ID = HalpLibe.registerMod("catalyst-multiblocks", true);
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override

@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"sunsetsatellite.catalyst.CatalystMultiblocks"
+		],
+		"client": [
+			"sunsetsatellite.catalyst.CatalystMultiblocksClient"
 		]
 	},
 	"mixins": [
