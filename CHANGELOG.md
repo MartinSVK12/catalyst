@@ -1,1 +1,2 @@
-- Fixed crash due to minor spelling mistake.
+- Added option to hide multiblock preview.
+- Fixed multipart rendering on servers.
