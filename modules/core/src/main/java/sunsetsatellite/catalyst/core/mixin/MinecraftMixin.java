@@ -43,7 +43,7 @@ public class MinecraftMixin {
 	public boolean fixUsagePosition(PlayerController instance, Player player, World world, ItemStack itemStack, TilePosc tilePos, Side side, double xPlaced, double yPlaced, Operation<Boolean> original){
 		HitResult hitResult = objectMouseOver;
 		if(hitResult instanceof HitResult.Tile hit) {
-			if(world.getBlockType(hit.tilePos).getLogic() instanceof ISideInteractable || player.getCurrentEquippedItem().getItem() instanceof ISideInteractable){
+			if(world.getBlockType(hit.tilePos).getLogic() instanceof ISideInteractable || (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof ISideInteractable)){
 				Vec3f vec3f = new Vec3f(hit.location);
 				Vec2f clickPosition = vec3f.subtract(vec3f.copy().floor()).abs().set(hit.side.axis(), 0).toVec2f();
 				if(clickPosition == null){

@@ -1,4 +1,1 @@
-- Added option to hide multiblock preview.
-- Fixed multipart rendering on servers.
-- Fix mining level of multiparts.
-- Fix issue with vanilla slabs not being placed correctly.
+- Fixed a crash when right-clicking with nothing in your hand.
