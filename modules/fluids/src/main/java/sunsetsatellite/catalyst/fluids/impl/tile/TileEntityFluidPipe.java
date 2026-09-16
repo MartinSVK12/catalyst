@@ -37,18 +37,21 @@ public abstract class TileEntityFluidPipe extends TileEntity implements IFluidIO
 	public static final int DEFAULT_OUTPUT_TICKS = 80;
 	public static final int DEFAULT_OUTPUT_COOLDOWN_TICKS = 30;
 
+	public int fluidCapacity = 250;
+	public int flowRate = 20;
+	public int travelDelay = DEFAULT_TRAVEL_DELAY;
+	public int outputCooldown = DEFAULT_OUTPUT_COOLDOWN_TICKS;
+	public int inputTicks = DEFAULT_INPUT_TICKS;
+	public int outputTicks = DEFAULT_OUTPUT_TICKS;
+	public int counter = 0;
+
 	public final DirectionMap<Connection> internalConnections = new DirectionMap<>(Connection.NONE);
 	// how many ticks does a side stay in input mode
 	public final DirectionMap<Integer> inputActiveTicks = new DirectionMap<>(0);
 	// how many ticks does a side stay in output mode
-	public final DirectionMap<Integer> outputActiveTicks = new DirectionMap<>(DEFAULT_OUTPUT_TICKS);
+	public DirectionMap<Integer> outputActiveTicks;
 	// how many ticks will a side NOT switch to output mode
-	public final DirectionMap<Integer> outputCooldownTicks = new DirectionMap<>(DEFAULT_OUTPUT_COOLDOWN_TICKS);
-
-	public int fluidCapacity = 250;
-	public int flowRate = 20;
-	public int travelDelay = 12;
-	public int counter = 0;
+	public DirectionMap<Integer> outputCooldownTicks;
 
 	public Map<Orientation, Section> sections = new HashMap<>();
 	public Fluid fluid;
@@ -59,6 +62,8 @@ public abstract class TileEntityFluidPipe extends TileEntity implements IFluidIO
 		}
 		acceptedFluids.add(new ArrayList<>());
 		acceptedFluids.get(0).addAll(Fluid.fluidMap.values());
+		outputCooldownTicks = new DirectionMap<>(outputCooldown);
+		outputActiveTicks = new DirectionMap<>(outputTicks);
 	}
 
 	public enum Orientation {
@@ -120,7 +125,9 @@ public abstract class TileEntityFluidPipe extends TileEntity implements IFluidIO
 
 			ListTag list = compoundTag.getList("transferring");
 			for (int i = 0; i < travelDelay; i++) {
-				transferring[i] = (int) list.tagAt(i).getValue();
+				if(i < list.tagCount()){
+					transferring[i] = (int) list.tagAt(i).getValue();
+				}
 			}
 		}
 
@@ -305,7 +312,7 @@ public abstract class TileEntityFluidPipe extends TileEntity implements IFluidIO
 			}
 
 			internalConnections.put(dir, Connection.INPUT);
-			inputActiveTicks.put(dir, DEFAULT_INPUT_TICKS);
+			inputActiveTicks.put(dir, inputTicks);
 		}
 
 		return filled;
@@ -341,8 +348,8 @@ public abstract class TileEntityFluidPipe extends TileEntity implements IFluidIO
 			}
 			if (outputActiveTicks.get(dir) <= 0) {
 				internalConnections.put(dir, Connection.NONE);
-				outputCooldownTicks.put(dir, DEFAULT_OUTPUT_COOLDOWN_TICKS);
-				outputActiveTicks.put(dir, DEFAULT_OUTPUT_TICKS);
+				outputCooldownTicks.put(dir, outputCooldown);
+				outputActiveTicks.put(dir, outputTicks);
 				continue;
 			}
 			if (isPipeConnected(dir) && outputOpen(dir)) {
