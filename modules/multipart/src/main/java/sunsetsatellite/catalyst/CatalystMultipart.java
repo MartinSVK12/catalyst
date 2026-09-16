@@ -163,15 +163,15 @@ public class CatalystMultipart implements ModInitializer {
 	public void afterBlockInit() {
 		multipartBlock = customBlock(
 			new BlockBuilder(MOD_ID).setBlockSound(BlockSounds.STONE).setHardness(0.5f).setResistance(202),
-			"multipart", "multipart", "multipartBlock", 1,
+			"multipart", "multipart", "multipartBlock", 0,
 			BlockLogicMultipart::new
-		).withTags(BlockTags.NOT_IN_CREATIVE_MENU);
+		).withTags(BlockTags.NOT_IN_CREATIVE_MENU, BlockTags.MINEABLE_BY_PICKAXE);
 
 		carpenterWorkbench = customBlock(
-			new BlockBuilder(MOD_ID).setBlockSound(BlockSounds.STONE).setHardness(0.5f).setResistance(202).setCreativeInventoryPlacement(new CreativeInventoryPlacement.Category(CreativeInventoryCategory.MISCELLANEOUS)),
+			new BlockBuilder(MOD_ID).setBlockSound(BlockSounds.STONE).setHardness(3f).setResistance(202).setCreativeInventoryPlacement(new CreativeInventoryPlacement.Category(CreativeInventoryCategory.MISCELLANEOUS)),
 			"workbench.carpenter", "carpenter_workbench", "carpenterWorkbench", 1,
 			BlockLogicCarpenterWorkbench::new
-		);
+		).withTags(BlockTags.MINEABLE_BY_PICKAXE);
 
 		MultipartType.types.forEach((K, V) -> TYPE_TAGS.put(K, Tag.of(K)));
 

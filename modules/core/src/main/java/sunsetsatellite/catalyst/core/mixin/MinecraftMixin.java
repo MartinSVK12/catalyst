@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sunsetsatellite.catalyst.Catalyst;
+import sunsetsatellite.catalyst.core.util.section.ISideInteractable;
 import sunsetsatellite.catalyst.core.util.vector.Vec2f;
 import sunsetsatellite.catalyst.core.util.vector.Vec3f;
 
@@ -42,30 +43,32 @@ public class MinecraftMixin {
 	public boolean fixUsagePosition(PlayerController instance, Player player, World world, ItemStack itemStack, TilePosc tilePos, Side side, double xPlaced, double yPlaced, Operation<Boolean> original){
 		HitResult hitResult = objectMouseOver;
 		if(hitResult instanceof HitResult.Tile hit) {
-			Vec3f vec3f = new Vec3f(hit.location);
-			Vec2f clickPosition = vec3f.subtract(vec3f.copy().floor()).abs().set(hit.side.axis(), 0).toVec2f();
-			if(clickPosition == null){
-				return original.call(instance, player, world, itemStack, tilePos, side, xPlaced, yPlaced);
+			if(world.getBlockType(hit.tilePos).getLogic() instanceof ISideInteractable || player.getCurrentEquippedItem().getItem() instanceof ISideInteractable){
+				Vec3f vec3f = new Vec3f(hit.location);
+				Vec2f clickPosition = vec3f.subtract(vec3f.copy().floor()).abs().set(hit.side.axis(), 0).toVec2f();
+				if(clickPosition == null){
+					return original.call(instance, player, world, itemStack, tilePos, side, xPlaced, yPlaced);
+				}
+				switch (hit.side) {
+					case NORTH -> clickPosition.x = 1 - clickPosition.x;
+					case EAST -> {
+						double temp1 = clickPosition.y;
+						double temp2 = clickPosition.x;
+						clickPosition.x = 1 - temp1;
+						clickPosition.y = temp2;
+					}
+					case SOUTH -> {
+						//no change needed
+					}
+					case WEST -> {
+						double temp1 = clickPosition.y;
+						double temp2 = clickPosition.x;
+						clickPosition.x = temp1;
+						clickPosition.y = temp2;
+					}
+				}
+				return original.call(instance, player, world, itemStack, tilePos, side, clickPosition.x, clickPosition.y);
 			}
-			switch (hit.side) {
-				case NORTH -> clickPosition.x = 1 - clickPosition.x;
-				case EAST -> {
-					double temp1 = clickPosition.y;
-					double temp2 = clickPosition.x;
-					clickPosition.x = 1 - temp1;
-					clickPosition.y = temp2;
-				}
-				case SOUTH -> {
-					//no change needed
-				}
-				case WEST -> {
-					double temp1 = clickPosition.y;
-					double temp2 = clickPosition.x;
-					clickPosition.x = temp1;
-					clickPosition.y = temp2;
-				}
-			}
-			return original.call(instance, player, world, itemStack, tilePos, side, clickPosition.x, clickPosition.y);
 		}
 		return original.call(instance, player, world, itemStack, tilePos, side, xPlaced, yPlaced);
 	}
