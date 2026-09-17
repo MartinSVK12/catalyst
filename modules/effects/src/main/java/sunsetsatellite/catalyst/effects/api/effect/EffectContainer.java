@@ -124,6 +124,7 @@ public class EffectContainer<T> {
 	}
 
 	public void loadFromNbt(CompoundTag tag) {
+		effects.clear();
 		for (com.mojang.nbt.tags.Tag<?> value : tag.getValues()) {
 			if (value instanceof CompoundTag) {
 				effects.add(new EffectStack((CompoundTag) value));
