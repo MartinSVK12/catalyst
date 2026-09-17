@@ -1,1 +1,1 @@
-- Fixed a crash when right-clicking with nothing in your hand.
+- Effects no longer get multiplied when going through portals.
