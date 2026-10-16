@@ -193,10 +193,10 @@ public abstract class TileEntityFluidPipe extends TileEntity implements IFluidIO
 		}
 
 		if(!dirs.isEmpty()){
-			float min = Math.min(getFlowRate() * dirs.size(), totalAvailable) / (float) getFlowRate() / dirs.size();
+			float max = Math.min((float) getFlowRate(), totalAvailable) / dirs.size();
 			for (Direction dir : dirs) {
-				int available = sections.get(Orientation.CENTER).fill(testAmount, true);
-				int amountToPush = (int) (available * min);
+				int available = sections.get(Orientation.CENTER).drain(testAmount, true);
+				int amountToPush = (int) Math.min(available, max);
 				if (amountToPush < 1) {
 					amountToPush = 1;
 				}
@@ -216,18 +216,20 @@ public abstract class TileEntityFluidPipe extends TileEntity implements IFluidIO
 		DirectionMap<Integer> inputPerTick = new DirectionMap<>(0);
 
 		for (Direction dir : Direction.values()) {
+			//if(!isPipeConnected(dir)) continue;
 			inputPerTick.put(dir, 0);
 			if(internalConnections.get(dir) != Connection.OUTPUT){
-				inputPerTick.put(dir, sections.get(Orientation.fromDir(dir)).drain(getFlowRate(), true));
+				int drain = sections.get(Orientation.fromDir(dir)).drain(getFlowRate(), true);
+				inputPerTick.put(dir, drain);
 				inputs++;
 			}
 		}
 
-		float min = Math.min(getFlowRate() * inputs, capacityRemaining) / (float) getFlowRate() / inputs;
+		float max = Math.min((float) getFlowRate(), capacityRemaining) / inputs;
 
 		for (Direction dir : Direction.values()) {
 			if(internalConnections.get(dir) != Connection.OUTPUT && inputPerTick.get(dir) > 0){
-				int drain = (int) (inputPerTick.get(dir) * min);
+				int drain = (int) Math.min(inputPerTick.get(dir), max);//(int) (inputPerTick.get(dir) * max);
 				if (drain < 1) {
 					drain++;
 				}
