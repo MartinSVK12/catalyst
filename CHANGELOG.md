@@ -1,1 +1,1 @@
-- Effects no longer get multiplied when going through portals.
+- Fixed fluid pipes always transferring only 1 mB.
