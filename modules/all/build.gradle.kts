@@ -115,7 +115,6 @@ if (modrinthToken.isPresent) {
 		versionNumber = modVersion
 		versionType = "release"
 		uploadFile.set(tasks.jar)
-		additionalFiles = listOf(tasks.named("sourcesJar"))
 		gameVersions.add("b1.7.3")
 		loaders.add("bta-babric")
 		changelog = Files.readString(project.projectDir.toPath().resolve("../../CHANGELOG.md"))
