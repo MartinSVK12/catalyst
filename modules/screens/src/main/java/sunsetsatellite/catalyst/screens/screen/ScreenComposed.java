@@ -34,6 +34,10 @@ public class ScreenComposed extends Screen {
 
 	public final Map<String, GuiComponent> components = new HashMap<>();
 
+	public <T extends GuiComponent> T get(String name) {
+		return ((T) components.get(name));
+	}
+
 	@Override
 	public void render(int mx, int my, float partialTick) {
 		int width = this.mc.resolution.getScaledWidthScreenCoords();
