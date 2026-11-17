@@ -7,3 +7,5 @@ gui.options.page.catalyst.category.effects=Effects
 gui.options.page.catalyst.category.multipart=Multipart
 
 options.catalyst-core.showNetworkRender=Show Network Render
+
+material.catalyst-core.unknown.name=Unknown
