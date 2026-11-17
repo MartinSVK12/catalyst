@@ -25,8 +25,7 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 		//try to pull max allowed current from any connected side
 		for (Direction dir : Direction.values()) {
 			TileEntity tile = dir.getTileEntity(worldObj, this);
-			if (tile instanceof TileEntityElectricConductor) {
-				TileEntityElectricConductor wire = (TileEntityElectricConductor) tile;
+			if (tile instanceof TileEntityElectricConductor wire) {
 				receiveEnergy(dir, getMaxInputAmperage());
 			}
 		}
@@ -40,17 +39,15 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 		long remainingCapacity = getCapacityRemaining();
 		long willUseAmps = 0;
 		TileEntity tile = dir.getTileEntity(worldObj, this);
-		if (tile instanceof TileEntityElectricConductor) {
-			TileEntityElectricConductor wire = (TileEntityElectricConductor) tile;
+		if (tile instanceof TileEntityElectricConductor wire) {
 
 			//for every known path
 			for (NetworkPath path : energyNet.getPathData(wire.getPosition())) {
 				long pathLoss = 0;
 				//ignore itself or non-electric components in the path
-				if (path.target == this || !(path.target instanceof IElectric)) {
+				if (path.target == this || !(path.target instanceof IElectric dest)) {
 					continue;
 				}
-				IElectric dest = (IElectric) path.target;
 
 				//receive/provide check
 				if (dest.canProvide(path.targetDirection.getOpposite())) {
@@ -62,7 +59,7 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 						//calculate path loss
 						for (NetworkComponentTile component : path.path) {
 							if (component instanceof TileEntityElectricConductor) {
-								pathLoss += ((TileEntityElectricConductor) component).getProperties().getMaterial().getLossPerBlock();
+								pathLoss += ((TileEntityElectricConductor) component).getProperties().material().lossPerBlock();
 							}
 						}
 						if (pathLoss >= voltage) {
@@ -74,8 +71,7 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 						boolean pathBroken = false;
 						//handle wires with insufficient voltage rating
 						for (NetworkComponentTile pathTile : path.path) {
-							if (pathTile instanceof TileEntityElectricConductor) {
-								TileEntityElectricConductor pathWire = (TileEntityElectricConductor) pathTile;
+							if (pathTile instanceof TileEntityElectricConductor pathWire) {
 								if (pathWire.getVoltageRating() < voltage) {
 									pathWire.onOvervoltage(voltage);
 									pathBroken = true;
@@ -101,10 +97,9 @@ public abstract class TileEntityElectricDevice extends TileEntityElectricBase im
 
 										//set current in wires
 										for (NetworkComponentTile pathTile : path.path) {
-											if (pathTile instanceof TileEntityElectricConductor) {
-												TileEntityElectricConductor pathWire = (TileEntityElectricConductor) pathTile;
+											if (pathTile instanceof TileEntityElectricConductor pathWire) {
 												long voltageTraveled = voltage;
-												voltageTraveled -= pathWire.getProperties().getMaterial().getLossPerBlock();
+												voltageTraveled -= pathWire.getProperties().material().lossPerBlock();
 												if (voltageTraveled <= 0) break;
 												pathWire.incrementAmperage(willUseAmps);
 											}
