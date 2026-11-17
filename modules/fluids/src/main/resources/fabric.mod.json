@@ -20,9 +20,6 @@
 		],
 		"gatherTMBPlugins": [
 			"sunsetsatellite.catalyst.fluids.api.impl.tmb.TMBFluidPlugin"
-		],
-		"btatweakerPlugin": [
-			"sunsetsatellite.catalyst.fluids.api.impl.btatweaker.BTATweakerFluidPlugin"
 		]
 	},
 	"mixins": [
