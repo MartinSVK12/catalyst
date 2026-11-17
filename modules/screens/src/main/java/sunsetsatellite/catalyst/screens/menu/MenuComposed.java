@@ -44,15 +44,18 @@ public class MenuComposed extends MenuFluid {
 		List<InventoryServerComponent> invComponents = InventoryServerComponent.fromNbt(tag);
 		List<SlotGridServerComponent> gridComponents = SlotGridServerComponent.fromNbt(tag);
 
-		for (InventoryServerComponent invComponent : invComponents) {
-			for (int j = 0; j < 3; j++) {
-				for (int i = 0; i < 9; i++) {
-					addSlot(new Slot(playerInventory, i + j * 9 + 9, invComponent.x() + 18 * i, invComponent.y() + j * 18));
+		final int size = 18;
+		for (SlotServerComponent slot : slotComponents) {
+			switch (slot.type()) {
+				case PLAYER -> {
+					addSlot(new Slot(playerInventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
 				}
-			}
-
-			for (int k = 0; k < 9; k++) {
-				addSlot(new Slot(playerInventory, k, invComponent.x() + 18 * k, invComponent.y() + (3 * 18) + 4));
+				case INVENTORY -> {
+					addSlot(new Slot(inventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
+				}
+				case FLUID_INVENTORY -> {
+					addFluidSlot(new SlotFluid(fluidInventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
+				}
 			}
 		}
 
@@ -82,18 +85,15 @@ public class MenuComposed extends MenuFluid {
 			}
 		}
 
-		final int size = 18;
-		for (SlotServerComponent slot : slotComponents) {
-			switch (slot.type()) {
-				case PLAYER -> {
-					addSlot(new Slot(playerInventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
+		for (InventoryServerComponent invComponent : invComponents) {
+			for (int j = 0; j < 3; j++) {
+				for (int i = 0; i < 9; i++) {
+					addSlot(new Slot(playerInventory, i + j * 9 + 9, invComponent.x() + 18 * i, invComponent.y() + j * 18));
 				}
-				case INVENTORY -> {
-					addSlot(new Slot(inventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
-				}
-				case FLUID_INVENTORY -> {
-					addFluidSlot(new SlotFluid(fluidInventory, slot.index(), slot.x() + ((slot.xSize()-size)/2), slot.y() + ((slot.ySize()-size)/2)));
-				}
+			}
+
+			for (int k = 0; k < 9; k++) {
+				addSlot(new Slot(playerInventory, k, invComponent.x() + 18 * k, invComponent.y() + (3 * 18) + 4));
 			}
 		}
 
