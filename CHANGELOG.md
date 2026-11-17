@@ -1,1 +1,4 @@
-- Fixed fluid pipes always transferring only 1 mB.
+- Fixed slot ids on composed screens being wrong visually.
+- Removed btatweaker code for the time being.
+- Small changes to the electric energy api.
+- Added material API for further use.
